@@ -1,10 +1,13 @@
-import { Button, Image, Text } from "@rneui/themed"
-import React from "react"
-import { ScrollView, View,Dimensions, FlatList } from "react-native"
+import { Button, Image, Overlay, Text } from "@rneui/themed"
+import React, { useState } from "react"
+import { ScrollView, View,Dimensions, FlatList, Settings } from "react-native"
 import { mahjongTilesSVGsArray } from "../Assets/MahjongTiles/MahjongTiles" 
 import { SvgXml } from "react-native-svg"
 import LinearGradient from "react-native-linear-gradient"
-
+import ButtonSettings from "../Components/Buttons/ButtonSettings"
+import ButtonQuestionmark from "../Components/Buttons/ButtonQuestionmark"
+import SettingsOverlay from "../Components/SettingsOverlay"
+import {StolenTilesPlayerFRONT, StolenTilesPlayerKANCLOSED, StolenTilesPlayerKANFRONT, StolenTilesPlayerKANLEFT, StolenTilesPlayerKANRIGHT, StolenTilesPlayerLEFT, StolenTilesPlayerRIGHT} from "../Components/StolenTiles/StolenTilesPlayer/StolenTilesPlayer"
 //tiles
 //winning conditions
 //tile component
@@ -43,9 +46,9 @@ import LinearGradient from "react-native-linear-gradient"
 //-on wall NESW
 //-on sidetabke NESW
 //-on River NESW  
-const screenWidth = Dimensions.get("screen").width
-const screenHeight = Dimensions.get("screen").height
-console.log("Dimensions: ",screenWidth,"width x height:",screenHeight)
+const screenWidth = Dimensions.get("window").width
+const screenHeight = Dimensions.get("window").height
+//console.log("Dimensions: ",screenWidth,"width x height:",screenHeight)
 
 const TileComponent =({svg,tileRatioProp=3}:{svg:string,tileRatioProp:number})=>{
     
@@ -87,13 +90,19 @@ const RichiiStick =({degrees}:{degrees:number})=>{
 const PlayersHandComponent=()=>{
   const playersHandData=mahjongTilesSVGsArray.slice(14,27)
   const nextTile = mahjongTilesSVGsArray.slice(28,29).toString()
+
     const renderItem = ({ item }:{item:string}) => (
       <TileComponent svg={item} tileRatioProp={1.5} />
     );
+
     return(
-<View style={{flexDirection:"row",backgroundColor:"gray",justifyContent:"center"}}>
-    <FlatList horizontal scrollEnabled={false} data={playersHandData} renderItem={renderItem} keyExtractor={(item, index) => index.toString()}/>
-    <TileComponent svg={nextTile} tileRatioProp={1.5} />
+<View style={{flexDirection:"row",backgroundColor:"gray", }}>
+  <View style={{flex:14,alignItems:'center'}}>
+    <FlatList horizontal scrollEnabled={false} data={playersHandData} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} style={{backgroundColor:"red"}}/>
+    </View>
+    <View style={{backgroundColor:"blue",flex:2}}>  
+      <TileComponent svg={nextTile} tileRatioProp={1.5} />
+    </View>
     </View>
     )
 }
@@ -159,7 +168,7 @@ const TileInTheRiverComponentRight =({svg,tileRatioProp=3,}:{svg:string,tileRati
     const riverJustifyContent=true
     const richiiTile=false//TODO fix the perspective //marginTop:richiiTile?6: -14
     return(
-        <View style={{backgroundColor:'#56a2c4',height:tileWidth+22,width:tileBottomLayer,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,borderWidth:1,transform: [{rotate: `${richiiTile?90:0}deg`}] ,marginTop:richiiTile?6:-22 }}>
+        <View style={{backgroundColor:'#56a2c4',height:tileWidth+22,width:tileBottomLayer,justifyContent:riverJustifyContent?"flex-start":"flex-end",alignItems:"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,borderWidth:1,transform: [{rotate: `${richiiTile?90:0}deg`}] ,marginTop:richiiTile?6:-22 }}>
         <View style={{backgroundColor:"#bdbbc0",height:tileWidth+10,width:tileSecondLayer,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,alignItems:"flex-end"}}>
         <View style={{backgroundColor:"#e9ebe8", height:tileWidth-2,width:tileHeight,alignItems:"center",justifyContent:"center",borderRadius:tileBorderRadiusHandPlayerPerspective}}>
         <SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective,transform: [{rotate: `${270}deg`}]}} />
@@ -713,21 +722,40 @@ const ButtonTSUMO=()=>{
 
 const PlayerPanel=()=>{
   return(
-    <View style={{backgroundColor:"purple",height:150,width:screenWidth}}>
-      <View style={{flexDirection:"row",columnGap:8,justifyContent:"flex-end"}}>
-         <ButtonPASS/>   
-             <ButtonCHII/>
+    <View style={{backgroundColor:"purple",height:130,width:screenWidth,rowGap:12}}>
+      <View style={{flexDirection:"row",columnGap:8,justifyContent:"flex-end",}}>
+        <ButtonCHII/>
+          <ButtonPASS/>   
         </View>
       <PlayersHandComponent/>
     </View>
   )
 }
 
+
 //TODO oficjalna skala z perspektywą???
 function MahjongScreen({navigation, route}: any) {
+  const [isVisible,setIsVisible]=useState<boolean>(false)
+  const toggleOverlay = () => {
+    setIsVisible(!isVisible);
+  };
+  
+  const MenuPanel=({navigation}:{navigation:any})=>{
+    return(
+      <View style={{flexDirection:"row",backgroundColor:"pink",justifyContent:"flex-end"}}>
+      <ButtonQuestionmark/>
+      <ButtonSettings navigation={navigation} toggleOverlay={toggleOverlay}/>
+      </View>
+    )
+  }
     return(
         <ScrollView style={{flex:1}}>
+          <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay}>
+            <SettingsOverlay/>
+          </Overlay>
+          <MenuPanel navigation={navigation}/>
             <View style={{backgroundColor:"red",flex:1,alignItems:"center",}}>
+
             <View style={{alignItems:"center",backgroundColor:"blue",justifyContent:"center",width:540,height:560,position:"relative",transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.75}]}}>
             <Compass/>
             <View style={{position:"absolute",left:0,top:0,width:540,alignItems:"center",
@@ -747,6 +775,9 @@ function MahjongScreen({navigation, route}: any) {
             </View>
             <View style={{flex:1,height:300}}>
             <WallFront/> 
+            <StolenTilesPlayerKANCLOSED/>
+            <StolenTilesPlayerRIGHT/>
+            <StolenTilesPlayerFRONT/>
             {/* <DoraPanel/> */}
             {/* <WallLeft/> */} 
             {/* <WallRight/> */}
@@ -759,10 +790,10 @@ function MahjongScreen({navigation, route}: any) {
              <ButtonPASS/>   
              <ButtonCHII/>
              <ButtonCANCEL/> */}
-             <PlayerPanel/>
+             {/* <PlayerPanel/> */}
              </View>
         </ScrollView>
     )
-}
+} //TODO change the left and right tiles in compass with correct width and height
 export default MahjongScreen;
 //https://github.com/software-mansion/react-native-reanimated/issues/2750
