@@ -775,9 +775,10 @@ function MahjongScreen({navigation, route}: any) {
             </View>
             <View style={{flex:1,height:300}}>
             <WallFront/> 
-            <StolenTilesPlayerKANCLOSED/>
+            <View style={{flexDirection:"row"}}><StolenTilesPlayerKANCLOSED/>
             <StolenTilesPlayerRIGHT/>
-            <StolenTilesPlayerFRONT/>
+            <StolenTilesPlayerFRONT/></View>
+            
             {/* <DoraPanel/> */}
             {/* <WallLeft/> */} 
             {/* <WallRight/> */}
@@ -790,7 +791,7 @@ function MahjongScreen({navigation, route}: any) {
              <ButtonPASS/>   
              <ButtonCHII/>
              <ButtonCANCEL/> */}
-             {/* <PlayerPanel/> */}
+             <PlayerPanel/> 
              </View>
         </ScrollView>
     )
