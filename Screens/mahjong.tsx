@@ -10,7 +10,8 @@ import SettingsOverlay from "../Components/SettingsOverlay"
 import {StolenTilesPlayerFRONT, StolenTilesPlayerKANCLOSED, StolenTilesPlayerKANFRONT, StolenTilesPlayerKANLEFT, StolenTilesPlayerKANRIGHT, StolenTilesPlayerLEFT, StolenTilesPlayerRIGHT} from "../Components/StolenTiles/StolenTilesPlayer/StolenTilesPlayer"
 import { ButtonCHII, ButtonPASS } from "../Components/Buttons/ButtonSteal/ButtonSteal"
 import { PlayersRiver } from "../Components/River/PlayersRiver"
-import { TileInTheRiverComponentFront, TileInTheRiverComponentRight } from "../Components/RiverTiles/RiverTiles"
+import { TileInTheRiverComponentFront, TileInTheRiverComponentLeft, TileInTheRiverComponentRight, TileInTheRiverComponentTop } from "../Components/RiverTiles/RiverTiles"
+import { RiverRight } from "../Components/River/RiverRight"
 //tiles
 //winning conditions
 //tile component
@@ -54,7 +55,6 @@ const screenHeight = Dimensions.get("window").height
 //console.log("Dimensions: ",screenWidth,"width x height:",screenHeight)
 
 const TileComponent =({svg,tileRatioProp=3}:{svg:string,tileRatioProp:number})=>{
-    
     const tileRatio = tileRatioProp;
     const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
     const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
@@ -64,8 +64,6 @@ const TileComponent =({svg,tileRatioProp=3}:{svg:string,tileRatioProp:number})=>
     const tileSecondLayer = +(tileHeight + (tileDepth * 0.695)).toFixed(2); // 69.5% of tile depth added to tile height
     const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
     const tileBorderRadiusHandPlayerPerspective = 8;
-
-
 //ramka 5 px - szare 13   = 18 +1 = 19+2=21
 //sare ma padding 1 z lewej i prawej, kontur ma grubość 2 //TODO create perspective that is scalable
     return(
@@ -112,62 +110,8 @@ const PlayersHandComponent=()=>{
 
 
 
-const TileInTheRiverComponentLeft =({svg,tileRatioProp=3,}:{svg:string,tileRatioProp:number})=>{
-    
-    const tileRatio = tileRatioProp;
-    const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-    const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-    const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-    const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-    const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-    const tileSecondLayer = +(tileHeight + (tileDepth * 0.695)).toFixed(2)-17; // 69.5% of tile depth added to tile height
-    const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2)-22;
-    const tileBorderRadiusHandPlayerPerspective = 8;
-    const riverJustifyContent=true
-    const richiiTile=false//TODO fix the perspective //marginTop:richiiTile?6: -14
-    return(
-        <View style={{backgroundColor:'#56a2c4',height:tileWidth+22,width:tileBottomLayer,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,borderWidth:1,transform: [{rotate: `${richiiTile?90:0}deg`}],marginTop:richiiTile?6:-22}}>
-        <View style={{backgroundColor:"#bdbbc0",height:tileWidth+12,width:tileSecondLayer,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,alignItems:"flex-start"}}>
-        <View style={{backgroundColor:"#e9ebe8", height:tileWidth-2,width:tileHeight,alignItems:"center",justifyContent:"center",borderRadius:tileBorderRadiusHandPlayerPerspective}}>
-        <SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective,transform: [{rotate: `${90}deg`}]}} />
-        </View>
-        </View>
-        </View>
-    )
-}
-const TileInTheRiverComponentTop =({svg,tileRatioProp=3,}:{svg:string,tileRatioProp:number})=>{
-    
- //320 //60
-const tileRatio = tileRatioProp;
-const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-const tileSecondLayer = +(tileHeight + (tileDepth * 0.695)).toFixed(2); // 69.5% of tile depth added to tile height
-const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
-const tileBorderRadiusHandPlayerPerspective = 8;
-const riverJustifyContent=true
-const richiiTile=false//TODO fix the perspective
-return(
-    <View style={{backgroundColor:'#56a2c4',height:tileBottomLayer,width:tileWidth,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,borderWidth:1,transform: [{rotate: `${richiiTile?90:0}deg`}]}}>
-    <View style={{backgroundColor:"#bdbbc0",height:tileSecondLayer,width:tileWidth-2,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,alignItems:"center"}}>
-    <View style={{backgroundColor:"#e9ebe8", height:tileHeight,width:tileWidth-2,alignItems:"center",justifyContent:"center",borderRadius:tileBorderRadiusHandPlayerPerspective}}>
-    <SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective,transform: [{rotate: `${180}deg`}]}} />
-    </View>
-    </View>
-    </View>
-)
-}
 
 const RiverLeft =()=>{
-    const hand=mahjongTilesSVGsArray.slice(20,26).map((item,index)=><TileInTheRiverComponentLeft svg={item} tileRatioProp={2} key={index+"a"}/>)
-return(
-    <View style={{flexDirection:"column",backgroundColor:"lightblue",width:80,  /* transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.75}] */ }}>
-    {hand}
-    </View>
-)}
-const RiverRight=()=>{
   const data=mahjongTilesSVGsArray.slice(12,31) //river data 
   //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
   //add zIndex to the last tile, index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0 
@@ -175,30 +119,49 @@ const RiverRight=()=>{
       
 <View
     style={{
-      marginLeft: index === 18? 399 : (index === 0 || index === 6 || index === 12 ? 0 : -14),
+      alignItems:"flex-start",
+      marginRight:index===5||index===11||index===17?0:-14,
+      marginTop:index===18?-82:0,
+    marginLeft:index===18?360:0
+      /* marginLeft: index === 18? 399 : (index === 0 || index === 6 || index === 12 ? 0 : -14),
       marginTop: index === 18 ? -82 : 0,
-      zIndex:-index
+      zIndex:-index */
     }}
   > 
-      <TileInTheRiverComponentRight svg={item} tileRatioProp={2} index={index}/>
+      <TileInTheRiverComponentLeft svg={item} tileRatioProp={2} index={index}/>
       </View>
     )
     const numOfColumns = 6
   return(//480 250
-    <View style={{backgroundColor:"lightblue",width:460,height:250,transform: [{rotateZ: '270deg'}],alignItems:'center'}}>
+    <View style={{backgroundColor:"lightblue",width:420,height:500,transform: [{rotateZ: '0deg'}],alignItems:'flex-start'}}>
       <FlatList data={data}          
        renderItem={renderItem}
        scrollEnabled={false} numColumns={numOfColumns}
        keyExtractor={(item, index) => index.toString()}/>
     </View>
-)
-}
+)}
+
 const RiverTop =()=>{
-    const hand=mahjongTilesSVGsArray.slice(2,8).map((item,index)=><TileInTheRiverComponentTop svg={item} tileRatioProp={2} key={index+"a"}/>)
-return(
-    <View style={{flexDirection:"row",width:360,  /* transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.75}] */ }}>
-    {hand}
-    </View>
+  const data=mahjongTilesSVGsArray.slice(12,30) //river data 
+    //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
+    //add zIndex to the last tile
+    const renderItem = ({ item, index }: { item: string; index: number }) => (
+      <View style={{ zIndex: index === data.length - 1 ? 1 : -index }}>
+        <View style={{ marginTop: index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0, marginLeft: index >= 18 ? 360 : 0 }}>
+          <TileInTheRiverComponentTop svg={item} tileRatioProp={2} index={index} />
+        </View>
+      </View>
+    );
+      
+      const numOfColumns = 6
+    return(
+      <View style={{flexDirection:"column",backgroundColor:"lightblue",width:420,height:270}}>
+        <FlatList data={data}          
+         renderItem={renderItem}
+         scrollEnabled={false} numColumns={numOfColumns}
+         keyExtractor={(item, index) => index.toString()}
+         />
+      </View>
 )}
 
 const Compass = () => {
@@ -210,7 +173,6 @@ const Compass = () => {
     const backgroundColorSec="#2f2f39"
     const CompassTileCounter=()=>{//317  /100 //center piece
         return(
-            
             <View style={{backgroundColor:"#1d1d1f",width:compassTilesCounterBottomPerimeter,height:compassTilesCounterBottomPerimeter,alignItems:"center",borderBottomWidth:4,borderBottomColor:"#1b2a2d",borderRadius:2}}>
                 <Text style={{flex:1,fontSize:22,textAlign:"center",width:"100%",textAlignVertical:"center",color:"#4affff",borderTopRightRadius:2,borderTopLeftRadius:2}}>EAST 3</Text>
                 <Text style={{flex:1,fontSize:40,width:"100%",textAlign:"center",color:"#4affff"}}>69</Text>
@@ -545,85 +507,7 @@ const Compass = () => {
                 );
               };
 
-    const DoraPanel=()=>{
-      const numberOfPlayers ="4P"
-      const gameType="Friend Hanchan"
 
-      const CurrentDoras=()=>{
-        const currentDoras1=mahjongTilesSVGsArray.slice(3,8)
-        const currentDoras=mahjongTilesSVGsArray.slice(3,8).map((item,index)=><TileComponent svg={item} tileRatioProp={1.5} key={index+"a"}/>)
-        const renderItem = ({ item }:{item:string}) => (
-          <TileComponent svg={item} tileRatioProp={1} />
-        );
-        return(
-          <FlatList
-          data={currentDoras1}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          horizontal
-          scrollEnabled={false}
-          style={{backgroundColor:"pink"}}
-        />
-        
-        )
-      }
-
-      const RichiiAndHonba=()=>{
-
-        const HonbaStick = () => {
-          const HonbaDot = () => (
-            <View style={{ backgroundColor: 'black', borderRadius: 8, width: 2, height: 2 }} />
-          );
-        
-          return (
-            <View style={{ backgroundColor: '#e9ebe8', height: 12, width: 30, borderRadius: 4, borderWidth: 1,transform: [{rotateZ: '290deg'}] }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingHorizontal: 4,flex:1 }}>
-                <HonbaDot />
-                <HonbaDot />
-                <HonbaDot />
-                <HonbaDot />
-              </View>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingHorizontal: 4,flex:1 }}>
-                <HonbaDot />
-                <HonbaDot />
-                <HonbaDot />
-                <HonbaDot />
-              </View>
-            </View>
-          );
-        };
-
-        const HonbaStickRichii = () => {
-          return (
-            <View style={{ backgroundColor: '#e9ebe8', height: 12, width: 30, borderRadius: 4, borderWidth: 1 ,justifyContent:"center",alignItems:"center" ,transform: [{rotateZ: '290deg'}]}}>
-                  <View style={{backgroundColor:"#bd383b", height:4,width:4,borderRadius:8}}/>
-            </View>
-          );
-        };
-
-
-        return(
-        <View style={{backgroundColor:"orange",flex:1,flexDirection:"row",justifyContent:"center",alignItems:"center",width:"100%"}}>
-          <HonbaStickRichii/>
-          <Text>x 0</Text>
-          <HonbaStick/>
-          <Text>x 0</Text>
-
-        </View>)
-      }
-
-      return(
-        <View style={{width:170,height:110,backgroundColor:"lightblue",alignItems:"center",borderRadius:8,rowGap:2}}>
-          <View style={{backgroundColor:"yellow",width:"100%",height:25,alignItems:"center",justifyContent:"center"}} >
-          <Text adjustsFontSizeToFit={true}>{numberOfPlayers+" · "+gameType}</Text>
-          </View>
-          <View style={{width:"100%",alignItems:"center",justifyContent:"center",backgroundColor:"red"}}>
-            <CurrentDoras/></View>
-            
-            <RichiiAndHonba/>
-          </View>
-      )
-    }
 
 
 const PlayerPanel=()=>{
@@ -661,21 +545,22 @@ function MahjongScreen({navigation, route}: any) {
           </Overlay>
           <MenuPanel navigation={navigation}/>
             <View style={{backgroundColor:"red",flex:1,alignItems:"center",}}>
-            <View style={{alignItems:"center",backgroundColor:"blue",justifyContent:"center",width:540,height:560,position:"relative",transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.5}]}}>
+            <View style={{alignItems:"center",backgroundColor:"blue",justifyContent:"center",width:540,height:560,position:"relative",transform: [{rotateX: '0deg'}, {rotateZ: '0deg'},{scale:1}]}}>
             <Compass/>
             <View style={{position:"absolute",left:0,top:0,width:600,alignItems:"center",
             }}>
-            <RiverTop/>
+            {/* <RiverTop/> */}
             </View>
-            <View style={{position:"absolute",left:0,top:0,height:600,justifyContent:"center"}}>
-            <RiverLeft/>
+            <View style={{position:"absolute",left:0,top:0,height:460,width:250,justifyContent:"center"}}>
+            {/* <RiverLeft/> */}
             </View>
             <View style={{position:"absolute",left:460,bottom:50,height:460,width:250,backgroundColor:"pink",justifyContent:"center",alignItems:"center"}}>
 <RiverRight/>
             </View>
             <View style={{position:"absolute",left:0,top:460,width:600,alignItems:"center",marginBottom:5}}>
 {/* <PlayersRiver/> */}
-{/* <RiverLeft/>*/}
+{/* <RiverLeft/> */}
+<RiverTop/>
             </View>
             </View>
             </View>
