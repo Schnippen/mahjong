@@ -8,6 +8,9 @@ import ButtonSettings from "../Components/Buttons/ButtonSettings"
 import ButtonQuestionmark from "../Components/Buttons/ButtonQuestionmark"
 import SettingsOverlay from "../Components/SettingsOverlay"
 import {StolenTilesPlayerFRONT, StolenTilesPlayerKANCLOSED, StolenTilesPlayerKANFRONT, StolenTilesPlayerKANLEFT, StolenTilesPlayerKANRIGHT, StolenTilesPlayerLEFT, StolenTilesPlayerRIGHT} from "../Components/StolenTiles/StolenTilesPlayer/StolenTilesPlayer"
+import { ButtonCHII, ButtonPASS } from "../Components/Buttons/ButtonSteal/ButtonSteal"
+import { PlayersRiver } from "../Components/River/PlayersRiver"
+import { TileInTheRiverComponentFront, TileInTheRiverComponentRight } from "../Components/RiverTiles/RiverTiles"
 //tiles
 //winning conditions
 //tile component
@@ -107,29 +110,7 @@ const PlayersHandComponent=()=>{
     )
 }
 
-const TileInTheRiverComponentFront =({svg,tileRatioProp=3,}:{svg:string,tileRatioProp:number})=>{
-     //320 //60
-    const tileRatio = tileRatioProp;
-    const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-    const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-    const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-    const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-    const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-    const tileSecondLayer = +(tileHeight + (tileDepth * 0.695)).toFixed(2); // 69.5% of tile depth added to tile height
-    const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
-    const tileBorderRadiusHandPlayerPerspective = 8;
-    const riverJustifyContent=true
-    const richiiTile=false//TODO fix the perspective
-    return(
-        <View style={{backgroundColor:'#56a2c4',height:tileBottomLayer,width:tileWidth,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,borderWidth:1,transform: [{rotate: `${richiiTile?90:0}deg`}]}}>
-        <View style={{backgroundColor:"#bdbbc0",height:tileSecondLayer,width:tileWidth-2,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,alignItems:"center"}}>
-        <View style={{backgroundColor:"#e9ebe8", height:tileHeight,width:tileWidth-2,alignItems:"center",justifyContent:"center",borderRadius:tileBorderRadiusHandPlayerPerspective}}>
-        <SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective}} />
-        </View>
-        </View>
-        </View>
-    )
-}
+
 
 const TileInTheRiverComponentLeft =({svg,tileRatioProp=3,}:{svg:string,tileRatioProp:number})=>{
     
@@ -149,29 +130,6 @@ const TileInTheRiverComponentLeft =({svg,tileRatioProp=3,}:{svg:string,tileRatio
         <View style={{backgroundColor:"#bdbbc0",height:tileWidth+12,width:tileSecondLayer,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,alignItems:"flex-start"}}>
         <View style={{backgroundColor:"#e9ebe8", height:tileWidth-2,width:tileHeight,alignItems:"center",justifyContent:"center",borderRadius:tileBorderRadiusHandPlayerPerspective}}>
         <SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective,transform: [{rotate: `${90}deg`}]}} />
-        </View>
-        </View>
-        </View>
-    )
-}
-const TileInTheRiverComponentRight =({svg,tileRatioProp=3,}:{svg:string,tileRatioProp:number})=>{
-    
-    const tileRatio = tileRatioProp;
-    const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-    const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-    const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-    const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-    const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-    const tileSecondLayer = +(tileHeight + (tileDepth * 0.695)).toFixed(2)-17; // 69.5% of tile depth added to tile height
-    const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2)-22;
-    const tileBorderRadiusHandPlayerPerspective = 8;
-    const riverJustifyContent=true
-    const richiiTile=false//TODO fix the perspective //marginTop:richiiTile?6: -14
-    return(
-        <View style={{backgroundColor:'#56a2c4',height:tileWidth+22,width:tileBottomLayer,justifyContent:riverJustifyContent?"flex-start":"flex-end",alignItems:"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,borderWidth:1,transform: [{rotate: `${richiiTile?90:0}deg`}] ,marginTop:richiiTile?6:-22 }}>
-        <View style={{backgroundColor:"#bdbbc0",height:tileWidth+10,width:tileSecondLayer,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,alignItems:"flex-end"}}>
-        <View style={{backgroundColor:"#e9ebe8", height:tileWidth-2,width:tileHeight,alignItems:"center",justifyContent:"center",borderRadius:tileBorderRadiusHandPlayerPerspective}}>
-        <SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective,transform: [{rotate: `${270}deg`}]}} />
         </View>
         </View>
         </View>
@@ -201,23 +159,7 @@ return(
     </View>
 )
 }
-const PlayersRiver=()=>{
-  const data=mahjongTilesSVGsArray.slice(14,20) //river data 
-  const dataLength = data.length
-    const hand=mahjongTilesSVGsArray.slice(14,20).map((item,index)=><TileInTheRiverComponentFront svg={item} tileRatioProp={2} key={index+"a"}/>)
 
-    const renderItem = ({ item }:{item:string}) => (
-      <TileInTheRiverComponentFront svg={item} tileRatioProp={2} />
-    )
-    
-  return(
-    <View style={{flexDirection:"column",backgroundColor:"lightblue",width:360,/*   transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.75}] */ }}>
-      <FlatList data={data}          renderItem={renderItem}
-       scrollEnabled={false} numColumns={6}
-      keyExtractor={(item, index) => index.toString()}/>
-    </View>
-)
-}
 const RiverLeft =()=>{
     const hand=mahjongTilesSVGsArray.slice(20,26).map((item,index)=><TileInTheRiverComponentLeft svg={item} tileRatioProp={2} key={index+"a"}/>)
 return(
@@ -225,13 +167,32 @@ return(
     {hand}
     </View>
 )}
-const RiverRight =()=>{
-    const hand=mahjongTilesSVGsArray.slice(27,33).map((item,index)=><TileInTheRiverComponentRight svg={item} tileRatioProp={2} key={index+"a"}/>)
-return(
-    <View style={{flexDirection:"column",backgroundColor:"lightblue",width:80,  /* transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.75}] */ }}>
-    {hand}
+const RiverRight=()=>{
+  const data=mahjongTilesSVGsArray.slice(12,31) //river data 
+  //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
+  //add zIndex to the last tile, index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0 
+    const renderItem = ({ item,index }:{item:string,index:number}) => (
+      
+<View
+    style={{
+      marginLeft: index === 18? 399 : (index === 0 || index === 6 || index === 12 ? 0 : -14),
+      marginTop: index === 18 ? -82 : 0,
+      zIndex:-index
+    }}
+  > 
+      <TileInTheRiverComponentRight svg={item} tileRatioProp={2} index={index}/>
+      </View>
+    )
+    const numOfColumns = 6
+  return(//480 250
+    <View style={{backgroundColor:"lightblue",width:460,height:250,transform: [{rotateZ: '270deg'}],alignItems:'center'}}>
+      <FlatList data={data}          
+       renderItem={renderItem}
+       scrollEnabled={false} numColumns={numOfColumns}
+       keyExtractor={(item, index) => index.toString()}/>
     </View>
-)}
+)
+}
 const RiverTop =()=>{
     const hand=mahjongTilesSVGsArray.slice(2,8).map((item,index)=><TileInTheRiverComponentTop svg={item} tileRatioProp={2} key={index+"a"}/>)
 return(
@@ -664,67 +625,12 @@ const Compass = () => {
       )
     }
 
-  const ButtonShape = ({text,firstColor,secondColor}:{text:string,firstColor:string,secondColor:string}) => {
-  return (
-    <Button radius={"md"}
-    buttonStyle={{height:40,width:120,}}
-    titleStyle={{fontWeight:"bold"}}
-    ViewComponent={LinearGradient} 
-    linearGradientProps={{
-      colors: [firstColor, secondColor],
-      start: { x: 0, y: 0.5 },
-      end: { x: 1, y: 0.5 },
-    }}>
-      {text}
-    </Button>
-  );
-};
-const ButtonRIICHI=()=>{
-  return(
-    <ButtonShape text="RIICHI" firstColor="#f6d106" secondColor="#cc7000"/>
-  )
-}
-const ButtonPON=()=>{
-  return(
-    <ButtonShape text="PON" firstColor="#48cae4" secondColor="#023e8a"/>
-  )
-}
-const ButtonPASS=()=>{
-  return(
-    <ButtonShape text="PASS" firstColor="#9dc1db" secondColor="#688aa5"/>
-  )
-}
-const ButtonCANCEL=()=>{
-  return(
-    <ButtonShape text="CANCEL" firstColor="#9dc1db" secondColor="#688aa5"/>
-  )
-}
-const ButtonCHII=()=>{
-  return(
-    <ButtonShape text="CHII" firstColor="#19e09f" secondColor="#12bf63"/>
-  )
-}
-const ButtonKAN=()=>{
-  return(
-    <ButtonShape text="KAN" firstColor="#be95c4" secondColor="#5e548e"/>
-  )
-}
-const ButtonRON=()=>{
-  return(
-    <ButtonShape text="RON" firstColor="#dc2f02" secondColor="#fb8b24"/>
-  )
-}
-const ButtonTSUMO=()=>{ 
-  return(
-    <ButtonShape text="TSUMO" firstColor="#dc2f02" secondColor="#fb8b24"/>
-  )
-}
 
 const PlayerPanel=()=>{
   return(
     <View style={{backgroundColor:"purple",height:130,width:screenWidth,rowGap:12}}>
       <View style={{flexDirection:"row",columnGap:8,justifyContent:"flex-end",}}>
-        <ButtonCHII/>
+          <ButtonCHII/>
           <ButtonPASS/>   
         </View>
       <PlayersHandComponent/>
@@ -755,29 +661,30 @@ function MahjongScreen({navigation, route}: any) {
           </Overlay>
           <MenuPanel navigation={navigation}/>
             <View style={{backgroundColor:"red",flex:1,alignItems:"center",}}>
-
-            <View style={{alignItems:"center",backgroundColor:"blue",justifyContent:"center",width:540,height:560,position:"relative",transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.75}]}}>
+            <View style={{alignItems:"center",backgroundColor:"blue",justifyContent:"center",width:540,height:560,position:"relative",transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.5}]}}>
             <Compass/>
-            <View style={{position:"absolute",left:0,top:0,width:540,alignItems:"center",
+            <View style={{position:"absolute",left:0,top:0,width:600,alignItems:"center",
             }}>
             <RiverTop/>
             </View>
-            <View style={{position:"absolute",left:0,top:0,height:540,justifyContent:"center"}}>
+            <View style={{position:"absolute",left:0,top:0,height:600,justifyContent:"center"}}>
             <RiverLeft/>
             </View>
-            <View style={{position:"absolute",right:0,top:0,height:540,backgroundColor:"pink",justifyContent:"center"}}>
-            <RiverRight/>
+            <View style={{position:"absolute",left:460,bottom:50,height:460,width:250,backgroundColor:"pink",justifyContent:"center",alignItems:"center"}}>
+<RiverRight/>
             </View>
-            <View style={{position:"absolute",left:0,bottom:0,width:540,alignItems:"center",marginBottom:5}}>
-            <PlayersRiver/>
+            <View style={{position:"absolute",left:0,top:460,width:600,alignItems:"center",marginBottom:5}}>
+{/* <PlayersRiver/> */}
+{/* <RiverLeft/>*/}
             </View>
             </View>
             </View>
             <View style={{flex:1,height:300}}>
-            <WallFront/> 
-            <View style={{flexDirection:"row"}}><StolenTilesPlayerKANCLOSED/>
+            {/* <WallFront/>  */}
+            {/* <View style={{flexDirection:"row"}}><StolenTilesPlayerKANCLOSED/>
             <StolenTilesPlayerRIGHT/>
-            <StolenTilesPlayerFRONT/></View>
+            <StolenTilesPlayerFRONT/>
+            </View> */}
             
             {/* <DoraPanel/> */}
             {/* <WallLeft/> */} 
@@ -791,7 +698,7 @@ function MahjongScreen({navigation, route}: any) {
              <ButtonPASS/>   
              <ButtonCHII/>
              <ButtonCANCEL/> */}
-             <PlayerPanel/> 
+             {/* <PlayerPanel/> */} 
              </View>
         </ScrollView>
     )
