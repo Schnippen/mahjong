@@ -64,8 +64,8 @@ export const TileInTheRiverComponentLeft =({svg,tileRatioProp=3,index}:{svg:stri
     const tileBottomLayerRiverRight=tileWidth+tileDepth
     const tileBorderRadiusHandPlayerPerspective = 8;
     const richiiTile=false//TODO fix the perspective
-    const rightRiverTileWidth=index!==18?tileHeight:tileWidth
-const secondLayerWidthandLastTileWidth = index!==18?tileSecondLayer-10:tileWidth
+    const rightRiverTileWidth=index!==18?tileHeight:tileHeight
+const secondLayerWidthandLastTileWidth = index!==18?tileSecondLayer-10:tileSecondLayer-10
     return(
         <View style={{backgroundColor:'#56a2c4',height:tileHeight+5,width:rightRiverTileWidth,justifyContent:"flex-end",alignItems:"flex-start",borderRadius:tileBorderRadiusHandPlayerPerspective,borderWidth:1,transform: [{rotate: `${richiiTile?90:0}deg`}]}}>
         <View style={{backgroundColor:"#bdbbc0",height:tileSecondLayer,width:secondLayerWidthandLastTileWidth,justifyContent:"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,alignItems:"flex-start"}}>

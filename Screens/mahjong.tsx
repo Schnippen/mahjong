@@ -12,6 +12,7 @@ import { ButtonCHII, ButtonPASS } from "../Components/Buttons/ButtonSteal/Button
 import { PlayersRiver } from "../Components/River/PlayersRiver"
 import { TileInTheRiverComponentFront, TileInTheRiverComponentLeft, TileInTheRiverComponentRight, TileInTheRiverComponentTop } from "../Components/RiverTiles/RiverTiles"
 import { RiverRight } from "../Components/River/RiverRight"
+import { RiverLeft } from "../Components/River/RiverLeft"
 //tiles
 //winning conditions
 //tile component
@@ -111,46 +112,16 @@ const PlayersHandComponent=()=>{
 
 
 
-const RiverLeft =()=>{
-  const data=mahjongTilesSVGsArray.slice(12,31) //river data 
-  //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
-  //add zIndex to the last tile, index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0 
-    const renderItem = ({ item,index }:{item:string,index:number}) => (
-      
-<View
-    style={{
-      alignItems:"flex-start",
-      marginRight:index===5||index===11||index===17?0:-14,
-      marginTop:index===18?-82:0,
-    marginLeft:index===18?360:0
-      /* marginLeft: index === 18? 399 : (index === 0 || index === 6 || index === 12 ? 0 : -14),
-      marginTop: index === 18 ? -82 : 0,
-      zIndex:-index */
-    }}
-  > 
-      <TileInTheRiverComponentLeft svg={item} tileRatioProp={2} index={index}/>
-      </View>
-    )
-    const numOfColumns = 6
-  return(//480 250
-    <View style={{backgroundColor:"lightblue",width:420,height:500,transform: [{rotateZ: '0deg'}],alignItems:'flex-start'}}>
-      <FlatList data={data}          
-       renderItem={renderItem}
-       scrollEnabled={false} numColumns={numOfColumns}
-       keyExtractor={(item, index) => index.toString()}/>
-    </View>
-)}
+
 
 const RiverTop =()=>{
   const data=mahjongTilesSVGsArray.slice(12,30) //river data 
-    //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
-    //add zIndex to the last tile
+    //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120 elevation: 1
+    //add zIndex to the last tile //TODO just use transform translate flip it on its head and flip Y axis
     const renderItem = ({ item, index }: { item: string; index: number }) => (
-      <View style={{ zIndex: index === data.length - 1 ? 1 : -index }}>
-        <View style={{ marginTop: index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0, marginLeft: index >= 18 ? 360 : 0 }}>
+        <View style={{ marginTop: index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0, marginLeft: index >= 18 ? 360 : 0,zIndex:-1}}>
           <TileInTheRiverComponentTop svg={item} tileRatioProp={2} index={index} />
         </View>
-      </View>
     );
       
       const numOfColumns = 6
@@ -159,7 +130,8 @@ const RiverTop =()=>{
         <FlatList data={data}          
          renderItem={renderItem}
          scrollEnabled={false} numColumns={numOfColumns}
-         keyExtractor={(item, index) => index.toString()}
+         keyExtractor={(item, index) => index.toString()}  CellRendererComponent={({ children }) => children}
+         removeClippedSubviews={false}
          />
       </View>
 )}
@@ -551,16 +523,16 @@ function MahjongScreen({navigation, route}: any) {
             }}>
             {/* <RiverTop/> */}
             </View>
-            <View style={{position:"absolute",left:0,top:0,height:460,width:250,justifyContent:"center"}}>
-            {/* <RiverLeft/> */}
+            <View style={{position:"absolute",right:460,top:50,height:460,width:250,justifyContent:"center",backgroundColor:"orange",alignItems:"center"}}>
+            <RiverLeft/> 
             </View>
             <View style={{position:"absolute",left:460,bottom:50,height:460,width:250,backgroundColor:"pink",justifyContent:"center",alignItems:"center"}}>
 <RiverRight/>
             </View>
             <View style={{position:"absolute",left:0,top:460,width:600,alignItems:"center",marginBottom:5}}>
 {/* <PlayersRiver/> */}
-{/* <RiverLeft/> */}
-<RiverTop/>
+{/* <RiverLeft/>  */}
+{/* <RiverTop/> */}
             </View>
             </View>
             </View>
