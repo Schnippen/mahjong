@@ -14,23 +14,21 @@ round: Tracks the current round number.
 deck: Represents the remaining tiles in the deck.
 discardPile: Tracks the tiles that have been discarded by players.
 lastDiscard: Stores information about the last tile discarded (e.g., suit, rank, player ID). */
-
-interface gameState {
-  gamePhase:string
-  playerTurn:number
-  gameEnded:boolean
-  prevailingWind:string
+//17 -> 34 *4 = 136
+interface wallState {
+  tilesLeft:number
+  tilesLeftInWall:number
+  diceRoll:number
 }
 
-const initialState: gameState = {
-  gamePhase:"string",
-  playerTurn:1,
-  gameEnded:false,
-  prevailingWind:"east",
+const initialState: wallState = {
+  tilesLeft:136,
+  tilesLeftInWall:1,
+  diceRoll:0,
 }
 
-export const gameReducer = createSlice({
-  name: 'gameReducer',
+export const wallReducer = createSlice({
+  name: 'wallReducer',
   initialState,
   reducers: {
     increment: (state) => {
@@ -41,19 +39,13 @@ export const gameReducer = createSlice({
       // Also, no return statement is required from these functions.
       //state.value += 1
     },
-    decrement: (state) => {
-      //state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      //state.value += action.payload
-    },
-    changePrevailingWind: (state, action) => {
-      //state.value += action.payload
-    },
+    rollDice:(state)=>{
+        state.diceRoll = Math.floor(Math.random() * 12) + 1
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount,changePrevailingWind } = gameReducer.actions
+export const { increment,rollDice } = wallReducer.actions
 
-export default gameReducer.reducer
+export default wallReducer.reducer

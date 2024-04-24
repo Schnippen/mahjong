@@ -13,6 +13,10 @@ import { PlayersRiver } from "../Components/River/PlayersRiver"
 import { TileInTheRiverComponentFront, TileInTheRiverComponentLeft, TileInTheRiverComponentRight, TileInTheRiverComponentTop } from "../Components/RiverTiles/RiverTiles"
 import { RiverRight } from "../Components/River/RiverRight"
 import { RiverLeft } from "../Components/River/RiverLeft"
+import { rollDice } from "../Store/wallReducer"
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../Store/store';
+import WallCalculation from "../Functions/wallCalculation"
 //tiles
 //winning conditions
 //tile component
@@ -504,33 +508,40 @@ function MahjongScreen({navigation, route}: any) {
   
   const MenuPanel=({navigation}:{navigation:any})=>{
     return(
-      <View style={{flexDirection:"row",backgroundColor:"pink",justifyContent:"flex-end"}}>
+      <View style={{flexDirection:"row",backgroundColor:"pink",justifyContent:"flex-end",position:"absolute",right:0}}>
       <ButtonQuestionmark/>
       <ButtonSettings navigation={navigation} toggleOverlay={toggleOverlay}/>
       </View>
     )
   }
+  const DICE_ROLL = useSelector((state: RootState) => state.wallReducer.diceRoll);
+  const dispatch = useDispatch();
+  console.log("DICE_ROLL:",DICE_ROLL)
     return(
         <ScrollView style={{flex:1}}>
           <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay}>
             <SettingsOverlay/>
           </Overlay>
-          <MenuPanel navigation={navigation}/>
+          <Button title="rollDice" onPress={()=>dispatch(rollDice())}></Button>
+          <Button title="startGame" onPress={()=>WallCalculation()}></Button>
+
+          {/* MAIN SCREEN WITH GAME BOARD */}
             <View style={{backgroundColor:"red",flex:1,alignItems:"center",}}>
-            <View style={{alignItems:"center",backgroundColor:"blue",justifyContent:"center",width:540,height:560,position:"relative",transform: [{rotateX: '0deg'}, {rotateZ: '0deg'},{scale:1}]}}>
+            <MenuPanel navigation={navigation}/>
+            <View style={{alignItems:"center",backgroundColor:"blue",justifyContent:"center",width:540,height:560,position:"relative",transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.5}]}}>
             <Compass/>
             <View style={{position:"absolute",left:0,top:0,width:600,alignItems:"center",
             }}>
             {/* <RiverTop/> */}
             </View>
             <View style={{position:"absolute",right:460,top:50,height:460,width:250,justifyContent:"center",backgroundColor:"orange",alignItems:"center"}}>
-            <RiverLeft/> 
+            {/* <RiverLeft/> */} 
             </View>
             <View style={{position:"absolute",left:460,bottom:50,height:460,width:250,backgroundColor:"pink",justifyContent:"center",alignItems:"center"}}>
-<RiverRight/>
+{/* <RiverRight/>*/}
             </View>
             <View style={{position:"absolute",left:0,top:460,width:600,alignItems:"center",marginBottom:5}}>
-{/* <PlayersRiver/> */}
+{/* <PlayersRiver/>  */}
 {/* <RiverLeft/>  */}
 {/* <RiverTop/> */}
             </View>
