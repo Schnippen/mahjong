@@ -1,4 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit';
+import {shuffledTilesForGameStart} from '../Functions/shuffleTilesForGameStart';
+import {tileObject} from '../Types/types';
 
 //gamestate
 //playerstate
@@ -15,37 +17,58 @@ deck: Represents the remaining tiles in the deck.
 discardPile: Tracks the tiles that have been discarded by players.
 lastDiscard: Stores information about the last tile discarded (e.g., suit, rank, player ID). */
 //17 -> 34 *4 = 136
+//Haiyama = wall
 interface wallState {
-  tilesLeft:number
-  tilesLeftInWall:number
-  diceRoll:number
+  tilesLeft: number;
+  tilesLeftInWall: number;
+  diceRoll: number;
+  wallTilesArray: Array<Object>;
+  wallEastState: Array<Object>;
+  wallSouthState: Array<Object>;
+  wallWestState: Array<Object>;
+  wallNorthState: Array<Object>;
+  deadWall: Array<Object>;
 }
 
 const initialState: wallState = {
-  tilesLeft:136,
-  tilesLeftInWall:1,
-  diceRoll:0,
-}
+  tilesLeft: 136,
+  tilesLeftInWall: 1,
+  diceRoll: 0,
+  wallTilesArray: [],
+  wallEastState: [],
+  wallSouthState: [],
+  wallWestState: [],
+  wallNorthState: [],
+  deadWall: [],
+};
 
 export const wallReducer = createSlice({
   name: 'wallReducer',
   initialState,
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes.
-      // Also, no return statement is required from these functions.
-      //state.value += 1
+    rollDice: state => {
+      state.diceRoll = Math.floor(Math.random() * 12) + 1;
     },
-    rollDice:(state)=>{
-        state.diceRoll = Math.floor(Math.random() * 12) + 1
-    }
+    shuffleWallTiles: state => {
+      state.wallTilesArray = shuffledTilesForGameStart();
+    },
+    setWallFragment: (state, action) => {
+      const {direction, tiles} = action.payload; // Extract direction and tiles from the action payload
+      if (direction === 'east') {
+        state.wallEastState = tiles; // Update the wallEastState with the tiles passed in the action payload
+      } else if (direction === 'south') {
+        state.wallSouthState = tiles;
+      } else if (direction === 'west') {
+        state.wallWestState = tiles;
+      } else if (direction === 'north') {
+        state.wallNorthState = tiles;
+      }
+    },
   },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { increment,rollDice } = wallReducer.actions
+export const {rollDice, shuffleWallTiles, setWallFragment} =
+  wallReducer.actions;
 
-export default wallReducer.reducer
+export default wallReducer.reducer;
