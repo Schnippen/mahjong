@@ -2,14 +2,15 @@ import React from 'react';
 import {View} from 'react-native';
 import {SvgXml} from 'react-native-svg';
 
-export const TileInTheRiverComponentFront = ({
+export const WallTile = ({
   svg,
   tileRatioProp = 3,
+  zIndex,
 }: {
   svg: string;
   tileRatioProp: number;
+  zIndex: number;
 }) => {
-  //320 //60
   const tileRatio = tileRatioProp;
   const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
   const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
@@ -20,22 +21,25 @@ export const TileInTheRiverComponentFront = ({
   const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
   const tileBorderRadiusHandPlayerPerspective = 8;
   const riverJustifyContent = true;
-  const richiiTile = false; //TODO fix the perspective
+  const isTileFaceUp = false; //TODO fix the perspective
+  const colorBottomLayer = '#98dffb';
+  const colorSecondLayer = '#44809a';
+  const colorFaceLayer = '#a39f9e';
   return (
     <View
       style={{
-        backgroundColor: '#56a2c4',
+        backgroundColor: colorFaceLayer,
         height: tileBottomLayer,
         width: tileWidth,
         justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
         borderRadius: tileBorderRadiusHandPlayerPerspective,
         borderWidth: 1,
-        transform: [{rotate: `${richiiTile ? 90 : 0}deg`}],
+        zIndex: zIndex,
       }}>
       <View
         style={{
-          backgroundColor: '#bdbbc0',
-          height: tileSecondLayer,
+          backgroundColor: colorSecondLayer,
+          height: tileSecondLayer - 5,
           width: tileWidth - 2,
           justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
           borderRadius: tileBorderRadiusHandPlayerPerspective,
@@ -43,7 +47,7 @@ export const TileInTheRiverComponentFront = ({
         }}>
         <View
           style={{
-            backgroundColor: '#e9ebe8',
+            backgroundColor: colorBottomLayer,
             height: tileHeight,
             width: tileWidth - 2,
             alignItems: 'center',
@@ -54,7 +58,10 @@ export const TileInTheRiverComponentFront = ({
             width={tileImageWidth}
             height={tileImageHeight}
             xml={svg}
-            style={{borderRadius: tileBorderRadiusHandPlayerPerspective}}
+            style={{
+              borderRadius: tileBorderRadiusHandPlayerPerspective,
+              transform: [{rotate: `${0}deg`}],
+            }}
           />
         </View>
       </View>
@@ -62,14 +69,14 @@ export const TileInTheRiverComponentFront = ({
   );
 };
 
-export const TileInTheRiverComponentRight = ({
+export const WallTileLeft = ({
   svg,
   tileRatioProp = 3,
-  index,
+  zIndex,
 }: {
   svg: string;
   tileRatioProp: number;
-  index: number;
+  zIndex: number;
 }) => {
   const tileRatio = tileRatioProp;
   const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
@@ -77,105 +84,40 @@ export const TileInTheRiverComponentRight = ({
   const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
   const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
   const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileSecondLayer = +(tileWidth + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height //tileWidth-2
-  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
-  const tileBottomLayerRiverRight = tileWidth + tileDepth;
+  const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
+  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2); //TODO check the Riverleft values
   const tileBorderRadiusHandPlayerPerspective = 8;
-  const richiiTile = false; //TODO fix the perspective
-  const rightRiverTileWidth = index !== 18 ? tileHeight : tileWidth;
-  const secondLayerWidthandLastTileWidth =
-    index !== 18 ? tileSecondLayer - 10 : tileWidth;
+  const riverJustifyContent = true;
+  const isTileFaceUp = false; //TODO fix the perspective
+  const colorBottomLayer = '#98dffb';
+  const colorSecondLayer = '#44809a';
+  const colorFaceLayer = '#a39f9e';
   return (
     <View
       style={{
-        backgroundColor: '#56a2c4',
-        height: tileHeight + 5,
-        width: rightRiverTileWidth,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
+        backgroundColor: colorFaceLayer,
+        height: tileWidth + 8,
+        width: tileBottomLayer - 6,
+        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
         borderRadius: tileBorderRadiusHandPlayerPerspective,
         borderWidth: 1,
-        transform: [{rotate: `${richiiTile ? 90 : 0}deg`}],
+        zIndex: zIndex,
+        marginTop: -6,
       }}>
       <View
         style={{
-          backgroundColor: '#bdbbc0',
-          height: tileSecondLayer,
-          width: secondLayerWidthandLastTileWidth,
-          justifyContent: 'flex-end',
-          borderRadius: tileBorderRadiusHandPlayerPerspective,
-          alignItems: 'flex-end',
-        }}>
-        <View
-          style={{
-            backgroundColor: '#e9ebe8',
-            height: tileHeight,
-            width: tileWidth,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: tileBorderRadiusHandPlayerPerspective,
-          }}>
-          <SvgXml
-            width={tileImageWidth}
-            height={tileImageHeight}
-            xml={svg}
-            style={{borderRadius: tileBorderRadiusHandPlayerPerspective}}
-          />
-        </View>
-      </View>
-    </View>
-  );
-};
-
-export const TileInTheRiverComponentLeft = ({
-  svg,
-  tileRatioProp = 3,
-  index,
-}: {
-  svg: string;
-  tileRatioProp: number;
-  index: number;
-}) => {
-  const tileRatio = tileRatioProp;
-  const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-  const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-  const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-  const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileSecondLayer = +(tileWidth + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height //tileWidth-2
-  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
-  const tileBottomLayerRiverRight = tileWidth + tileDepth;
-  const tileBorderRadiusHandPlayerPerspective = 8;
-  const richiiTile = false; //TODO fix the perspective
-  const rightRiverTileWidth = index !== 18 ? tileHeight : tileHeight;
-  const secondLayerWidthandLastTileWidth =
-    index !== 18 ? tileSecondLayer - 10 : tileSecondLayer - 10;
-  return (
-    <View
-      style={{
-        backgroundColor: '#56a2c4',
-        height: tileHeight + 5,
-        width: rightRiverTileWidth,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-start',
-        borderRadius: tileBorderRadiusHandPlayerPerspective,
-        borderWidth: 1,
-        transform: [{rotate: `${richiiTile ? 90 : 0}deg`}],
-      }}>
-      <View
-        style={{
-          backgroundColor: '#bdbbc0',
-          height: tileSecondLayer,
-          width: secondLayerWidthandLastTileWidth,
-          justifyContent: 'flex-end',
+          backgroundColor: colorSecondLayer,
+          height: tileWidth + 2,
+          width: tileSecondLayer - 5,
+          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
           borderRadius: tileBorderRadiusHandPlayerPerspective,
           alignItems: 'flex-start',
         }}>
         <View
           style={{
-            backgroundColor: '#e9ebe8',
-            height: tileHeight,
-            width: tileWidth,
+            backgroundColor: colorBottomLayer,
+            height: tileWidth - 2,
+            width: tileHeight,
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: tileBorderRadiusHandPlayerPerspective,
@@ -184,7 +126,78 @@ export const TileInTheRiverComponentLeft = ({
             width={tileImageWidth}
             height={tileImageHeight}
             xml={svg}
-            style={{borderRadius: tileBorderRadiusHandPlayerPerspective}}
+            style={{
+              borderRadius: tileBorderRadiusHandPlayerPerspective,
+              transform: [{rotate: `${90}deg`}],
+            }}
+          />
+        </View>
+      </View>
+    </View>
+  );
+};
+export const WallTileRight = ({
+  svg,
+  tileRatioProp = 3,
+  zIndex,
+}: {
+  svg: string;
+  tileRatioProp: number;
+  zIndex: number;
+}) => {
+  const tileRatio = tileRatioProp;
+  const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
+  const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
+  const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
+  const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
+  const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
+  const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
+  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2); //TODO check the Riverleft values
+  const tileBorderRadiusHandPlayerPerspective = 8;
+  const riverJustifyContent = true;
+  const isTileFaceUp = false; //TODO fix the perspective
+  const colorBottomLayer = '#98dffb';
+  const colorSecondLayer = '#44809a';
+  const colorFaceLayer = '#a39f9e';
+  return (
+    <View
+      style={{
+        backgroundColor: colorFaceLayer,
+        height: tileWidth + 8,
+        width: tileBottomLayer - 6,
+        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
+        borderRadius: tileBorderRadiusHandPlayerPerspective,
+        borderWidth: 1,
+        zIndex: zIndex,
+        marginTop: -6,
+        alignItems: 'flex-end',
+      }}>
+      <View
+        style={{
+          backgroundColor: colorSecondLayer,
+          height: tileWidth + 2,
+          width: tileSecondLayer - 5,
+          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
+          borderRadius: tileBorderRadiusHandPlayerPerspective,
+          alignItems: 'flex-end',
+        }}>
+        <View
+          style={{
+            backgroundColor: colorBottomLayer,
+            height: tileWidth - 2,
+            width: tileHeight,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: tileBorderRadiusHandPlayerPerspective,
+          }}>
+          <SvgXml
+            width={tileImageWidth}
+            height={tileImageHeight}
+            xml={svg}
+            style={{
+              borderRadius: tileBorderRadiusHandPlayerPerspective,
+              transform: [{rotate: `${90}deg`}],
+            }}
           />
         </View>
       </View>
@@ -192,16 +205,15 @@ export const TileInTheRiverComponentLeft = ({
   );
 };
 
-export const TileInTheRiverComponentTop = ({
+export const WallTileTop = ({
   svg,
   tileRatioProp = 3,
-  index,
+  zIndex,
 }: {
   svg: string;
   tileRatioProp: number;
-  index: number;
+  zIndex: number;
 }) => {
-  //320 //60
   const tileRatio = tileRatioProp;
   const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
   const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
@@ -211,30 +223,34 @@ export const TileInTheRiverComponentTop = ({
   const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
   const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
   const tileBorderRadiusHandPlayerPerspective = 8;
-  const richiiTile = false; //TODO fix the perspective
+  const riverJustifyContent = true;
+  const isTileFaceUp = false; //TODO fix the perspective
+  const colorBottomLayer = '#98dffb';
+  const colorSecondLayer = '#44809a';
+  const colorFaceLayer = '#a39f9e';
   return (
     <View
       style={{
-        backgroundColor: '#56a2c4',
+        backgroundColor: colorFaceLayer,
         height: tileBottomLayer,
         width: tileWidth,
-        justifyContent: 'flex-end',
+        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
         borderRadius: tileBorderRadiusHandPlayerPerspective,
         borderWidth: 1,
-        transform: [{rotate: `${richiiTile ? 90 : 0}deg`}],
+        zIndex: zIndex,
       }}>
       <View
         style={{
-          backgroundColor: '#bdbbc0',
-          height: tileSecondLayer,
+          backgroundColor: colorSecondLayer,
+          height: tileSecondLayer - 5,
           width: tileWidth - 2,
-          justifyContent: 'flex-end',
+          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
           borderRadius: tileBorderRadiusHandPlayerPerspective,
           alignItems: 'center',
         }}>
         <View
           style={{
-            backgroundColor: '#e9ebe8',
+            backgroundColor: colorBottomLayer,
             height: tileHeight,
             width: tileWidth - 2,
             alignItems: 'center',
