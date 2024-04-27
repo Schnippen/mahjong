@@ -33,6 +33,8 @@ import {rollDice} from '../Store/wallReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../Store/store';
 import WallCalculation from '../Functions/wallCalculation';
+import { shuffledTilesForGameStart } from '../Functions/shuffledTilesForGameStart';
+import { initialGame } from '../Functions/initializeGame';
 //tiles
 //winning conditions
 //tile component
@@ -1084,7 +1086,6 @@ const PlayerPanel = () => {
     </View>
   );
 };
-
 //TODO oficjalna skala z perspektywą???
 function MahjongScreen({navigation, route}: any) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -1110,16 +1111,19 @@ function MahjongScreen({navigation, route}: any) {
   const DICE_ROLL = useSelector(
     (state: RootState) => state.wallReducer.diceRoll,
   );
-  const dispatch = useDispatch();
-  console.log('DICE_ROLL:', DICE_ROLL);
+  const shuffledWall=useSelector((state:RootState)=>state.wallReducer.wallTilesArray)
+  const dispatch=useDispatch()
+
+  console.log('DICE_ROLL init:', DICE_ROLL);
   return (
     <ScrollView style={{flex: 1}}>
       <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay}>
         <SettingsOverlay />
       </Overlay>
-      <Button title="rollDice" onPress={() => dispatch(rollDice())}></Button>
-      <Button title="startGame" onPress={() => WallCalculation()}></Button>
+      <Button title="startGame" onPress={() => /* WallCalculation(dispatch) */null}></Button> 
+      <Button title="initialize" onPress={() =>initialGame(dispatch)}></Button> 
 
+      
       {/* MAIN SCREEN WITH GAME BOARD */}
       <View style={{backgroundColor: 'red', flex: 1, alignItems: 'center'}}>
         <MenuPanel navigation={navigation} />

@@ -24,14 +24,12 @@ function MainApp() {
         name="MahjongScreen"
         component={MahjongScreen}
         />
-              <RootStack.Group screenOptions={{ presentation: 'modal' }}>
-
+        <RootStack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen
         name="Settings"
         component={Settings}
         />
-              </RootStack.Group>
-
+        </RootStack.Group>
       </Stack.Navigator>
   
     </NavigationContainer>
