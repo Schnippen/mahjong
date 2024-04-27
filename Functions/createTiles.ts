@@ -1,6 +1,6 @@
 //const dora = [Man5_Dora, Pin5_Dora, Sou5_Dora];
 
-import {tileObject} from '../Types/types';
+import {TTileObject} from '../Types/types';
 
 const mahjongTilesSVGBamboo = [
   'Sou1',
@@ -28,7 +28,7 @@ const exampleTileObject = {
   tileID: 1,
 };
 const createTilesObjects = () => {
-  const allTiles: Array<tileObject> = [];
+  const allTiles: TTileObject[] = [];
   const dragonSymbol = ['白', '發', '中'];
   const windSymbol = ['東', '南', '西', '北'];
   const bamboo = []; //Souzu

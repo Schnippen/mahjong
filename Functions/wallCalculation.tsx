@@ -1,6 +1,8 @@
 import {useDispatch, useSelector} from 'react-redux';
 import store, {RootState} from '../Store/store';
-import {setWallFragment} from '../Store/wallReducer';
+import {setDeadWallFragment, setTilesAfterHandout, setWallFragment} from '../Store/wallReducer';
+import { TTileObject } from '../Types/types';
+import { updateHand } from '../Store/handReducer';
 function checkDiceRoll(roll: number) {
   const EAST = [1, 5, 9];
   const SOUTH = [2, 6, 10];
@@ -20,9 +22,9 @@ function checkDiceRoll(roll: number) {
     return roll;
   }
 }
-const finishedWall = useSelector(
+const finishedWall:TTileObject[] = useSelector(
   (state: RootState) => state.wallReducer.wallTilesArray,
-);
+); //shuffled
 /*   const allWallTiles = 136;
   const EastPlayer = 34; //1 index=2   5=index=10  9=index=18
   const SouthPlayer = 34; //2 index=4  6=index=12  10=index=20
@@ -40,15 +42,50 @@ const dispatch = useDispatch();
   dispatch(setWallFragment({direction: 'north', tiles: NorthWall})); */
 function WallCalculation() {
   const DICE_ROLL = Math.floor(Math.random() * 12) + 1;
-  //if DICE_ROLL === 1 east
-  //shit.concat(wall.slice(wall.length-12),wall.slice(0,2))  => Dead Wall
-
-  //phase of taking tile for hand ((4*3)+2) +((4*3)+1)*3
-
+  let deadWallFragment:TTileObject[]=[]
+  let wallWithoutDeadWall = []
+  let player1Hand=[]
+  let player2Hand=[]
+  let player3Hand=[]
+  let player4Hand=[]
+  let handedoutTiles:TTileObject[]=[]
+  let tilesReadyForRound:TTileObject[]=[]
+  if(DICE_ROLL===1){    deadWallFragment = deadWallFragment.concat(finishedWall.slice(finishedWall.length-12), finishedWall.slice(0,2));
+  }
+  if(DICE_ROLL===2){   deadWallFragment.concat(finishedWall.slice(finishedWall.length-10),finishedWall.slice(0,4));}
+  if(DICE_ROLL===3){  deadWallFragment.concat(finishedWall.slice(finishedWall.length-8),finishedWall.slice(0,6));}
+  if(DICE_ROLL===4){deadWallFragment.concat(finishedWall.slice(finishedWall.length-6),finishedWall.slice(0,8))}
+  if(DICE_ROLL===5){deadWallFragment.concat(finishedWall.slice(finishedWall.length-4),finishedWall.slice(0,10))}
+  if(DICE_ROLL===6){deadWallFragment.concat(finishedWall.slice(finishedWall.length-2),finishedWall.slice(0,12))}
+  if(DICE_ROLL===7){deadWallFragment=finishedWall.slice(0,14)}
+  if(DICE_ROLL===8){deadWallFragment=finishedWall.slice(2,16)}
+  if(DICE_ROLL===9){deadWallFragment=finishedWall.slice(4,18)}
+  if(DICE_ROLL===10){deadWallFragment=finishedWall.slice(6,20)}
+  if(DICE_ROLL===11){deadWallFragment=finishedWall.slice(8,22)}
+  if(DICE_ROLL===12){deadWallFragment=finishedWall.slice(10,24)}
+  wallWithoutDeadWall = finishedWall.filter((tile: TTileObject) => !deadWallFragment.some((deadTile: TTileObject) => deadTile.tileID === tile.tileID));
+  //player1
+  player1Hand.push(wallWithoutDeadWall.slice(0,4),wallWithoutDeadWall.slice(16,20),wallWithoutDeadWall.slice(32,36),wallWithoutDeadWall.slice(48,52),wallWithoutDeadWall.slice(64,65),wallWithoutDeadWall.slice(68,69))//64,65 68,69
+  //player2
+  player2Hand.push(wallWithoutDeadWall.slice(4,8),wallWithoutDeadWall.slice(20,24),wallWithoutDeadWall.slice(36,40),wallWithoutDeadWall.slice(52,56),wallWithoutDeadWall.slice(65,66))//65,66
+  //player3
+  player3Hand.push(wallWithoutDeadWall.slice(8,12),wallWithoutDeadWall.slice(24,28),wallWithoutDeadWall.slice(40,44),wallWithoutDeadWall.slice(56,60),wallWithoutDeadWall.slice(66,67))//66,67
+  //player4
+  player4Hand.push(wallWithoutDeadWall.slice(12,16),wallWithoutDeadWall.slice(28,32),wallWithoutDeadWall.slice(44,48),wallWithoutDeadWall.slice(48,52),wallWithoutDeadWall.slice(60,64),wallWithoutDeadWall.slice(67,68))//67,68
+  handedoutTiles.concat(  
+  ...player1Hand,
+  ...player2Hand,
+  ...player3Hand,
+  ...player4Hand)
+  tilesReadyForRound = wallWithoutDeadWall.filter((tile: TTileObject) => !handedoutTiles.some((handedoutTile: TTileObject) => handedoutTile.tileID === tile.tileID));
+  dispatch(setDeadWallFragment(deadWallFragment));
+  dispatch(updateHand({ player: "player1", tile: player1Hand }));
+  dispatch(updateHand({ player: "player2", tile: player2Hand }));
+  dispatch(updateHand({ player: "player3", tile: player3Hand }));
+  dispatch(updateHand({ player: "player4", tile: player4Hand }));
+  dispatch(setTilesAfterHandout(tilesReadyForRound))
   checkDiceRoll(DICE_ROLL);
-
-  //which index of the wall is the beggining of the dead wall length -7 ;p
-  console.log(DICE_ROLL);
+  console.log("tilesReadyForRound:",tilesReadyForRound.length, "player1Hand:",player1Hand.length,"player2Hand:",player2Hand.length,"player3Hand:",player3Hand.length,"player4Hand:",player4Hand.length)
 }
 
 export default WallCalculation;

@@ -2,12 +2,14 @@ import {configureStore} from '@reduxjs/toolkit';
 import counterSlice from './counterSlice';
 import gameReducer from './gameReducer';
 import wallReducer from './wallReducer';
+import handReducer from './handReducer';
 
 const store = configureStore({
   reducer: {
     counter: counterSlice,
     gameReducer:gameReducer,
-    wallReducer:wallReducer
+    wallReducer:wallReducer,
+    handReducer:handReducer
   },
 });
 

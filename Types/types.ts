@@ -1,6 +1,6 @@
-export interface tileObject {
+export interface TTileObject {
   name: string;
-  type: string;
+  type?: string;
   state: string;
   value: number | string;
   helperNumber: string;

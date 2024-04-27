@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {shuffledTilesForGameStart} from '../Functions/shuffleTilesForGameStart';
-import {tileObject} from '../Types/types';
+import {shuffledTilesForGameStart} from '../Functions/shuffledTilesForGameStart';
+import {TTileObject} from '../Types/types';
+import { act } from 'react-test-renderer';
 
 //gamestate
 //playerstate
@@ -22,12 +23,13 @@ interface wallState {
   tilesLeft: number;
   tilesLeftInWall: number;
   diceRoll: number;
-  wallTilesArray: Array<Object>;
-  wallEastState: Array<Object>;
-  wallSouthState: Array<Object>;
-  wallWestState: Array<Object>;
-  wallNorthState: Array<Object>;
-  deadWall: Array<Object>;
+  wallTilesArray: TTileObject[];
+  wallEastState: TTileObject[];
+  wallSouthState: TTileObject[];
+  wallWestState: TTileObject[];
+  wallNorthState: TTileObject[];
+  tilesAfterHandout:TTileObject[];
+  deadWall: TTileObject[];
 }
 
 const initialState: wallState = {
@@ -39,6 +41,7 @@ const initialState: wallState = {
   wallSouthState: [],
   wallWestState: [],
   wallNorthState: [],
+  tilesAfterHandout:[],
   deadWall: [],
 };
 
@@ -53,9 +56,9 @@ export const wallReducer = createSlice({
       state.wallTilesArray = shuffledTilesForGameStart();
     },
     setWallFragment: (state, action) => {
-      const {direction, tiles} = action.payload; // Extract direction and tiles from the action payload
+      const {direction, tiles} = action.payload;
       if (direction === 'east') {
-        state.wallEastState = tiles; // Update the wallEastState with the tiles passed in the action payload
+        state.wallEastState = tiles; 
       } else if (direction === 'south') {
         state.wallSouthState = tiles;
       } else if (direction === 'west') {
@@ -64,11 +67,17 @@ export const wallReducer = createSlice({
         state.wallNorthState = tiles;
       }
     },
+    setDeadWallFragment:(state,action)=>{
+      state.deadWall=action.payload
+    },
+    setTilesAfterHandout:(state,action)=>{
+      state.tilesAfterHandout=action.payload
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {rollDice, shuffleWallTiles, setWallFragment} =
+export const {rollDice, shuffleWallTiles, setWallFragment,setDeadWallFragment,setTilesAfterHandout} =
   wallReducer.actions;
 
 export default wallReducer.reducer;
