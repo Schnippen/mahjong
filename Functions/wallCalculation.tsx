@@ -23,6 +23,12 @@ function checkDiceRoll(roll: number) {
     return roll;
   }
 }
+function filterOutMatchingObjects(arrayToFilter:TTileObject[], arrayToCheckAgainst:TTileObject[]) {
+  return arrayToFilter.filter(item => !arrayToCheckAgainst.some(otherItem => compareObjects(item, otherItem)));
+}
+function compareObjects(obj1:TTileObject, obj2:TTileObject) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
 //shuffled
 /*   const allWallTiles = 136;
   const EastPlayer = 34; //1 index=2   5=index=10  9=index=18
@@ -64,7 +70,8 @@ const WallCalculation=(dispatch:any,shuffledTiles:TTileObject[])=> {
   if(DICE_ROLL===10){deadWallFragment=shuffledWall.slice(6,20)}
   if(DICE_ROLL===11){deadWallFragment=shuffledWall.slice(8,22)}
   if(DICE_ROLL===12){deadWallFragment=shuffledWall.slice(10,24)}
-  wallWithoutDeadWall = shuffledWall.filter((tile: TTileObject) => !deadWallFragment.some((deadTile: TTileObject) => deadTile.tileID === tile.tileID));
+  //wallWithoutDeadWall = shuffledWall.filter((tile: TTileObject) => !deadWallFragment.some((deadTile: TTileObject) => deadTile.tileID === tile.tileID));
+  wallWithoutDeadWall = filterOutMatchingObjects(shuffledTiles,deadWallFragment)
   //player1
   player1Hand = player1Hand.concat(
     wallWithoutDeadWall.slice(0,4),//1
@@ -79,13 +86,15 @@ const WallCalculation=(dispatch:any,shuffledTiles:TTileObject[])=> {
   player3Hand = player3Hand.concat(wallWithoutDeadWall.slice(8,12),wallWithoutDeadWall.slice(24,28),wallWithoutDeadWall.slice(40,44),wallWithoutDeadWall.slice(38,39))
   //player4
   player4Hand=player4Hand.concat(wallWithoutDeadWall.slice(12,16),wallWithoutDeadWall.slice(28,32),wallWithoutDeadWall.slice(44,48),wallWithoutDeadWall.slice(39,40))
-
-  handedoutTiles.concat(  
+ handedoutTiles=handedoutTiles.concat(  
   ...player1Hand,
   ...player2Hand,
   ...player3Hand,
-  ...player4Hand)
-  tilesReadyForRound = wallWithoutDeadWall.filter((tile: TTileObject) => !handedoutTiles.some((handedoutTile: TTileObject) => handedoutTile.tileID === tile.tileID));
+  ...player4Hand) 
+  tilesReadyForRound = wallWithoutDeadWall.slice(53,wallWithoutDeadWall.length)
+
+/*   tilesReadyForRound = wallWithoutDeadWall.filter((tile: TTileObject) => !handedoutTiles.some((handedoutTile: TTileObject) => handedoutTile.tileID === tile.tileID)); */
+    
   dispatch(setDeadWallFragment(deadWallFragment));
   dispatch(updateHand({ player: "player1", tile: player1Hand }));
   dispatch(updateHand({ player: "player2", tile: player2Hand }));
@@ -93,10 +102,14 @@ const WallCalculation=(dispatch:any,shuffledTiles:TTileObject[])=> {
   dispatch(updateHand({ player: "player4", tile: player4Hand }));
   dispatch(setTilesAfterHandout(tilesReadyForRound))
   checkDiceRoll(DICE_ROLL);
-  console.log("shuffledWall:",shuffledWall.length,shuffledWall.length-2)
+
+  /* console.log("shuffledWall:",shuffledWall.length)
   console.log("deadWallFragment:",deadWallFragment.length, "wallWithoutDeadWall:",wallWithoutDeadWall.length)
   console.log("player1Hand:",player1Hand.length, "player2Hand:",player2Hand.length,"player3Hand:",player3Hand.length,"player4Hand:",player4Hand.length)
+  console.log("handedoutTiles:",handedoutTiles.length)
   console.log("tilesReadyForRound:",tilesReadyForRound.length)
+  console.log(tilesReadyForRound.length) */
+  //console.log("tilesReadyForRounderror:",JSON.stringify(wallWithoutDeadWall))
 
 }
 //TODO player that have 14 tiles starts game

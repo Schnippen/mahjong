@@ -20,6 +20,11 @@ interface gameState {
   playerTurn:number
   gameEnded:boolean
   prevailingWind:string
+  player1Score:number
+  player2Score:number
+  player3Score:number
+  player4Score:number
+
 }
 
 const initialState: gameState = {
@@ -27,6 +32,10 @@ const initialState: gameState = {
   playerTurn:1,
   gameEnded:false,
   prevailingWind:"east",
+  player1Score:10000,
+  player2Score:15000,
+  player3Score:20000,
+  player4Score:25000,
 }
 
 export const gameReducer = createSlice({

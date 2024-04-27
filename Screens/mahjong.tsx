@@ -35,6 +35,8 @@ import {RootState} from '../Store/store';
 import WallCalculation from '../Functions/wallCalculation';
 import { shuffledTilesForGameStart } from '../Functions/shuffledTilesForGameStart';
 import { initialGame } from '../Functions/initializeGame';
+import { createTilesObjects } from '../Functions/createTiles';
+import Score from '../Components/Compass/Score';
 //tiles
 //winning conditions
 //tile component
@@ -244,6 +246,7 @@ const RiverTop = () => {
   );
 };
 
+
 const Compass = () => {
   //measuring from screenshot as a scale of reference
   const compassBottomPerimeter = 320; //320-200=120
@@ -253,6 +256,17 @@ const Compass = () => {
   const backgroundColorSec = '#2f2f39';
   const CompassTileCounter = () => {
     //317  /100 //center piece
+    const TilesLeftInTheGame=()=>{
+      const tilesToEnd= useSelector((state: RootState) => state.wallReducer.tilesAfterHandout.length,
+    )
+      return <Text style={{
+        flex: 1,
+        fontSize: 40,
+        width: '100%',
+        textAlign: 'center',
+        color: '#4affff',
+      }}>{tilesToEnd}</Text>
+    }
     return (
       <View
         style={{
@@ -277,20 +291,11 @@ const Compass = () => {
           }}>
           EAST 3
         </Text>
-        <Text
-          style={{
-            flex: 1,
-            fontSize: 40,
-            width: '100%',
-            textAlign: 'center',
-            color: '#4affff',
-          }}>
-          69
-        </Text>
+       <TilesLeftInTheGame/>
       </View>
     );
   };
-  const CompassTurnIndicator = () => {
+  const CompassTurnIndicator = ({playerIndicator}:{playerIndicator:string}) => {
     const TriangleRight = () => {
       return (
         <View
@@ -369,15 +374,7 @@ const Compass = () => {
           </View>
         </View>
         <View style={{backgroundColor: '#39383d', height: 30}}>
-          <Text
-            style={{
-              fontSize: 20,
-              color: '#ffdb51',
-              textAlignVertical: 'center',
-              textAlign: 'center',
-            }}>
-            25000
-          </Text>
+          <Score playerIndicator={playerIndicator}/>
         </View>
       </View>
     );
@@ -474,6 +471,7 @@ const Compass = () => {
     topPosition = 0,
     leftPosition = 0,
     rightPosition = 0,
+    playerIndicator="player1",
   }: {
     isRichiiActive: boolean;
     degrees: number;
@@ -481,6 +479,7 @@ const Compass = () => {
     topPosition: number;
     leftPosition: number;
     rightPosition: number;
+    playerIndicator:string;
   }) => {
     //TODO to 125 to have perspecive
     //const degrees=0
@@ -506,7 +505,7 @@ const Compass = () => {
             height: 70,
             backgroundColor: 'transparent',
           }}>
-          <CompassTurnIndicator />
+          <CompassTurnIndicator playerIndicator={playerIndicator}/>
           <CompassRichiiIndicator
             isRichiiActive={isRichiiActive}
             degrees={degrees}
@@ -544,6 +543,7 @@ const Compass = () => {
           rightPosition={250}
           bottomPosition={0}
           topPosition={0}
+          playerIndicator={"player1"}
         />
         <PlayerSide
           isRichiiActive={false}
@@ -552,6 +552,7 @@ const Compass = () => {
           rightPosition={125}
           bottomPosition={0}
           topPosition={0}
+          playerIndicator={"player2"}
         />
         <PlayerSide
           isRichiiActive={false}
@@ -560,6 +561,8 @@ const Compass = () => {
           rightPosition={0}
           bottomPosition={0}
           topPosition={0}
+          playerIndicator={"player3"}
+
         />
         <PlayerSide
           isRichiiActive={false}
@@ -568,6 +571,8 @@ const Compass = () => {
           rightPosition={125}
           bottomPosition={0}
           topPosition={0}
+          playerIndicator={"player4"}
+
         />
       </View>
     </View>
@@ -1111,7 +1116,7 @@ function MahjongScreen({navigation, route}: any) {
   const DICE_ROLL = useSelector(
     (state: RootState) => state.wallReducer.diceRoll,
   );
-  const shuffledWall=useSelector((state:RootState)=>state.wallReducer.wallTilesArray)
+  //const shuffledWall=useSelector((state:RootState)=>state.wallReducer.wallTilesArray)
   const dispatch=useDispatch()
 
   console.log('DICE_ROLL init:', DICE_ROLL);
@@ -1120,7 +1125,7 @@ function MahjongScreen({navigation, route}: any) {
       <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay}>
         <SettingsOverlay />
       </Overlay>
-      <Button title="startGame" onPress={() => /* WallCalculation(dispatch) */null}></Button> 
+      <Button title="createTilesObjects" onPress={() => console.log(JSON.stringify(createTilesObjects()))}></Button> 
       <Button title="initialize" onPress={() =>initialGame(dispatch)}></Button> 
 
       

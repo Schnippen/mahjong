@@ -27,7 +27,7 @@ const exampleTileObject = {
   isDora: false,
   tileID: 1,
 };
-const createTilesObjects = () => {
+export const createTilesObjects = () => {
   const allTiles: TTileObject[] = [];
   const dragonSymbol = ['白', '發', '中'];
   const windSymbol = ['東', '南', '西', '北'];
