@@ -6,7 +6,6 @@ import { RootState } from "../../Store/store";
 const Score=({playerIndicator}:{playerIndicator
 :string})=>{
     let playerScore: number | undefined= 24000
-
     if (playerIndicator === "player1") {
         playerScore = useSelector((state: RootState) => state.gameReducer.player1Score);
     } else if (playerIndicator === "player2") {

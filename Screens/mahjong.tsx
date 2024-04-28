@@ -37,6 +37,8 @@ import { shuffledTilesForGameStart } from '../Functions/shuffledTilesForGameStar
 import { initialGame } from '../Functions/initializeGame';
 import { createTilesObjects } from '../Functions/createTiles';
 import Score from '../Components/Compass/Score';
+import TilesLeftInTheGame from '../Components/Compass/TilesLeftInTheGame';
+import GameWindAndRound from '../Components/Compass/GameWindAndRound';
 //tiles
 //winning conditions
 //tile component
@@ -256,17 +258,7 @@ const Compass = () => {
   const backgroundColorSec = '#2f2f39';
   const CompassTileCounter = () => {
     //317  /100 //center piece
-    const TilesLeftInTheGame=()=>{
-      const tilesToEnd= useSelector((state: RootState) => state.wallReducer.tilesAfterHandout.length,
-    )
-      return <Text style={{
-        flex: 1,
-        fontSize: 40,
-        width: '100%',
-        textAlign: 'center',
-        color: '#4affff',
-      }}>{tilesToEnd}</Text>
-    }
+  
     return (
       <View
         style={{
@@ -278,19 +270,7 @@ const Compass = () => {
           borderBottomColor: '#1b2a2d',
           borderRadius: 2,
         }}>
-        <Text
-          style={{
-            flex: 1,
-            fontSize: 22,
-            textAlign: 'center',
-            width: '100%',
-            textAlignVertical: 'center',
-            color: '#4affff',
-            borderTopRightRadius: 2,
-            borderTopLeftRadius: 2,
-          }}>
-          EAST 3
-        </Text>
+        <GameWindAndRound/>
        <TilesLeftInTheGame/>
       </View>
     );

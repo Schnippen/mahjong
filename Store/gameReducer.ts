@@ -20,6 +20,7 @@ interface gameState {
   playerTurn:number
   gameEnded:boolean
   prevailingWind:string
+  round:number
   player1Score:number
   player2Score:number
   player3Score:number
@@ -32,6 +33,7 @@ const initialState: gameState = {
   playerTurn:1,
   gameEnded:false,
   prevailingWind:"east",
+  round:0,
   player1Score:10000,
   player2Score:15000,
   player3Score:20000,
