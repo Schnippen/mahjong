@@ -233,7 +233,7 @@ export const WallTileTop = ({
         backgroundColor: colorFaceLayer,
         height: tileBottomLayer,
         width: tileWidth,
-        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
+        justifyContent: 'flex-end',
         borderRadius: tileBorderRadiusHandPlayerPerspective,
         borderWidth: 1,
         zIndex: zIndex,
@@ -243,7 +243,7 @@ export const WallTileTop = ({
           backgroundColor: colorSecondLayer,
           height: tileSecondLayer - 5,
           width: tileWidth - 2,
-          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
+          justifyContent: 'flex-end',
           borderRadius: tileBorderRadiusHandPlayerPerspective,
           alignItems: 'center',
         }}>
@@ -256,7 +256,7 @@ export const WallTileTop = ({
             justifyContent: 'center',
             borderRadius: tileBorderRadiusHandPlayerPerspective,
           }}>
-          <SvgXml
+          {/* <SvgXml
             width={tileImageWidth}
             height={tileImageHeight}
             xml={svg}
@@ -264,7 +264,7 @@ export const WallTileTop = ({
               borderRadius: tileBorderRadiusHandPlayerPerspective,
               transform: [{rotate: `${0}deg`}],
             }}
-          />
+          /> */}
         </View>
       </View>
     </View>
