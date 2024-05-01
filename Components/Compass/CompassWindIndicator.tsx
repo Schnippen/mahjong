@@ -4,14 +4,28 @@ import {SvgXml} from 'react-native-svg';
 import Triangle from './Triangle';
 import {dragonsSVGArray} from '../../Assets/MahjongTiles/MahjongTiles';
 
-const CompassWindIndicator = () => {
+const CompassWindIndicator = ({
+  currentWindDisplay = 'east',
+}: {
+  currentWindDisplay: string;
+}) => {
   //16=south
   //17=north
   //28=west
   //39=east #bc2f38
-  let index = 1;
+  let index = 0;
+  let currentWindDisplayIndex =
+    currentWindDisplay === 'east'
+      ? 0
+      : currentWindDisplay === 'south'
+      ? 1
+      : currentWindDisplay === 'west'
+      ? 2
+      : 3;
   let defaultWindBackground = 'beige';
-  let currentWindBackground = index === 1 ? '#bc2f38' : defaultWindBackground;
+  let currentWindBackground =
+    currentWindDisplay === 'east' ? '#bc2f38' : defaultWindBackground;
+  //console.log(currentWindDisplayIndex, currentWindDisplay);
   return (
     //65 45
     <View
@@ -30,7 +44,7 @@ const CompassWindIndicator = () => {
       <SvgXml
         width={50}
         height={50}
-        xml={dragonsSVGArray[index]}
+        xml={dragonsSVGArray[currentWindDisplayIndex]}
         style={{marginLeft: 2, marginBottom: 2}}
       />
     </View>

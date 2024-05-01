@@ -234,6 +234,18 @@ const Compass = () => {
 
   //        <CompassTileCounter/>
   //transform: [{rotateX: '45deg'}]
+  const playerBottomMainPlayer = useSelector(
+    (state: RootState) => state.playersReducer.player1.player1Wind,
+  );
+  const playerRight = useSelector(
+    (state: RootState) => state.playersReducer.player2.player2Wind,
+  );
+  const playerTop = useSelector(
+    (state: RootState) => state.playersReducer.player3.player3Wind,
+  );
+  const playerLeft = useSelector(
+    (state: RootState) => state.playersReducer.player4.player4Wind,
+  );
   return (
     <View
       style={{
@@ -254,6 +266,7 @@ const Compass = () => {
           borderRadius: 8,
         }}>
         <CompassTileCounter />
+
         <CompassPlayerSide
           isRichiiActive={true}
           degrees={0}
@@ -261,28 +274,9 @@ const Compass = () => {
           rightPosition={250}
           bottomPosition={0}
           topPosition={0}
-          playerIndicator={'player1'}
+          playerIndicator={'player1'} //bottom
           compassBottomPerimeter={compassBottomPerimeter}
-        />
-        <CompassPlayerSide
-          isRichiiActive={false}
-          degrees={90}
-          leftPosition={-125}
-          rightPosition={125}
-          bottomPosition={0}
-          topPosition={0}
-          playerIndicator={'player2'}
-          compassBottomPerimeter={compassBottomPerimeter}
-        />
-        <CompassPlayerSide
-          isRichiiActive={false}
-          degrees={180}
-          leftPosition={0}
-          rightPosition={0}
-          bottomPosition={0}
-          topPosition={0}
-          playerIndicator={'player3'}
-          compassBottomPerimeter={compassBottomPerimeter}
+          currentWindDisplay={playerBottomMainPlayer}
         />
         <CompassPlayerSide
           isRichiiActive={false}
@@ -291,8 +285,31 @@ const Compass = () => {
           rightPosition={125}
           bottomPosition={0}
           topPosition={0}
-          playerIndicator={'player4'}
+          playerIndicator={'player2'} //right
           compassBottomPerimeter={compassBottomPerimeter}
+          currentWindDisplay={playerRight}
+        />
+        <CompassPlayerSide
+          isRichiiActive={false}
+          degrees={180}
+          leftPosition={0}
+          rightPosition={0}
+          bottomPosition={0}
+          topPosition={0}
+          playerIndicator={'player3'} //front
+          compassBottomPerimeter={compassBottomPerimeter}
+          currentWindDisplay={playerTop}
+        />
+        <CompassPlayerSide
+          isRichiiActive={false}
+          degrees={90}
+          leftPosition={-125}
+          rightPosition={125}
+          bottomPosition={0}
+          topPosition={0}
+          playerIndicator={'player4'} //left
+          compassBottomPerimeter={compassBottomPerimeter}
+          currentWindDisplay={playerLeft}
         />
       </View>
     </View>

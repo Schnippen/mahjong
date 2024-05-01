@@ -13,6 +13,7 @@ const CompassPlayerSide = ({
   rightPosition = 0,
   playerIndicator = 'player1',
   compassBottomPerimeter = 320,
+  currentWindDisplay,
 }: {
   isRichiiActive: boolean;
   degrees: number;
@@ -22,6 +23,7 @@ const CompassPlayerSide = ({
   rightPosition: number;
   playerIndicator: string;
   compassBottomPerimeter: number;
+  currentWindDisplay: string;
 }) => {
   //TODO to 125 to have perspecive
   //const degrees=0
@@ -40,7 +42,7 @@ const CompassPlayerSide = ({
         right: rightPosition,
         bottom: bottomPosition,
       }}>
-      <CompassWindIndicator />
+      <CompassWindIndicator currentWindDisplay={currentWindDisplay} />
       <View
         style={{
           flexDirection: 'column',

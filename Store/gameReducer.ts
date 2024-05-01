@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit';
 
 //gamestate
 //playerstate
@@ -15,36 +15,28 @@ deck: Represents the remaining tiles in the deck.
 discardPile: Tracks the tiles that have been discarded by players.
 lastDiscard: Stores information about the last tile discarded (e.g., suit, rank, player ID). */
 
+//player:Andy Bob Charlie Dylan
 interface gameState {
-  gamePhase:string
-  playerTurn:number
-  gameEnded:boolean
-  prevailingWind:string
-  round:number
-  player1Score:number
-  player2Score:number
-  player3Score:number
-  player4Score:number
-
+  gamePhase: string;
+  playerTurn: number;
+  gameEnded: boolean;
+  prevailingWind: string;
+  round: number;
 }
 
 const initialState: gameState = {
-  gamePhase:"string",
-  playerTurn:1,
-  gameEnded:false,
-  prevailingWind:"east",
-  round:0,
-  player1Score:10000,
-  player2Score:15000,
-  player3Score:20000,
-  player4Score:25000,
-}
+  gamePhase: 'string',
+  playerTurn: 1,
+  gameEnded: false,
+  prevailingWind: 'east',
+  round: 0,
+};
 
 export const gameReducer = createSlice({
   name: 'gameReducer',
   initialState,
   reducers: {
-    increment: (state) => {
+    increment: state => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
@@ -52,7 +44,7 @@ export const gameReducer = createSlice({
       // Also, no return statement is required from these functions.
       //state.value += 1
     },
-    decrement: (state) => {
+    decrement: state => {
       //state.value -= 1
     },
     incrementByAmount: (state, action) => {
@@ -62,9 +54,10 @@ export const gameReducer = createSlice({
       //state.value += action.payload
     },
   },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount,changePrevailingWind } = gameReducer.actions
+export const {increment, decrement, incrementByAmount, changePrevailingWind} =
+  gameReducer.actions;
 
-export default gameReducer.reducer
+export default gameReducer.reducer;
