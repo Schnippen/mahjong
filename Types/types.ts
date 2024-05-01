@@ -5,7 +5,7 @@ export interface TTileObject {
   value: number | string;
   helperNumber: string;
   japaneseName: string;
-  image: string;
+  image: string[] | string;
   isDora: boolean;
   tileID: number;
 }

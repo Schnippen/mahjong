@@ -1,29 +1,30 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
-import {Text} from '@rneui/themed';
-import {WallTile} from '../WallTiles/WallTiles';
-import {tilesData} from '../../Data/tilesData';
-import {tilesData2} from '../../Data/tilesData2';
-import {mahjongTilessArrayWithoutDora} from '../../Assets/MahjongTiles/MahjongTiles';
 import {TTileObject} from '../../Types/types';
+import {tilesData} from '../../Data/tilesData';
+import {WallTileRight} from '../WallTiles/WallTiles';
 
-export const WallFront = ({wallState = []}: {wallState?: TTileObject[]}) => {
+const WallRight = ({wallState = []}: {wallState?: TTileObject[]}) => {
   const data = tilesData.slice(0, 17);
   const wallTopTiles = '';
   const wallBottomTiles = '';
+
   const renderItem = ({item, index}: {index: number; item: any}) => {
     return (
-      <WallTile
-        svg={item.image}
-        tileRatioProp={1}
-        key={index + 'a'}
-        zIndex={1}
-      />
+      <View style={{marginLeft: index === 0 ? 0 : -12, zIndex: -index}}>
+        <WallTileRight
+          svg={item.image}
+          tileRatioProp={1}
+          key={index + 'a'}
+          zIndex={1}
+        />
+      </View>
     );
   };
   const EmptyComponent = () => {
     return <View></View>;
   };
+
   return (
     <View
       style={{
@@ -40,7 +41,7 @@ export const WallFront = ({wallState = []}: {wallState?: TTileObject[]}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true}
-        style={{position: 'absolute', bottom: 0}} //this is bottom row
+        style={{position: 'absolute', left: 0, top: 0}} //this is bottom row
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,
@@ -54,7 +55,7 @@ export const WallFront = ({wallState = []}: {wallState?: TTileObject[]}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true} //this is top row
-        style={{position: 'absolute', top: 0}} //TODO perspective
+        style={{position: 'absolute', left: 10}} //TODO perspective
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,
@@ -65,3 +66,5 @@ export const WallFront = ({wallState = []}: {wallState?: TTileObject[]}) => {
     </View>
   );
 };
+
+export default WallRight;
