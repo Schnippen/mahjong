@@ -16529,3 +16529,4 @@ export const mahjongTilessArrayWithoutDora = [
   Sou9SVG,
   TonSVG,
 ];
+export const dragonsSVGArray = [TonSVG, NanSVG, ShaaSVG, PeiSVG];
