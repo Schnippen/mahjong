@@ -16529,4 +16529,38 @@ export const mahjongTilessArrayWithoutDora = [
   Sou9SVG,
   TonSVG,
 ];
-export const dragonsSVGArray = [TonSVG, NanSVG, ShaaSVG, PeiSVG];
+export const windsSVGArray = [TonSVG, NanSVG, ShaaSVG, PeiSVG];
+export const dragonsSVGArray = [HakuSVG, HatsuSVG, ChunSVG];
+export const souSVGarray = [
+  Sou1SVG,
+  Sou2SVG,
+  Sou3SVG,
+  Sou4SVG,
+  Sou5SVG,
+  Sou6SVG,
+  Sou7SVG,
+  Sou8SVG,
+  Sou9SVG,
+];
+export const pinSVGArray = [
+  Pin1SVG,
+  Pin2SVG,
+  Pin3SVG,
+  Pin4SVG,
+  Pin5SVG,
+  Pin6SVG,
+  Pin7SVG,
+  Pin8SVG,
+  Pin9SVG,
+];
+export const manSVGArray = [
+  Man1SVG,
+  Man2SVG,
+  Man3SVG,
+  Man4SVG,
+  Man5SVG,
+  Man6SVG,
+  Man7SVG,
+  Man8SVG,
+  Man9SVG,
+];
