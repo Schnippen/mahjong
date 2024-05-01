@@ -54,7 +54,7 @@ export const WallTile = ({
             justifyContent: 'center',
             borderRadius: tileBorderRadiusHandPlayerPerspective,
           }}>
-          <SvgXml
+          {/* <SvgXml
             width={tileImageWidth}
             height={tileImageHeight}
             xml={svg}
@@ -62,7 +62,7 @@ export const WallTile = ({
               borderRadius: tileBorderRadiusHandPlayerPerspective,
               transform: [{rotate: `${0}deg`}],
             }}
-          />
+          /> */}
         </View>
       </View>
     </View>
@@ -85,7 +85,7 @@ export const WallTileLeft = ({
   const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
   const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
   const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
-  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2); //TODO check the Riverleft values
+  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
   const tileBorderRadiusHandPlayerPerspective = 8;
   const riverJustifyContent = true;
   const isTileFaceUp = false; //TODO fix the perspective
@@ -96,41 +96,41 @@ export const WallTileLeft = ({
     <View
       style={{
         backgroundColor: colorFaceLayer,
-        height: tileWidth + 8,
-        width: tileBottomLayer - 6,
-        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
+        height: tileBottomLayer - 7,
+        width: tileWidth + 12,
+        justifyContent: 'flex-end',
         borderRadius: tileBorderRadiusHandPlayerPerspective,
         borderWidth: 1,
         zIndex: zIndex,
-        marginTop: -6,
+        alignItems: 'flex-start',
       }}>
       <View
         style={{
           backgroundColor: colorSecondLayer,
-          height: tileWidth + 2,
-          width: tileSecondLayer - 5,
-          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
+          height: tileSecondLayer - 6,
+          width: tileWidth + 2,
+          justifyContent: 'flex-end',
           borderRadius: tileBorderRadiusHandPlayerPerspective,
           alignItems: 'flex-start',
         }}>
         <View
           style={{
             backgroundColor: colorBottomLayer,
-            height: tileWidth - 2,
-            width: tileHeight,
+            height: tileHeight + 2,
+            width: tileWidth - 4,
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: tileBorderRadiusHandPlayerPerspective,
           }}>
-          <SvgXml
+          {/* <SvgXml
             width={tileImageWidth}
             height={tileImageHeight}
             xml={svg}
             style={{
               borderRadius: tileBorderRadiusHandPlayerPerspective,
-              transform: [{rotate: `${90}deg`}],
+              transform: [{rotate: `${0}deg`}],
             }}
-          />
+          /> */}
         </View>
       </View>
     </View>
@@ -152,7 +152,7 @@ export const WallTileRight = ({
   const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
   const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
   const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
-  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2); //TODO check the Riverleft values
+  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
   const tileBorderRadiusHandPlayerPerspective = 8;
   const riverJustifyContent = true;
   const isTileFaceUp = false; //TODO fix the perspective
@@ -163,42 +163,41 @@ export const WallTileRight = ({
     <View
       style={{
         backgroundColor: colorFaceLayer,
-        height: tileWidth + 8,
-        width: tileBottomLayer - 6,
-        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
+        height: tileBottomLayer - 7,
+        width: tileWidth + 12,
+        justifyContent: 'flex-end',
         borderRadius: tileBorderRadiusHandPlayerPerspective,
         borderWidth: 1,
         zIndex: zIndex,
-        marginTop: -6,
         alignItems: 'flex-end',
       }}>
       <View
         style={{
           backgroundColor: colorSecondLayer,
-          height: tileWidth + 2,
-          width: tileSecondLayer - 5,
-          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
+          height: tileSecondLayer - 6,
+          width: tileWidth + 2,
+          justifyContent: 'flex-end',
           borderRadius: tileBorderRadiusHandPlayerPerspective,
           alignItems: 'flex-end',
         }}>
         <View
           style={{
             backgroundColor: colorBottomLayer,
-            height: tileWidth - 2,
-            width: tileHeight,
+            height: tileHeight + 2,
+            width: tileWidth - 4,
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: tileBorderRadiusHandPlayerPerspective,
           }}>
-          <SvgXml
+          {/* <SvgXml
             width={tileImageWidth}
             height={tileImageHeight}
             xml={svg}
             style={{
               borderRadius: tileBorderRadiusHandPlayerPerspective,
-              transform: [{rotate: `${90}deg`}],
+              transform: [{rotate: `${0}deg`}],
             }}
-          />
+          /> */}
         </View>
       </View>
     </View>

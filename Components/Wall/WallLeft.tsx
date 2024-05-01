@@ -1,18 +1,17 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
+import {WallTileLeft, WallTileRight} from '../WallTiles/WallTiles';
 import {TTileObject} from '../../Types/types';
 import {tilesData} from '../../Data/tilesData';
-import {WallTileRight} from '../WallTiles/WallTiles';
 
-const WallRight = ({wallState = []}: {wallState?: TTileObject[]}) => {
+const WallLeft = ({wallState = []}: {wallState?: TTileObject[]}) => {
   const data = tilesData.slice(0, 17);
   const wallTopTiles = '';
   const wallBottomTiles = '';
-
   const renderItem = ({item, index}: {index: number; item: any}) => {
     return (
-      <View style={{marginLeft: index === 0 ? 0 : -12, zIndex: -index}}>
-        <WallTileRight
+      <View style={{marginLeft: index === 0 ? 0 : -12}}>
+        <WallTileLeft
           svg={item.image}
           tileRatioProp={1}
           key={index + 'a'}
@@ -24,7 +23,6 @@ const WallRight = ({wallState = []}: {wallState?: TTileObject[]}) => {
   const EmptyComponent = () => {
     return <View></View>;
   };
-
   return (
     <View
       style={{
@@ -40,7 +38,7 @@ const WallRight = ({wallState = []}: {wallState?: TTileObject[]}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true}
-        style={{position: 'absolute', left: 0, top: 0}} //this is bottom row
+        style={{position: 'absolute', top: 0, left: 12}} //this is bottom row
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,
@@ -54,7 +52,10 @@ const WallRight = ({wallState = []}: {wallState?: TTileObject[]}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true} //this is top row
-        style={{position: 'absolute', left: 10}} //TODO perspective
+        style={{
+          position: 'absolute',
+          top: 1,
+        }} //TODO perspective
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,
@@ -66,4 +67,4 @@ const WallRight = ({wallState = []}: {wallState?: TTileObject[]}) => {
   );
 };
 
-export default WallRight;
+export default WallLeft;
