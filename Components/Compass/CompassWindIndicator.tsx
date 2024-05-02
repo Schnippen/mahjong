@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {SvgXml} from 'react-native-svg';
 import Triangle from './Triangle';
-import {dragonsSVGArray} from '../../Assets/MahjongTiles/MahjongTiles';
+import {windsSVGArray} from '../../Assets/MahjongTiles/MahjongTiles';
 
 const CompassWindIndicator = ({
   currentWindDisplay = 'east',
@@ -44,7 +44,7 @@ const CompassWindIndicator = ({
       <SvgXml
         width={50}
         height={50}
-        xml={dragonsSVGArray[currentWindDisplayIndex]}
+        xml={windsSVGArray[currentWindDisplayIndex]}
         style={{marginLeft: 2, marginBottom: 2}}
       />
     </View>

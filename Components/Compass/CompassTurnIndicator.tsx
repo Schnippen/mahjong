@@ -1,9 +1,30 @@
 import React from 'react';
 import {View} from 'react-native';
 import Score from './Score';
+import TurnIndicator from './TurnIndicator';
 
 const CompassTurnIndicator = ({playerIndicator}: {playerIndicator: string}) => {
-  const TriangleRight = () => {
+  return (
+    <View
+      style={{
+        width: 200,
+        height: 40,
+        backgroundColor: 'transparent',
+        position: 'relative',
+        justifyContent: 'flex-end',
+      }}>
+      <View style={{backgroundColor: 'transparent', height: 30}}>
+        <TurnIndicator />
+      </View>
+      <View style={{backgroundColor: '#39383d', height: 30}}>
+        <Score playerIndicator={playerIndicator} />
+      </View>
+    </View>
+  );
+};
+export default CompassTurnIndicator;
+
+/*   const TriangleRight = () => {
     return (
       <View
         style={{
@@ -46,44 +67,4 @@ const CompassTurnIndicator = ({playerIndicator}: {playerIndicator: string}) => {
           left: 0,
         }}></View>
     );
-  };
-  const containerWidth = 200;
-  return (
-    <View
-      style={{
-        width: 200,
-        height: 40,
-        backgroundColor: 'transparent',
-        position: 'relative',
-        justifyContent: 'flex-end',
-      }}>
-      <View
-        style={{
-          height: 70,
-          width: containerWidth,
-          backgroundColor: 'transparent',
-          bottom: 0,
-          position: 'absolute',
-        }}>
-        <View style={{width: containerWidth, position: 'relative'}}>
-          <View
-            style={{
-              position: 'absolute',
-              height: 40,
-              width: 100,
-              backgroundColor: 'lime',
-              top: 0,
-              left: 50,
-            }}
-          />
-          <TriangleRight />
-          <TriangleLeft />
-        </View>
-      </View>
-      <View style={{backgroundColor: '#39383d', height: 30}}>
-        <Score playerIndicator={playerIndicator} />
-      </View>
-    </View>
-  );
-};
-export default CompassTurnIndicator;
+  }; */
