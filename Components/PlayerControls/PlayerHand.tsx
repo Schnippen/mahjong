@@ -13,29 +13,20 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
   const sortTilesOnHand = useSelector(
     (state: RootState) => state.settingsReducer.sortTilesOnHand,
   );
-  let playersHandData = handData; //tilesData.slice(14, 28);
-
   useEffect(() => {
     if (sortTilesOnHand) {
-      // Split the hand data into the last item and the rest
       const lastItem = handData[handData.length - 1];
       const restItems = handData.slice(0, -1);
-
-      // Sort the rest of the items
       const sortedRestItems = [...restItems].sort(customSort);
-
-      // Combine the sorted rest items with the last item
       const sortedHandData = [...sortedRestItems, lastItem];
-
-      // Update the state with the sorted data
       setSortedData(sortedHandData);
     } else {
       setSortedData(handData);
     }
   }, [sortTilesOnHand, handData]);
 
-  console.log(handData.map(item => item.name));
-  console.log(sortedData.map(item => item.name));
+  //console.log(handData.map(item => item.name));
+  //console.log(sortedData.map(item => item.name));
 
   const handlePress = (item: string, tileID: number) => {
     if (selected === tileID) {
