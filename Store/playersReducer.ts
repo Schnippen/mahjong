@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 //TODO if i want to make this multiplayer i have to re think how to display player score
 //player:Andy Bob Charlie Dylan
-interface playersReducer {
+interface PlayersState {
   player1: {
     player1Score: number;
     player1Wind: string;
@@ -24,7 +24,7 @@ interface playersReducer {
   };
 }
 
-const initialState: playersReducer = {
+const initialState: PlayersState = {
   player1: {
     //you are always player one
     player1Score: 10000,

@@ -1,31 +1,52 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, TouchableWithoutFeedback, View} from 'react-native';
 import {mahjongTilesSVGsArray} from '../../Assets/MahjongTiles/MahjongTiles';
 import PlayerTileOnHand from './PlayerTileOnHand';
 import {TTileObject} from '../../Types/types';
 import {tilesData} from '../../Data/tilesData';
-import {Text} from 'react-native-svg';
-
+import {customSort} from '../../Functions/sortTilesOnHand';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../Store/store';
 const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
   const [selected, setSelected] = useState<number | null>(null);
-  const playersHandData = tilesData.slice(14, 28);
-  const nextTile = tilesData.slice(28, 29);
-  //console.log('playersHandData:', handData.length);
-  console.log('selected', selected);
+  const [sortedData, setSortedData] = useState<TTileObject[]>(handData);
+  const sortTilesOnHand = useSelector(
+    (state: RootState) => state.settingsReducer.sortTilesOnHand,
+  );
+  let playersHandData = handData; //tilesData.slice(14, 28);
+
+  useEffect(() => {
+    if (sortTilesOnHand) {
+      // Split the hand data into the last item and the rest
+      const lastItem = handData[handData.length - 1];
+      const restItems = handData.slice(0, -1);
+
+      // Sort the rest of the items
+      const sortedRestItems = [...restItems].sort(customSort);
+
+      // Combine the sorted rest items with the last item
+      const sortedHandData = [...sortedRestItems, lastItem];
+
+      // Update the state with the sorted data
+      setSortedData(sortedHandData);
+    } else {
+      setSortedData(handData);
+    }
+  }, [sortTilesOnHand, handData]);
+
+  console.log(handData.map(item => item.name));
+  console.log(sortedData.map(item => item.name));
+
   const handlePress = (item: string, tileID: number) => {
     if (selected === tileID) {
       setSelected(null);
     } else {
       setSelected(tileID);
     }
-
-    console.log('pressed:', item, tileID);
   };
-  {
-    /* <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} /> */
-  }
+
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
-    console.log('INDEX:', index, 'length', playersHandData.length - 1);
+    const isLastItem = index === handData.length - 1;
     return (
       <TouchableWithoutFeedback
         onPress={() => handlePress(item.name, item.tileID)}
@@ -39,7 +60,7 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
             height: 39 * 1.3,
             width: 30 * 1.3,
             alignSelf: 'center',
-            marginLeft: index === playersHandData.length - 1 ? 10 : 0,
+            marginLeft: isLastItem ? 10 : 0,
           }}>
           <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} />
         </View>
@@ -64,12 +85,12 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
       <FlatList
         horizontal
         scrollEnabled={false}
-        data={playersHandData}
+        data={sortedData}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
         style={{backgroundColor: 'purple', width: 300, height: 90}}
         ListEmptyComponent={<EmptyComponent />}
-        extraData={handData} //39*1,3
+        extraData={[handData, sortTilesOnHand]}
         getItemLayout={(data, index) => ({
           length: 39 * 1.3,
           offset: 39 * 1.3 * index,
