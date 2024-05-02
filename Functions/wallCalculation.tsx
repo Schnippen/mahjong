@@ -1,9 +1,13 @@
 import {useDispatch, useSelector} from 'react-redux';
 import store, {RootState} from '../Store/store';
-import {setDeadWallFragment, setTilesAfterHandout, setWallFragment} from '../Store/wallReducer';
-import { TTileObject } from '../Types/types';
-import { updateHand } from '../Store/handReducer';
-import { shuffledTilesForGameStart } from './shuffledTilesForGameStart';
+import {
+  setDeadWallFragment,
+  setDorasFromDeadWall,
+  setTilesAfterHandout,
+  setWallFragment,
+} from '../Store/wallReducer';
+import {TTileObject} from '../Types/types';
+import {updateHand} from '../Store/handReducer';
 function checkDiceRoll(roll: number) {
   const EAST = [1, 5, 9];
   const SOUTH = [2, 6, 10];
@@ -23,10 +27,16 @@ function checkDiceRoll(roll: number) {
     return roll;
   }
 }
-function filterOutMatchingObjects(arrayToFilter:TTileObject[], arrayToCheckAgainst:TTileObject[]) {
-  return arrayToFilter.filter(item => !arrayToCheckAgainst.some(otherItem => compareObjects(item, otherItem)));
+function filterOutMatchingObjects(
+  arrayToFilter: TTileObject[],
+  arrayToCheckAgainst: TTileObject[],
+) {
+  return arrayToFilter.filter(
+    item =>
+      !arrayToCheckAgainst.some(otherItem => compareObjects(item, otherItem)),
+  );
 }
-function compareObjects(obj1:TTileObject, obj2:TTileObject) {
+function compareObjects(obj1: TTileObject, obj2: TTileObject) {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 //shuffled
@@ -44,65 +54,141 @@ const NorthWall = finishedWall.slice(102, 136); */
   dispatch(setWallFragment({direction: 'south', tiles: SouthWall}));
   dispatch(setWallFragment({direction: 'west', tiles: WestWall}));
   dispatch(setWallFragment({direction: 'north', tiles: NorthWall})); */
-const WallCalculation=(dispatch:any,shuffledTiles:TTileObject[])=> {
-//  const dispatch = useDispatch();
+const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
+  //  const dispatch = useDispatch();
   //const finishedWall: TTileObject[] = store.getState().wallReducer.wallTilesArray;
-  const shuffledWall= shuffledTiles
+  const shuffledWall = shuffledTiles;
   const DICE_ROLL = Math.floor(Math.random() * 12) + 1;
-  let deadWallFragment:TTileObject[]=[]
-  let wallWithoutDeadWall = []
-  let player1Hand:TTileObject[]=[]
-  let player2Hand:TTileObject[]=[]
-  let player3Hand:TTileObject[]=[]
-  let player4Hand:TTileObject[]=[]
-  let handedoutTiles:TTileObject[]=[]
-  let tilesReadyForRound:TTileObject[]=[]
-  if(DICE_ROLL===1){   deadWallFragment = deadWallFragment.concat(shuffledWall.slice(shuffledWall.length-12), shuffledWall.slice(0,2));
+  let deadWallFragment: TTileObject[] = [];
+  let wallWithoutDeadWall = [];
+  let player1Hand: TTileObject[] = [];
+  let player2Hand: TTileObject[] = [];
+  let player3Hand: TTileObject[] = [];
+  let player4Hand: TTileObject[] = [];
+  let handedoutTiles: TTileObject[] = [];
+  let tilesReadyForRound: TTileObject[] = [];
+  let doras: TTileObject[] = [];
+
+  if (DICE_ROLL === 1) {
+    deadWallFragment = deadWallFragment.concat(
+      shuffledWall.slice(shuffledWall.length - 12),
+      shuffledWall.slice(0, 2),
+    );
   }
-  if(DICE_ROLL===2){ deadWallFragment =  deadWallFragment.concat(shuffledWall.slice(shuffledWall.length-10,shuffledWall.length),shuffledWall.slice(0,4));}
-  if(DICE_ROLL===3){  deadWallFragment =deadWallFragment.concat(shuffledWall.slice(shuffledWall.length-8,shuffledWall.length),shuffledWall.slice(0,6));}
-  if(DICE_ROLL===4){deadWallFragment =deadWallFragment.concat(shuffledWall.slice(shuffledWall.length-6,shuffledWall.length),shuffledWall.slice(0,8))}
-  if(DICE_ROLL===5){deadWallFragment =deadWallFragment.concat(shuffledWall.slice(shuffledWall.length-4,shuffledWall.length),shuffledWall.slice(0,10))}
-  if(DICE_ROLL===6){deadWallFragment =deadWallFragment.concat(shuffledWall.slice(shuffledWall.length-2,shuffledWall.length),shuffledWall.slice(0,12))}
-  if(DICE_ROLL===7){deadWallFragment=shuffledWall.slice(0,14)}
-  if(DICE_ROLL===8){deadWallFragment=shuffledWall.slice(2,16)}
-  if(DICE_ROLL===9){deadWallFragment=shuffledWall.slice(4,18)}
-  if(DICE_ROLL===10){deadWallFragment=shuffledWall.slice(6,20)}
-  if(DICE_ROLL===11){deadWallFragment=shuffledWall.slice(8,22)}
-  if(DICE_ROLL===12){deadWallFragment=shuffledWall.slice(10,24)}
+  if (DICE_ROLL === 2) {
+    deadWallFragment = deadWallFragment.concat(
+      shuffledWall.slice(shuffledWall.length - 10, shuffledWall.length),
+      shuffledWall.slice(0, 4),
+    );
+  }
+  if (DICE_ROLL === 3) {
+    deadWallFragment = deadWallFragment.concat(
+      shuffledWall.slice(shuffledWall.length - 8, shuffledWall.length),
+      shuffledWall.slice(0, 6),
+    );
+  }
+  if (DICE_ROLL === 4) {
+    deadWallFragment = deadWallFragment.concat(
+      shuffledWall.slice(shuffledWall.length - 6, shuffledWall.length),
+      shuffledWall.slice(0, 8),
+    );
+  }
+  if (DICE_ROLL === 5) {
+    deadWallFragment = deadWallFragment.concat(
+      shuffledWall.slice(shuffledWall.length - 4, shuffledWall.length),
+      shuffledWall.slice(0, 10),
+    );
+  }
+  if (DICE_ROLL === 6) {
+    deadWallFragment = deadWallFragment.concat(
+      shuffledWall.slice(shuffledWall.length - 2, shuffledWall.length),
+      shuffledWall.slice(0, 12),
+    );
+  }
+  if (DICE_ROLL === 7) {
+    deadWallFragment = shuffledWall.slice(0, 14);
+  }
+  if (DICE_ROLL === 8) {
+    deadWallFragment = shuffledWall.slice(2, 16);
+  }
+  if (DICE_ROLL === 9) {
+    deadWallFragment = shuffledWall.slice(4, 18);
+  }
+  if (DICE_ROLL === 10) {
+    deadWallFragment = shuffledWall.slice(6, 20);
+  }
+  if (DICE_ROLL === 11) {
+    deadWallFragment = shuffledWall.slice(8, 22);
+  }
+  if (DICE_ROLL === 12) {
+    deadWallFragment = shuffledWall.slice(10, 24);
+  }
   //wallWithoutDeadWall = shuffledWall.filter((tile: TTileObject) => !deadWallFragment.some((deadTile: TTileObject) => deadTile.tileID === tile.tileID));
-  wallWithoutDeadWall = filterOutMatchingObjects(shuffledTiles,deadWallFragment)
+  wallWithoutDeadWall = filterOutMatchingObjects(
+    shuffledTiles,
+    deadWallFragment,
+  );
   //player1
   player1Hand = player1Hand.concat(
-    wallWithoutDeadWall.slice(0,4),//1
-    wallWithoutDeadWall.slice(16,20),//2
-    wallWithoutDeadWall.slice(32,36),//3
-    wallWithoutDeadWall.slice(36,37),
-    wallWithoutDeadWall.slice(40,41)
+    wallWithoutDeadWall.slice(0, 4), //1
+    wallWithoutDeadWall.slice(16, 20), //2
+    wallWithoutDeadWall.slice(32, 36), //3
+    wallWithoutDeadWall.slice(36, 37),
+    wallWithoutDeadWall.slice(40, 41),
   );
   //player2
-  player2Hand= player2Hand.concat(wallWithoutDeadWall.slice(4,8),wallWithoutDeadWall.slice(20,24),wallWithoutDeadWall.slice(36,40),wallWithoutDeadWall.slice(37,38))
+  player2Hand = player2Hand.concat(
+    wallWithoutDeadWall.slice(4, 8),
+    wallWithoutDeadWall.slice(20, 24),
+    wallWithoutDeadWall.slice(36, 40),
+    wallWithoutDeadWall.slice(37, 38),
+  );
   //player3
-  player3Hand = player3Hand.concat(wallWithoutDeadWall.slice(8,12),wallWithoutDeadWall.slice(24,28),wallWithoutDeadWall.slice(40,44),wallWithoutDeadWall.slice(38,39))
+  player3Hand = player3Hand.concat(
+    wallWithoutDeadWall.slice(8, 12),
+    wallWithoutDeadWall.slice(24, 28),
+    wallWithoutDeadWall.slice(40, 44),
+    wallWithoutDeadWall.slice(38, 39),
+  );
   //player4
-  player4Hand=player4Hand.concat(wallWithoutDeadWall.slice(12,16),wallWithoutDeadWall.slice(28,32),wallWithoutDeadWall.slice(44,48),wallWithoutDeadWall.slice(39,40))
- handedoutTiles=handedoutTiles.concat(  
-  ...player1Hand,
-  ...player2Hand,
-  ...player3Hand,
-  ...player4Hand) 
-  tilesReadyForRound = wallWithoutDeadWall.slice(53,wallWithoutDeadWall.length)
+  player4Hand = player4Hand.concat(
+    wallWithoutDeadWall.slice(12, 16),
+    wallWithoutDeadWall.slice(28, 32),
+    wallWithoutDeadWall.slice(44, 48),
+    wallWithoutDeadWall.slice(39, 40),
+  );
+  handedoutTiles = handedoutTiles.concat(
+    ...player1Hand,
+    ...player2Hand,
+    ...player3Hand,
+    ...player4Hand,
+  );
+  tilesReadyForRound = wallWithoutDeadWall.slice(
+    53,
+    wallWithoutDeadWall.length,
+  );
+  doras = doras.concat(
+    deadWallFragment[6],
+    deadWallFragment[8],
+    deadWallFragment[10],
+    deadWallFragment[12],
+    deadWallFragment[14],
+  );
 
-/*   tilesReadyForRound = wallWithoutDeadWall.filter((tile: TTileObject) => !handedoutTiles.some((handedoutTile: TTileObject) => handedoutTile.tileID === tile.tileID)); */
-    
+  /*   tilesReadyForRound = wallWithoutDeadWall.filter((tile: TTileObject) => !handedoutTiles.some((handedoutTile: TTileObject) => handedoutTile.tileID === tile.tileID)); */
+  //console.log('calcL:', player1Hand.length);
   dispatch(setDeadWallFragment(deadWallFragment));
-  dispatch(updateHand({ player: "player1", tile: player1Hand }));
-  dispatch(updateHand({ player: "player2", tile: player2Hand }));
-  dispatch(updateHand({ player: "player3", tile: player3Hand }));
-  dispatch(updateHand({ player: "player4", tile: player4Hand }));
-  dispatch(setTilesAfterHandout(tilesReadyForRound))
-  checkDiceRoll(DICE_ROLL);
-
+  dispatch(setDorasFromDeadWall({tiles: doras}));
+  console.log('deadWall:', deadWallFragment.length);
+  console.log('dorasLength:', doras.length);
+  dispatch(updateHand({player: 'player1', tile: player1Hand}));
+  dispatch(updateHand({player: 'player2', tile: player2Hand}));
+  dispatch(updateHand({player: 'player3', tile: player3Hand}));
+  dispatch(updateHand({player: 'player4', tile: player4Hand}));
+  dispatch(setTilesAfterHandout(tilesReadyForRound));
+  //checkDiceRoll(DICE_ROLL);
+  console.log('dice_roll:', DICE_ROLL);
+  //so if
   /* console.log("shuffledWall:",shuffledWall.length)
   console.log("deadWallFragment:",deadWallFragment.length, "wallWithoutDeadWall:",wallWithoutDeadWall.length)
   console.log("player1Hand:",player1Hand.length, "player2Hand:",player2Hand.length,"player3Hand:",player3Hand.length,"player4Hand:",player4Hand.length)
@@ -110,7 +196,6 @@ const WallCalculation=(dispatch:any,shuffledTiles:TTileObject[])=> {
   console.log("tilesReadyForRound:",tilesReadyForRound.length)
   console.log(tilesReadyForRound.length) */
   //console.log("tilesReadyForRounderror:",JSON.stringify(wallWithoutDeadWall))
-
-}
+};
 //TODO player that have 14 tiles starts game
 export default WallCalculation;

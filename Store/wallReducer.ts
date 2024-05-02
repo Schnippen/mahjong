@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {shuffledTilesForGameStart} from '../Functions/shuffledTilesForGameStart';
 import {TTileObject} from '../Types/types';
-import { act } from 'react-test-renderer';
+import {act} from 'react-test-renderer';
 
 //gamestate
 //playerstate
@@ -23,13 +23,15 @@ interface wallState {
   tilesLeft: number;
   tilesLeftInWall: number;
   diceRoll: number;
-  wallTilesArray: TTileObject[];
+  wallTilesArray: any[]; //TODO
   wallEastState: TTileObject[];
   wallSouthState: TTileObject[];
   wallWestState: TTileObject[];
   wallNorthState: TTileObject[];
-  tilesAfterHandout:TTileObject[];
+  tilesAfterHandout: TTileObject[];
   deadWall: TTileObject[];
+  dorasFromDeadWall: TTileObject[];
+  uncoveredCount: number;
 }
 
 const initialState: wallState = {
@@ -41,8 +43,10 @@ const initialState: wallState = {
   wallSouthState: [],
   wallWestState: [],
   wallNorthState: [],
-  tilesAfterHandout:[],
+  tilesAfterHandout: [],
   deadWall: [],
+  dorasFromDeadWall: [],
+  uncoveredCount: 1,
 };
 
 export const wallReducer = createSlice({
@@ -58,7 +62,7 @@ export const wallReducer = createSlice({
     setWallFragment: (state, action) => {
       const {direction, tiles} = action.payload;
       if (direction === 'east') {
-        state.wallEastState = tiles; 
+        state.wallEastState = tiles;
       } else if (direction === 'south') {
         state.wallSouthState = tiles;
       } else if (direction === 'west') {
@@ -67,17 +71,31 @@ export const wallReducer = createSlice({
         state.wallNorthState = tiles;
       }
     },
-    setDeadWallFragment:(state,action)=>{
-      state.deadWall=action.payload
+    setDeadWallFragment: (state, action) => {
+      state.deadWall = action.payload;
     },
-    setTilesAfterHandout:(state,action)=>{
-      state.tilesAfterHandout=action.payload
-    }
+    setTilesAfterHandout: (state, action) => {
+      state.tilesAfterHandout = action.payload;
+    },
+    setDorasFromDeadWall: (state, action) => {
+      const {tiles} = action.payload;
+      state.dorasFromDeadWall = [...state.dorasFromDeadWall, ...tiles];
+    },
+    incrementUncoveredCount: state => {
+      state.uncoveredCount += 1;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {rollDice, shuffleWallTiles, setWallFragment,setDeadWallFragment,setTilesAfterHandout} =
-  wallReducer.actions;
+export const {
+  rollDice,
+  shuffleWallTiles,
+  setWallFragment,
+  setDeadWallFragment,
+  setTilesAfterHandout,
+  setDorasFromDeadWall,
+  incrementUncoveredCount,
+} = wallReducer.actions;
 
 export default wallReducer.reducer;
