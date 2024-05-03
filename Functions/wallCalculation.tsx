@@ -60,10 +60,10 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   const DICE_ROLL = Math.floor(Math.random() * 12) + 1;
   let deadWallFragment: TTileObject[] = [];
   let wallWithoutDeadWall = [];
-  let player1Hand: TTileObject[] = [];
+  /*  let player1Hand: TTileObject[] = [];
   let player2Hand: TTileObject[] = [];
   let player3Hand: TTileObject[] = [];
-  let player4Hand: TTileObject[] = [];
+  let player4Hand: TTileObject[] = []; */
   let handedoutTiles: TTileObject[] = [];
   let tilesReadyForRound: TTileObject[] = [];
   let doras: TTileObject[] = [];
@@ -135,35 +135,35 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     wallWithoutDeadWall.slice(0, 4), //1
     wallWithoutDeadWall.slice(16, 20), //2
     wallWithoutDeadWall.slice(32, 36), //3
-    wallWithoutDeadWall.slice(36, 37), // extra
-    wallWithoutDeadWall.slice(40, 41), // extra
+    wallWithoutDeadWall.slice(48, 49), // extra
+    wallWithoutDeadWall.slice(52, 53), // extra
   );
   //south
   secondHand = secondHand.concat(
     wallWithoutDeadWall.slice(4, 8),
     wallWithoutDeadWall.slice(20, 24),
     wallWithoutDeadWall.slice(36, 40),
-    wallWithoutDeadWall.slice(37, 38),
+    wallWithoutDeadWall.slice(49, 50),
   );
   //west
   thirdHand = thirdHand.concat(
     wallWithoutDeadWall.slice(8, 12),
     wallWithoutDeadWall.slice(24, 28),
     wallWithoutDeadWall.slice(40, 44),
-    wallWithoutDeadWall.slice(38, 39),
+    wallWithoutDeadWall.slice(50, 51),
   );
   //north
   fourthHand = fourthHand.concat(
     wallWithoutDeadWall.slice(12, 16),
     wallWithoutDeadWall.slice(28, 32),
     wallWithoutDeadWall.slice(44, 48),
-    wallWithoutDeadWall.slice(39, 40),
+    wallWithoutDeadWall.slice(51, 52),
   );
   handedoutTiles = handedoutTiles.concat(
-    ...player1Hand,
-    ...player2Hand,
-    ...player3Hand,
-    ...player4Hand,
+    ...firstHand,
+    ...secondHand,
+    ...thirdHand,
+    ...fourthHand,
   );
   tilesReadyForRound = wallWithoutDeadWall.slice(
     53,
@@ -185,13 +185,13 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   console.log('dorasLength:', doras.length);
   console.log(
     'firstHand:',
-    firstHand.length,
+    firstHand.map(item => item.tileID),
     'secondHand:',
-    secondHand.length,
+    secondHand.map(item => item.tileID),
     'thirdHand:',
-    thirdHand.length,
+    thirdHand.map(item => item.tileID),
     'fourthHand:',
-    fourthHand.length,
+    fourthHand.map(item => item.tileID),
   );
   dispatch(updateAfterHandOut({player: 'firstHand', tile: firstHand}));
   dispatch(updateAfterHandOut({player: 'secondHand', tile: secondHand}));
