@@ -5,7 +5,7 @@ import {tilesData} from '../../Data/tilesData';
 import {TTileObject} from '../../Types/types';
 
 const WallTop = ({wallState = []}: {wallState?: TTileObject[]}) => {
-  const data = tilesData.slice(0, 17);
+  const data = tilesData.slice(0, 1);
   const wallTopTiles = '';
   const wallBottomTiles = '';
   const renderItem = ({item, index}: {index: number; item: any}) => {

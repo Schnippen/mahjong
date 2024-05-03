@@ -22,8 +22,9 @@ const PlayerPanel = ({handData}: {handData: TTileObject[]}) => {
           justifyContent: 'flex-end',
           //backgroundColor: 'brown',
           position: 'absolute',
-          top: -40,
+          top: -50,
           right: 25,
+          zIndex: 1,
         }}>
         <ButtonCHII />
         <ButtonPASS />

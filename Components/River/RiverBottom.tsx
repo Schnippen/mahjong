@@ -4,7 +4,7 @@ import {mahjongTilesSVGsArray} from '../../Assets/MahjongTiles/MahjongTiles';
 import {TileInTheRiverComponentFront} from '../RiverTiles/RiverTiles';
 
 const RiverBottom = () => {
-  const data = mahjongTilesSVGsArray.slice(12, 31); //river data
+  const data = mahjongTilesSVGsArray.slice(12, 13); //river data
   //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
   //add zIndex to the last tile
   const renderItem = ({item, index}: {item: string; index: number}) => (

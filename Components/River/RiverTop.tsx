@@ -4,7 +4,7 @@ import {TileInTheRiverComponentTop} from '../RiverTiles/RiverTiles';
 import {mahjongTilesSVGsArray} from '../../Assets/MahjongTiles/MahjongTiles';
 
 const RiverTop = () => {
-  const data = mahjongTilesSVGsArray.slice(0, 19); //river data
+  const data = mahjongTilesSVGsArray.slice(0, 1); //river data
   //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120 elevation: 1
   //add zIndex to the last tile //TODO just use transform translate flip it on its head and flip Y axis
   const cellRenderer = ({item, index}: {item: string; index: number}) => (

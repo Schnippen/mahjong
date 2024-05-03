@@ -8,7 +8,7 @@ import {mahjongTilessArrayWithoutDora} from '../../Assets/MahjongTiles/MahjongTi
 import {TTileObject} from '../../Types/types';
 
 const WallBottom = ({wallState = []}: {wallState?: TTileObject[]}) => {
-  const data = tilesData.slice(0, 17);
+  const data = tilesData.slice(0, 1);
   const wallTopTiles = '';
   const wallBottomTiles = '';
   const renderItem = ({item, index}: {index: number; item: any}) => {
@@ -24,6 +24,7 @@ const WallBottom = ({wallState = []}: {wallState?: TTileObject[]}) => {
   const EmptyComponent = () => {
     return <View></View>;
   };
+
   return (
     <View
       style={{

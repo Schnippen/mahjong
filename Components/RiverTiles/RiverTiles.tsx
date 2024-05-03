@@ -216,7 +216,7 @@ export const TileInTheRiverComponentTop = ({
     <View
       style={{
         backgroundColor: '#56a2c4',
-        height: tileBottomLayer,
+        height: index >= 6 ? tileHeight + 2 : tileBottomLayer,
         width: tileWidth,
         justifyContent: 'flex-end',
         borderRadius: tileBorderRadiusHandPlayerPerspective,
@@ -226,7 +226,7 @@ export const TileInTheRiverComponentTop = ({
       <View
         style={{
           backgroundColor: '#bdbbc0',
-          height: tileSecondLayer,
+          height: index >= 6 ? 0 : tileSecondLayer,
           width: tileWidth - 2,
           justifyContent: 'flex-end',
           borderRadius: tileBorderRadiusHandPlayerPerspective,

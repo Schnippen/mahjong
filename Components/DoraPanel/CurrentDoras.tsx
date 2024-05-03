@@ -15,12 +15,12 @@ export const CurrentDoras = () => {
     (state: RootState) => state.wallReducer.uncoveredCount,
   );
   //const uncoveredArray = [0];
-  console.log('currentDoras:', currentDoras.length);
+  //console.log('currentDoras:', currentDoras.length);
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
     const doraItem = currentDoras[index];
     const svg = doraItem ? doraItem.image : '';
     const isUncovered = index < uncoveredCount;
-    console.log('uncoveredCount:', uncoveredCount, isUncovered);
+    //console.log('uncoveredCount:', uncoveredCount, isUncovered);
     return (
       <DoraTileComponent svg={svg} tileRatioProp={1} uncovered={isUncovered} />
     );

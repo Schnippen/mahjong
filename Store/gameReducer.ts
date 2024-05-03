@@ -18,15 +18,21 @@ lastDiscard: Stores information about the last tile discarded (e.g., suit, rank,
 //player:Andy Bob Charlie Dylan
 interface gameState {
   gamePhase: string;
-  playerTurn: number;
+  currentTurn: string;
+  gameOrder: string[];
+  currentTurnIndex: number;
   gameEnded: boolean;
   prevailingWind: string;
   round: number;
+  howManyTurnsElapsed: 0;
 }
 
 const initialState: gameState = {
   gamePhase: 'string',
-  playerTurn: 1,
+  currentTurn: 'east', //wind of player
+  gameOrder: ['east', 'south', 'west', 'north'],
+  currentTurnIndex: 0,
+  howManyTurnsElapsed: 0,
   gameEnded: false,
   prevailingWind: 'east',
   round: 0,
@@ -36,18 +42,20 @@ export const gameReducer = createSlice({
   name: 'gameReducer',
   initialState,
   reducers: {
-    increment: state => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes.
-      // Also, no return statement is required from these functions.
+    orderOfPlayingTurns: (state, action) => {
       //state.value += 1
     },
-    decrement: state => {
-      //state.value -= 1
+    START_TURN: (state, action) => {
+      //state.value += action.payload
     },
-    incrementByAmount: (state, action) => {
+    END_TURN: state => {
+      const nextIndex = (state.currentTurnIndex + 1) % state.gameOrder.length;
+      state.currentTurnIndex = nextIndex;
+      state.currentTurn = state.gameOrder[nextIndex];
+      state.howManyTurnsElapsed += 1;
+      console.log('currentTurn:', state.currentTurn, state.currentTurnIndex);
+    },
+    INTERRUPT_TURN: (state, action) => {
       //state.value += action.payload
     },
     changePrevailingWind: (state, action) => {
@@ -57,7 +65,12 @@ export const gameReducer = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {increment, decrement, incrementByAmount, changePrevailingWind} =
-  gameReducer.actions;
+export const {
+  orderOfPlayingTurns,
+  START_TURN,
+  END_TURN,
+  INTERRUPT_TURN,
+  changePrevailingWind,
+} = gameReducer.actions;
 
 export default gameReducer.reducer;

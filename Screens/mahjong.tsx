@@ -53,6 +53,7 @@ import DoraPanel from '../Components/DoraPanel/DoraPanel';
 import Compass from '../Components/Compass/Compass';
 import determineTurnOrder from '../Functions/determineTurnOrder';
 import {END_TURN} from '../Store/gameReducer';
+import DeadWall from '../Components/Wall/DeadWall';
 //tiles
 //winning conditions
 //tile component
@@ -288,6 +289,7 @@ function MahjongScreen({navigation, route}: any) {
           <PlayerPanel handData={MainPlayerCurrentHand} />
         </View>
       </View>
+      <DeadWall />
     </ScrollView>
   );
 } //TODO change the left and right tiles in compass with correct width and height

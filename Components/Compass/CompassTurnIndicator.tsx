@@ -15,14 +15,14 @@ const CompassTurnIndicator = ({
     (state: RootState) => state.gameReducer.currentTurn,
   );
   const isPlayersTurn = currentTurn === currentWindDisplay;
-  console.log(
+  /*   console.log(
     'CompassTurnIndicator',
     currentWindDisplay,
     playerIndicator,
     'currentTurn:',
     currentTurn,
     isPlayersTurn,
-  );
+  ); */
 
   return (
     <View

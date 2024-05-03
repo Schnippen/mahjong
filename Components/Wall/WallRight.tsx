@@ -5,7 +5,7 @@ import {tilesData} from '../../Data/tilesData';
 import {WallTileRight} from '../WallTiles/WallTiles';
 
 const WallRight = ({wallState = []}: {wallState?: TTileObject[]}) => {
-  const data = tilesData.slice(0, 17);
+  const data = tilesData.slice(0, 1);
   const wallTopTiles = '';
   const wallBottomTiles = '';
 

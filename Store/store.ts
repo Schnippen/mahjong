@@ -4,6 +4,7 @@ import gameReducer from './gameReducer';
 import wallReducer from './wallReducer';
 import handReducer from './handReducer';
 import playersReducer from './playersReducer';
+import settingsReducer from './settingsReducer';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     wallReducer: wallReducer,
     handReducer: handReducer,
     playersReducer: playersReducer,
+    settingsReducer: settingsReducer,
   },
 });
 

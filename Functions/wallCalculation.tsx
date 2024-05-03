@@ -182,7 +182,7 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   dispatch(setDeadWallFragment(deadWallFragment));
   dispatch(setDorasFromDeadWall({tiles: doras}));
   console.log('deadWall:', deadWallFragment.length);
-  console.log('dorasLength:', doras.length);
+  /*   console.log('dorasLength:', doras.length);
   console.log(
     'firstHand:',
     firstHand.map(item => item.tileID),
@@ -192,7 +192,7 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     thirdHand.map(item => item.tileID),
     'fourthHand:',
     fourthHand.map(item => item.tileID),
-  );
+  ); */
   dispatch(updateAfterHandOut({player: 'firstHand', tile: firstHand}));
   dispatch(updateAfterHandOut({player: 'secondHand', tile: secondHand}));
   dispatch(updateAfterHandOut({player: 'thirdHand', tile: thirdHand}));
@@ -200,6 +200,8 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   dispatch(setTilesAfterHandout(tilesReadyForRound));
 
   console.log('dice_roll:', DICE_ROLL);
+  console.log('wallWithoutDeadWall:', wallWithoutDeadWall.length);
+
   //so if
   /* console.log("shuffledWall:",shuffledWall.length)
   console.log("deadWallFragment:",deadWallFragment.length, "wallWithoutDeadWall:",wallWithoutDeadWall.length)

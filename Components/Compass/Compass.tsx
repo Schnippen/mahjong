@@ -54,7 +54,6 @@ const Compass = () => {
             compassTilesCounterBottomPerimeter
           }
         />
-
         <CompassPlayerSide
           isRichiiActive={true}
           degrees={0}
