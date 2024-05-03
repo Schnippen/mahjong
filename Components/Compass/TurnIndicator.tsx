@@ -20,10 +20,14 @@ const TurnIndicator = ({isPlayersTurn = false}: {isPlayersTurn: boolean}) => {
     return {backgroundColor};
   });
 
+  console.log('TurnIndicator:', isPlayersTurn);
   useEffect(() => {
     if (isPlayersTurn) {
       const animation = withRepeat(withTiming(1, {duration: 2000}), -1, true);
       progress.value = animation;
+    } else {
+      // Stop the animation and return to the initial value when isPlayersTurn becomes false
+      progress.value = withTiming(0, {duration: 0});
     }
   }, [isPlayersTurn]);
 
