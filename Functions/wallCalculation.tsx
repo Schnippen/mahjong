@@ -4,10 +4,9 @@ import {
   setDeadWallFragment,
   setDorasFromDeadWall,
   setTilesAfterHandout,
-  setWallFragment,
 } from '../Store/wallReducer';
 import {TTileObject} from '../Types/types';
-import {updateHand} from '../Store/handReducer';
+import {updateAfterHandOut} from '../Store/handReducer';
 function checkDiceRoll(roll: number) {
   const EAST = [1, 5, 9];
   const SOUTH = [2, 6, 10];
@@ -68,7 +67,10 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   let handedoutTiles: TTileObject[] = [];
   let tilesReadyForRound: TTileObject[] = [];
   let doras: TTileObject[] = [];
-
+  let firstHand: TTileObject[] = [];
+  let secondHand: TTileObject[] = [];
+  let thirdHand: TTileObject[] = [];
+  let fourthHand: TTileObject[] = [];
   if (DICE_ROLL === 1) {
     deadWallFragment = deadWallFragment.concat(
       shuffledWall.slice(shuffledWall.length - 12),
@@ -128,30 +130,30 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     shuffledTiles,
     deadWallFragment,
   );
-  //player1
-  player1Hand = player1Hand.concat(
+  //east
+  firstHand = firstHand.concat(
     wallWithoutDeadWall.slice(0, 4), //1
     wallWithoutDeadWall.slice(16, 20), //2
     wallWithoutDeadWall.slice(32, 36), //3
-    wallWithoutDeadWall.slice(36, 37),
-    wallWithoutDeadWall.slice(40, 41),
+    wallWithoutDeadWall.slice(36, 37), // extra
+    wallWithoutDeadWall.slice(40, 41), // extra
   );
-  //player2
-  player2Hand = player2Hand.concat(
+  //south
+  secondHand = secondHand.concat(
     wallWithoutDeadWall.slice(4, 8),
     wallWithoutDeadWall.slice(20, 24),
     wallWithoutDeadWall.slice(36, 40),
     wallWithoutDeadWall.slice(37, 38),
   );
-  //player3
-  player3Hand = player3Hand.concat(
+  //west
+  thirdHand = thirdHand.concat(
     wallWithoutDeadWall.slice(8, 12),
     wallWithoutDeadWall.slice(24, 28),
     wallWithoutDeadWall.slice(40, 44),
     wallWithoutDeadWall.slice(38, 39),
   );
-  //player4
-  player4Hand = player4Hand.concat(
+  //north
+  fourthHand = fourthHand.concat(
     wallWithoutDeadWall.slice(12, 16),
     wallWithoutDeadWall.slice(28, 32),
     wallWithoutDeadWall.slice(44, 48),
@@ -181,12 +183,22 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   dispatch(setDorasFromDeadWall({tiles: doras}));
   console.log('deadWall:', deadWallFragment.length);
   console.log('dorasLength:', doras.length);
-  dispatch(updateHand({player: 'player1', tile: player1Hand}));
-  dispatch(updateHand({player: 'player2', tile: player2Hand}));
-  dispatch(updateHand({player: 'player3', tile: player3Hand}));
-  dispatch(updateHand({player: 'player4', tile: player4Hand}));
+  console.log(
+    'firstHand:',
+    firstHand.length,
+    'secondHand:',
+    secondHand.length,
+    'thirdHand:',
+    thirdHand.length,
+    'fourthHand:',
+    fourthHand.length,
+  );
+  dispatch(updateAfterHandOut({player: 'firstHand', tile: firstHand}));
+  dispatch(updateAfterHandOut({player: 'secondHand', tile: secondHand}));
+  dispatch(updateAfterHandOut({player: 'thirdHand', tile: thirdHand}));
+  dispatch(updateAfterHandOut({player: 'fourthHand', tile: fourthHand}));
   dispatch(setTilesAfterHandout(tilesReadyForRound));
-  //checkDiceRoll(DICE_ROLL);
+
   console.log('dice_roll:', DICE_ROLL);
   //so if
   /* console.log("shuffledWall:",shuffledWall.length)

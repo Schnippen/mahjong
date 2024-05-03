@@ -1,18 +1,26 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {TTileObject} from '../Types/types';
 
-interface gameState {
+interface handState {
   player1Hand: TTileObject[];
   player2Hand: TTileObject[];
   player3Hand: TTileObject[];
   player4Hand: TTileObject[];
+  firstHand: TTileObject[];
+  secondHand: TTileObject[];
+  thirdHand: TTileObject[];
+  fourthHand: TTileObject[];
 }
 
-const initialState: gameState = {
+const initialState: handState = {
   player1Hand: [],
   player2Hand: [],
   player3Hand: [],
   player4Hand: [],
+  firstHand: [],
+  secondHand: [],
+  thirdHand: [],
+  fourthHand: [],
 };
 
 export const handReducer = createSlice({
@@ -33,24 +41,48 @@ export const handReducer = createSlice({
     incrementByAmount: (state, action) => {
       //state.value += action.payload
     },
-    updateHand: (state, action) => {
+    updateAfterHandOut: (state, action) => {
       const {player, tile} = action.payload;
-      if (player === 'player1') {
-        state.player1Hand = [...state.player1Hand, ...tile];
-      } else if (player === 'player2') {
-        state.player2Hand = [...state.player2Hand, ...tile];
-      } else if (player === 'player3') {
-        state.player3Hand = [...state.player3Hand, ...tile];
-      } else if (player === 'player4') {
-        state.player4Hand = [...state.player4Hand, ...tile];
+      //console.log('action', player, tile);
+      if (player === 'firstHand') {
+        state.firstHand = [...state.firstHand, ...tile];
+        //console.log('FIRST:', state.firstHand === player);
+      } else if (player === 'secondHand') {
+        state.secondHand = [...state.secondHand, ...tile];
+      } else if (player === 'thirdHand') {
+        state.thirdHand = [...state.thirdHand, ...tile];
+      } else if (player === 'fourthHand') {
+        state.fourthHand = [...state.fourthHand, ...tile];
+      }
+    },
+    setPlayerHandsAfterHandOut: (state, action) => {
+      const {player, wind} = action.payload;
+      switch (wind) {
+        case 'east':
+          state[(player + 'Hand') as keyof handState] = [...state.firstHand];
+          break;
+        case 'south':
+          state[(player + 'Hand') as keyof handState] = [...state.secondHand];
+          break;
+        case 'west':
+          state[(player + 'Hand') as keyof handState] = [...state.thirdHand];
+          break;
+        case 'north':
+          state[(player + 'Hand') as keyof handState] = [...state.fourthHand];
+          break;
+        default:
+          break;
       }
     },
   },
 });
-
-// Action creators are generated for each case reducer function
-export const {increment, decrement, incrementByAmount, updateHand} =
-  handReducer.actions;
+export const {
+  increment,
+  decrement,
+  incrementByAmount,
+  updateAfterHandOut,
+  setPlayerHandsAfterHandOut,
+} = handReducer.actions;
 
 export default handReducer.reducer;
 /* function removeItem(array, action) {

@@ -20,7 +20,7 @@ import {
   ButtonCHII,
   ButtonPASS,
 } from '../Components/Buttons/ButtonSteal/ButtonSteal';
-import {PlayersRiver} from '../Components/River/PlayersRiver';
+import RiverBottom from '../Components/River/RiverBottom';
 import {
   TileInTheRiverComponentFront,
   TileInTheRiverComponentLeft,
@@ -33,7 +33,6 @@ import {rollDice} from '../Store/wallReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../Store/store';
 import WallCalculation from '../Functions/wallCalculation';
-import {shuffledTilesForGameStart} from '../Functions/shuffledTilesForGameStart';
 import {initialGame} from '../Functions/initializeGame';
 import {createTilesObjects} from '../Functions/createTiles';
 import Score from '../Components/Compass/Score';
@@ -42,6 +41,18 @@ import GameWindAndRound from '../Components/Compass/GameWindAndRound';
 import Triangle from '../Components/Compass/Triangle';
 import CompassPlayerSide from '../Components/Compass/CompassPlayerSide';
 import RichiiStick from '../Components/Compass/RichiiStick/RichiiStick';
+import WallBottom from '../Components/Wall/WallBottom';
+import {tilesData} from '../Data/tilesData';
+import WallRight from '../Components/Wall/WallRight';
+import WallLeft from '../Components/Wall/WallLeft';
+import RiverTop from '../Components/River/RiverTop';
+import WallTop from '../Components/Wall/WallTop';
+import PlayerPanel from '../Components/PlayerControls/PlayerPanel';
+import SidePanel from '../Components/SidePanel/SidePanel';
+import DoraPanel from '../Components/DoraPanel/DoraPanel';
+import Compass from '../Components/Compass/Compass';
+import determineTurnOrder from '../Functions/determineTurnOrder';
+import {END_TURN} from '../Store/gameReducer';
 //tiles
 //winning conditions
 //tile component
@@ -84,156 +95,44 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 //console.log("Dimensions: ",screenWidth,"width x height:",screenHeight)
 
-const TileComponent = ({
-  svg,
-  tileRatioProp = 3,
-}: {
-  svg: string;
-  tileRatioProp: number;
-}) => {
-  const tileRatio = tileRatioProp;
-  const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-  const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-  const tileDepth = +(7.66 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-  const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
-  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
-  const tileBorderRadiusHandPlayerPerspective = 8;
-  //ramka 5 px - szare 13   = 18 +1 = 19+2=21
-  //sare ma padding 1 z lewej i prawej, kontur ma grubość 2 //TODO create perspective that is scalable
-  return (
-    <View
-      style={{
-        backgroundColor: '#56a2c4',
-        height: tileBottomLayer,
-        width: tileWidth,
-        justifyContent: 'flex-end',
-        borderRadius: tileBorderRadiusHandPlayerPerspective,
-        borderWidth: 1,
-      }}>
-      <View
-        style={{
-          backgroundColor: '#bdbbc0',
-          height: tileSecondLayer,
-          width: tileWidth - 2,
-          justifyContent: 'flex-end',
-          borderRadius: tileBorderRadiusHandPlayerPerspective,
-          alignItems: 'center',
-        }}>
-        <View
-          style={{
-            backgroundColor: '#e9ebe8',
-            height: tileHeight,
-            width: tileWidth - 2,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: tileBorderRadiusHandPlayerPerspective,
-          }}>
-          <SvgXml
-            width={tileImageWidth}
-            height={tileImageHeight}
-            xml={svg}
-            style={{borderRadius: tileBorderRadiusHandPlayerPerspective}}
-          />
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const PlayersHandComponent = () => {
-  const playersHandData = mahjongTilesSVGsArray.slice(14, 27);
-  const nextTile = mahjongTilesSVGsArray.slice(28, 29).toString();
-
-  const renderItem = ({item}: {item: string}) => (
-    <TileComponent svg={item} tileRatioProp={1.5} />
-  );
-
-  return (
-    <View style={{flexDirection: 'row', backgroundColor: 'gray'}}>
-      <View style={{flex: 14, alignItems: 'center'}}>
-        <FlatList
-          horizontal
-          scrollEnabled={false}
-          data={playersHandData}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          style={{backgroundColor: 'red'}}
-        />
-      </View>
-      <View style={{backgroundColor: 'blue', flex: 2}}>
-        <TileComponent svg={nextTile} tileRatioProp={1.5} />
-      </View>
-    </View>
-  );
-};
-
-const RiverTop = () => {
-  const data = mahjongTilesSVGsArray.slice(12, 30); //river data
-  //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120 elevation: 1
-  //add zIndex to the last tile //TODO just use transform translate flip it on its head and flip Y axis
-  const renderItem = ({item, index}: {item: string; index: number}) => (
-    <View
-      style={{
-        marginTop: index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0,
-        marginLeft: index >= 18 ? 360 : 0,
-        zIndex: -1,
-      }}>
-      <TileInTheRiverComponentTop svg={item} tileRatioProp={2} index={index} />
-    </View>
-  );
-
-  const numOfColumns = 6;
-  return (
-    <View
-      style={{
-        flexDirection: 'column',
-        backgroundColor: 'lightblue',
-        width: 420,
-        height: 270,
-      }}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        scrollEnabled={false}
-        numColumns={numOfColumns}
-        keyExtractor={(item, index) => index.toString()}
-        CellRendererComponent={({children}) => children}
-        removeClippedSubviews={false}
-      />
-    </View>
-  );
-};
-
-const Compass = () => {
-  //measuring from screenshot as a scale of reference
-  const compassBottomPerimeter = 320; //320-200=120
-  const compassTilesCounterBottomPerimeter = +(100 * 1.0188).toFixed(2);
-  const compassTurnIndicatorBottomPerimeter = 200;
-  const backgroundColor = '#5a5a66';
-  const backgroundColorSec = '#2f2f39';
-  const CompassTileCounter = () => {
-    //317  /100 //center piece
+//TODO oficjalna skala z perspektywą???
+function MahjongScreen({navigation, route}: any) {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const toggleOverlay = () => {
+    setIsVisible(!isVisible);
+  };
+  const MenuPanel = ({navigation}: {navigation: any}) => {
     return (
       <View
         style={{
-          backgroundColor: '#1d1d1f',
-          width: compassTilesCounterBottomPerimeter,
-          height: compassTilesCounterBottomPerimeter,
-          alignItems: 'center',
-          borderBottomWidth: 4,
-          borderBottomColor: '#1b2a2d',
-          borderRadius: 2,
+          flexDirection: 'row',
+          backgroundColor: 'pink',
+          justifyContent: 'flex-end',
+          position: 'absolute',
+          right: 0,
         }}>
-        <GameWindAndRound />
-        <TilesLeftInTheGame />
+        <ButtonQuestionmark text="Q" />
+        <ButtonSettings navigation={navigation} toggleOverlay={toggleOverlay} />
       </View>
     );
   };
-
-  //        <CompassTileCounter/>
-  //transform: [{rotateX: '45deg'}]
+  const DICE_ROLL = useSelector(
+    (state: RootState) => state.wallReducer.diceRoll,
+  );
+  //const shuffledWall=useSelector((state:RootState)=>state.wallReducer.wallTilesArray)
+  const dispatch = useDispatch();
+  const tilesAfterHandout = useSelector(
+    (state: RootState) => state.wallReducer.tilesAfterHandout,
+  );
+  const MainPlayerCurrentHand = useSelector(
+    (state: RootState) => state.handReducer.player1Hand,
+  );
+  console.log(
+    'tilesAfterHandout:',
+    tilesAfterHandout.length,
+    'MainPlayerCurrentHand:',
+    MainPlayerCurrentHand.length,
+  );
   const playerBottomMainPlayer = useSelector(
     (state: RootState) => state.playersReducer.player1.player1Wind,
   );
@@ -246,717 +145,159 @@ const Compass = () => {
   const playerLeft = useSelector(
     (state: RootState) => state.playersReducer.player4.player4Wind,
   );
-  return (
-    <View
-      style={{
-        borderBottomWidth: 8,
-        borderRadius: 8,
-        /*  transform: [{rotateX: '45deg'}, {rotateZ: '0deg'},{scale:0.75}] */ backgroundColor:
-          '#5d5d69',
-        width: 320,
-      }}>
-      <View
-        style={{
-          backgroundColor: '#39383d',
-          width: compassBottomPerimeter, //
-          height: compassBottomPerimeter, //padding 8   8 45
-          position: 'relative',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 8,
-        }}>
-        <CompassTileCounter />
-
-        <CompassPlayerSide
-          isRichiiActive={true}
-          degrees={0}
-          leftPosition={0}
-          rightPosition={250}
-          bottomPosition={0}
-          topPosition={0}
-          playerIndicator={'player1'} //bottom
-          compassBottomPerimeter={compassBottomPerimeter}
-          currentWindDisplay={playerBottomMainPlayer}
-        />
-        <CompassPlayerSide
-          isRichiiActive={false}
-          degrees={270}
-          leftPosition={125}
-          rightPosition={125}
-          bottomPosition={0}
-          topPosition={0}
-          playerIndicator={'player2'} //right
-          compassBottomPerimeter={compassBottomPerimeter}
-          currentWindDisplay={playerRight}
-        />
-        <CompassPlayerSide
-          isRichiiActive={false}
-          degrees={180}
-          leftPosition={0}
-          rightPosition={0}
-          bottomPosition={0}
-          topPosition={0}
-          playerIndicator={'player3'} //front
-          compassBottomPerimeter={compassBottomPerimeter}
-          currentWindDisplay={playerTop}
-        />
-        <CompassPlayerSide
-          isRichiiActive={false}
-          degrees={90}
-          leftPosition={-125}
-          rightPosition={125}
-          bottomPosition={0}
-          topPosition={0}
-          playerIndicator={'player4'} //left
-          compassBottomPerimeter={compassBottomPerimeter}
-          currentWindDisplay={playerLeft}
-        />
-      </View>
-    </View>
+  const shit = useSelector((state: RootState) => state.handReducer.firstHand);
+  const shit2 = useSelector(
+    (state: RootState) => state.handReducer.player1Hand,
   );
-};
-
-const WallTile = ({
-  svg,
-  tileRatioProp = 3,
-  zIndex,
-}: {
-  svg: string;
-  tileRatioProp: number;
-  zIndex: number;
-}) => {
-  const tileRatio = tileRatioProp;
-  const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-  const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-  const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-  const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
-  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
-  const tileBorderRadiusHandPlayerPerspective = 8;
-  const riverJustifyContent = true;
-  const isTileFaceUp = false; //TODO fix the perspective
-  const colorBottomLayer = '#98dffb';
-  const colorSecondLayer = '#44809a';
-  const colorFaceLayer = '#a39f9e';
-  return (
-    <View
-      style={{
-        backgroundColor: colorFaceLayer,
-        height: tileBottomLayer,
-        width: tileWidth,
-        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
-        borderRadius: tileBorderRadiusHandPlayerPerspective,
-        borderWidth: 1,
-        zIndex: zIndex,
-      }}>
-      <View
-        style={{
-          backgroundColor: colorSecondLayer,
-          height: tileSecondLayer - 5,
-          width: tileWidth - 2,
-          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
-          borderRadius: tileBorderRadiusHandPlayerPerspective,
-          alignItems: 'center',
-        }}>
-        <View
-          style={{
-            backgroundColor: colorBottomLayer,
-            height: tileHeight,
-            width: tileWidth - 2,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: tileBorderRadiusHandPlayerPerspective,
-          }}>
-          <SvgXml
-            width={tileImageWidth}
-            height={tileImageHeight}
-            xml={svg}
-            style={{
-              borderRadius: tileBorderRadiusHandPlayerPerspective,
-              transform: [{rotate: `${0}deg`}],
-            }}
-          />
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const WallFront = () => {
-  const evenTiles: any = [];
-  const oddTiles: any = [];
-
-  mahjongTilesSVGsArray.slice(0, 8).forEach((item, index) => {
-    const zIndex = index % 2 === 0 ? 1 : 0;
-    if (index % 2 === 0) {
-      evenTiles.push(
-        <WallTile svg={item} tileRatioProp={1} key={index + 'a'} zIndex={1} />,
-      );
-    } else {
-      oddTiles.push(
-        <WallTile svg={item} tileRatioProp={1} key={index + 'a'} zIndex={0} />,
-      );
-    }
-  });
-
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        backgroundColor: 'lightblue',
-        height: 80,
-        position: 'relative',
-      }}>
-      <View
-        style={{
-          backgroundColor: 'lime',
-          flexDirection: 'row',
-          position: 'absolute',
-          top: 10,
-        }}>
-        {oddTiles}
-      </View>
-      <View
-        style={{
-          backgroundColor: 'transparent',
-          flexDirection: 'row',
-          position: 'absolute',
-          top: 0,
-        }}>
-        {evenTiles}
-      </View>
-    </View>
-  );
-};
-
-const WallTileLeft = ({
-  svg,
-  tileRatioProp = 3,
-  zIndex,
-}: {
-  svg: string;
-  tileRatioProp: number;
-  zIndex: number;
-}) => {
-  const tileRatio = tileRatioProp;
-  const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-  const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-  const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-  const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
-  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2); //TODO check the Riverleft values
-  const tileBorderRadiusHandPlayerPerspective = 8;
-  const riverJustifyContent = true;
-  const isTileFaceUp = false; //TODO fix the perspective
-  const colorBottomLayer = '#98dffb';
-  const colorSecondLayer = '#44809a';
-  const colorFaceLayer = '#a39f9e';
-  return (
-    <View
-      style={{
-        backgroundColor: colorFaceLayer,
-        height: tileWidth + 8,
-        width: tileBottomLayer - 6,
-        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
-        borderRadius: tileBorderRadiusHandPlayerPerspective,
-        borderWidth: 1,
-        zIndex: zIndex,
-        marginTop: -6,
-      }}>
-      <View
-        style={{
-          backgroundColor: colorSecondLayer,
-          height: tileWidth + 2,
-          width: tileSecondLayer - 5,
-          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
-          borderRadius: tileBorderRadiusHandPlayerPerspective,
-          alignItems: 'flex-start',
-        }}>
-        <View
-          style={{
-            backgroundColor: colorBottomLayer,
-            height: tileWidth - 2,
-            width: tileHeight,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: tileBorderRadiusHandPlayerPerspective,
-          }}>
-          <SvgXml
-            width={tileImageWidth}
-            height={tileImageHeight}
-            xml={svg}
-            style={{
-              borderRadius: tileBorderRadiusHandPlayerPerspective,
-              transform: [{rotate: `${90}deg`}],
-            }}
-          />
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const WallLeft = () => {
-  const evenTiles: any = [];
-  const oddTiles: any = [];
-
-  mahjongTilesSVGsArray.slice(0, 8).forEach((item, index) => {
-    const zIndex = index % 2 === 0 ? 1 : 0;
-    if (index % 2 === 0) {
-      evenTiles.push(
-        <WallTileLeft
-          svg={item}
-          tileRatioProp={1}
-          key={index + 'a'}
-          zIndex={1}
-        />,
-      );
-    } else {
-      oddTiles.push(
-        <WallTileLeft
-          svg={item}
-          tileRatioProp={1}
-          key={index + 'a'}
-          zIndex={0}
-        />,
-      );
-    }
-  });
-
-  return (
-    <View
-      style={{
-        flexDirection: 'column',
-        backgroundColor: 'lightblue',
-        width: 80,
-        position: 'relative',
-      }}>
-      <View
-        style={{
-          backgroundColor: 'lime',
-          flexDirection: 'column',
-          position: 'absolute',
-          top: 5,
-          left: 3,
-        }}>
-        {oddTiles}
-      </View>
-      <View
-        style={{
-          backgroundColor: 'transparent',
-          flexDirection: 'column',
-          position: 'absolute',
-          top: 0,
-        }}>
-        {evenTiles}
-      </View>
-    </View>
-  );
-};
-const WallTileRight = ({
-  svg,
-  tileRatioProp = 3,
-  zIndex,
-}: {
-  svg: string;
-  tileRatioProp: number;
-  zIndex: number;
-}) => {
-  const tileRatio = tileRatioProp;
-  const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-  const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-  const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-  const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
-  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2); //TODO check the Riverleft values
-  const tileBorderRadiusHandPlayerPerspective = 8;
-  const riverJustifyContent = true;
-  const isTileFaceUp = false; //TODO fix the perspective
-  const colorBottomLayer = '#98dffb';
-  const colorSecondLayer = '#44809a';
-  const colorFaceLayer = '#a39f9e';
-  return (
-    <View
-      style={{
-        backgroundColor: colorFaceLayer,
-        height: tileWidth + 8,
-        width: tileBottomLayer - 6,
-        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
-        borderRadius: tileBorderRadiusHandPlayerPerspective,
-        borderWidth: 1,
-        zIndex: zIndex,
-        marginTop: -6,
-        alignItems: 'flex-end',
-      }}>
-      <View
-        style={{
-          backgroundColor: colorSecondLayer,
-          height: tileWidth + 2,
-          width: tileSecondLayer - 5,
-          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
-          borderRadius: tileBorderRadiusHandPlayerPerspective,
-          alignItems: 'flex-end',
-        }}>
-        <View
-          style={{
-            backgroundColor: colorBottomLayer,
-            height: tileWidth - 2,
-            width: tileHeight,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: tileBorderRadiusHandPlayerPerspective,
-          }}>
-          <SvgXml
-            width={tileImageWidth}
-            height={tileImageHeight}
-            xml={svg}
-            style={{
-              borderRadius: tileBorderRadiusHandPlayerPerspective,
-              transform: [{rotate: `${90}deg`}],
-            }}
-          />
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const WallRight = () => {
-  const evenTiles: any = [];
-  const oddTiles: any = [];
-  mahjongTilesSVGsArray.slice(9, 17).forEach((item, index) => {
-    const zIndex = index % 2 === 0 ? 1 : 0;
-    if (index % 2 === 0) {
-      evenTiles.push(
-        <WallTileRight
-          svg={item}
-          tileRatioProp={1}
-          key={index + 'a'}
-          zIndex={1}
-        />,
-      );
-    } else {
-      oddTiles.push(
-        <WallTileRight
-          svg={item}
-          tileRatioProp={1}
-          key={index + 'a'}
-          zIndex={0}
-        />,
-      );
-    }
-  });
-
-  return (
-    <View
-      style={{
-        flexDirection: 'column',
-        backgroundColor: 'lightblue',
-        width: 80,
-        position: 'relative',
-      }}>
-      <View
-        style={{
-          backgroundColor: 'lime',
-          flexDirection: 'column',
-          position: 'absolute',
-          top: 5,
-          left: 0,
-        }}>
-        {oddTiles}
-      </View>
-      <View
-        style={{
-          backgroundColor: 'transparent',
-          flexDirection: 'column',
-          position: 'absolute',
-          top: 0,
-          left: 3,
-        }}>
-        {evenTiles}
-      </View>
-    </View>
-  );
-};
-
-const WallTileTop = ({
-  svg,
-  tileRatioProp = 3,
-  zIndex,
-}: {
-  svg: string;
-  tileRatioProp: number;
-  zIndex: number;
-}) => {
-  const tileRatio = tileRatioProp;
-  const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
-  const tileHeight = +(39 * tileRatio).toFixed(2); // default 39 x 3
-  const tileDepth = +(14 * tileRatio).toFixed(2); // default 23 // not taking perspective into account
-  const tileImageWidth = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileImageHeight = +(33.3 * tileRatio).toFixed(2); // default 100
-  const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
-  const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
-  const tileBorderRadiusHandPlayerPerspective = 8;
-  const riverJustifyContent = true;
-  const isTileFaceUp = false; //TODO fix the perspective
-  const colorBottomLayer = '#98dffb';
-  const colorSecondLayer = '#44809a';
-  const colorFaceLayer = '#a39f9e';
-  return (
-    <View
-      style={{
-        backgroundColor: colorFaceLayer,
-        height: tileBottomLayer,
-        width: tileWidth,
-        justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
-        borderRadius: tileBorderRadiusHandPlayerPerspective,
-        borderWidth: 1,
-        zIndex: zIndex,
-      }}>
-      <View
-        style={{
-          backgroundColor: colorSecondLayer,
-          height: tileSecondLayer - 5,
-          width: tileWidth - 2,
-          justifyContent: riverJustifyContent ? 'flex-start' : 'flex-end',
-          borderRadius: tileBorderRadiusHandPlayerPerspective,
-          alignItems: 'center',
-        }}>
-        <View
-          style={{
-            backgroundColor: colorBottomLayer,
-            height: tileHeight,
-            width: tileWidth - 2,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: tileBorderRadiusHandPlayerPerspective,
-          }}>
-          <SvgXml
-            width={tileImageWidth}
-            height={tileImageHeight}
-            xml={svg}
-            style={{
-              borderRadius: tileBorderRadiusHandPlayerPerspective,
-              transform: [{rotate: `${0}deg`}],
-            }}
-          />
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const WallTop = () => {
-  const evenTiles: any = [];
-  const oddTiles: any = [];
-
-  mahjongTilesSVGsArray.slice(17, 25).forEach((item, index) => {
-    const zIndex = index % 2 === 0 ? 1 : 0;
-    if (index % 2 === 0) {
-      evenTiles.push(
-        <WallTileTop
-          svg={item}
-          tileRatioProp={1}
-          key={index + 'a'}
-          zIndex={1}
-        />,
-      );
-    } else {
-      oddTiles.push(
-        <WallTileTop
-          svg={item}
-          tileRatioProp={1}
-          key={index + 'a'}
-          zIndex={0}
-        />,
-      );
-    }
-  });
-
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        backgroundColor: 'lightblue',
-        height: 80,
-        position: 'relative',
-      }}>
-      <View
-        style={{
-          backgroundColor: 'lime',
-          flexDirection: 'row',
-          position: 'absolute',
-          top: 12,
-        }}>
-        {oddTiles}
-      </View>
-      <View
-        style={{
-          backgroundColor: 'transparent',
-          flexDirection: 'row',
-          position: 'absolute',
-          top: 0,
-        }}>
-        {evenTiles}
-      </View>
-    </View>
-  );
-};
-
-const PlayerPanel = () => {
-  return (
-    <View
-      style={{
-        backgroundColor: 'purple',
-        height: 130,
-        width: screenWidth,
-        rowGap: 12,
-      }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          columnGap: 8,
-          justifyContent: 'flex-end',
-        }}>
-        <ButtonCHII />
-        <ButtonPASS />
-      </View>
-      <PlayersHandComponent />
-    </View>
-  );
-};
-//TODO oficjalna skala z perspektywą???
-function MahjongScreen({navigation, route}: any) {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const toggleOverlay = () => {
-    setIsVisible(!isVisible);
+  console.log(shit.length, shit2.length);
+  //Wall wind, perspective based,
+  const nextTurn = () => {
+    dispatch(END_TURN());
   };
-
-  const MenuPanel = ({navigation}: {navigation: any}) => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          backgroundColor: 'pink',
-          justifyContent: 'flex-end',
-          position: 'absolute',
-          right: 0,
-        }}>
-        <ButtonQuestionmark />
-        <ButtonSettings navigation={navigation} toggleOverlay={toggleOverlay} />
-      </View>
-    );
-  };
-  const DICE_ROLL = useSelector(
-    (state: RootState) => state.wallReducer.diceRoll,
-  );
-  //const shuffledWall=useSelector((state:RootState)=>state.wallReducer.wallTilesArray)
-  const dispatch = useDispatch();
-
-  console.log('DICE_ROLL init:', DICE_ROLL);
   return (
-    <ScrollView style={{flex: 1}}>
-      <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay}>
-        <SettingsOverlay />
-      </Overlay>
-      <Button
-        title="createTilesObjects"
-        onPress={() =>
-          console.log(JSON.stringify(createTilesObjects()))
-        }></Button>
+    <ScrollView>
       <Button title="initialize" onPress={() => initialGame(dispatch)}></Button>
-
-      {/* MAIN SCREEN WITH GAME BOARD */}
-      <View style={{backgroundColor: 'red', flex: 1, alignItems: 'center'}}>
-        <MenuPanel navigation={navigation} />
+      <Button
+        title="determineTurn"
+        onPress={() =>
+          determineTurnOrder(
+            playerBottomMainPlayer,
+            playerRight,
+            playerTop,
+            playerLeft,
+          )
+        }></Button>
+      <Button title="nextTurn" onPress={() => nextTurn()}></Button>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          //height: screenHeight,
+          //width: screenWidth,
+          backgroundColor: 'green',
+          position: 'relative',
+        }}>
+        {/* <MenuPanel navigation={navigation} /> */}
+        <DoraPanel />
+        <SidePanel />
         <View
           style={{
-            alignItems: 'center',
-            backgroundColor: 'blue',
-            justifyContent: 'center',
-            width: 540,
-            height: 560,
-            position: 'relative',
-            transform: [{rotateX: '45deg'}, {rotateZ: '0deg'}, {scale: 0.5}],
+            marginTop: -75,
+            backgroundColor: 'green',
+            transform: [{rotateX: '45deg'}, {rotateZ: '0deg'}, {scale: 1}],
           }}>
-          <Compass />
           <View
             style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              width: 600,
               alignItems: 'center',
-            }}>
-            {/* <RiverTop/> */}
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              right: 460,
-              top: 50,
-              height: 460,
-              width: 250,
+              backgroundColor: 'blue',
               justifyContent: 'center',
-              backgroundColor: 'orange',
-              alignItems: 'center',
+              width: 540,
+              height: 560,
+              position: 'relative',
+              transform: [{rotateX: '0deg'}, {rotateZ: '0deg'}, {scale: 0.36}],
             }}>
-            {/* <RiverLeft/> */}
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              left: 460,
-              bottom: 50,
-              height: 460,
-              width: 250,
-              backgroundColor: 'pink',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            {/* <RiverRight/>*/}
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 460,
-              width: 600,
-              alignItems: 'center',
-              marginBottom: 5,
-            }}>
-            {/* <PlayersRiver/>  */}
-            {/* <RiverLeft/>  */}
-            {/* <RiverTop/> */}
+            <Compass />
+            <View
+              style={{
+                position: 'absolute',
+                left: 0,
+                bottom: 460,
+                width: 600,
+                alignItems: 'center',
+                transform: [{rotateZ: '180deg'}],
+              }}>
+              <RiverTop />
+              <View
+                style={{
+                  backgroundColor: 'blue',
+                  position: 'absolute',
+                  top: 280,
+                }}>
+                <WallTop wallState={[]} />
+              </View>
+            </View>
+            <View
+              style={{
+                position: 'absolute',
+                right: 460,
+                top: 50,
+                height: 460,
+                width: 250,
+                justifyContent: 'center',
+                backgroundColor: 'orange',
+                alignItems: 'center',
+              }}>
+              <RiverLeft />
+              <View
+                style={{
+                  backgroundColor: 'blue',
+                  transform: [{rotateZ: '90deg'}],
+                  alignItems: 'flex-start',
+                  position: 'absolute',
+                  right: 0,
+                }}>
+                <WallLeft wallState={[]} />
+              </View>
+            </View>
+            <View
+              style={{
+                position: 'absolute',
+                left: 460,
+                bottom: 50,
+                height: 460,
+                width: 250,
+                backgroundColor: 'pink',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <RiverRight />
+              <View
+                style={{
+                  backgroundColor: 'blue',
+                  transform: [{rotateZ: '270deg'}],
+                  position: 'absolute',
+                  left: 0,
+                }}>
+                <WallRight wallState={[]} />
+              </View>
+            </View>
+            <View
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 460,
+                width: 600,
+                alignItems: 'center',
+                marginBottom: 5,
+              }}>
+              <RiverBottom />
+              <View
+                style={{
+                  backgroundColor: 'blue',
+                  position: 'absolute',
+                  top: 280,
+                  /* alignItems: 'flex-start', */
+                }}>
+                <WallBottom wallState={[]} />
+              </View>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={{flex: 1, height: 300}}>
-        {/* <WallFront/>  */}
-        {/* <View style={{flexDirection:"row"}}><StolenTilesPlayerKANCLOSED/>
-            <StolenTilesPlayerRIGHT/>
-            <StolenTilesPlayerFRONT/>
-            </View> */}
-
-        {/* <DoraPanel/> */}
-        {/* <WallLeft/> */}
-        {/* <WallRight/> */}
-        {/* <RichiiStick degrees={180}/> */}
-        {/* <WallTop/> */}
-        {/*  <ButtonRON/>         
-             <ButtonRIICHI/>
-             <ButtonKAN/>
-             <ButtonPON/>
-             <ButtonPASS/>   
-             <ButtonCHII/>
-             <ButtonCANCEL/> */}
-        {/* <PlayerPanel/> */}
+        <View style={{position: 'absolute', bottom: 0}}>
+          <PlayerPanel handData={MainPlayerCurrentHand} />
+        </View>
       </View>
     </ScrollView>
   );
 } //TODO change the left and right tiles in compass with correct width and height
 export default MahjongScreen;
 //https://github.com/software-mansion/react-native-reanimated/issues/2750
+{
+  /* <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay}>
+        <SettingsOverlay />
+      </Overlay> */
+}
+{
+  /* <Button title="initialize" onPress={() => initialGame(dispatch)}></Button> */
+}
