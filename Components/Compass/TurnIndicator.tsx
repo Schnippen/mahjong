@@ -8,24 +8,24 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useSharedValue} from 'react-native-reanimated';
 
-const TurnIndicator = () => {
+const TurnIndicator = ({isPlayersTurn = false}: {isPlayersTurn: boolean}) => {
   const progress = useSharedValue(0);
-  const playerTurn = true; //make it global
+  //const isPlayersTurn = true; //make it global
   const animatedStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
       progress.value,
       [0, 1],
-      ['#99DDCC', '#1A4D2E'], //#55E358
+      ['#1A4D2E', '#99DDCC'], //#55E358 1A4D2E
     );
     return {backgroundColor};
   });
 
   useEffect(() => {
-    if (playerTurn) {
-      const animation = withRepeat(withTiming(1, {duration: 1000}), -1, true);
+    if (isPlayersTurn) {
+      const animation = withRepeat(withTiming(1, {duration: 2000}), -1, true);
       progress.value = animation;
     }
-  }, [playerTurn]);
+  }, [isPlayersTurn]);
 
   return (
     <Animated.View

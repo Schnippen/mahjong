@@ -2,8 +2,28 @@ import React from 'react';
 import {View} from 'react-native';
 import Score from './Score';
 import TurnIndicator from './TurnIndicator';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../Store/store';
+const CompassTurnIndicator = ({
+  playerIndicator,
+  currentWindDisplay,
+}: {
+  playerIndicator: string;
+  currentWindDisplay: string;
+}) => {
+  const currentTurn = useSelector(
+    (state: RootState) => state.gameReducer.currentTurn,
+  );
+  const isPlayersTurn = currentTurn === currentWindDisplay;
+  console.log(
+    'CompassTurnIndicator',
+    currentWindDisplay,
+    playerIndicator,
+    'currentTurn:',
+    currentTurn,
+    isPlayersTurn,
+  );
 
-const CompassTurnIndicator = ({playerIndicator}: {playerIndicator: string}) => {
   return (
     <View
       style={{
@@ -14,7 +34,7 @@ const CompassTurnIndicator = ({playerIndicator}: {playerIndicator: string}) => {
         justifyContent: 'flex-end',
       }}>
       <View style={{backgroundColor: 'transparent', height: 30}}>
-        <TurnIndicator />
+        <TurnIndicator isPlayersTurn={isPlayersTurn} />
       </View>
       <View style={{backgroundColor: '#39383d', height: 30}}>
         <Score playerIndicator={playerIndicator} />

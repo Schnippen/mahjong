@@ -49,7 +49,10 @@ const CompassPlayerSide = ({
           height: 70,
           backgroundColor: 'transparent',
         }}>
-        <CompassTurnIndicator playerIndicator={playerIndicator} />
+        <CompassTurnIndicator
+          playerIndicator={playerIndicator}
+          currentWindDisplay={currentWindDisplay}
+        />
         <CompassRichiiIndicator
           isRichiiActive={isRichiiActive}
           degrees={degrees}
