@@ -3,6 +3,7 @@ import {
   setDiceRollState,
   setDorasFromDeadWall,
   setTilesAfterHandout,
+  setWallFragment,
 } from '../Store/wallReducer';
 import {TTileObject} from '../Types/types';
 import {updateAfterHandOut} from '../Store/handReducer';
@@ -46,14 +47,7 @@ function compareObjects(obj1: TTileObject, obj2: TTileObject) {
   const WestPlayer = 34;  //3=index=6  7=index=14  11=index=22
   const NorthPlayer = 34; */ //4=index=8 8=index=16 12=index=24
 //should it be hardcoded?
-/* const EastWall = finishedWall.slice(0, 34);
-const SouthWall = finishedWall.slice(34, 68);
-const WestWall = finishedWall.slice(68, 102);
-const NorthWall = finishedWall.slice(102, 136); */
-/*   dispatch(setWallFragment({direction: 'east', tiles: EastWall}));
-  dispatch(setWallFragment({direction: 'south', tiles: SouthWall}));
-  dispatch(setWallFragment({direction: 'west', tiles: WestWall}));
-  dispatch(setWallFragment({direction: 'north', tiles: NorthWall})); */
+
 const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   //  const dispatch = useDispatch();
   //const finishedWall: TTileObject[] = store.getState().wallReducer.wallTilesArray;
@@ -128,7 +122,11 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   if (DICE_ROLL === 12) {
     deadWallFragment = shuffledWall.slice(10, 24);
   }
-  //wallWithoutDeadWall = shuffledWall.filter((tile: TTileObject) => !deadWallFragment.some((deadTile: TTileObject) => deadTile.tileID === tile.tileID));
+  //changing state of deadWallFragment tiles
+  deadWallFragment.forEach(tile => {
+    tile.state = 'deadwall';
+  });
+
   wallWithoutDeadWall = filterOutMatchingObjects(
     shuffledTiles,
     deadWallFragment,
@@ -172,6 +170,10 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     53,
     wallWithoutDeadWall.length,
   );
+  //changing state of tilesReadyForRound to wall
+  tilesReadyForRound.forEach(tile => {
+    tile.state = 'wall';
+  });
   doras = doras.concat(
     deadWallFragment[6],
     deadWallFragment[8],
@@ -203,43 +205,84 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   //tilesReadyfor Round are the tiles that constitute wall to display
   dispatch(setTilesAfterHandout(tilesReadyForRound));
   dispatch(setDiceRollState(currentDiceRoll));
-  console.log('dice_roll:', DICE_ROLL, currentDiceRoll);
+  //console.log('dice_roll:', DICE_ROLL, currentDiceRoll);
   console.log('wallWithoutDeadWall:', wallWithoutDeadWall.length);
   console.log('tilesReadyForRound:', tilesReadyForRound.length);
   //now set up wall position //53 tiles on hand, 14 in dead wall = 67
+  checkDiceRoll(currentDiceRoll);
+  eastWall = tilesReadyForRound.slice(0, 11);
+  southWall = []; //2*2 dead wall deadWallFragment.slice(0,4)
+  westWall = tilesReadyForRound.slice(45, 69); //5*2 dead wall deadWallFragment.slice(4,14)
+  northWall = tilesReadyForRound.slice(11, 45);
+  /*   let array: TTileObject[] = [];
+  console.log(
+    'dead:',
+    deadWallFragment.map(i => i.name),
+    'east:',
+    eastWall.map(i => i.name),
+
+    'south:',
+    southWall.map(i => i.name),
+    'southWITHdead:',
+    southWall.concat(deadWallFragment.slice(0, 4)).map(i => i.name),
+    'west:',
+    westWall.map(i => i.name),
+    'westWITHdead:',
+    westWall.concat(deadWallFragment.slice(4, 14)).map(i => i.name),
+    'arrayConcat:',
+    array
+      .concat(deadWallFragment.slice(4, 14), tilesReadyForRound.slice(45, 69))
+      .map(i => i.name),
+  ); */ // dead wall ist first to grab ; /
+  let array: TTileObject[] = [];
   if (DICE_ROLL === 2) {
     //2 south //5 west
     eastWall = tilesReadyForRound.slice(0, 11);
-    southWall = []; //2*2 dead wall
-    westWall = tilesReadyForRound.slice(45, 69); //5*2 dead wall
+    southWall = deadWallFragment.slice(0, 4); //2*2 dead wall
+    westWall = array.concat(
+      deadWallFragment.slice(4, 14),
+      tilesReadyForRound.slice(45, 69),
+    ); //5*2 dead wall deadWallFragment.slice(4,14)
     northWall = tilesReadyForRound.slice(11, 45);
   }
   if (DICE_ROLL === 3) {
     //3 west 4 north
     eastWall = tilesReadyForRound.slice(9, 43);
     southWall = tilesReadyForRound.slice(0, 9);
-    westWall = []; //3*2 deadwall
-    northWall = tilesReadyForRound.slice(43, 69); // 4*2 dead wall
+    westWall = deadWallFragment.slice(0, 6); //3*2 deadwall
+    northWall = array.concat(
+      deadWallFragment.slice(6, 14),
+      tilesReadyForRound.slice(43, 69),
+    ); // 4*2 dead wall
   }
   if (DICE_ROLL === 4) {
     //4 north  / 3 east
-    eastWall = tilesReadyForRound.slice(41, 69); //3*2 dead wall
+    eastWall = array.concat(
+      deadWallFragment.slice(8, 14),
+      tilesReadyForRound.slice(41, 69),
+    ); //3*2 dead wall
     southWall = tilesReadyForRound.slice(7, 41);
     westWall = tilesReadyForRound.slice(0, 7);
-    northWall = []; //4*2 dead wall
+    northWall = deadWallFragment.slice(0, 8); //4*2 dead wall
   }
   if (DICE_ROLL === 5) {
     //5 east /2 south
-    eastWall = []; //5*2 dead wall
-    southWall = tilesReadyForRound.slice(0, 5);
+    eastWall = deadWallFragment.slice(0, 10); //5*2 dead wall
+    southWall = array.concat(
+      deadWallFragment.slice(10, 14),
+      tilesReadyForRound.slice(39, 69),
+    ); //2*2 dead wall
     westWall = tilesReadyForRound.slice(5, 37);
-    northWall = tilesReadyForRound.slice(39, 69); //2*2 dead wall
+    northWall = tilesReadyForRound.slice(0, 5);
   }
   if (DICE_ROLL === 6) {
     //6 south //1 west
     eastWall = tilesReadyForRound.slice(0, 3);
-    southWall = []; //6*2 dead wall
-    westWall = tilesReadyForRound.slice(37, 69); //1*2 dead wall
+    southWall = deadWallFragment.slice(0, 12); //6*2 dead wall
+    westWall = array.concat(
+      deadWallFragment.slice(12, 14),
+      tilesReadyForRound.slice(37, 69),
+    ); //1*2 dead wall
     northWall = tilesReadyForRound.slice(3, 37);
   }
   if (DICE_ROLL === 7) {
@@ -247,7 +290,7 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     //7 west
     eastWall = tilesReadyForRound.slice(1, 35); // east full
     southWall = tilesReadyForRound.slice(0, 1); // 1 left,
-    westWall = []; //DEAD WALL is from 0 to 14
+    westWall = deadWallFragment; //DEAD WALL is from 0 to 14
     northWall = tilesReadyForRound.slice(35, 69); //north full
   }
   if (DICE_ROLL === 8) {
@@ -255,10 +298,13 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     eastWall = tilesReadyForRound.slice(33, 67);
     southWall = tilesReadyForRound.slice(0, 33);
     westWall = [];
-    northWall = tilesReadyForRound.slice(67, 69); //7*2 dead wall
+    northWall = array.concat(
+      deadWallFragment,
+      tilesReadyForRound.slice(67, 69),
+    ); //7*2 dead wall
   }
   if (DICE_ROLL === 9) {
-    eastWall = tilesReadyForRound.slice(65, 69); //2*2 dead wall
+    eastWall = array.concat(deadWallFragment, tilesReadyForRound.slice(65, 69)); //2*2 dead wall
     southWall = tilesReadyForRound.slice(31, 65);
     westWall = tilesReadyForRound.slice(0, 31);
     northWall = [];
@@ -266,7 +312,10 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   if (DICE_ROLL === 10) {
     //SOUTH
     eastWall = []; //empty
-    southWall = tilesReadyForRound.slice(63, 69); //3*2 dead wall
+    southWall = array.concat(
+      deadWallFragment,
+      tilesReadyForRound.slice(63, 69),
+    ); //3*2 dead wall
     westWall = tilesReadyForRound.slice(29, 63);
     northWall = tilesReadyForRound.slice(0, 29);
   }
@@ -274,7 +323,7 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     //WEST
     eastWall = tilesReadyForRound.slice(0, 27);
     southWall = [];
-    westWall = tilesReadyForRound.slice(61, 69); //4*2 dead wall
+    westWall = array.concat(deadWallFragment, tilesReadyForRound.slice(61, 69)); //4*2 dead wall
     northWall = tilesReadyForRound.slice(27, 61);
   }
   if (DICE_ROLL === 12) {
@@ -282,8 +331,15 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     eastWall = tilesReadyForRound.slice(25, 59); //empty
     southWall = tilesReadyForRound.slice(0, 25);
     westWall = [];
-    northWall = tilesReadyForRound.slice(59, 69); //5*2 dead wall
+    northWall = array.concat(
+      deadWallFragment,
+      tilesReadyForRound.slice(59, 69),
+    ); //5*2 dead wall + 7*2
   }
+  dispatch(setWallFragment({direction: 'east', tiles: eastWall}));
+  dispatch(setWallFragment({direction: 'south', tiles: southWall}));
+  dispatch(setWallFragment({direction: 'west', tiles: westWall}));
+  dispatch(setWallFragment({direction: 'north', tiles: northWall}));
   console.log(
     'eastWall:',
     eastWall.length,
