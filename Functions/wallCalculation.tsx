@@ -1,12 +1,12 @@
-import {useDispatch, useSelector} from 'react-redux';
-import store, {RootState} from '../Store/store';
 import {
   setDeadWallFragment,
+  setDiceRollState,
   setDorasFromDeadWall,
   setTilesAfterHandout,
 } from '../Store/wallReducer';
 import {TTileObject} from '../Types/types';
 import {updateAfterHandOut} from '../Store/handReducer';
+
 function checkDiceRoll(roll: number) {
   const EAST = [1, 5, 9];
   const SOUTH = [2, 6, 10];
@@ -38,6 +38,7 @@ function filterOutMatchingObjects(
 function compareObjects(obj1: TTileObject, obj2: TTileObject) {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
+
 //shuffled
 /*   const allWallTiles = 136;
   const EastPlayer = 34; //1 index=2   5=index=10  9=index=18
@@ -57,13 +58,15 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   //  const dispatch = useDispatch();
   //const finishedWall: TTileObject[] = store.getState().wallReducer.wallTilesArray;
   const shuffledWall = shuffledTiles;
-  const DICE_ROLL = Math.floor(Math.random() * 12) + 1;
+  const DICE_ROLL =
+    Math.floor(Math.random() * 6) + 1 + (Math.floor(Math.random() * 6) + 1);
+  const currentDiceRoll = DICE_ROLL;
   let deadWallFragment: TTileObject[] = [];
   let wallWithoutDeadWall = [];
-  /*  let player1Hand: TTileObject[] = [];
-  let player2Hand: TTileObject[] = [];
-  let player3Hand: TTileObject[] = [];
-  let player4Hand: TTileObject[] = []; */
+  let eastWall: TTileObject[] = [];
+  let southWall: TTileObject[] = [];
+  let westWall: TTileObject[] = [];
+  let northWall: TTileObject[] = [];
   let handedoutTiles: TTileObject[] = [];
   let tilesReadyForRound: TTileObject[] = [];
   let doras: TTileObject[] = [];
@@ -197,12 +200,100 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   dispatch(updateAfterHandOut({player: 'secondHand', tile: secondHand}));
   dispatch(updateAfterHandOut({player: 'thirdHand', tile: thirdHand}));
   dispatch(updateAfterHandOut({player: 'fourthHand', tile: fourthHand}));
+  //tilesReadyfor Round are the tiles that constitute wall to display
   dispatch(setTilesAfterHandout(tilesReadyForRound));
-
-  console.log('dice_roll:', DICE_ROLL);
+  dispatch(setDiceRollState(currentDiceRoll));
+  console.log('dice_roll:', DICE_ROLL, currentDiceRoll);
   console.log('wallWithoutDeadWall:', wallWithoutDeadWall.length);
-
-  //so if
+  console.log('tilesReadyForRound:', tilesReadyForRound.length);
+  //now set up wall position //53 tiles on hand, 14 in dead wall = 67
+  if (DICE_ROLL === 2) {
+    //2 south //5 west
+    eastWall = tilesReadyForRound.slice(0, 11);
+    southWall = []; //2*2 dead wall
+    westWall = tilesReadyForRound.slice(45, 69); //5*2 dead wall
+    northWall = tilesReadyForRound.slice(11, 45);
+  }
+  if (DICE_ROLL === 3) {
+    //3 west 4 north
+    eastWall = tilesReadyForRound.slice(9, 43);
+    southWall = tilesReadyForRound.slice(0, 9);
+    westWall = []; //3*2 deadwall
+    northWall = tilesReadyForRound.slice(43, 69); // 4*2 dead wall
+  }
+  if (DICE_ROLL === 4) {
+    //4 north  / 3 east
+    eastWall = tilesReadyForRound.slice(41, 69); //3*2 dead wall
+    southWall = tilesReadyForRound.slice(7, 41);
+    westWall = tilesReadyForRound.slice(0, 7);
+    northWall = []; //4*2 dead wall
+  }
+  if (DICE_ROLL === 5) {
+    //5 east /2 south
+    eastWall = []; //5*2 dead wall
+    southWall = tilesReadyForRound.slice(0, 5);
+    westWall = tilesReadyForRound.slice(5, 37);
+    northWall = tilesReadyForRound.slice(39, 69); //2*2 dead wall
+  }
+  if (DICE_ROLL === 6) {
+    //6 south //1 west
+    eastWall = tilesReadyForRound.slice(0, 3);
+    southWall = []; //6*2 dead wall
+    westWall = tilesReadyForRound.slice(37, 69); //1*2 dead wall
+    northWall = tilesReadyForRound.slice(3, 37);
+  }
+  if (DICE_ROLL === 7) {
+    //WEST
+    //7 west
+    eastWall = tilesReadyForRound.slice(1, 35); // east full
+    southWall = tilesReadyForRound.slice(0, 1); // 1 left,
+    westWall = []; //DEAD WALL is from 0 to 14
+    northWall = tilesReadyForRound.slice(35, 69); //north full
+  }
+  if (DICE_ROLL === 8) {
+    //rest 7 south /1 south
+    eastWall = tilesReadyForRound.slice(33, 67);
+    southWall = tilesReadyForRound.slice(0, 33);
+    westWall = [];
+    northWall = tilesReadyForRound.slice(67, 69); //7*2 dead wall
+  }
+  if (DICE_ROLL === 9) {
+    eastWall = tilesReadyForRound.slice(65, 69); //2*2 dead wall
+    southWall = tilesReadyForRound.slice(31, 65);
+    westWall = tilesReadyForRound.slice(0, 31);
+    northWall = [];
+  }
+  if (DICE_ROLL === 10) {
+    //SOUTH
+    eastWall = []; //empty
+    southWall = tilesReadyForRound.slice(63, 69); //3*2 dead wall
+    westWall = tilesReadyForRound.slice(29, 63);
+    northWall = tilesReadyForRound.slice(0, 29);
+  }
+  if (DICE_ROLL === 11) {
+    //WEST
+    eastWall = tilesReadyForRound.slice(0, 27);
+    southWall = [];
+    westWall = tilesReadyForRound.slice(61, 69); //4*2 dead wall
+    northWall = tilesReadyForRound.slice(27, 61);
+  }
+  if (DICE_ROLL === 12) {
+    //NORTH
+    eastWall = tilesReadyForRound.slice(25, 59); //empty
+    southWall = tilesReadyForRound.slice(0, 25);
+    westWall = [];
+    northWall = tilesReadyForRound.slice(59, 69); //5*2 dead wall
+  }
+  console.log(
+    'eastWall:',
+    eastWall.length,
+    'southWall:',
+    southWall.length,
+    'westWall:',
+    westWall.length,
+    'northWall:',
+    northWall.length,
+  );
   /* console.log("shuffledWall:",shuffledWall.length)
   console.log("deadWallFragment:",deadWallFragment.length, "wallWithoutDeadWall:",wallWithoutDeadWall.length)
   console.log("player1Hand:",player1Hand.length, "player2Hand:",player2Hand.length,"player3Hand:",player3Hand.length,"player4Hand:",player4Hand.length)
