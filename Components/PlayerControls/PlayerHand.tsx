@@ -35,12 +35,11 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
     }
   }, [sortTilesOnHand, handData, isItFirstTurn]);
 
-  console.log(
+  /* console.log(
     handData.map(item => item.tileID),
     turnsElapsed,
     isItFirstTurn,
-  );
-  //console.log(sortedData.map(item => item.tileID));
+  ); */
 
   const handlePress = (item: string, tileID: number) => {
     if (selected === tileID) {
@@ -52,12 +51,7 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
   };
 
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
-    // Determine the value of 'shit'
-
-    // Check if the current item is the last item
     const isLastItem = index === handData.length - 1;
-
-    // Calculate marginLeft based on conditions
     const marginLeft = isItFirstTurn ? 0 : isLastItem ? 10 : 0;
 
     //console.log(index === handData.length - 1);

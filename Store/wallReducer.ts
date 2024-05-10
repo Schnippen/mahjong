@@ -22,7 +22,7 @@ lastDiscard: Stores information about the last tile discarded (e.g., suit, rank,
 interface wallState {
   tilesLeft: number;
   tilesLeftInWall: number;
-  diceRoll: number;
+  currentDiceRoll: number;
   wallTilesArray: any[]; //TODO
   wallEastState: TTileObject[];
   wallSouthState: TTileObject[];
@@ -37,7 +37,7 @@ interface wallState {
 const initialState: wallState = {
   tilesLeft: 136,
   tilesLeftInWall: 1,
-  diceRoll: 0,
+  currentDiceRoll: 0,
   wallTilesArray: [],
   wallEastState: [],
   wallSouthState: [],
@@ -53,8 +53,8 @@ export const wallReducer = createSlice({
   name: 'wallReducer',
   initialState,
   reducers: {
-    rollDice: state => {
-      state.diceRoll = Math.floor(Math.random() * 12) + 1;
+    setDiceRollState: (state, action) => {
+      state.currentDiceRoll = action.payload;
     },
     shuffleWallTiles: state => {
       state.wallTilesArray = shuffledTilesForGameStart();
@@ -89,7 +89,7 @@ export const wallReducer = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  rollDice,
+  setDiceRollState,
   shuffleWallTiles,
   setWallFragment,
   setDeadWallFragment,

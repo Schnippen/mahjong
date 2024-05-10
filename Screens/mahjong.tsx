@@ -21,28 +21,13 @@ import {
   ButtonPASS,
 } from '../Components/Buttons/ButtonSteal/ButtonSteal';
 import RiverBottom from '../Components/River/RiverBottom';
-import {
-  TileInTheRiverComponentFront,
-  TileInTheRiverComponentLeft,
-  TileInTheRiverComponentRight,
-  TileInTheRiverComponentTop,
-} from '../Components/RiverTiles/RiverTiles';
 import {RiverRight} from '../Components/River/RiverRight';
 import {RiverLeft} from '../Components/River/RiverLeft';
-import {rollDice} from '../Store/wallReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../Store/store';
-import WallCalculation from '../Functions/wallCalculation';
 import {initialGame} from '../Functions/initializeGame';
-import {createTilesObjects} from '../Functions/createTiles';
-import Score from '../Components/Compass/Score';
-import TilesLeftInTheGame from '../Components/Compass/TilesLeftInTheGame';
-import GameWindAndRound from '../Components/Compass/GameWindAndRound';
-import Triangle from '../Components/Compass/Triangle';
-import CompassPlayerSide from '../Components/Compass/CompassPlayerSide';
-import RichiiStick from '../Components/Compass/RichiiStick/RichiiStick';
+
 import WallBottom from '../Components/Wall/WallBottom';
-import {tilesData} from '../Data/tilesData';
 import WallRight from '../Components/Wall/WallRight';
 import WallLeft from '../Components/Wall/WallLeft';
 import RiverTop from '../Components/River/RiverTop';
@@ -117,9 +102,6 @@ function MahjongScreen({navigation, route}: any) {
       </View>
     );
   };
-  const DICE_ROLL = useSelector(
-    (state: RootState) => state.wallReducer.diceRoll,
-  );
   //const shuffledWall=useSelector((state:RootState)=>state.wallReducer.wallTilesArray)
   const dispatch = useDispatch();
   const tilesAfterHandout = useSelector(
@@ -134,23 +116,40 @@ function MahjongScreen({navigation, route}: any) {
     'MainPlayerCurrentHand:',
     MainPlayerCurrentHand.length,
   );
-  const playerBottomMainPlayer = useSelector(
+  //winds of players
+  const playerBottomMainPlayerWind = useSelector(
     (state: RootState) => state.playersReducer.player1.player1Wind,
   );
-  const playerRight = useSelector(
+  const playerRightWind = useSelector(
     (state: RootState) => state.playersReducer.player2.player2Wind,
   );
-  const playerTop = useSelector(
+  const playerTopWind = useSelector(
     (state: RootState) => state.playersReducer.player3.player3Wind,
   );
-  const playerLeft = useSelector(
+  const playerLeftWind = useSelector(
     (state: RootState) => state.playersReducer.player4.player4Wind,
   );
-  const shit = useSelector((state: RootState) => state.handReducer.firstHand);
-  const shit2 = useSelector(
+  const firstHand = useSelector(
+    (state: RootState) => state.handReducer.firstHand,
+  );
+  const player1Hand = useSelector(
     (state: RootState) => state.handReducer.player1Hand,
   );
-  console.log(shit.length, shit2.length);
+  const DICE_ROLL = useSelector(
+    (state: RootState) => state.wallReducer.currentDiceRoll,
+  );
+  console.log(
+    'DICE_ROLL:',
+    DICE_ROLL,
+    /*  playerBottomMainPlayerWind,
+    playerTopWind, */
+  );
+  /* console.log(
+    'firstHand:',
+    firstHand.length,
+    'player1Hand:',
+    player1Hand.length,
+  ); */
   //Wall wind, perspective based,
   const nextTurn = () => {
     dispatch(END_TURN());
@@ -158,16 +157,7 @@ function MahjongScreen({navigation, route}: any) {
   return (
     <ScrollView>
       <Button title="initialize" onPress={() => initialGame(dispatch)}></Button>
-      <Button
-        title="determineTurn"
-        onPress={() =>
-          determineTurnOrder(
-            playerBottomMainPlayer,
-            playerRight,
-            playerTop,
-            playerLeft,
-          )
-        }></Button>
+
       <Button title="nextTurn" onPress={() => nextTurn()}></Button>
       <View
         style={{
@@ -186,7 +176,7 @@ function MahjongScreen({navigation, route}: any) {
           style={{
             marginTop: -75,
             backgroundColor: 'green',
-            transform: [{rotateX: '45deg'}, {rotateZ: '0deg'}, {scale: 1}],
+            transform: [{rotateX: '0deg'}, {rotateZ: '0deg'}, {scale: 1}],
           }}>
           <View
             style={{
@@ -215,7 +205,7 @@ function MahjongScreen({navigation, route}: any) {
                   position: 'absolute',
                   top: 280,
                 }}>
-                <WallTop wallState={[]} />
+                <WallTop wallWind={playerTopWind} />
               </View>
             </View>
             <View
@@ -238,7 +228,7 @@ function MahjongScreen({navigation, route}: any) {
                   position: 'absolute',
                   right: 0,
                 }}>
-                <WallLeft wallState={[]} />
+                <WallLeft wallWind={playerLeftWind} />
               </View>
             </View>
             <View
@@ -260,7 +250,7 @@ function MahjongScreen({navigation, route}: any) {
                   position: 'absolute',
                   left: 0,
                 }}>
-                <WallRight wallState={[]} />
+                <WallRight wallWind={playerRightWind} />
               </View>
             </View>
             <View
@@ -280,7 +270,7 @@ function MahjongScreen({navigation, route}: any) {
                   top: 280,
                   /* alignItems: 'flex-start', */
                 }}>
-                <WallBottom wallState={[]} />
+                <WallBottom wallWind={playerBottomMainPlayerWind} />
               </View>
             </View>
           </View>
@@ -302,4 +292,16 @@ export default MahjongScreen;
 }
 {
   /* <Button title="initialize" onPress={() => initialGame(dispatch)}></Button> */
+  {
+    /*      <Button
+        title="determineTurn"
+        onPress={() =>
+          determineTurnOrder(
+            playerBottomMainPlayer,
+            playerRight,
+            playerTop,
+            playerLeft,
+          )
+        }></Button> */
+  }
 }

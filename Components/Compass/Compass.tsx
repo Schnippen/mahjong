@@ -24,12 +24,6 @@ const Compass = () => {
     (state: RootState) => state.playersReducer.player4.player4Wind,
   );
 
-  const playersSHIT = [
-    playerBottomMainPlayer,
-    playerRight,
-    playerTop,
-    playerLeft,
-  ];
   return (
     <View
       style={{

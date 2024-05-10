@@ -349,6 +349,8 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     westWall.length,
     'northWall:',
     northWall.length,
+    'sum:',
+    eastWall.length + southWall.length + westWall.length + northWall.length,
   );
   /* console.log("shuffledWall:",shuffledWall.length)
   console.log("deadWallFragment:",deadWallFragment.length, "wallWithoutDeadWall:",wallWithoutDeadWall.length)
