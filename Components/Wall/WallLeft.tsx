@@ -41,9 +41,17 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
     }
   });
   const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 11;
-  //console.log('wallLeft', wallState?.length);
   const topTiles = wallState.filter((_, index) => index % 2 === 0);
   const bottomTiles = wallState.filter((_, index) => index % 2 === 1);
+  console.log(
+    'wallLeft',
+    wallState?.length,
+    'topTiles:',
+    topTiles.length,
+    'bottomTiles:',
+    bottomTiles.length,
+    topTiles.map(i => i.helperNumber),
+  );
   /* if(wallWind==="west"&&globalDiceRollResult===6){
   return marginRight: 24
 } */
@@ -133,8 +141,7 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
         horizontal={true}
         style={{
           position: 'absolute',
-          top: 1,
-          marginLeft: 20,
+          top: 10,
         }}
         getItemLayout={(data, index) => ({
           length: 39,

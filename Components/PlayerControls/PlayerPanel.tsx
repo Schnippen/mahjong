@@ -26,8 +26,8 @@ const PlayerPanel = ({handData}: {handData: TTileObject[]}) => {
           right: 25,
           zIndex: 1,
         }}>
-        <ButtonCHII />
-        <ButtonPASS />
+        {/*     <ButtonCHII />
+        <ButtonPASS /> */}
       </View>
       <PlayersHandComponent handData={handData} />
     </View>

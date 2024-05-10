@@ -19,6 +19,10 @@ export default Settings;
 //justify-content flex-end  EAST
 //Margin right SOUTH
 
+// wallWind === 'south' && globalDiceRollResult === 6
+// const isNearDeadwall = wallWind === 'south' && globalDiceRollResult === 6
+//justify-content flex-start SOUTH
+
 // wallWind === 'west' && globalDiceRollResult === 7
 // const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 7
 //justify-content flex-start WEST
@@ -36,6 +40,11 @@ export default Settings;
 //justify-content flex-end  west
 //Margin right west 4 tiles
 // const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 11;
+
+// wallWind === 'north' && globalDiceRollResult ===12
+//justify-content flex-end  north
+//Margin right west 6 tiles
+// const isNearDeadwall = wallWind === 'north' && globalDiceRollResult === 12;
 
 // porposition of creating wall that will sit on the gameboard
 /* 

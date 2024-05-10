@@ -68,12 +68,12 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   let secondHand: TTileObject[] = [];
   let thirdHand: TTileObject[] = [];
   let fourthHand: TTileObject[] = [];
-  if (DICE_ROLL === 1) {
+  /* if (DICE_ROLL === 1) { // it is imopossible with two dices
     deadWallFragment = deadWallFragment.concat(
       shuffledWall.slice(shuffledWall.length - 12),
       shuffledWall.slice(0, 2),
     );
-  }
+  } */
   if (DICE_ROLL === 2) {
     deadWallFragment = deadWallFragment.concat(
       shuffledWall.slice(shuffledWall.length - 10, shuffledWall.length),

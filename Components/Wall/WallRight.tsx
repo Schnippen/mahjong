@@ -39,8 +39,8 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
 
   console.log('wallRight', wallState?.length, 'wallWind:', wallWind);
 
-  const topTiles = wallState.filter((_, index) => index % 2 === 1);
-  const bottomTiles = wallState.filter((_, index) => index % 2 === 0);
+  const topTiles = wallState.filter((_, index) => index % 2 === 0);
+  const bottomTiles = wallState.filter((_, index) => index % 2 === 1);
   const DeadWallTile = ({item, index}: {item: TTileObject; index: number}) => {
     if (item.isDora) {
       return (
@@ -71,7 +71,16 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
       );
     }
   };
-  const isNearDeadwall = wallWind === 'north' && globalDiceRollResult === 8;
+
+  const isNearDeadwall =
+    (wallWind === 'north' && globalDiceRollResult === 12) ||
+    (wallWind === 'east' && globalDiceRollResult === 9) ||
+    (wallWind === 'north' && globalDiceRollResult === 8) ||
+    (wallWind === 'west' && globalDiceRollResult === 7) ||
+    (wallWind === 'south' && globalDiceRollResult === 6);
+
+  const directionOfWall = wallWind === 'north' && globalDiceRollResult === 7;
+
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
     /* console.log(
       'wallRight:',
@@ -81,7 +90,9 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
       item.isDora,
       item.tileID,
     ); */
-    const marginLeft = isNearDeadwall ? 12 : index === 0 ? 0 : -12;
+    const marginLeft =
+      isNearDeadwall && index === 7 ? 12 : index === 0 ? 0 : -12;
+
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
     } else {
@@ -110,7 +121,8 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
         height: 60,
         position: 'relative',
         width: 600,
-        justifyContent: isNearDeadwall ? 'flex-end' : 'flex-start',
+        justifyContent:
+          isNearDeadwall || directionOfWall ? 'flex-end' : 'flex-start',
       }}>
       <FlatList
         data={topTiles}
@@ -118,7 +130,7 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true}
-        style={{position: 'absolute'}} //this is bottom row
+        style={{position: 'absolute', right: isNearDeadwall ? 10 : null}} //this is bottom row
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,
