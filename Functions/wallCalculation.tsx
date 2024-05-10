@@ -175,13 +175,13 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     tile.state = 'wall';
   });
   doras = doras.concat(
-    deadWallFragment[6],
-    deadWallFragment[8],
-    deadWallFragment[10],
-    deadWallFragment[12],
-    deadWallFragment[14],
+    deadWallFragment[5],
+    deadWallFragment[7],
+    deadWallFragment[9],
+    deadWallFragment[11],
+    deadWallFragment[13],
   );
-
+  doras[0].isDora = true;
   /*   tilesReadyForRound = wallWithoutDeadWall.filter((tile: TTileObject) => !handedoutTiles.some((handedoutTile: TTileObject) => handedoutTile.tileID === tile.tileID)); */
   //console.log('calcL:', player1Hand.length);
   dispatch(setDeadWallFragment(deadWallFragment));

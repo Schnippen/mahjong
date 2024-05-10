@@ -15,15 +15,27 @@ export default Settings;
 
 //last tiles position in wall relative to wind
 
-//WALL LEFT
-//wallWind === 'south' && globalDiceRollResult === 5,
-// rotate 180   style={{position: 'absolute', left: 0, top: 0}}
-//  style={{position: 'absolute', left: 10}} <WallTileRight
+// wallWind === 'east' && globalDiceRollResult === 5
+//justify-content flex-end  EAST
+//Margin right SOUTH
 
-//WALL BOTTOM
-//wallWind === 'north' && globalDiceRollResult === 8,
-//        transform: [{rotateZ: '180deg'}], <WallTileTop
-//render DEADWALL 7*2
+// wallWind === 'west' && globalDiceRollResult === 7
+// const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 7
+//justify-content flex-start WEST
+
+// wallWind === 'north' && globalDiceRollResult ===8
+//justify-content flex-end  North
+//const isNearDeadwall = wallWind === 'north' && globalDiceRollResult === 8;
+
+//Margin right NORTH 2 tiles
+// wallWind === 'east' && globalDiceRollResult ===9
+//justify-content flex-end  east
+//Margin right east 3 tiles
+
+// wallWind === 'west' && globalDiceRollResult ===11
+//justify-content flex-end  west
+//Margin right west 4 tiles
+// const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 11;
 
 // porposition of creating wall that will sit on the gameboard
 /* 

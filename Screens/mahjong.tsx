@@ -279,7 +279,6 @@ function MahjongScreen({navigation, route}: any) {
           <PlayerPanel handData={MainPlayerCurrentHand} />
         </View>
       </View>
-      <DeadWall />
     </ScrollView>
   );
 } //TODO change the left and right tiles in compass with correct width and height

@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, Text, View} from 'react-native';
-import {WallTile, WallTileTop} from '../WallTiles/WallTiles';
+import {WallTile, WallTileTop, WallTileTopIsDora} from '../WallTiles/WallTiles';
 import {tilesData} from '../../Data/tilesData';
 import {TTileObject} from '../../Types/types';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
+import EmptyComponent from './EmptyComponent';
 //wallWind determines the wall state data source
 //TODO add Types
 const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
@@ -58,13 +59,25 @@ globalDiceRollResult === 9,
 globalDiceRollResult === 10,
 globalDiceRollResult === 11,
 globalDiceRollResult === 12, */
-  const topTiles = wallState.filter((_, index) => index % 2 === 0);
-  const bottomTiles = wallState.filter((_, index) => index % 2 === 1);
-
-  const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
-    //console.log('wallTOP:', item.name, index, item.state);
-    console.log('wallTOP:', item.state === 'deadwall', item.name, index);
-    if (item.state === 'deadwall') {
+  const topTiles = wallState.filter((_, index) => index % 2 === 1);
+  const bottomTiles = wallState.filter((_, index) => index % 2 === 0);
+  const DeadWallTile = ({item, index}: {item: TTileObject; index: number}) => {
+    if (item.isDora) {
+      return (
+        <View style={{marginLeft: 0 /* index === 0 ? 0 : -12 */}}>
+          <WallTileTopIsDora
+            svg={item.image}
+            tileRatioProp={1}
+            key={index + 'a'}
+            zIndex={1}
+          />
+          <Text>
+            {index}
+            {item.isDora}
+          </Text>
+        </View>
+      );
+    } else {
       return (
         <View style={{marginLeft: 0 /* index === 0 ? 0 : -12 */}}>
           <WallTileTop
@@ -73,8 +86,21 @@ globalDiceRollResult === 12, */
             key={index + 'a'}
             zIndex={1}
           />
+          <Text>{index}</Text>
         </View>
       );
+    }
+  };
+  const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
+    /* console.log(
+      'wallTOP:',
+      item.state === 'deadwall',
+      item.name,
+      index,
+      item.isDora,
+    ); */
+    if (item.state === 'deadwall') {
+      return <DeadWallTile item={item} index={index} />;
     } else {
       return (
         <WallTileTop
@@ -86,9 +112,7 @@ globalDiceRollResult === 12, */
       );
     }
   };
-  const EmptyComponent = () => {
-    return <View></View>;
-  };
+
   return (
     <View
       style={{
@@ -97,9 +121,10 @@ globalDiceRollResult === 12, */
         height: 60,
         position: 'relative',
         width: 600,
+        justifyContent: 'flex-end', // start tiles from left or right
       }}>
       <FlatList
-        data={topTiles}
+        data={bottomTiles}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
@@ -114,7 +139,7 @@ globalDiceRollResult === 12, */
         extraData={wallState}
       />
       <FlatList
-        data={bottomTiles}
+        data={topTiles}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
