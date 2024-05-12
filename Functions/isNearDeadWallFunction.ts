@@ -9,7 +9,6 @@ const isNearDeadWallFunction =({wallWind,globalDiceRollResult}:{wallWind:string,
     (wallWind === 'west' && globalDiceRollResult === 7) ||
     (wallWind === 'south' && globalDiceRollResult === 6)||
     ( wallWind === 'east' && globalDiceRollResult === 5)||
-
     (wallWind === 'north' && globalDiceRollResult === 4)||
     (wallWind === 'west' && globalDiceRollResult === 2)
     return result
