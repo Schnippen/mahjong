@@ -37,28 +37,18 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
         return [];
     }
   });
-
+/* 
   console.log(
     'wallTop',
     wallState?.length,
     'dice:',
     globalDiceRollResult,
-    wallWind === 'east' && globalDiceRollResult === 5,
+    //wallWind === 'east' && globalDiceRollResult === 5,
     //wallState.map(x => x.name),
-  );
-  /*      wallWind,
-    wallWind === 'south' && globalDiceRollResult === 5, 
-    globalDiceRollResult === 2,
-globalDiceRollResult === 3,
-globalDiceRollResult === 4,
-globalDiceRollResult === 5,
-globalDiceRollResult === 7,
-globalDiceRollResult === 7,
-globalDiceRollResult === 8,
-globalDiceRollResult === 9,
-globalDiceRollResult === 10,
-globalDiceRollResult === 11,
-globalDiceRollResult === 12, */
+  ); */
+
+
+
   const topTiles = wallState.filter((_, index) => index % 2 === 1);
   const bottomTiles = wallState.filter((_, index) => index % 2 === 0);
   const DeadWallTile = ({item, index}: {item: TTileObject; index: number}) => {
@@ -91,6 +81,16 @@ globalDiceRollResult === 12, */
       );
     }
   };
+  const isNearDeadwall =
+  (wallWind === 'north' && globalDiceRollResult === 12) ||
+  (wallWind === 'west' && globalDiceRollResult === 11)||
+  (wallWind === 'south' && globalDiceRollResult === 10)||
+  (wallWind === 'east' && globalDiceRollResult === 9) ||
+  (wallWind === 'north' && globalDiceRollResult === 8) ||
+  (wallWind === 'west' && globalDiceRollResult === 7) ||
+  (wallWind === 'south' && globalDiceRollResult === 6)||
+  (wallWind === 'north' && globalDiceRollResult === 4)
+
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
     /* console.log(
       'wallTOP:',
@@ -99,20 +99,30 @@ globalDiceRollResult === 12, */
       index,
       item.isDora,
     ); */
+    const marginLeft =
+      /* isNearDeadwall && index === 7|| */globalDiceRollResult===4&&isNearDeadwall && index === 2 ? 12 :0// TODO change size of the tile gap to tile width
+      //globalDiceRollResult===4&&isNearDeadwall && index === 2
+    //console.log("wallTop:",globalDiceRollResult===7&&wallWind==="south")
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
     } else {
       return (
+        <View
+        style={{
+          marginLeft: marginLeft,
+        }}>
         <WallTileTop
           svg={item.image}
           tileRatioProp={1}
           key={index + 'a'}
           zIndex={1}
         />
+        </View>
       );
     }
   };
-
+  //TODO change it to Flashilist in the future
+  const wallDirection = globalDiceRollResult===7&&wallWind==="south"
   return (
     <View
       style={{
@@ -121,7 +131,7 @@ globalDiceRollResult === 12, */
         height: 60,
         position: 'relative',
         width: 600,
-        justifyContent: 'flex-end', // start tiles from left or right
+        justifyContent: wallDirection?"flex-start":'flex-end', // start tiles from left or right
       }}>
       <FlatList
         data={bottomTiles}
@@ -134,9 +144,10 @@ globalDiceRollResult === 12, */
           length: 39,
           offset: 39 * index,
           index,
-        })} //TODO perspective
+        })} 
         ListEmptyComponent={<EmptyComponent />}
         extraData={wallState}
+        inverted
       />
       <FlatList
         data={topTiles}

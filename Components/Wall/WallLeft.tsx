@@ -10,6 +10,7 @@ import {tilesData} from '../../Data/tilesData';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
 import EmptyComponent from './EmptyComponent';
+import isNearDeadWallFunction from '../../Functions/isNearDeadWallFunction';
 //wallWind determines the wall state data source
 const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
   const [topWallTiles, setTopWallTiles] = useState<TTileObject[]>([]);
@@ -40,10 +41,9 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
         return [];
     }
   });
-  const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 11;
   const topTiles = wallState.filter((_, index) => index % 2 === 0);
   const bottomTiles = wallState.filter((_, index) => index % 2 === 1);
-  console.log(
+  /* console.log(
     'wallLeft',
     wallState?.length,
     'topTiles:',
@@ -51,18 +51,16 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
     'bottomTiles:',
     bottomTiles.length,
     topTiles.map(i => i.helperNumber),
-  );
+  ); */
   /* if(wallWind==="west"&&globalDiceRollResult===6){
   return marginRight: 24
 } */
 
   const DeadWallTile = ({item, index}: {item: TTileObject; index: number}) => {
-    if (item.isDora) {
-      //console.log(item.isDora, item.name);
-      //const marginLeft = isNearDeadwall ? 12 : index === 0 ? 0 : -12;
 
+    if (item.isDora) {
       return (
-        <View style={{marginLeft: index === 0 ? 0 : -12}}>
+        <View style={{marginLeft:  index === 0 ? 0 : -12,}}>
           <WallTileLeftIsDora
             svg={item.image}
             tileRatioProp={1}
@@ -70,7 +68,7 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
             zIndex={1}
           />
           <Text>
-            {index}
+            {index+1}
             {item.isDora}
           </Text>
         </View>
@@ -84,18 +82,25 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
             key={index + 'a'}
             zIndex={1}
           />
-          <Text>{index}</Text>
+          <Text>{index+1}</Text>
         </View>
       );
     }
   };
 
+ const isNearDeadwall = isNearDeadWallFunction({wallWind,globalDiceRollResult})
+
   const renderItem = ({item, index}: {index: number; item: any}) => {
+    const marginLeft = isNearDeadwall && index === 7 ? 12 : index === 0 ? 0 : -12;
+    console.log("wallLeft",globalDiceRollResult===6&&wallWind==="east"?0:!isNearDeadwall?10:null
+  )
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
     } else {
       return (
-        <View style={{marginLeft: index === 0 ? 0 : -12}}>
+        <View style={{
+          marginLeft: marginLeft,
+        }}>
           <WallTileLeft
             svg={item.image}
             tileRatioProp={1}
@@ -124,7 +129,7 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true}
-        style={{position: 'absolute', top: 0}}
+        style={{position: 'absolute', top: 0,}}
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,
@@ -141,7 +146,9 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
         horizontal={true}
         style={{
           position: 'absolute',
-          top: 10,
+          top:2,
+          right: isNearDeadwall ? 10 : null,
+          left:globalDiceRollResult===6&&wallWind==="east"?0:!isNearDeadwall?10:null
         }}
         getItemLayout={(data, index) => ({
           length: 39,

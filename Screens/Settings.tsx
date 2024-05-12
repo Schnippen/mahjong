@@ -15,13 +15,24 @@ export default Settings;
 
 //last tiles position in wall relative to wind
 
+//it is south wall but the divide happens on west wall
+// wallWind === 'south' && globalDiceRollResult ===2
+// const isNearDeadwall = wallWind === 'south' && globalDiceRollResult === 2;
+
+// wallWind === 'north' && globalDiceRollResult ===4
+//justify-content flex-end  west
+//Margin right west 4 tiles
+// const isNearDeadwall = wallWind === 'north' && globalDiceRollResult === 4;
+
 // wallWind === 'east' && globalDiceRollResult === 5
+//isNearDeadwall = wallWind === 'east' && globalDiceRollResult === 5;
 //justify-content flex-end  EAST
 //Margin right SOUTH
 
+
+//it is south wall but the divide happens on west wall
 // wallWind === 'south' && globalDiceRollResult === 6
 // const isNearDeadwall = wallWind === 'south' && globalDiceRollResult === 6
-//justify-content flex-start SOUTH
 
 // wallWind === 'west' && globalDiceRollResult === 7
 // const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 7
@@ -35,6 +46,12 @@ export default Settings;
 // wallWind === 'east' && globalDiceRollResult ===9
 //justify-content flex-end  east
 //Margin right east 3 tiles
+
+// wallWind === 'south' && globalDiceRollResult ===10
+//justify-content flex-end  west
+//Margin right west 4 tiles
+// const isNearDeadwall = wallWind === 'south' && globalDiceRollResult === 10;
+
 
 // wallWind === 'west' && globalDiceRollResult ===11
 //justify-content flex-end  west

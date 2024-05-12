@@ -39,9 +39,6 @@ const WallBottom = ({wallWind = ''}: {wallWind?: string}) => {
         return [];
     }
   });
-  const isNearDeadwall =
-    (wallWind === 'east' && globalDiceRollResult === 9) ||
-    (wallWind === 'west' && globalDiceRollResult === 7);
 
   console.log('wallBottom', wallState?.length);
   const topTiles = wallState.filter((_, index) => index % 2 === 0);
@@ -77,11 +74,18 @@ const WallBottom = ({wallWind = ''}: {wallWind?: string}) => {
       );
     }
   };
+  const isNearDeadwall =
+  (wallWind === 'north' && globalDiceRollResult === 12) ||
+  (wallWind === 'west' && globalDiceRollResult === 11)||
+  (wallWind === 'south' && globalDiceRollResult === 10)||
+  (wallWind === 'east' && globalDiceRollResult === 9) ||
+  (wallWind === 'north' && globalDiceRollResult === 8) ||
+  (wallWind === 'west' && globalDiceRollResult === 7) ||
+  (wallWind === 'south' && globalDiceRollResult === 6)||
+  (wallWind === 'north' && globalDiceRollResult === 4)
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
-    const marginLeft = isNearDeadwall && index === 7 ? 12 : 0; //too much deterministic aproach
-
-    //if(wallWind === 'north' && globalDiceRollResult === 8){return}
-    //console.log('wallBOTTOM:', item.state === 'deadwall', item.name);
+    const marginLeft =isNearDeadwall && index === 7 ? 12 :0 //too much deterministic aproach
+    //console.log("wallBottom:",globalDiceRollResult===6&&wallWind==="west"&&index===0)
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
     } else {
