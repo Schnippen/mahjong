@@ -2,12 +2,20 @@ import {View, FlatList} from 'react-native';
 import {mahjongTilesSVGsArray} from '../../Assets/MahjongTiles/MahjongTiles';
 import {TileInTheRiverComponentLeft} from '../RiverTiles/RiverTiles';
 import React from 'react';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../Store/store';
+import EmptyComponent from '../Wall/EmptyComponent';
+import { TTileObject } from '../../Types/types';
 
 export const RiverLeft = () => {
-  const data = mahjongTilesSVGsArray.slice(12, 13); //river data
+  //const data = mahjongTilesSVGsArray.slice(12, 13); //river data
+
+  const playersRiver = useSelector(
+    (state: RootState) => state.riverReducer.player4RiverState,
+  );
   //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
   //add zIndex to the last tile, index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0
-  const renderItem = ({item, index}: {item: string; index: number}) => (
+  const renderItem = ({item, index}: {item: TTileObject; index: number}) => (
     <View
       style={{
         alignItems: 'flex-start',
@@ -18,7 +26,7 @@ export const RiverLeft = () => {
         marginTop: index === 18 ? -82 : 0,
         zIndex:-index */
       }}>
-      <TileInTheRiverComponentLeft svg={item} tileRatioProp={2} index={index} />
+      <TileInTheRiverComponentLeft svg={item.image} tileRatioProp={2} index={index} />
     </View>
   );
   const numOfColumns = 6;
@@ -33,12 +41,14 @@ export const RiverLeft = () => {
         alignItems: 'flex-start',
       }}>
       <FlatList
-        data={data}
+        data={playersRiver}
         style={{backgroundColor: 'brown', width: '100%'}}
         renderItem={renderItem}
         scrollEnabled={false}
         numColumns={numOfColumns}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => item.tileID.toString()}
+        ListEmptyComponent={<EmptyComponent/>}
+        extraData={playersRiver}
       />
     </View>
   );

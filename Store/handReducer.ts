@@ -23,6 +23,8 @@ const initialState: handState = {
   fourthHand: [],
 };
 
+
+
 export const handReducer = createSlice({
   name: 'handReducer',
   initialState,
@@ -38,8 +40,18 @@ export const handReducer = createSlice({
     decrement: state => {
       //state.value -= 1
     },
-    incrementByAmount: (state, action) => {
-      //state.value += action.payload
+    discardTileFromHand: (state, action) => {
+        const { player, tile } = action.payload;
+        if (player === 'player1') {
+          state.player1Hand = state.player1Hand.filter(t => t.tileID !== tile.tileID);
+          console.log("handReducer:",state.player1Hand.length)
+        } else if (player === 'player2') {
+          state.player2Hand = state.player2Hand.filter(t => t.tileID !== tile.tileID);
+        } else if (player === 'player3') {
+          state.player3Hand = state.player3Hand.filter(t => t.tileID !== tile.tileID);
+        } else if (player === 'player4') {
+          state.player4Hand = state.player4Hand.filter(t => t.tileID !== tile.tileID);
+        }
     },
     updateAfterHandOut: (state, action) => {
       const {player, tile} = action.payload;
@@ -79,7 +91,7 @@ export const handReducer = createSlice({
 export const {
   increment,
   decrement,
-  incrementByAmount,
+  discardTileFromHand,
   updateAfterHandOut,
   setPlayerHandsAfterHandOut,
 } = handReducer.actions;

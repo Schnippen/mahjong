@@ -5,11 +5,16 @@ import PlayerTileOnHand from './PlayerTileOnHand';
 import {TTileObject} from '../../Types/types';
 import {tilesData} from '../../Data/tilesData';
 import {customSort} from '../../Functions/sortTilesOnHand';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
+import TileOnHand from './TileOnHand';
+import { discardTileFromHand } from '../../Store/handReducer';
+import { putTileInTheRiver } from '../../Store/riverReducer';
+
 const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
   const [selected, setSelected] = useState<number | null>(null);
   const [sortedData, setSortedData] = useState<TTileObject[]>(handData);
+  const dispatch = useDispatch();
   const sortTilesOnHand = useSelector(
     (state: RootState) => state.settingsReducer.sortTilesOnHand,
   );
@@ -17,6 +22,7 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
     (state: RootState) => state.gameReducer.howManyTurnsElapsed,
   );
   const isItFirstTurn = turnsElapsed === 0 && handData.length !== 14;
+
 
   useEffect(() => {
     if (sortTilesOnHand) {
@@ -41,9 +47,16 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
     isItFirstTurn,
   ); */
 
-  const handlePress = (item: string, tileID: number) => {
+  const discardTile=(tile:TTileObject)=>{
+    dispatch(discardTileFromHand({player:"player1",tile:tile}))
+  }
+
+  const handlePress = (item: TTileObject, tileID: number) => {
     if (selected === tileID) {
       setSelected(null);
+      console.log("discardTile")
+      discardTile(item)
+      dispatch(putTileInTheRiver({player:"player1",tile:item}))
     } else {
       setSelected(tileID);
     }
@@ -53,26 +66,9 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
     const isLastItem = index === handData.length - 1;
     const marginLeft = isItFirstTurn ? 0 : isLastItem ? 10 : 0;
-
     //console.log(index === handData.length - 1);
     return (
-      <TouchableWithoutFeedback
-        onPress={() => handlePress(item.name, item.tileID)}
-        style={{backgroundColor: 'pink'}}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'blue',
-            marginBottom: selected === item.tileID ? 39 * 1 : 0,
-            position: 'relative',
-            height: 39 * 1.3,
-            width: 30 * 1.3,
-            alignSelf: 'center',
-            marginLeft: marginLeft, //isLastItem ? 10 : 0,
-          }}>
-          <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} />
-        </View>
-      </TouchableWithoutFeedback>
+      <TileOnHand handlePress={handlePress} item={item} index={index} marginLeft={marginLeft} selected={selected}/>
     );
   };
   const EmptyComponent = () => {
@@ -105,21 +101,23 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
           index,
         })}
       />
-      {/*  <FlatList
-        horizontal
-        scrollEnabled={false}
-        data={nextTile}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        style={{backgroundColor: 'red', width: 0}}
-        ListEmptyComponent={<EmptyComponent />}
-        extraData={handData}
-        getItemLayout={(data, index) => ({
-          length: 39 * 1.3,
-          offset: 39 * 1.3 * index,
-          index,
-        })}
-      /> */}
+      {/*       <TouchableWithoutFeedback
+        onPress={() => handlePress(item.name, item.tileID)}
+        style={{backgroundColor: 'pink'}}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'blue',
+            marginBottom: selected === item.tileID ? 39 * 1 : 0,
+            position: 'relative',
+            height: 39 * 1.3,
+            width: 30 * 1.3,
+            alignSelf: 'center',
+            marginLeft: marginLeft, //isLastItem ? 10 : 0,
+          }}>
+          <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} />
+        </View>
+      </TouchableWithoutFeedback> */}
     </View>
   );
 };

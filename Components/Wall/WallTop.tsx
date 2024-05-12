@@ -6,6 +6,7 @@ import {TTileObject} from '../../Types/types';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
 import EmptyComponent from './EmptyComponent';
+import isNearDeadWallFunction from '../../Functions/isNearDeadWallFunction';
 //wallWind determines the wall state data source
 //TODO add Types
 const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
@@ -69,7 +70,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
       );
     } else {
       return (
-        <View style={{marginLeft: 0 /* index === 0 ? 0 : -12 */}}>
+        <View style={{marginLeft:0 /* index === 0 ? 0 : -12 */}}>
           <WallTileTop
             svg={item.image}
             tileRatioProp={1}
@@ -81,16 +82,8 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
       );
     }
   };
-  const isNearDeadwall =
-  (wallWind === 'north' && globalDiceRollResult === 12) ||
-  (wallWind === 'west' && globalDiceRollResult === 11)||
-  (wallWind === 'south' && globalDiceRollResult === 10)||
-  (wallWind === 'east' && globalDiceRollResult === 9) ||
-  (wallWind === 'north' && globalDiceRollResult === 8) ||
-  (wallWind === 'west' && globalDiceRollResult === 7) ||
-  (wallWind === 'south' && globalDiceRollResult === 6)||
-  (wallWind === 'north' && globalDiceRollResult === 4)
-
+  const isNearDeadwall = isNearDeadWallFunction({wallWind,globalDiceRollResult})
+  const isInverted =  (globalDiceRollResult===4&&wallWind==="west")
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
     /* console.log(
       'wallTOP:',
@@ -99,9 +92,8 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
       index,
       item.isDora,
     ); */
-    const marginLeft =
-      /* isNearDeadwall && index === 7|| */globalDiceRollResult===4&&isNearDeadwall && index === 2 ? 12 :0// TODO change size of the tile gap to tile width
-      //globalDiceRollResult===4&&isNearDeadwall && index === 2
+    const marginLeft = (globalDiceRollResult===5&&wallWind==="south"&&index===2)||(isNearDeadwall&&index===7) ? 30 :0
+      // TODO change size of the tile gap to tile width
     //console.log("wallTop:",globalDiceRollResult===7&&wallWind==="south")
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
@@ -117,12 +109,13 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
           key={index + 'a'}
           zIndex={1}
         />
+        {/* <Text>{index}</Text> */}
         </View>
       );
     }
   };
   //TODO change it to Flashilist in the future
-  const wallDirection = globalDiceRollResult===7&&wallWind==="south"
+  const wallDirection = globalDiceRollResult===7&&wallWind==="south"||(globalDiceRollResult===4&&wallWind==="west")||(globalDiceRollResult===9&&wallWind==="west")
   return (
     <View
       style={{
@@ -147,7 +140,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
         })} 
         ListEmptyComponent={<EmptyComponent />}
         extraData={wallState}
-        inverted
+        inverted={isInverted}
       />
       <FlatList
         data={topTiles}
@@ -163,6 +156,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
         })}
         ListEmptyComponent={<EmptyComponent />}
         extraData={wallState}
+        inverted={isInverted}
       />
     </View>
   );
