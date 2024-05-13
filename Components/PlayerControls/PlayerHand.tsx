@@ -10,19 +10,34 @@ import {RootState} from '../../Store/store';
 import TileOnHand from './TileOnHand';
 import { discardTileFromHand } from '../../Store/handReducer';
 import { putTileInTheRiver } from '../../Store/riverReducer';
+import { END_TURN } from '../../Store/gameReducer';
 
-const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
+const PlayersHandComponent = () => {
+  const handData = useSelector(
+    (state: RootState) => state.handReducer.player1Hand,
+  );
   const [selected, setSelected] = useState<number | null>(null);
   const [sortedData, setSortedData] = useState<TTileObject[]>(handData);
   const dispatch = useDispatch();
+
   const sortTilesOnHand = useSelector(
     (state: RootState) => state.settingsReducer.sortTilesOnHand,
   );
   const turnsElapsed = useSelector(
     (state: RootState) => state.gameReducer.howManyTurnsElapsed,
   );
-  const isItFirstTurn = turnsElapsed === 0 && handData.length !== 14;
 
+  const gameTurn = useSelector(
+    (state: RootState) => state.gameReducer.currentTurn,
+  );
+
+  //main player is bottom one
+  const playersWind = useSelector(
+    (state: RootState) => state.playersReducer.player1.player1Wind,
+  );
+
+  const isItFirstTurn = turnsElapsed === 0 && handData.length !== 14;
+  const handDataLastIndex = handData.length - 1
 
   useEffect(() => {
     if (sortTilesOnHand) {
@@ -47,16 +62,20 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
     isItFirstTurn,
   ); */
 
-  const discardTile=(tile:TTileObject)=>{
-    dispatch(discardTileFromHand({player:"player1",tile:tile}))
+  const discardTile=(player:string,tile:TTileObject)=>{
+    dispatch(discardTileFromHand({player:player,tile:tile}))
+    dispatch(putTileInTheRiver({player:player,tile:tile}))
+    dispatch(END_TURN());
   }
 
   const handlePress = (item: TTileObject, tileID: number) => {
     if (selected === tileID) {
       setSelected(null);
+      console.log(gameTurn===playersWind?"It's your turn":"It's NOT your turn")
+      if(gameTurn===playersWind){
+      discardTile("player1",item)
       console.log("discardTile")
-      discardTile(item)
-      dispatch(putTileInTheRiver({player:"player1",tile:item}))
+    }
     } else {
       setSelected(tileID);
     }
@@ -64,11 +83,12 @@ const PlayersHandComponent = ({handData}: {handData: TTileObject[]}) => {
   };
 
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
-    const isLastItem = index === handData.length - 1;
+     const isLastItem = index ===handDataLastIndex;
     const marginLeft = isItFirstTurn ? 0 : isLastItem ? 10 : 0;
     //console.log(index === handData.length - 1);
+    //console.log("render")
     return (
-      <TileOnHand handlePress={handlePress} item={item} index={index} marginLeft={marginLeft} selected={selected}/>
+      <TileOnHand handlePress={handlePress} item={item} index={index}  selected={selected} handDataLastIndex={handDataLastIndex} marginLeft={marginLeft}/>
     );
   };
   const EmptyComponent = () => {

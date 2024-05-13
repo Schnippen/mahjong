@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { TouchableWithoutFeedback, View } from 'react-native'
 import PlayerTileOnHand from './PlayerTileOnHand'
 import { TTileObject } from '../../Types/types';
@@ -20,8 +20,7 @@ const debounce = (onSingle:() => void, onDouble:() => void) => {
   }
 }; */
 
-const TileOnHand=({handlePress,selected,marginLeft,item,index}:{
-    handlePress:(item: TTileObject, tileID: number) => void,selected:number|null,marginLeft:number,item:TTileObject,index:number})=> {
+const TileOnHand = ({ handlePress, item, index, marginLeft, selected,handDataLastIndex }: { handlePress: (item: TTileObject, tileID: number) => void; item: TTileObject; index: number;  selected: number | null;handDataLastIndex:number,marginLeft:number }) => {
 
    /*  const [tap, setTap] = useState("...");
 
@@ -41,7 +40,7 @@ const TileOnHand=({handlePress,selected,marginLeft,item,index}:{
     const onPress = () => {
       //debounce(onSingleTap, onDoubleTap);
       handlePress(item, item.tileID)
-      console.log("onPress()")
+      //console.log("onPress()")
     };
 
     return (

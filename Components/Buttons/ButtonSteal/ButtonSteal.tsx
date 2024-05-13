@@ -60,3 +60,9 @@ export const ButtonTSUMO = () => {
     <ButtonShape text="TSUMO" firstColor="#dc2f02" secondColor="#fb8b24" />
   );
 };
+
+export const ButtonAI = () => {
+  return (
+    <ButtonShape text="AITurn" firstColor="#dc2f02" secondColor="#fb8b24" />
+  );
+};

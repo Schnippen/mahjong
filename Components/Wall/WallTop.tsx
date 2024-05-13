@@ -115,7 +115,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
     }
   };
   //TODO change it to Flashilist in the future
-  const wallDirection = globalDiceRollResult===7&&wallWind==="south"||(globalDiceRollResult===4&&wallWind==="west")||(globalDiceRollResult===9&&wallWind==="west")
+  const wallDirection = globalDiceRollResult===7&&wallWind==="south"||(globalDiceRollResult===4&&wallWind==="west")||(globalDiceRollResult===9&&wallWind==="west")||(wallWind === 'east' && globalDiceRollResult === 7)||(wallWind === 'north' && globalDiceRollResult === 7)
   return (
     <View
       style={{
