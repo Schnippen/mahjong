@@ -1,16 +1,19 @@
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import CompassPlayerSide from './CompassPlayerSide';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
 import React from 'react';
 import CompassTileCounter from './CompassTileCounter';
+import { setShowScoreDifference } from '../../Store/settingsReducer';
 const Compass = () => {
   //measuring from screenshot as a scale of reference
   const compassBottomPerimeter = 320; //320-200=120
+  const compassSidePerimeter = 320
   const compassTilesCounterBottomPerimeter = +(100 * 1.0188).toFixed(2);
   const compassTurnIndicatorBottomPerimeter = 200;
   const backgroundColor = '#5a5a66';
   const backgroundColorSec = '#2f2f39';
+  const dispatch = useDispatch()
   const playerBottomMainPlayer = useSelector(
     (state: RootState) => state.playersReducer.player1.player1Wind,
   );
@@ -23,7 +26,9 @@ const Compass = () => {
   const playerLeft = useSelector(
     (state: RootState) => state.playersReducer.player4.player4Wind,
   );
-
+  const handleChangeScoringDisplaySystem=()=>{
+    dispatch(setShowScoreDifference())
+  }
   return (
     <View
       style={{
@@ -43,6 +48,8 @@ const Compass = () => {
           alignItems: 'center',
           borderRadius: 8,
         }}>
+        <TouchableOpacity style={{width:compassBottomPerimeter, height:compassSidePerimeter,backgroundColor:"transparent",position:"absolute",top:0,zIndex:999}} onPress={()=>handleChangeScoringDisplaySystem()}>
+        </TouchableOpacity>
         <CompassTileCounter
           compassTilesCounterBottomPerimeter={
             compassTilesCounterBottomPerimeter

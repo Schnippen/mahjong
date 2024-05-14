@@ -91,7 +91,7 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
  const isNearDeadwall = isNearDeadWallFunction({wallWind,globalDiceRollResult})
 
   const renderItem = ({item, index}: {index: number; item: any}) => {
-    const marginLeft =(globalDiceRollResult===3&&wallWind==="north"&&index==4)|| isNearDeadwall && index === 7 ? 12 : index === 0 ? 0 : -12;
+    const marginLeft =(globalDiceRollResult===3&&wallWind==="north"&&index==4)|| (globalDiceRollResult===6&&wallWind==="west"&&index===1)||isNearDeadwall && index === 7 ? 12 : index === 0 ? 0 : -12;
     //console.log("wallLeft",isNearDeadwall)
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
@@ -147,8 +147,9 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
           position: 'absolute',
           top:2,
           right: isNearDeadwall ? 10 : null,
-          left:(globalDiceRollResult===6&&wallWind==="east")?0:(globalDiceRollResult===6&&wallWind==="south")||(globalDiceRollResult===9&&wallWind==="east")?null:isNearDeadwall?10:null
-        }}
+          left:(globalDiceRollResult===6&&wallWind==="east")?0:(globalDiceRollResult===6&&wallWind==="south")||(globalDiceRollResult===9&&wallWind==="east")||(globalDiceRollResult===8&&wallWind==="north")||(globalDiceRollResult===11&&wallWind==="west")||(globalDiceRollResult===3&&wallWind==="west")||(globalDiceRollResult===5&&wallWind==="east")||(globalDiceRollResult===4&&wallWind==="north")||
+          (globalDiceRollResult===12&&wallWind==="north")?null:isNearDeadwall?10:null
+        }} //TODO FIX the "left" styling
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,

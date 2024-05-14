@@ -102,7 +102,6 @@ function MahjongScreen({navigation, route}: any) {
       </View>
     );
   };
-  //const shuffledWall=useSelector((state:RootState)=>state.wallReducer.wallTilesArray)
   const dispatch = useDispatch();
   const tilesAfterHandout = useSelector(
     (state: RootState) => state.wallReducer.tilesAfterHandout,
@@ -138,12 +137,31 @@ function MahjongScreen({navigation, route}: any) {
   const DICE_ROLL = useSelector(
     (state: RootState) => state.wallReducer.currentDiceRoll,
   );
+  const currentDiscard = useSelector(
+    (state: RootState) => state.riverReducer.currentDiscard,
+  );
+  const startTakingFromWallXState = useSelector(
+    (state: RootState) => state.wallReducer.startTakingFromWallXState,
+  );
+  const playerRightHand = useSelector(
+    (state: RootState) => state.handReducer.player2Hand,
+  );
+  const playerTopHand = useSelector(
+    (state: RootState) => state.handReducer.player3Hand,
+  );
+  const playerLeftHand = useSelector(
+    (state: RootState) => state.handReducer.player4Hand,
+  );
+  console.log("mahjong currentDiscard:",currentDiscard.map(t=>t.name),"startWallX:",startTakingFromWallXState)
   console.log(
     'DICE_ROLL:',
     DICE_ROLL,
     /*  playerBottomMainPlayerWind,
     playerTopWind, */
   );
+console.info("playerRight:",playerRightHand.length, playerRightHand.map(t=>t.name))
+console.info("playerTop:",playerTopHand.length,playerTopHand.map(t=>t.name))
+console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.name))
   /* console.log(
     'firstHand:',
     firstHand.length,
@@ -187,7 +205,7 @@ function MahjongScreen({navigation, route}: any) {
               height: 560,
               position: 'relative',
               transform: [{rotateX: '0deg'}, {rotateZ: '0deg'}, {scale: 0.36}],
-            }}>
+            }}>  
             <Compass />
             <View
               style={{
@@ -276,7 +294,7 @@ function MahjongScreen({navigation, route}: any) {
           </View>
         </View>
         <View style={{position: 'absolute', bottom: 0}}>
-          <PlayerPanel handData={MainPlayerCurrentHand} />
+          <PlayerPanel />
         </View>
       </View>
     </ScrollView>

@@ -7,6 +7,7 @@ import {
 } from '../Store/wallReducer';
 import {TTileObject} from '../Types/types';
 import {updateAfterHandOut} from '../Store/handReducer';
+import { setStartTakingFromWallX } from './setStartTakingFromWallX';
 
 function checkDiceRoll(roll: number) {
   const EAST = [1, 5, 9];
@@ -210,10 +211,10 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   console.log('tilesReadyForRound:', tilesReadyForRound.length);
   //now set up wall position //53 tiles on hand, 14 in dead wall = 67
   checkDiceRoll(currentDiceRoll);
-  eastWall = tilesReadyForRound.slice(0, 11);
+ /*  eastWall = tilesReadyForRound.slice(0, 11);
   southWall = []; //2*2 dead wall deadWallFragment.slice(0,4)
   westWall = tilesReadyForRound.slice(45, 69); //5*2 dead wall deadWallFragment.slice(4,14)
-  northWall = tilesReadyForRound.slice(11, 45);
+  northWall = tilesReadyForRound.slice(11, 45); */
   /*   let array: TTileObject[] = [];
   console.log(
     'dead:',
@@ -352,6 +353,7 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     'sum:',
     eastWall.length + southWall.length + westWall.length + northWall.length,
   );
+  setStartTakingFromWallX(DICE_ROLL,dispatch)
   /* console.log("shuffledWall:",shuffledWall.length)
   console.log("deadWallFragment:",deadWallFragment.length, "wallWithoutDeadWall:",wallWithoutDeadWall.length)
   console.log("player1Hand:",player1Hand.length, "player2Hand:",player2Hand.length,"player3Hand:",player3Hand.length,"player4Hand:",player4Hand.length)

@@ -32,6 +32,7 @@ interface wallState {
   deadWall: TTileObject[];
   dorasFromDeadWall: TTileObject[];
   uncoveredCount: number;
+  startTakingFromWallXState:string;
 }
 
 const initialState: wallState = {
@@ -47,6 +48,7 @@ const initialState: wallState = {
   deadWall: [],
   dorasFromDeadWall: [],
   uncoveredCount: 1,
+  startTakingFromWallXState:"string",
 };
 
 export const wallReducer = createSlice({
@@ -84,6 +86,10 @@ export const wallReducer = createSlice({
     incrementUncoveredCount: state => {
       state.uncoveredCount += 1;
     },
+    setStartTakingFromWallXState:(state,action)=>{
+      const wallName = action.payload
+      state.startTakingFromWallXState=wallName
+    }
   },
 });
 
@@ -96,6 +102,7 @@ export const {
   setTilesAfterHandout,
   setDorasFromDeadWall,
   incrementUncoveredCount,
+  setStartTakingFromWallXState,
 } = wallReducer.actions;
 
 export default wallReducer.reducer;

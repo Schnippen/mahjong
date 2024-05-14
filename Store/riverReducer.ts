@@ -15,6 +15,8 @@ const initialState: RiverState = {
     player4RiverState: [],
     currentDiscard:[],}
 
+console.log("currentDiscard",initialState.currentDiscard)
+
 export const riverReducer = createSlice({
   name: 'riverReducer',
   initialState,
@@ -40,7 +42,10 @@ export const riverReducer = createSlice({
     },
     setCurrentDiscard: (state,action) => {
       const tile = action.payload
-      state.currentDiscard = [...state.currentDiscard,...tile];
+      if(state.currentDiscard.length>0){
+        state.currentDiscard.pop()
+      }
+      state.currentDiscard.push(tile)
     },
     setCurrentDiscardToDefault: (state, action) => {
       const tile = action.payload

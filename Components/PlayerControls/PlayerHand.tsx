@@ -11,6 +11,7 @@ import TileOnHand from './TileOnHand';
 import { discardTileFromHand } from '../../Store/handReducer';
 import { putTileInTheRiver } from '../../Store/riverReducer';
 import { END_TURN } from '../../Store/gameReducer';
+import { discardTile } from '../../Functions/discardTileFunction';
 
 const PlayersHandComponent = () => {
   const handData = useSelector(
@@ -62,24 +63,19 @@ const PlayersHandComponent = () => {
     isItFirstTurn,
   ); */
 
-  const discardTile=(player:string,tile:TTileObject)=>{
-    dispatch(discardTileFromHand({player:player,tile:tile}))
-    dispatch(putTileInTheRiver({player:player,tile:tile}))
-    dispatch(END_TURN());
-  }
 
-  const handlePress = (item: TTileObject, tileID: number) => {
+  const handlePress = (tile: TTileObject, tileID: number) => {
     if (selected === tileID) {
       setSelected(null);
       console.log(gameTurn===playersWind?"It's your turn":"It's NOT your turn")
       if(gameTurn===playersWind){
-      discardTile("player1",item)
-      console.log("discardTile")
+      discardTile("player1", tile,dispatch)
+      //console.log("discardTile")
     }
     } else {
       setSelected(tileID);
     }
-    console.log(selected);
+    //console.log(selected);
   };
 
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {

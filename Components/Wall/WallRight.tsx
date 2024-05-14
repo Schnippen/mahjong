@@ -78,14 +78,14 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
 
   const isNearDeadwall = isNearDeadWallFunction({wallWind,globalDiceRollResult})
   
-  const directionOfWall =false// wallWind === 'north' && globalDiceRollResult === 7;
-
+  const directionOfWall =(wallWind === 'west' && globalDiceRollResult === 2) // wallWind === 'north' && globalDiceRollResult === 7;
+  const leftAbsoluteDeadWall=''
+  
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
-      console.log(
-      'wallRight:',isNearDeadwall      
-    ) 
+      //console.log('wallRight:',isNearDeadwall) 
     const marginLeft = 
-       isNearDeadwall && index === 7 ? 12 : index === 0 ? 0 : -12;
+    (wallWind === 'west' && globalDiceRollResult === 2&&index===5)||isNearDeadwall && index === 7 ? 12 : index === 0 ? 0 : -12;
+    
     
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
@@ -124,7 +124,7 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true}
-        style={{position: 'absolute', right: isNearDeadwall ? 10 : null,}} //this is bottom row
+        style={{position: 'absolute', right: isNearDeadwall ? 10 : null,}} //this is bottom row //TODO fix, problems with styling
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,
@@ -140,7 +140,7 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
         scrollEnabled={false}
         horizontal={true} //this is top row
         style={{position: 'absolute',right: isNearDeadwall ? 0 : null,
-        top:2,left:!isNearDeadwall?10:null}} //TODO many problems with "left" during set up
+        top:2,left:(globalDiceRollResult===3&&wallWind==="east")||!isNearDeadwall?10:null}} //TODO many problems with "left" during set up
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,

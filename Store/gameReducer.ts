@@ -44,6 +44,8 @@ export const gameReducer = createSlice({
   reducers: {
     orderOfPlayingTurns: (state, action) => {
       //state.value += 1
+      //const player = 'player' + (i + 1);
+      //const windIndex = (index + i) % winds.length;
     },
     START_TURN: (state, action) => {
       //state.value += action.payload
