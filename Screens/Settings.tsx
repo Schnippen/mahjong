@@ -19,6 +19,11 @@ export default Settings;
 // wallWind === 'south' && globalDiceRollResult ===2
 // const isNearDeadwall = wallWind === 'south' && globalDiceRollResult === 2;
 
+// wallWind === 'west' && globalDiceRollResult ===3
+//justify-content flex-end  west
+//Margin right west 4 tiles
+// const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 3;
+
 // wallWind === 'north' && globalDiceRollResult ===4
 //justify-content flex-end  west
 //Margin right west 4 tiles

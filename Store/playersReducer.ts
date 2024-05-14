@@ -6,21 +6,25 @@ interface PlayersState {
     player1Score: number;
     player1Wind: string;
     player1SeatPosition: string;
+    player1ScoreDifference:number;
   };
   player2: {
     player2Score: number;
     player2Wind: string;
     player2SeatPosition: string;
+    player2ScoreDifference:number;
   };
   player3: {
     player3Score: number;
     player3Wind: string;
     player3SeatPosition: string;
+    player3ScoreDifference:number;
   };
   player4: {
     player4Score: number;
     player4Wind: string;
     player4SeatPosition: string;
+    player4ScoreDifference:number;
   };
 }
 
@@ -30,23 +34,34 @@ const initialState: PlayersState = {
     player1Score: 10000,
     player1Wind: 'string',
     player1SeatPosition: 'bottom',
+    player1ScoreDifference:0
   },
   player2: {
     player2Score: 15000,
     player2Wind: 'string',
     player2SeatPosition: '',
+    player2ScoreDifference:0
   },
   player3: {
     player3Score: 20000,
     player3Wind: 'string',
     player3SeatPosition: '',
+    player3ScoreDifference:0
   },
   player4: {
     player4Score: 25000,
     player4Wind: 'string',
     player4SeatPosition: '',
+    player4ScoreDifference:0
   },
 };
+//init player1 - base , rest is 0 0 TODO maybe create a reducer? 
+const player1ScoreDifference = initialState.player1.player1ScoreDifference = initialState.player1.player1Score
+const player2ScoreDifference = initialState.player1.player1Score - initialState.player2.player2Score
+const player3ScoreDifference = initialState.player1.player1Score - initialState.player3.player3Score
+const player4ScoreDifference = initialState.player1.player1Score - initialState.player4.player4Score
+
+console.log("score difference:",[player1ScoreDifference,player2ScoreDifference,player3ScoreDifference,player4ScoreDifference])
 
 export const playersReducer = createSlice({
   name: 'playersReducer',

@@ -3,10 +3,12 @@ import {createSlice} from '@reduxjs/toolkit';
 //player:Andy Bob Charlie Dylan
 interface SettingsState {
   sortTilesOnHand: boolean;
+  showScoreDifference:boolean;
 }
 
 const initialState: SettingsState = {
   sortTilesOnHand: false,
+  showScoreDifference:false,
 };
 
 export const settingsReducer = createSlice({
@@ -16,10 +18,13 @@ export const settingsReducer = createSlice({
     setSortTileOnHand: state => {
       state.sortTilesOnHand = !state.sortTilesOnHand;
     },
+    setShowScoreDifference:state=>{
+      state.showScoreDifference=!state.showScoreDifference
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {setSortTileOnHand} = settingsReducer.actions;
+export const {setSortTileOnHand,setShowScoreDifference} = settingsReducer.actions;
 
 export default settingsReducer.reducer;
