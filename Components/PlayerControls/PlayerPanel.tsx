@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Dimensions, View} from 'react-native';
 import {ButtonAI, ButtonCHII, ButtonPASS} from '../Buttons/ButtonSteal/ButtonSteal';
 import PlayersHandComponent from './PlayerHand';
@@ -8,6 +8,9 @@ import {RootState} from '../../Store/store';
 import { Button } from '@rneui/themed';
 import { discardTile } from '../../Functions/discardTileFunction';
 import { Dispatch, UnknownAction } from 'redux';
+import { playerToYourLeftWind } from '../../Functions/checkPlayersToYourLeftWind';
+import { CHECK_FOR_CHII } from '../../Store/gameReducer';
+import { checkForSequence } from '../../Functions/checkForSequence';
 
 
 const chooseRandomTile=(hand:TTileObject[])=>{
@@ -88,7 +91,41 @@ const NextTurn = () => {
 
 const PlayerPanel = () => {
   const screenWidth = Dimensions.get('window').width;
+  const dispatch = useDispatch();
 
+  const yourWind = useSelector(
+    (state: RootState) => state.playersReducer.player1.player1Wind,
+  );
+  const sequenceChecking = useSelector(
+    (state: RootState) => state.gameReducer.player1Actions.CHII
+  );
+  const latestTurn = useSelector(
+    (state: RootState) => state.gameReducer.latestPlayerTurn
+  );
+  const handData = useSelector(
+    (state: RootState) => state.handReducer.player1Hand,
+  );
+  const currentDiscard = useSelector(
+    (state: RootState) => state.riverReducer.currentDiscard,
+  );
+  let [counter,setcounter]=useState(0)
+  // Update left player's wind whenever the latest player turn changes
+ useEffect(() => {
+  dispatch(CHECK_FOR_CHII({playersWind:yourWind,playerNumber:"player1"}))
+    }, [latestTurn]);
+
+  useEffect(()=>{
+    setcounter(counter=>counter+1)
+
+    if(sequenceChecking){
+      console.log("")
+      checkForSequence(handData,currentDiscard)
+    }
+/*     if(PON){
+      return  checkForPON
+    } */
+  },[sequenceChecking])
+  console.log("playerPanel STEALING_POSSIBLE",sequenceChecking)
 
   return (
     <View
