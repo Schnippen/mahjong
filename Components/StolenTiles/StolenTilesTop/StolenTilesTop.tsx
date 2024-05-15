@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { mahjongTilesSVGsArray } from '../../../Assets/MahjongTiles/MahjongTiles';
-import { StolenTileComponentPlayerHORIZONTAL, StolenTileComponentPlayerVERTICAL, StolenTileComponentPlayerVERTICALReversed } from '../StolenTilesComponents/StolenTilesComponents';
+import { StolenTileComponentPlayerHORIZONTAL, StolenTileComponentPlayerVERTICAL, StolenTileComponentPlayerVERTICALReversed } from "./StolenTilesTopComponents"
 
 export const  StolenTilesPlayerLEFT=()=>{
     const data = mahjongTilesSVGsArray
@@ -79,7 +79,6 @@ return (
   <StolenTileComponentPlayerVERTICAL svg={data[33]} tileRatioProp={1.5}/>
   <StolenTileComponentPlayerVERTICAL svg={data[33]} tileRatioProp={1.5}/>
   <StolenTileComponentPlayerVERTICALReversed svg={data[33]} tileRatioProp={1.5}/>
-
 </View>
 )
 }

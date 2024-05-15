@@ -2,31 +2,16 @@ import {Button, Image, Overlay, Text} from '@rneui/themed';
 import React, {useState} from 'react';
 import {ScrollView, View, Dimensions, FlatList, Settings} from 'react-native';
 import {mahjongTilesSVGsArray} from '../Assets/MahjongTiles/MahjongTiles';
-import {SvgXml} from 'react-native-svg';
 import LinearGradient from 'react-native-linear-gradient';
 import ButtonSettings from '../Components/Buttons/ButtonSettings';
 import ButtonQuestionmark from '../Components/Buttons/ButtonQuestionmark';
 import SettingsOverlay from '../Components/SettingsOverlay';
-import {
-  StolenTilesPlayerFRONT,
-  StolenTilesPlayerKANCLOSED,
-  StolenTilesPlayerKANFRONT,
-  StolenTilesPlayerKANLEFT,
-  StolenTilesPlayerKANRIGHT,
-  StolenTilesPlayerLEFT,
-  StolenTilesPlayerRIGHT,
-} from '../Components/StolenTiles/StolenTilesPlayer/StolenTilesPlayer';
-import {
-  ButtonCHII,
-  ButtonPASS,
-} from '../Components/Buttons/ButtonSteal/ButtonSteal';
 import RiverBottom from '../Components/River/RiverBottom';
 import {RiverRight} from '../Components/River/RiverRight';
 import {RiverLeft} from '../Components/River/RiverLeft';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../Store/store';
 import {initialGame} from '../Functions/initializeGame';
-
 import WallBottom from '../Components/Wall/WallBottom';
 import WallRight from '../Components/Wall/WallRight';
 import WallLeft from '../Components/Wall/WallLeft';
@@ -38,7 +23,11 @@ import DoraPanel from '../Components/DoraPanel/DoraPanel';
 import Compass from '../Components/Compass/Compass';
 import determineTurnOrder from '../Functions/determineTurnOrder';
 import {END_TURN} from '../Store/gameReducer';
-import DeadWall from '../Components/Wall/DeadWall';
+import StolenTilesPanel from '../Components/StolenTiles/StolenTilesBottom/StolenTilesPanelBottom';
+import StolenTilesPanelBottom from '../Components/StolenTiles/StolenTilesBottom/StolenTilesPanelBottom';
+import StolenTilesPanelTop from '../Components/StolenTiles/StolenTilesTop/StolenTilesPanelTop';
+import StolenTilesRight from '../Components/StolenTiles/StolenTilesRight/StolenTilesPanelRight';
+import StolenTilesPanelLeft from '../Components/StolenTiles/StolenTilesLeft/StolenTilesPanelLeft';
 //tiles
 //winning conditions
 //tile component
@@ -188,13 +177,13 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           position: 'relative',
         }}>
         {/* <MenuPanel navigation={navigation} /> */}
-        <DoraPanel />
+        {/* <DoraPanel /> */}
         <SidePanel />
         <View
           style={{
             marginTop: -75,
-            backgroundColor: 'green',
-            transform: [{rotateX: '0deg'}, {rotateZ: '0deg'}, {scale: 1}],
+            backgroundColor: 'orange',
+            transform: [{rotateX: '45deg'}, {rotateZ: '0deg'}, {scale: 1}],
           }}>
           <View
             style={{
@@ -224,6 +213,9 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                   top: 280,
                 }}>
                 <WallTop wallWind={playerTopWind} />
+                <View style={{position:"absolute",top:54,left:40,width:800,backgroundColor:"blue"}}>
+                <StolenTilesPanelTop/>
+                </View>
               </View>
             </View>
             <View
@@ -247,6 +239,9 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                   right: 0,
                 }}>
                 <WallLeft wallWind={playerLeftWind} />
+                <View style={{position:"absolute",width:800,top:54,left:40,backgroundColor:"blue"}}>
+                <StolenTilesPanelLeft/>
+                </View>
               </View>
             </View>
             <View
@@ -269,6 +264,9 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                   left: 0,
                 }}>
                 <WallRight wallWind={playerRightWind} />
+                <View style={{position:"absolute",top:54,left:40,width:800,backgroundColor:"blue"}}>
+                <StolenTilesRight/>
+                </View>
               </View>
             </View>
             <View
@@ -279,6 +277,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                 width: 600,
                 alignItems: 'center',
                 marginBottom: 5,
+                backgroundColor:"pink"
               }}>
               <RiverBottom />
               <View
@@ -289,12 +288,15 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                   /* alignItems: 'flex-start', */
                 }}>
                 <WallBottom wallWind={playerBottomMainPlayerWind} />
+                <View style={{position:"absolute",top:54,left:220}}>
+                <StolenTilesPanel/>
+                </View>
               </View>
             </View>
           </View>
         </View>
         <View style={{position: 'absolute', bottom: 0}}>
-          <PlayerPanel />
+          {/* <PlayerPanel /> */}
         </View>
       </View>
     </ScrollView>
@@ -302,23 +304,3 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
 } //TODO change the left and right tiles in compass with correct width and height
 export default MahjongScreen;
 //https://github.com/software-mansion/react-native-reanimated/issues/2750
-{
-  /* <Overlay isVisible={isVisible} onBackdropPress={toggleOverlay}>
-        <SettingsOverlay />
-      </Overlay> */
-}
-{
-  /* <Button title="initialize" onPress={() => initialGame(dispatch)}></Button> */
-  {
-    /*      <Button
-        title="determineTurn"
-        onPress={() =>
-          determineTurnOrder(
-            playerBottomMainPlayer,
-            playerRight,
-            playerTop,
-            playerLeft,
-          )
-        }></Button> */
-  }
-}
