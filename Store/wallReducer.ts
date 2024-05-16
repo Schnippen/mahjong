@@ -37,7 +37,7 @@ interface wallState {
 
 const initialState: wallState = {
   tilesLeft: 136,
-  tilesLeftInWall: 1,
+  tilesLeftInWall: 0,
   currentDiceRoll: 0,
   wallTilesArray: [],
   wallEastState: [],
@@ -78,6 +78,7 @@ export const wallReducer = createSlice({
     },
     setTilesAfterHandout: (state, action) => {
       state.tilesAfterHandout = action.payload;
+      state.tilesLeftInWall = state.tilesAfterHandout.length
     },
     setDorasFromDeadWall: (state, action) => {
       const {tiles} = action.payload;
@@ -89,6 +90,59 @@ export const wallReducer = createSlice({
     setStartTakingFromWallXState:(state,action)=>{
       const wallName = action.payload
       state.startTakingFromWallXState=wallName
+    },
+    popTileFromTheWall:(state)=>{
+      let startingWind = state.startTakingFromWallXState
+      let windsOrder=["east","north","west","south"]
+      let orderIndex =windsOrder.indexOf(startingWind) // 1 
+      let wind=windsOrder[orderIndex]
+      //TODO make it more elegant  
+      state.tilesLeftInWall -= 1
+      console.log("POP WORKS",state.tilesLeftInWall, wind,orderIndex)
+    switch (wind) {
+        case "east":
+            if (state.wallEastState.length !== 0) {
+                state.wallEastState.pop();
+                console.log(" EAST")
+            } else {
+              console.log(" EAST+++")
+                orderIndex += 1;
+                state.wallNorthState.pop();
+            }
+            break;
+        case "north":
+            if (state.wallNorthState.length !== 0) {
+                state.wallNorthState.pop();
+                console.log(" NORTH")
+            } else {
+              console.log(" NORTH+++")
+              orderIndex += 1;
+              state.wallWestState.pop();
+            }
+            break;
+        case "west":
+            if (state.wallWestState.length !== 0) {
+                state.wallWestState.pop();
+                console.log(" WEST")
+            } else {
+              console.log(" WEST+++")
+              orderIndex += 1;
+              state.wallWestState.pop();
+            }
+            break;
+        case "south":
+            if (state.wallSouthState.length !== 0) {
+                state.wallSouthState.pop();
+                console.log(" SOUTH")
+            } else {
+              console.log(" SOUTH+++")
+              orderIndex += 0; 
+              state.wallEastState.pop();
+            }
+            break;
+        default:
+            break;
+    }
     }
   },
 });
@@ -103,6 +157,7 @@ export const {
   setDorasFromDeadWall,
   incrementUncoveredCount,
   setStartTakingFromWallXState,
+  popTileFromTheWall,
 } = wallReducer.actions;
 
 export default wallReducer.reducer;
