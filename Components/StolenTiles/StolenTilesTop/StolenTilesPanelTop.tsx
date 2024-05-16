@@ -8,7 +8,7 @@ const StolenTilesTop=()=> {
     const renderItem=()=>{
         return(
         <View style={{height:100,justifyContent:"center"}}>
-          <StolenTilesPlayerRIGHT/>
+          {/* <StolenTilesPlayerRIGHT/> */}
         </View>
         )
     }

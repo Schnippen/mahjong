@@ -8,13 +8,13 @@ const StolenTilesPanelBottom=()=> {
     const renderItem=()=>{
         return(
         <View style={{height:100,justifyContent:"center"}}>
-            <StolenTilesPlayerFRONT/>
+            {/* <StolenTilesPlayerFRONT/> */}
         </View>
         )
     }
 
   return (
-        <FlatList data={["1","1","1","1"]} 
+        <FlatList data={["1",]} 
         renderItem={renderItem}
         ListEmptyComponent={<EmptyComponent/>}     
         keyExtractor={(item, index) => index.toString()}

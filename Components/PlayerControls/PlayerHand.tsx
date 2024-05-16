@@ -8,9 +8,6 @@ import {customSort} from '../../Functions/sortTilesOnHand';
 import {useSelector,useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
 import TileOnHand from './TileOnHand';
-import { discardTileFromHand } from '../../Store/handReducer';
-import { putTileInTheRiver } from '../../Store/riverReducer';
-import { END_TURN } from '../../Store/gameReducer';
 import { discardTile } from '../../Functions/discardTileFunction';
 
 const PlayerHandComponent = () => {
@@ -62,13 +59,15 @@ const PlayerHandComponent = () => {
     turnsElapsed,
     isItFirstTurn,
   ); */
-
+  const turnInterrupted=useSelector(
+    (state: RootState) => state.gameReducer.turnInterrupted,
+  );
 
   const handlePress = (tile: TTileObject, tileID: number) => {
     if (selected === tileID) {
       setSelected(null);
-      console.log(gameTurn===playersWind?"It's your turn":"It's NOT your turn")
-      if(gameTurn===playersWind){
+      console.log(gameTurn===playersWind?`It's your turn ${turnInterrupted}`:"It's NOT your turn")
+      if(gameTurn===playersWind && !turnInterrupted){
       discardTile("player1", tile,dispatch)
       //console.log("discardTile")
     }
@@ -117,23 +116,6 @@ const PlayerHandComponent = () => {
           index,
         })}
       />
-      {/*       <TouchableWithoutFeedback
-        onPress={() => handlePress(item.name, item.tileID)}
-        style={{backgroundColor: 'pink'}}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'blue',
-            marginBottom: selected === item.tileID ? 39 * 1 : 0,
-            position: 'relative',
-            height: 39 * 1.3,
-            width: 30 * 1.3,
-            alignSelf: 'center',
-            marginLeft: marginLeft, //isLastItem ? 10 : 0,
-          }}>
-          <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} />
-        </View>
-      </TouchableWithoutFeedback> */}
     </View>
   );
 };

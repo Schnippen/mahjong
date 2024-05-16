@@ -27,6 +27,7 @@ interface gameState {
   prevailingWind: string;
   round: number;
   howManyTurnsElapsed: 0;
+  turnInterrupted:boolean,
   player1Actions:{CHII:boolean,PON:boolean,KAN:boolean,RON:boolean,TSUMO:boolean};
   player2Actions:{CHII:boolean,PON:boolean,KAN:boolean,RON:boolean,TSUMO:boolean};
   player3Actions:{CHII:boolean,PON:boolean,KAN:boolean,RON:boolean,TSUMO:boolean};
@@ -43,6 +44,7 @@ const initialState: gameState = {
   gameEnded: false,
   prevailingWind: 'east',
   round: 0,
+  turnInterrupted:false,
   player1Actions:{CHII:false,PON:false,KAN:false,RON:false,TSUMO:false},
   player2Actions:{CHII:false,PON:false,KAN:false,RON:false,TSUMO:false},
   player3Actions:{CHII:false,PON:false,KAN:false,RON:false,TSUMO:false},
@@ -113,8 +115,9 @@ export const gameReducer = createSlice({
         state.player4Actions.PON = kanIsPossible;
       }
     },
-    INTERRUPT_TURN: (state, action) => {
-      //state.value += action.payload
+    INTERRUPT_TURN: (state) => {
+      state.turnInterrupted != state.turnInterrupted
+      state.turnInterrupted?console.error("TURN INTERRUPTED:",state.turnInterrupted):console.log("INTERRUPT_TURN RUNNING:",state.turnInterrupted)
     },
     changePrevailingWind: (state, action) => {
       //state.value += action.payload

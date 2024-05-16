@@ -23,12 +23,14 @@ export const  StolenTilesPlayerRIGHT=({index}:{index:number})=>{
   const firstIndex=index*2
     const secondIndex=(index+1)*2
     const thirdIndex=(index+2)*2
-    console.log(firstIndex,secondIndex,thirdIndex)
+    //console.log(firstIndex,secondIndex,thirdIndex)
 return (
-  <View style={{backgroundColor:"brown",width:150,height:80,flexDirection:"row",alignItems:"flex-start",justifyContent:"center"}}>
-  <StolenTileComponentPlayerVERTICAL svg={data[23]} tileRatioProp={1.5} index={firstIndex}/>
+  <View style={{backgroundColor:"brown",width:175,height:80,flexDirection:"row",alignItems:"flex-start",justifyContent:"center"}}>
+  <StolenTileComponentPlayerVERTICAL svg={data[23]} tileRatioProp={1.5} index={thirdIndex}/>
   <StolenTileComponentPlayerVERTICAL svg={data[33]} tileRatioProp={1.5} index={secondIndex}/>
-  <StolenTileComponentPlayerHORIZONTAL svg={data[19]} tileRatioProp={1.5} index={thirdIndex}/>
+  <View style={{marginLeft:8}}>
+  <StolenTileComponentPlayerHORIZONTAL svg={data[19]} tileRatioProp={1.5} index={firstIndex}/>
+  </View>
 </View>
 )
 } 

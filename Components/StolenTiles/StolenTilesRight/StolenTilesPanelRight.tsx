@@ -5,11 +5,11 @@ import EmptyComponent from '../../Wall/EmptyComponent';
 import { StolenTilesPlayerFRONT, StolenTilesPlayerKANCLOSED } from './StolenTilesRight';
 const StolenTilesRight = () => {
   const renderItem = ({ index }: { index: number }) => {
-    console.log("StolenTilesRight:",index+1);
+    //console.log("StolenTilesRight:",index+1);
     let indexProp=index+1
     return (
       <View style={{ height: 100, justifyContent: 'center' }}>
-        <StolenTilesPlayerKANCLOSED index={indexProp} />
+        {/* <StolenTilesPlayerKANCLOSED index={indexProp} /> */}
       </View>
     );
   };

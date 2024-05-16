@@ -92,9 +92,9 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
       index,
       item.isDora,
     ); */
-    const marginLeft = (globalDiceRollResult===5&&wallWind==="south"&&index===2)|| (globalDiceRollResult===4&&wallWind==="east"&&index===3)||(isNearDeadwall&&index===7) ? 30 :0
+    const marginLeft =(globalDiceRollResult===6&&wallWind==="west"&&index===1)|| (globalDiceRollResult===5&&wallWind==="south"&&index===2)|| (globalDiceRollResult===4&&wallWind==="east"&&index===3)||(isNearDeadwall&&index===7) ? 30 :0
       // TODO change size of the tile gap to tile width
-    //console.log("wallTop:",globalDiceRollResult===7&&wallWind==="south")
+    //console.log("wallTop:",(globalDiceRollResult===6&&wallWind==="west"&&index===1))
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
     } else {
@@ -115,7 +115,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
     }
   };
   //TODO change it to Flashilist in the future
-  const wallDirection = globalDiceRollResult===7&&wallWind==="south"||(globalDiceRollResult===4&&wallWind==="west")||(globalDiceRollResult===9&&wallWind==="west")||(wallWind === 'east' && globalDiceRollResult === 7)||(wallWind === 'north' && globalDiceRollResult === 7)||(wallWind === 'east' && globalDiceRollResult === 8)||(globalDiceRollResult===4&&wallWind==="east")||(globalDiceRollResult===4&&wallWind==="south") || (globalDiceRollResult===3&&wallWind==="south")||(globalDiceRollResult==5&&wallWind==="north")||(globalDiceRollResult==10&&wallWind==="north")||(globalDiceRollResult==8&&wallWind==="south")||(globalDiceRollResult==11&&wallWind==="east")||(globalDiceRollResult==6&&wallWind==="north")
+  const wallDirection = globalDiceRollResult===7&&wallWind==="south"||(globalDiceRollResult===4&&wallWind==="west")||(globalDiceRollResult===9&&wallWind==="west")||(wallWind === 'east' && globalDiceRollResult === 7)||(wallWind === 'north' && globalDiceRollResult === 7)||(wallWind === 'east' && globalDiceRollResult === 8)||(globalDiceRollResult===4&&wallWind==="east")||(globalDiceRollResult===4&&wallWind==="south") || (globalDiceRollResult===3&&wallWind==="south")||(globalDiceRollResult==5&&wallWind==="north")||(globalDiceRollResult==10&&wallWind==="north")||(globalDiceRollResult==8&&wallWind==="south")||(globalDiceRollResult==11&&wallWind==="east")||(globalDiceRollResult==6&&wallWind==="north")||(globalDiceRollResult===2&&wallWind==="east")||(globalDiceRollResult===5&&wallWind==="west")||(globalDiceRollResult===6&&wallWind==="east")
 
   return (
     <View

@@ -4,7 +4,7 @@ import { useSelector} from 'react-redux';
 import { RootState } from "../../Store/store";
 
 const TilesLeftInTheGame=()=>{
-    const tilesToEnd= useSelector((state: RootState) => state.wallReducer.tilesAfterHandout.length,
+    const tilesToEnd= useSelector((state: RootState) => state.wallReducer.tilesLeftInWall,
   )
     return <Text style={{
       flex: 1,

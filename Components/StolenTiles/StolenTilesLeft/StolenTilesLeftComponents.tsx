@@ -92,9 +92,9 @@ export const StolenTileComponentPlayerVERTICAL =({svg,tileRatioProp=3,index}:{sv
         <View
           style={{
             backgroundColor: '#bdbbc0',
-            height: tileSecondLayer,
+            height: tileSecondLayer+3,
             width: secondLayerWidthandLastTileWidth+2,
-            justifyContent: 'flex-start',
+            justifyContent: 'flex-end',
             borderRadius: tileBorderRadiusHandPlayerPerspective,
             alignItems: 'flex-end',
           }}>

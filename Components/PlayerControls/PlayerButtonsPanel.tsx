@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import {useSelector,useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
-import { CHECK_FOR_KAN, CHECK_FOR_PON, CHECK_IF_CHII_IS_ON_LEFT_SIDE } from "../../Store/gameReducer";
+import { CHECK_FOR_KAN, CHECK_FOR_PON, CHECK_IF_CHII_IS_ON_LEFT_SIDE, INTERRUPT_TURN } from "../../Store/gameReducer";
 import { checkForSequence } from "../../Functions/checkForSequence";
 import { checkForTriplet } from "../../Functions/checkForTriplet";
 import { Button } from "@rneui/themed";
@@ -10,6 +10,7 @@ import { TTileObject } from "../../Types/types";
 import { discardTile } from "../../Functions/discardTileFunction";
 import { ButtonCHII, ButtonKAN, ButtonPASS, ButtonPON } from "../Buttons/ButtonSteal/ButtonSteal";
 import { checkForQuadruplet } from "../../Functions/checkForQuadruplet";
+import { stealSequence } from "../../Functions/stealSequence";
 
 
 const chooseRandomTile=(hand:TTileObject[])=>{
@@ -63,7 +64,6 @@ const NextTurn = () => {
       if (!playerProps || gameTurn === humanPlayerWind) {
         return;
       }
-  
       let tileToDiscard = chooseRandomTile(playerProps.hand);
       let playerX = playerProps?.player;
       console.log("AITURN", playerProps?.player, tileToDiscard?.name);
@@ -119,6 +119,8 @@ const PlayerButtonsPanel=()=>{
     (state: RootState) => state.gameReducer.player1Actions.KAN
   );
 
+
+
   const showHand = handData.map(({ value, type, name, tileID }) => ({ value, type, name, tileID }));
   //console.log("showHand:",showHand);
 
@@ -126,6 +128,21 @@ const PlayerButtonsPanel=()=>{
   const [displayPonButton,setDisplayPonButton]=useState<boolean>(false)
   const [displayKanButton,setDisplayKanButton]=useState<boolean>(false)
 
+  const [chiiPanelDisplayed,setChiiPanelDisplayed]=useState<boolean>(false)
+
+  const passStealingTiles=(dispatch:any)=>{
+    setDisplayChiiButton(false)
+    setDisplayPonButton(false)
+    setDisplayPonButton(false)
+    dispatch(INTERRUPT_TURN())
+    console.log("SHIT")
+  }
+
+  const handleStealSequence=( handData: TTileObject[], currentDiscard: TTileObject[])=>{
+    let val = stealSequence(handData,currentDiscard)
+
+    return null
+  }
 
  useEffect(() => {
   dispatch(CHECK_IF_CHII_IS_ON_LEFT_SIDE({playersWind:yourWind,playerNumber:"player1"}))
@@ -134,27 +151,32 @@ const PlayerButtonsPanel=()=>{
 }, [latestTurn]);
 
   useEffect(()=>{
-    console.log("useEFFECT")
+    //console.log("useEFFECT")
     if(isSequencePossible){//player on your left discarded tile 
         console.log("isSequencePossible", "RUNNING")
         //console.log(currentDiscard)
       let val = checkForSequence(handData,currentDiscard) //this only allows button to be displayed
       val?setDisplayChiiButton(true):setDisplayChiiButton(false)
+      val?dispatch(INTERRUPT_TURN()):null
       console.log("BUTTONS-PANEL-PON:",val)
     }
   },[isSequencePossible])
+
   useEffect(()=>{
     if(isTripletPossible){   
         console.log("isTripletPossible", "RUNNING")
         let val = checkForTriplet(handData,currentDiscard)
         val?setDisplayPonButton(true):setDisplayPonButton(false)
+        val?dispatch(INTERRUPT_TURN()):null
         console.log("BUTTONS-PANEL-PON:",val)
       }
   },[isTripletPossible])
+
   useEffect(()=>{
     if(isQuadrupletPossible){     
         let val = checkForQuadruplet(handData,currentDiscard)
         val?setDisplayKanButton(true):setDisplayKanButton(false)
+        val?dispatch(INTERRUPT_TURN()):null
         console.log("BUTTONS-PANEL-PON:",val)
       }
   },[isQuadrupletPossible])
@@ -168,9 +190,9 @@ const PlayerButtonsPanel=()=>{
 //if wind than calculte if show button
 //if show button, than execute or dismiss
 
-  console.log("playerPanel STEALING_POSSIBLE by wind:","chii:",isSequencePossible,"pon:",isTripletPossible,"kan:",isQuadrupletPossible)
-  console.log("DISPLAY:","CHII:",displayChiiButton,"PON:",displayPonButton,"KAN:",displayKanButton)
-  console.log(yourWind!==latestTurn)
+  //console.log("playerPanel STEALING_POSSIBLE by wind:","chii:",isSequencePossible,"pon:",isTripletPossible,"kan:",isQuadrupletPossible)
+  //console.log("DISPLAY:","CHII:",displayChiiButton,"PON:",displayPonButton,"KAN:",displayKanButton)
+  //console.log(yourWind!==latestTurn)
     return(
       <View
       style={{
@@ -185,8 +207,8 @@ const PlayerButtonsPanel=()=>{
       }}>
         {displayKanButton?<ButtonKAN/>:null}
         {displayPonButton?<ButtonPON/>:null}
-        {displayChiiButton?<ButtonCHII />:null}
-        {( displayChiiButton||displayPonButton||displayKanButton)?<ButtonPASS />:null}
+        {displayChiiButton?<ButtonCHII  handlePress={() =>handleStealSequence(handData,currentDiscard)} />:null}
+        {( displayChiiButton||displayPonButton||displayKanButton)?<ButtonPASS handlePress={() => passStealingTiles(dispatch)} />:null}
       <NextTurn />
     </View>)
   }

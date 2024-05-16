@@ -7,7 +7,7 @@ interface SettingsState {
 }
 
 const initialState: SettingsState = {
-  sortTilesOnHand: false,
+  sortTilesOnHand: true,
   showScoreDifference:false,
 };
 

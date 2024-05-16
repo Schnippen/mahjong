@@ -148,7 +148,7 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
           top:2,
           right: isNearDeadwall ? 10 : null,
           left:(globalDiceRollResult===6&&wallWind==="east")?0:(globalDiceRollResult===6&&wallWind==="south")||(globalDiceRollResult===9&&wallWind==="east")||(globalDiceRollResult===8&&wallWind==="north")||(globalDiceRollResult===11&&wallWind==="west")||(globalDiceRollResult===3&&wallWind==="west")||(globalDiceRollResult===5&&wallWind==="east")||(globalDiceRollResult===4&&wallWind==="north")||
-          (globalDiceRollResult===12&&wallWind==="north")?null:isNearDeadwall?10:null
+          (globalDiceRollResult===12&&wallWind==="north")||(globalDiceRollResult===10&&wallWind==="south")||(globalDiceRollResult===7&&wallWind==="west")||(globalDiceRollResult===2&&wallWind==="south")?null:isNearDeadwall?10:null
         }} //TODO FIX the "left" styling
         getItemLayout={(data, index) => ({
           length: 39,

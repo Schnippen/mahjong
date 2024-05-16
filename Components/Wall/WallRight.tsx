@@ -84,7 +84,7 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
       //console.log('wallRight:',isNearDeadwall) 
     const marginLeft = 
-    (wallWind === 'west' && globalDiceRollResult === 2&&index===5)||isNearDeadwall && index === 7 ? 12 : index === 0 ? 0 : -12;
+    (wallWind === 'west' && globalDiceRollResult === 2&&index===5)||(wallWind === 'south' && globalDiceRollResult === 5&&index===2)||(wallWind === 'east' && globalDiceRollResult === 4&&index===3)||isNearDeadwall && index === 7 ? 12 : index === 0 ? 0 : -12;
     
     
     if (item.state === 'deadwall') {

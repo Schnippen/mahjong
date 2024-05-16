@@ -2,14 +2,14 @@
 import React from 'react';
 import { View, FlatList } from 'react-native';
 import EmptyComponent from '../../Wall/EmptyComponent';
-import { StolenTilesPlayerFRONT, StolenTilesPlayerKANCLOSED, StolenTilesPlayerLEFT } from './StolenTilesLeft';
+import { StolenTilesPlayerFRONT, StolenTilesPlayerKANCLOSED, StolenTilesPlayerLEFT, StolenTilesPlayerRIGHT } from './StolenTilesLeft';
 const StolenTilesLeft = () => {
   const renderItem = ({ index }: { index: number }) => {
-    console.log("StolenTilesRight:",index+1);
+    //console.log("StolenTilesRight:",index+1);
     let indexProp=index+1
     return (
       <View style={{ height: 100, justifyContent: 'center' }}>
-        <StolenTilesPlayerLEFT index={indexProp} />
+        {/* <StolenTilesPlayerRIGHT index={indexProp} /> */}
       </View>
     );
   };
