@@ -5,7 +5,8 @@ export const setStartTakingFromWallX=(DICE_ROLL:number,dispatch:any)=>{
   //["east","south","west","north"]
 
     if (DICE_ROLL === 2) {
-       
+       //zaczyna się od east
+       dispatch(setStartTakingFromWallXState(winds.east))
       }
       if (DICE_ROLL === 3) {
         //zaczyna south
