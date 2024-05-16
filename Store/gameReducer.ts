@@ -72,22 +72,47 @@ export const gameReducer = createSlice({
       state.howManyTurnsElapsed += 1;
       console.log('currentTurn:', state.currentTurn, state.currentTurnIndex,"latestTurn:",state.latestPlayerTurn);
     },
-    CHECK_FOR_CHII:(state,action)=>{
+    CHECK_IF_CHII_IS_ON_LEFT_SIDE:(state,action)=>{
       const { playersWind, playerNumber } = action.payload;
-      const chiiPossible = playerToYourLeftWind(playersWind, state.latestPlayerTurn);
-      console.log("gameReducer CHII:",chiiPossible,playersWind)
+      let chiiIsPossible = playerToYourLeftWind(playersWind, state.latestPlayerTurn);
+      //console.log("gameReducer CHII:",chiiPossible,playersWind)
       // Update CHII action for the corresponding player based on the calculation
       if (playerNumber === "player1") {
-        state.player1Actions.CHII = chiiPossible;
+        state.player1Actions.CHII = chiiIsPossible;
       } else if (playerNumber === "player2") {
-        state.player2Actions.CHII = chiiPossible;
+        state.player2Actions.CHII = chiiIsPossible;
       } else if (playerNumber === "player3") {
-        state.player3Actions.CHII = chiiPossible;
+        state.player3Actions.CHII = chiiIsPossible;
       } else if (playerNumber === "player4") {
-        state.player4Actions.CHII = chiiPossible;
+        state.player4Actions.CHII = chiiIsPossible;
       }
     },
-
+    CHECK_FOR_PON:(state,action)=>{
+      const { playersWind, playerNumber } = action.payload;
+       let ponIsPossible=playersWind!==state.currentTurn //true
+       if (playerNumber === "player1") {
+        state.player1Actions.PON = ponIsPossible;
+      } else if (playerNumber === "player2") {
+        state.player2Actions.PON = ponIsPossible;
+      } else if (playerNumber === "player3") {
+        state.player3Actions.PON = ponIsPossible;
+      } else if (playerNumber === "player4") {
+        state.player4Actions.PON = ponIsPossible;
+      }
+    },
+    CHECK_FOR_KAN:(state,action)=>{
+      const { playersWind, playerNumber } = action.payload;
+      let kanIsPossible=true //true
+       if (playerNumber === "player1") {
+        state.player1Actions.PON = kanIsPossible;
+      } else if (playerNumber === "player2") {
+        state.player2Actions.PON = kanIsPossible;
+      } else if (playerNumber === "player3") {
+        state.player3Actions.PON = kanIsPossible;
+      } else if (playerNumber === "player4") {
+        state.player4Actions.PON = kanIsPossible;
+      }
+    },
     INTERRUPT_TURN: (state, action) => {
       //state.value += action.payload
     },
@@ -103,7 +128,9 @@ export const {
   START_TURN,
   SET_LATEST_TURN,
   END_TURN,
-  CHECK_FOR_CHII,
+  CHECK_IF_CHII_IS_ON_LEFT_SIDE,
+  CHECK_FOR_PON,
+  CHECK_FOR_KAN,
   INTERRUPT_TURN,
   changePrevailingWind,
 } = gameReducer.actions;

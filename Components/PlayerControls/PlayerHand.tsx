@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, TouchableWithoutFeedback, View} from 'react-native';
 import {mahjongTilesSVGsArray} from '../../Assets/MahjongTiles/MahjongTiles';
-import PlayerTileOnHand from './PlayerTileOnHand';
+//import PlayerTileOnHand from './PlayerTileOnHand';
 import {TTileObject} from '../../Types/types';
 import {tilesData} from '../../Data/tilesData';
 import {customSort} from '../../Functions/sortTilesOnHand';
@@ -13,7 +13,7 @@ import { putTileInTheRiver } from '../../Store/riverReducer';
 import { END_TURN } from '../../Store/gameReducer';
 import { discardTile } from '../../Functions/discardTileFunction';
 
-const PlayersHandComponent = () => {
+const PlayerHandComponent = () => {
   const handData = useSelector(
     (state: RootState) => state.handReducer.player1Hand,
   );
@@ -138,5 +138,5 @@ const PlayersHandComponent = () => {
   );
 };
 
-export default PlayersHandComponent;
+export default PlayerHandComponent;
 //https://www.npmjs.com/package/react-native-sound
