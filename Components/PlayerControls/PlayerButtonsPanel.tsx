@@ -146,8 +146,18 @@ const PlayerButtonsPanel=()=>{
         // dispatch()
         return null;
     }
-
+    if(result&&possibleSequences.length>1){
+      console.log("handleStealSequence", possibleSequences.map(i => i.map(t => t.name)));
+      setChiiPanelDisplayed(true)
+    }
     return null;
+  }
+  const ChooseSequencePanel=()=>{
+    return(
+      <View style={{height:200,width:250,backgroundColor:"gray"}}>
+
+      </View>
+    )
   }
 
  useEffect(() => {
