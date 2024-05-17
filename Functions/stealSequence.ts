@@ -1,8 +1,12 @@
 import { TTileObject } from "../Types/types";
 
-export function stealSequence(playerHand: TTileObject[], discardedTileArray: TTileObject[]) {
+export function stealSequence(playerHand:TTileObject[], discardedTileArray:TTileObject[]) {
+    let result: boolean | null= null;
+    let possibleSequences:TTileObject[][]= [];
+
     if (!discardedTileArray || discardedTileArray.length === 0) {
-        return false;
+        result = false;
+        return { result, possibleSequences };
     }
 
     let discardedTile = discardedTileArray[0];
@@ -10,44 +14,33 @@ export function stealSequence(playerHand: TTileObject[], discardedTileArray: TTi
     let discardedTileValue = Number(discardedTile.value);
 
     const tilesSuits = ["bamboo", "circles", "characters"];
-    let isChiiPossible = tilesSuits.indexOf(discardedTileSuit);
+    let isChiiPossible = tilesSuits.includes(discardedTileSuit);
 
-    if (isChiiPossible === -1) {
+    if (!isChiiPossible) {
         console.log("Sequence: NO CHII");
-        return false;
+        result = false;
+        return { result, possibleSequences };
     }
 
     let suitTiles = playerHand.filter(t => t.type === discardedTileSuit);
-    if (suitTiles.length < 2) {
-        console.log("Sequence: NO CHII");
-        return false;
-    }
 
-    let possibleSequences: TTileObject[][] = [];
+    let sequences = [
+        [discardedTileValue - 2, discardedTileValue - 1, discardedTileValue], // [2, 3, discardedTile]
+        [discardedTileValue - 1, discardedTileValue, discardedTileValue + 1], // [3, discardedTile, 5]
+        [discardedTileValue, discardedTileValue + 1, discardedTileValue + 2]  // [discardedTile, 3, 4]
+    ];
 
-    // Check for sequences with the discarded tile
-    for (let i = 0; i < suitTiles.length; i++) {
-        let sequence: TTileObject[] = [discardedTile];
-        let currentTile = suitTiles[i];
-        if (Math.abs(Number(currentTile.value) - discardedTileValue) <= 2) {
-            sequence.push(currentTile);
-            let nextValue = discardedTileValue + (discardedTileValue < Number(currentTile.value) ? 1 : -1);
-            let nextTile = suitTiles.find(tile => Number(tile.value) === nextValue);
-            if (nextTile) {
-                sequence.push(nextTile);
-                possibleSequences.push(sequence);
-            }
+    sequences.forEach(seq => {
+        let sequenceTiles = seq.map(value => {
+            if (value === discardedTileValue) return discardedTile;
+            return suitTiles.find(tile => Number(tile.value) === value);
+        });
+
+        if (sequenceTiles.every(tile => tile !== undefined)) {
+            possibleSequences.push(sequenceTiles as TTileObject[]);
         }
-    }
+    });
 
-    if (possibleSequences.length === 1) {
-        console.warn("Sequence: First", "Discarded", "Third", possibleSequences.map(t => t.map(i => i.name)))
-        return true;
-    } else if (possibleSequences.length > 1) {
-        console.warn("Sequence: OPTIONS", possibleSequences.map(t => t.map(i => i.name)))
-        return true;
-    } else {
-        console.log("Sequence: NO CHII")
-        return false;
-    }
+    result = possibleSequences.length > 0 ? true : false;
+    return { result, possibleSequences };
 }

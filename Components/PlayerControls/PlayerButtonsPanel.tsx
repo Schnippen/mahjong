@@ -138,10 +138,16 @@ const PlayerButtonsPanel=()=>{
     console.log("SHIT")
   }
 
-  const handleStealSequence=( handData: TTileObject[], currentDiscard: TTileObject[])=>{
-    let val = stealSequence(handData,currentDiscard)
+  const handleStealSequence=( handData: TTileObject[], currentDiscard: TTileObject[],dispatch:any)=>{
+    const { result, possibleSequences } = stealSequence(handData, currentDiscard);
 
-    return null
+    if (result && possibleSequences.length === 1) {
+        console.log("handleStealSequence", possibleSequences.map(i => i.map(t => t.name)));
+        // dispatch()
+        return null;
+    }
+
+    return null;
   }
 
  useEffect(() => {
@@ -207,7 +213,7 @@ const PlayerButtonsPanel=()=>{
       }}>
         {displayKanButton?<ButtonKAN/>:null}
         {displayPonButton?<ButtonPON/>:null}
-        {displayChiiButton?<ButtonCHII  handlePress={() =>handleStealSequence(handData,currentDiscard)} />:null}
+        {displayChiiButton?<ButtonCHII  handlePress={() =>handleStealSequence(handData,currentDiscard,dispatch)} />:null}
         {( displayChiiButton||displayPonButton||displayKanButton)?<ButtonPASS handlePress={() => passStealingTiles(dispatch)} />:null}
       <NextTurn />
     </View>)
