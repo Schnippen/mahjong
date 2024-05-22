@@ -11,6 +11,8 @@ import { discardTile } from "../../Functions/discardTileFunction";
 import { ButtonCHII, ButtonKAN, ButtonPASS, ButtonPON } from "../Buttons/ButtonSteal/ButtonSteal";
 import { checkForQuadruplet } from "../../Functions/checkForQuadruplet";
 import { stealSequence } from "../../Functions/stealSequence";
+import { FlatList } from "react-native-gesture-handler";
+import { FlashList } from "@shopify/flash-list";
 
 
 const chooseRandomTile=(hand:TTileObject[])=>{
@@ -124,11 +126,11 @@ const PlayerButtonsPanel=()=>{
   const showHand = handData.map(({ value, type, name, tileID }) => ({ value, type, name, tileID }));
   //console.log("showHand:",showHand);
 
-  const [displayChiiButton,setDisplayChiiButton]=useState<boolean>(false)
-  const [displayPonButton,setDisplayPonButton]=useState<boolean>(false)
-  const [displayKanButton,setDisplayKanButton]=useState<boolean>(false)
+  const [displayChiiButton,setDisplayChiiButton]=useState<boolean>(true)
+  const [displayPonButton,setDisplayPonButton]=useState<boolean>(true)
+  const [displayKanButton,setDisplayKanButton]=useState<boolean>(true)
 
-  const [chiiPanelDisplayed,setChiiPanelDisplayed]=useState<boolean>(false)
+  const [chiiPanelDisplayed,setChiiPanelDisplayed]=useState<boolean>(true)
 
   const passStealingTiles=(dispatch:any)=>{
     setDisplayChiiButton(false)
@@ -153,10 +155,27 @@ const PlayerButtonsPanel=()=>{
     return null;
   }
   const ChooseSequencePanel=()=>{
-    return(
-      <View style={{height:200,width:250,backgroundColor:"gray"}}>
 
-      </View>
+  const renderItem=()=>{
+    return(
+      <View>
+      <FlashList 
+      data={[]}
+    renderItem={renderItem}
+    estimatedItemSize={1}/>
+    </View>
+    )
+  }
+    //TODO maybe change the top and position absolute
+    return(
+      <View style={{minWidth:560,maxWidth:600,backgroundColor:"red",height:120,position:"absolute",bottom:40,alignItems:"center"}}>
+          <View style={{width:240,height:120,backgroundColor:"gray",}}>
+              <FlashList 
+              data={[]}
+            renderItem={renderItem}
+            estimatedItemSize={1}/>
+        </View>
+      </View> 
     )
   }
 
@@ -176,7 +195,7 @@ const PlayerButtonsPanel=()=>{
       val?dispatch(INTERRUPT_TURN()):null
       console.log("BUTTONS-PANEL-PON:",val)
     }
-  },[isSequencePossible])
+  },[isSequencePossible]) 
 
   useEffect(()=>{
     if(isTripletPossible){   
@@ -213,18 +232,21 @@ const PlayerButtonsPanel=()=>{
       <View
       style={{
         flexDirection: 'row',
-        columnGap: 8,
-        justifyContent: 'flex-end',
+        //columnGap: 8,
+        //justifyContent: 'flex-end',
         //backgroundColor: 'brown',
-        position: 'absolute',
-        top: -50,
-        right: 25,
+        //right: 25,
         zIndex: 1,
+        justifyContent:"center"
       }}>
+        <ChooseSequencePanel/>
+      {chiiPanelDisplayed?<ChooseSequencePanel/>:null}
+      <View style={{minWidth:560,maxWidth:600,backgroundColor:"blue",height:40,position:"absolute",bottom:0,flexDirection:"row",justifyContent:"flex-end",alignItems:"center",columnGap:8}}>
         {displayKanButton?<ButtonKAN/>:null}
         {displayPonButton?<ButtonPON/>:null}
         {displayChiiButton?<ButtonCHII  handlePress={() =>handleStealSequence(handData,currentDiscard,dispatch)} />:null}
         {( displayChiiButton||displayPonButton||displayKanButton)?<ButtonPASS handlePress={() => passStealingTiles(dispatch)} />:null}
+      </View>
       <NextTurn />
     </View>)
   }
