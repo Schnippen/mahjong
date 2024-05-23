@@ -92,6 +92,7 @@ export const gameReducer = createSlice({
     CHECK_FOR_PON:(state,action)=>{
       const { playersWind, playerNumber } = action.payload;
        let ponIsPossible=playersWind!==state.currentTurn //true
+       console.log("redux ponIsPossible:",ponIsPossible,playersWind)
        if (playerNumber === "player1") {
         state.player1Actions.PON = ponIsPossible;
       } else if (playerNumber === "player2") {
@@ -115,10 +116,14 @@ export const gameReducer = createSlice({
         state.player4Actions.PON = kanIsPossible;
       }
     },
-    INTERRUPT_TURN: (state) => {
-      state.turnInterrupted != state.turnInterrupted
-      state.turnInterrupted?console.error("TURN INTERRUPTED:",state.turnInterrupted):console.log("INTERRUPT_TURN RUNNING:",state.turnInterrupted)
-    },
+    INTERRUPT_TURN: (state,action) => {
+      const { val } = action.payload;
+      state.turnInterrupted = val;
+      if (state.turnInterrupted) {
+        console.error("TURN INTERRUPTED:", state.turnInterrupted);
+      } else {
+        console.log("INTERRUPT_TURN RUNNING:", state.turnInterrupted);
+      }},
     changePrevailingWind: (state, action) => {
       //state.value += action.payload
     },

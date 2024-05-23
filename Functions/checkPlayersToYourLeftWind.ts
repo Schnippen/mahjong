@@ -1,5 +1,5 @@
 export const playerToYourLeftWind = (playersWind: string, latestPlayerTurn: string): boolean => {
-    let toYourLeft = "shit";
+    let toYourLeft = "...";
     //console.log("playerToYourLeftWind:","is running",toYourLeft,playersWind,latestPlayerTurn, toYourLeft === latestPlayerTurn)
     if (playersWind === "east") {
         toYourLeft = "north";

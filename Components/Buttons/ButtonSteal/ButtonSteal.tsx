@@ -39,11 +39,11 @@ export const ButtonRIICHI = () => {
     <ButtonShape text="RIICHI" firstColor="#f6d106" secondColor="#cc7000" />
   );
 };
-export const ButtonPON = () => {
-  return <ButtonShape text="PON" firstColor="#48cae4" secondColor="#023e8a" />;
+export const ButtonPON = ({handlePress}:{handlePress:()=>void}) => {
+  return <ButtonShape text="PON" firstColor="#48cae4" secondColor="#023e8a"   handlePress={()=>{handlePress();console.log("pressed PON")}}/>;
 };
 export const ButtonPASS = ({handlePress}:{handlePress:()=>void}) => {
-  return <ButtonShape text="PASS" firstColor="#9dc1db" secondColor="#688aa5" handlePress={()=>{handlePress();console.log("pressed")}} />;
+  return <ButtonShape text="PASS" firstColor="#9dc1db" secondColor="#688aa5" handlePress={()=>{handlePress();console.log("pressed PASS")}} />;
 };
 const ButtonCANCEL = () => {
   return (
@@ -53,8 +53,8 @@ const ButtonCANCEL = () => {
 export const ButtonCHII = ({handlePress}:{handlePress:()=>void}) => {
   return <ButtonShape text="CHII" firstColor="#19e09f" secondColor="#12bf63" handlePress={()=>{handlePress();console.log("pressed CHII")}} />;
 };
-export const ButtonKAN = () => {
-  return <ButtonShape text="KAN" firstColor="#be95c4" secondColor="#5e548e" />;
+export const ButtonKAN = ({handlePress}:{handlePress:()=>void}) => {
+  return <ButtonShape text="KAN" firstColor="#be95c4" secondColor="#5e548e" handlePress={()=>{handlePress();console.log("pressed KAN")}} />;
 };
 export const ButtonRON = () => {
   return <ButtonShape text="RON" firstColor="#dc2f02" secondColor="#fb8b24" />;

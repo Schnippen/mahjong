@@ -26,7 +26,7 @@ const StolenTilesPanelBottom=()=> {
           return <StolenTilesPlayerLEFT data={item}/>;
         } else if (itemName === "right") {
           return <StolenTilesPlayerRIGHT  data={item}/>;
-        } else if (itemName === "front") {
+        } else if (itemName === "top") {
           return <StolenTilesPlayerFRONT  data={item}/>;
         } else if (itemName === "kanLeft") {
           return <StolenTilesPlayerKANLEFT  data={item}/>;
