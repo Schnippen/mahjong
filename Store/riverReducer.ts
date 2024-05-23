@@ -51,10 +51,29 @@ export const riverReducer = createSlice({
       const tile = action.payload
       state.currentDiscard = state.currentDiscard.filter(t => t.tileID !== tile.tileID);
     },
+    popFromTheRiver:(state,action)=>{
+      const { player } = action.payload;
+      switch (player) {
+        case 'player1':
+          state.player1RiverState.pop();
+          break;
+        case 'player2':
+          state.player2RiverState.pop();
+          break;
+        case 'player3':
+          state.player3RiverState.pop();
+          break;
+        case 'player4':
+          state.player4RiverState.pop();
+          break;
+        default:
+          break;
+      }
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { putTileInTheRiver, setCurrentDiscard, setCurrentDiscardToDefault } = riverReducer.actions
+export const { putTileInTheRiver, setCurrentDiscard, setCurrentDiscardToDefault,popFromTheRiver } = riverReducer.actions
 
 export default riverReducer.reducer

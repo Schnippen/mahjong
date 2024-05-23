@@ -209,32 +209,8 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   //console.log('dice_roll:', DICE_ROLL, currentDiceRoll);
   console.log('wallWithoutDeadWall:', wallWithoutDeadWall.length);
   console.log('tilesReadyForRound:', tilesReadyForRound.length);
-  //now set up wall position //53 tiles on hand, 14 in dead wall = 67
   checkDiceRoll(currentDiceRoll);
- /*  eastWall = tilesReadyForRound.slice(0, 11);
-  southWall = []; //2*2 dead wall deadWallFragment.slice(0,4)
-  westWall = tilesReadyForRound.slice(45, 69); //5*2 dead wall deadWallFragment.slice(4,14)
-  northWall = tilesReadyForRound.slice(11, 45); */
-  /*   let array: TTileObject[] = [];
-  console.log(
-    'dead:',
-    deadWallFragment.map(i => i.name),
-    'east:',
-    eastWall.map(i => i.name),
 
-    'south:',
-    southWall.map(i => i.name),
-    'southWITHdead:',
-    southWall.concat(deadWallFragment.slice(0, 4)).map(i => i.name),
-    'west:',
-    westWall.map(i => i.name),
-    'westWITHdead:',
-    westWall.concat(deadWallFragment.slice(4, 14)).map(i => i.name),
-    'arrayConcat:',
-    array
-      .concat(deadWallFragment.slice(4, 14), tilesReadyForRound.slice(45, 69))
-      .map(i => i.name),
-  ); */ // dead wall ist first to grab ; /
   let array: TTileObject[] = [];
   if (DICE_ROLL === 2) {
     //2 south //5 west

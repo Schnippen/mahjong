@@ -9,3 +9,10 @@ export interface TTileObject {
   isDora: boolean;
   tileID: number;
 }
+
+
+export interface TstolenTiles{
+  name:string,
+  tiles:TTileObject[],
+  isOpen:boolean
+}

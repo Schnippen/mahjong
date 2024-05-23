@@ -43,14 +43,20 @@ export function checkForSequence(playerHand:TTileObject[], discardedTileArray:TT
     });
 
     if (possibleSequences.length === 1) {
-        console.warn("Sequence: First", "Discarded", "Third", possibleSequences.map(t => t.map(i => i.name)))
-        return true;
+        console.info("Sequence: First", "Discarded", "Third", possibleSequences.map(t => t.map(i => i.name)))
+       //return true;
+        result = true;
+        return { result, possibleSequences };
     } else if (possibleSequences.length > 1) {
-        console.warn("Sequence: OPTIONS", possibleSequences.map(t => t.map(i => i.name)))
-        return true;
+        console.info("Sequence: OPTIONS", possibleSequences.map(t => t.map(i => i.name)))
+        //return true;
+        result = true;
+        return { result, possibleSequences };
     } else {
         console.log("Sequence: NO CHII")
-        return false;
+        //return false;
+        result = false;
+        return { result, possibleSequences };
     }
 }
 

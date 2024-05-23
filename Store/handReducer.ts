@@ -1,5 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {TTileObject} from '../Types/types';
+import {TTileObject, TstolenTiles} from '../Types/types';
+
+
 
 interface handState {
   player1Hand: TTileObject[];
@@ -10,8 +12,13 @@ interface handState {
   secondHand: TTileObject[];
   thirdHand: TTileObject[];
   fourthHand: TTileObject[];
+  player1StolenTiles:TstolenTiles[],
+  player2StolenTiles:TstolenTiles[],
+  player3StolenTiles:TstolenTiles[],
+  player4StolenTiles:TstolenTiles[],
 }
-
+//{name:string,tiles:TTileObject[],isOpen:boolean,}
+//{name:"string",tiles:[],isOpen:false}
 const initialState: handState = {
   player1Hand: [],
   player2Hand: [],
@@ -21,6 +28,10 @@ const initialState: handState = {
   secondHand: [],
   thirdHand: [],
   fourthHand: [],
+  player1StolenTiles:[],
+  player2StolenTiles:[],
+  player3StolenTiles:[],
+  player4StolenTiles:[],
 };
 
 
@@ -44,7 +55,7 @@ export const handReducer = createSlice({
         const { player, tile } = action.payload;
         if (player === 'player1') {
           state.player1Hand = state.player1Hand.filter(t => t.tileID !== tile.tileID);
-          console.log("handReducer:",state.player1Hand.length)
+          //console.log("handReducer:",state.player1Hand.length)
         } else if (player === 'player2') {
           state.player2Hand = state.player2Hand.filter(t => t.tileID !== tile.tileID);
         } else if (player === 'player3') {
@@ -86,6 +97,33 @@ export const handReducer = createSlice({
           break;
       }
     },
+    setStolenTilesOnBoard:(state,action)=>{
+      const {player, tilesArray, name,isOpen} = action.payload;
+      const newStolenTiles = { name, tiles: tilesArray, isOpen };
+      if (player === "player1") {
+        state.player1StolenTiles.push(newStolenTiles);
+      } else if (player === "player2") {
+        state.player2StolenTiles.push(newStolenTiles);
+      } else if (player === "player3") {
+        state.player3StolenTiles.push(newStolenTiles);
+      } else if (player === "player4") {
+        state.player4StolenTiles.push(newStolenTiles);
+      }
+    },
+    addTileFromWallToHand:(state,action)=>{
+      const {player} = action.payload;
+      let newTileFromWall  = null
+      // /tilesReadyForRound
+      if (player === "player1") {
+        state.player1Hand.push(newTileFromWall);
+      } else if (player === "player2") {
+        state.player2Hand.push(newTileFromWall);
+      } else if (player === "player3") {
+        state.player3Hand.push(newTileFromWall);
+      } else if (player === "player4") {
+        state.player4Hand.push(newTileFromWall);
+      }
+    }
   },
 });
 export const {
@@ -94,6 +132,7 @@ export const {
   discardTileFromHand,
   updateAfterHandOut,
   setPlayerHandsAfterHandOut,
+  setStolenTilesOnBoard,
 } = handReducer.actions;
 
 export default handReducer.reducer;

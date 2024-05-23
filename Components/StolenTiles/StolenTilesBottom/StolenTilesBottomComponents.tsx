@@ -19,7 +19,7 @@ export const StolenTileComponentPlayerVERTICAL =({svg,tileRatioProp=3,}:{svg:str
        <View style={{backgroundColor:'#56a2c4',height:tileBottomLayer,width:tileWidth,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,borderWidth:1,transform: [{rotate: `${richiiTile?90:0}deg`}]}}>
        <View style={{backgroundColor:"#bdbbc0",height:tileSecondLayer,width:tileWidth-2,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,alignItems:"center"}}>
        <View style={{backgroundColor:"#e9ebe8", height:tileHeight,width:tileWidth-2,alignItems:"center",justifyContent:"center",borderRadius:tileBorderRadiusHandPlayerPerspective}}>
-{/*<SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective}} />*/}</View>
+<SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective}} /></View>
        </View>
        </View>
    )
@@ -41,7 +41,7 @@ export const StolenTileComponentPlayerVERTICAL =({svg,tileRatioProp=3,}:{svg:str
    <View style={{backgroundColor:'#56a2c4',height:tileBottomLayer,width:tileWidth,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,borderWidth:1,transform: [{rotate: `${richiiTile?90:0}deg`}]}}>
    <View style={{backgroundColor:"#bdbbc0",height:tileSecondLayer,width:tileWidth-2,justifyContent:riverJustifyContent?"flex-start":"flex-end",borderRadius:tileBorderRadiusHandPlayerPerspective,alignItems:"center"}}>
    <View style={{backgroundColor:"#e9ebe8", height:tileHeight,width:tileWidth-2,alignItems:"center",justifyContent:"center",borderRadius:tileBorderRadiusHandPlayerPerspective}}>
-{/*<SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective,transform: [{rotate: `${90}deg`}]}} />*/}</View></View>
+<SvgXml width={tileImageWidth} height={tileImageHeight} xml={svg} style={{borderRadius:tileBorderRadiusHandPlayerPerspective,transform: [{rotate: `${90}deg`}]}} /></View></View>
    </View>
   )
   }

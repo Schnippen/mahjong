@@ -137,10 +137,11 @@ function MahjongScreen({navigation, route}: any) {
   const playerTopHand = useSelector(
     (state: RootState) => state.handReducer.player3Hand,
   );
-  const playerLeftHand = useSelector(
-    (state: RootState) => state.handReducer.player4Hand,
+  const turnInterrupted = useSelector(
+    (state: RootState) => state.gameReducer.turnInterrupted,
   );
   console.log("mahjong currentDiscard:",currentDiscard.map(t=>t.name),)
+  console.log("TURN INTERRUPTED:",turnInterrupted)
   /* console.log(
     'DICE_ROLL:',
     DICE_ROLL,
