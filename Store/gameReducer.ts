@@ -22,6 +22,7 @@ interface gameState {
   currentTurn: string;
   latestPlayerTurn:string;
   gameOrder: string[];
+  startingTurn:number,
   currentTurnIndex: number;
   gameEnded: boolean;
   prevailingWind: string;
@@ -32,6 +33,7 @@ interface gameState {
   player2Actions:{CHII:boolean,PON:boolean,KAN:boolean,RON:boolean,TSUMO:boolean};
   player3Actions:{CHII:boolean,PON:boolean,KAN:boolean,RON:boolean,TSUMO:boolean};
   player4Actions:{CHII:boolean,PON:boolean,KAN:boolean,RON:boolean,TSUMO:boolean};
+  
 }
 
 const initialState: gameState = {
@@ -39,6 +41,7 @@ const initialState: gameState = {
   currentTurn: 'east', //wind of player
   latestPlayerTurn:"string",// player which discarded tile
   gameOrder: ['east', 'south', 'west', 'north'],
+  startingTurn:0,
   currentTurnIndex: 0,
   howManyTurnsElapsed: 0,
   gameEnded: false,
@@ -61,7 +64,24 @@ export const gameReducer = createSlice({
       //const windIndex = (index + i) % winds.length;
     },
     START_TURN: (state, action) => {
-      //state.value += action.payload
+    /*   let {player}= action.payload
+      //add tile to hand? 
+      //when game is not interrupted start turn
+      let order= state.gameOrder[state.currentTurnIndex]
+      state.startingTurn
+      //console.log("START_TURN:",order)
+      let turnInterrupted = state.turnInterrupted
+      if(!turnInterrupted&&player==="player1"){
+        //add new tile to player1 hand
+        console.log("SHIIIIIITT player1")
+      } 
+     else if (!turnInterrupted&&player === "player2") {
+      console.log("SHIIIIIITT player2")
+    } else if (!turnInterrupted&&player === "player3") {
+      console.log("SHIIIIIITT player3")
+    } else if (!turnInterrupted&&player === "player4") {
+      console.log("SHIIIIIITT player4")
+    } */
     },
     SET_LATEST_TURN:(state)=>{
       state.latestPlayerTurn=state.currentTurn
@@ -72,7 +92,7 @@ export const gameReducer = createSlice({
       state.currentTurnIndex = nextIndex;
       state.currentTurn = state.gameOrder[nextIndex];
       state.howManyTurnsElapsed += 1;
-      console.log('currentTurn:', state.currentTurn, state.currentTurnIndex,"latestTurn:",state.latestPlayerTurn);
+      console.log('CURRENT_TURN:', state.currentTurn, state.currentTurnIndex,"latestTurn:",state.latestPlayerTurn);
     },
     CHECK_IF_CHII_IS_ON_LEFT_SIDE:(state,action)=>{
       const { playersWind, playerNumber } = action.payload;
@@ -92,7 +112,7 @@ export const gameReducer = createSlice({
     CHECK_FOR_PON:(state,action)=>{
       const { playersWind, playerNumber } = action.payload;
        let ponIsPossible=playersWind!==state.currentTurn //true
-       console.log("redux ponIsPossible:",ponIsPossible,playersWind)
+       //console.log("redux ponIsPossible:",ponIsPossible,playersWind)
        if (playerNumber === "player1") {
         state.player1Actions.PON = ponIsPossible;
       } else if (playerNumber === "player2") {
@@ -120,9 +140,9 @@ export const gameReducer = createSlice({
       const { val } = action.payload;
       state.turnInterrupted = val;
       if (state.turnInterrupted) {
-        console.error("TURN INTERRUPTED:", state.turnInterrupted);
+        console.info("TURN INTERRUPTED:", state.turnInterrupted);
       } else {
-        console.log("INTERRUPT_TURN RUNNING:", state.turnInterrupted);
+        console.log("INTERRUPT_TURN RUNNING, is game interrupted?:", state.turnInterrupted);
       }},
     changePrevailingWind: (state, action) => {
       //state.value += action.payload

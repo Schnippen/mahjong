@@ -30,7 +30,7 @@ const RiverTop = () => {
     <View
       style={{
         flexDirection: 'column-reverse',
-        backgroundColor: 'lightblue',
+        backgroundColor: 'transparent',
         width: 420,
         height: 270,
       }}>

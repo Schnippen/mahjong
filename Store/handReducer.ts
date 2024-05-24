@@ -110,20 +110,19 @@ export const handReducer = createSlice({
         state.player4StolenTiles.push(newStolenTiles);
       }
     },
-    addTileFromWallToHand:(state,action)=>{
-      const {player} = action.payload;
-      let newTileFromWall  = null
-      // /tilesReadyForRound
+    addTileFromWallToHand: (state, action) => {
+      const { player, nextTile } = action.payload;
       if (player === "player1") {
-        state.player1Hand.push(newTileFromWall);
+        console.log("addTileFromWallToHand() RUNS");
+        state.player1Hand.push(nextTile);
       } else if (player === "player2") {
-        state.player2Hand.push(newTileFromWall);
+        state.player2Hand.push(nextTile);
       } else if (player === "player3") {
-        state.player3Hand.push(newTileFromWall);
+        state.player3Hand.push(nextTile);
       } else if (player === "player4") {
-        state.player4Hand.push(newTileFromWall);
+        state.player4Hand.push(nextTile);
       }
-    }
+    },
   },
 });
 export const {
@@ -133,6 +132,8 @@ export const {
   updateAfterHandOut,
   setPlayerHandsAfterHandOut,
   setStolenTilesOnBoard,
+  addTileFromWallToHand
+  
 } = handReducer.actions;
 
 export default handReducer.reducer;

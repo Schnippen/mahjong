@@ -160,7 +160,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
     <ScrollView>
       <Button title="initialize" onPress={() => initialGame(dispatch)}></Button>
 
-      <Button title="nextTurn" onPress={() => nextTurn()}></Button>
+      {/* <Button title="nextTurn" onPress={() => nextTurn()}></Button> */}
       <View
         style={{
           flex: 1,
@@ -246,7 +246,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                 bottom: 50,
                 height: 460,
                 width: 250,
-                backgroundColor: 'pink',
+                backgroundColor: 'transparent',
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
@@ -272,7 +272,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                 width: 600,
                 alignItems: 'center',
                 marginBottom: 5,
-                backgroundColor:"pink"
+                backgroundColor:"transparent"
               }}>
               <RiverBottom />
               <View

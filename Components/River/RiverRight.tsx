@@ -38,7 +38,7 @@ export const RiverRight = () => {
     //480 250
     <View
       style={{
-        backgroundColor: 'lightblue',
+        backgroundColor: 'transparent',
         width: 460,
         height: 250,
         transform: [{rotateZ: '270deg'}],

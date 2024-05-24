@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {TouchableWithoutFeedback, View } from "react-native";
 import {useSelector,useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
-import { CHECK_FOR_KAN, CHECK_FOR_PON, CHECK_IF_CHII_IS_ON_LEFT_SIDE, INTERRUPT_TURN, SET_LATEST_TURN } from "../../Store/gameReducer";
+import { CHECK_FOR_KAN, CHECK_FOR_PON, CHECK_IF_CHII_IS_ON_LEFT_SIDE, INTERRUPT_TURN, SET_LATEST_TURN, START_TURN } from "../../Store/gameReducer";
 import { checkForSequence } from "../../Functions/checkForSequence";
 import { checkForTriplet } from "../../Functions/checkForTriplet";
 import { Button } from "@rneui/themed";
@@ -130,17 +130,18 @@ const PlayerButtonsPanel=()=>{
   const currentTurnIndex = useSelector(
     (state: RootState) => state.gameReducer.currentTurnIndex
   );
-  const exampleChii1=tilesData.slice(10,12)
-  const exampleChii2=tilesData.slice(13,15)
-  const examplePossibleChiis=[exampleChii1,exampleChii2]
-  const showHand = handData.map(({ value, type, name, tileID }) => ({ value, type, name, tileID }));
+
+
+  //const showHand = handData.map(({ value, type, name, tileID }) => ({ value, type, name, tileID }));
   //console.log("showHand:",showHand);
 
   const [displayChiiButton,setDisplayChiiButton]=useState<boolean>(false)
   const [displayPonButton,setDisplayPonButton]=useState<boolean>(false)
   const [displayKanButton,setDisplayKanButton]=useState<boolean>(false)
   const [chiiPanelDisplayed,setChiiPanelDisplayed]=useState<boolean>(false)
+  const [chiiPanelState,setChiiPanelState]=useState<TTileObject[][]>([])
   console.log("playersButtonPanel-latestTurn:",latestTurn,currentTurnIndex)
+
   const handlePassStealingTiles=(dispatch:any)=>{
     setDisplayChiiButton(false)
     setDisplayPonButton(false)
@@ -167,7 +168,7 @@ const PlayerButtonsPanel=()=>{
     dispatch(setStolenTilesOnBoard({player:"player1",tilesArray:tilesThatWillBeDisplayedAsStolen,name:"left",isOpen:true}))
     dispatch(popFromTheRiver({player:"player4"}))//TODO this is so, because of chii
     stopDisplayingStealingButtonsIfPanelChiiIsPresent()
-    dispatch(SET_LATEST_TURN())
+    //dispatch(SET_LATEST_TURN())
   }
 
   const handleStealSequence=( handData: TTileObject[], currentDiscard: TTileObject[],dispatch:any)=>{
@@ -175,10 +176,11 @@ const PlayerButtonsPanel=()=>{
     if (result && possibleSequences.length === 1) {
         console.log("handleStealSequence", possibleSequences.map(i => i.map(t => t.name)));   
         addSequenceToHand(possibleSequences,dispatch,currentDiscard)
-        return null;
+        //return null;
     }
     if(result&&possibleSequences.length>1){
       console.log("handleStealSequence", possibleSequences.map(i => i.map(t => t.name)));
+      setChiiPanelState(possibleSequences)
       setChiiPanelDisplayed(true)
       stopDisplayingStealingButtonsIfPanelChiiIsPresent()
     }
@@ -190,8 +192,8 @@ const PlayerButtonsPanel=()=>{
     const { result, possibleSequences } = stealSequence(handData, currentDiscard);
     let choosenSequence = [possibleSequences[index]]
     addSequenceToHand(choosenSequence,dispatch,currentDiscard)
-
-    
+    setChiiPanelDisplayed(false)
+    setChiiPanelState([])
   }
 
   const handleStealTriplet=( handData: TTileObject[], currentDiscard: TTileObject[],dispatch:any,latestPlayerTurn:string)=>{
@@ -201,12 +203,15 @@ const PlayerButtonsPanel=()=>{
     let playerPos = playerPosition[orderArray]
     let position=positionArray[orderArray]
     let {result,ponArray}=stealTriplet(handData,currentDiscard,position)
-    console.log("stealTriplet:",result,ponArray?.map(t=>t.name))
+    console.log("stealTriplet:",result,ponArray?.map(t=>t.name),"playerPos:",playerPos)
     ponArray?.forEach(tile => {
       dispatch(discardTileFromHand({player:"player1",tile:tile}))
     });
     dispatch(setStolenTilesOnBoard({player:"player1",tilesArray:ponArray,name:"position",isOpen:true}))
     dispatch(popFromTheRiver({player:playerPos}))
+    setDisplayChiiButton(false)
+    setDisplayKanButton(false)
+    setDisplayPonButton(false)
     dispatch(SET_LATEST_TURN())
   }
 
@@ -235,7 +240,7 @@ const PlayerButtonsPanel=()=>{
     result?setDisplayChiiButton(true):setDisplayChiiButton(false);
     val2?setDisplayPonButton(true):setDisplayPonButton(false);
     val3?setDisplayKanButton(true):setDisplayKanButton(false);
-    (result||val2||val3)?dispatch(INTERRUPT_TURN({val:true})):dispatch(INTERRUPT_TURN({val:false}))
+    //(result||val2||val3)?dispatch(INTERRUPT_TURN({val:true})):dispatch(INTERRUPT_TURN({val:false}))
   }
 
   const ChooseSequencePanel=()=>{
@@ -288,7 +293,7 @@ const PlayerButtonsPanel=()=>{
             <DisablePanelButton/>
             </View>
             <FlashList 
-            data={examplePossibleChiis} //array with posible sequences
+            data={chiiPanelState} //array with posible sequences
             renderItem={({ item,index }:{item:TTileObject[],index:number}) => renderItem(item,index)}
             estimatedItemSize={2}
             horizontal={true}
@@ -299,10 +304,15 @@ const PlayerButtonsPanel=()=>{
       </View> 
     )
   }
-
+  //TODO create redux middleware that replaces useEffect
  useEffect(() => {
   dispatch(CHECK_IF_CHII_IS_ON_LEFT_SIDE({playersWind:yourWind,playerNumber:"player1"}))
+}, [latestTurn]);
+useEffect(() => {
+  console.log("CHECK_FOR_PON useEFFect")
   dispatch(CHECK_FOR_PON({playersWind:yourWind,playerNumber:"player1"}))
+}, [latestTurn]);
+useEffect(() => {
   dispatch(CHECK_FOR_KAN({playersWind:yourWind,playerNumber:"player1"}))
 }, [latestTurn]);
 

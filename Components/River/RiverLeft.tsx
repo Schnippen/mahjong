@@ -34,7 +34,7 @@ export const RiverLeft = () => {
     //480 250
     <View
       style={{
-        backgroundColor: 'lightblue',
+        backgroundColor: 'transparent',
         width: 460,
         height: 250,
         transform: [{rotateZ: '90deg'}],
@@ -42,7 +42,7 @@ export const RiverLeft = () => {
       }}>
       <FlatList
         data={playersRiver}
-        style={{backgroundColor: 'brown', width: '100%'}}
+        style={{backgroundColor: 'transparent', width: '100%'}}
         renderItem={renderItem}
         scrollEnabled={false}
         numColumns={numOfColumns}

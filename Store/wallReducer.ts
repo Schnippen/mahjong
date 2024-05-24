@@ -91,6 +91,9 @@ export const wallReducer = createSlice({
       const wallName = action.payload
       state.startTakingFromWallXState=wallName
     },
+    popTileFromtilesAfterHandout:(state)=>{
+      state.tilesAfterHandout.pop()
+    },
     popTileFromTheWall:(state)=>{
       let startingWind = state.startTakingFromWallXState
       let windsOrder=["east","north","west","south"]
@@ -157,6 +160,7 @@ export const {
   setDorasFromDeadWall,
   incrementUncoveredCount,
   setStartTakingFromWallXState,
+  popTileFromtilesAfterHandout,
   popTileFromTheWall,
 } = wallReducer.actions;
 

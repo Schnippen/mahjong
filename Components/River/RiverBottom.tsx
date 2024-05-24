@@ -28,7 +28,7 @@ const RiverBottom = () => {
     <View
       style={{
         flexDirection: 'column',
-        backgroundColor: 'lightblue',
+        backgroundColor: 'transparent',
         width: 420,
         height: 270,
       }}>
