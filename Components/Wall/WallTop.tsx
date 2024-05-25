@@ -7,11 +7,10 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
 import EmptyComponent from './EmptyComponent';
 import isNearDeadWallFunction from '../../Functions/isNearDeadWallFunction';
+import {wallDirectionTOP} from '../../Functions/WallVisuals/WallDirections';
 //wallWind determines the wall state data source
 //TODO add Types
 const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
-  const [topWallTiles, setTopWallTiles] = useState<TTileObject[]>([]);
-  const [bottomWallTiles, setBottomWallTiles] = useState<TTileObject[]>([]);
   const globalDiceRollResult = useSelector(
     (state: RootState) => state.wallReducer.currentDiceRoll,
   );
@@ -38,7 +37,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
         return [];
     }
   });
-/* 
+  /* 
   console.log(
     'wallTop',
     wallState?.length,
@@ -47,8 +46,6 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
     //wallWind === 'east' && globalDiceRollResult === 5,
     //wallState.map(x => x.name),
   ); */
-
-
 
   const topTiles = wallState.filter((_, index) => index % 2 === 1);
   const bottomTiles = wallState.filter((_, index) => index % 2 === 0);
@@ -70,7 +67,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
       );
     } else {
       return (
-        <View style={{marginLeft:0 /* index === 0 ? 0 : -12 */}}>
+        <View style={{marginLeft: 0 /* index === 0 ? 0 : -12 */}}>
           <WallTileTop
             svg={item.image}
             tileRatioProp={1}
@@ -82,8 +79,16 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
       );
     }
   };
-  const isNearDeadwall = isNearDeadWallFunction({wallWind,globalDiceRollResult})
-  const isInverted =  (globalDiceRollResult===4&&wallWind==="west")||(globalDiceRollResult===3&&wallWind==="south") //(globalDiceRollResult==5&&wallWind==="north") (globalDiceRollResult==10&&wallWind==="north")
+  const isNearDeadwall = isNearDeadWallFunction({
+    wallWind,
+    globalDiceRollResult,
+  });
+  const isInverted =
+    (globalDiceRollResult === 4 && wallWind === 'west') ||
+    (globalDiceRollResult === 3 &&
+      wallWind === 'south' &&
+      globalDiceRollResult === 3 &&
+      wallWind === 'south'); //(globalDiceRollResult==5&&wallWind==="north") (globalDiceRollResult==10&&wallWind==="north")
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
     /* console.log(
       'wallTOP:',
@@ -92,30 +97,55 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
       index,
       item.isDora,
     ); */
-    const marginLeft =(globalDiceRollResult===6&&wallWind==="west"&&index===1)|| (globalDiceRollResult===5&&wallWind==="south"&&index===2)|| (globalDiceRollResult===4&&wallWind==="east"&&index===3)||(isNearDeadwall&&index===7) ? 30 :0
-      // TODO change size of the tile gap to tile width
+    const marginLeft =
+      (globalDiceRollResult === 6 && wallWind === 'west' && index === 1) ||
+      (globalDiceRollResult === 5 && wallWind === 'south' && index === 2) ||
+      (globalDiceRollResult === 4 && wallWind === 'east' && index === 3) ||
+      (isNearDeadwall && index === 7)
+        ? 30
+        : 0;
+    // TODO change size of the tile gap to tile width
     //console.log("wallTop:",(globalDiceRollResult===6&&wallWind==="west"&&index===1))
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
     } else {
       return (
         <View
-        style={{
-          marginLeft: marginLeft,
-        }}>
-        <WallTileTop
-          svg={item.image}
-          tileRatioProp={1}
-          key={index + 'a'}
-          zIndex={1}
-        />
-        {/* <Text>{index}</Text> */}
+          style={{
+            marginLeft: marginLeft,
+          }}>
+          <WallTileTop
+            svg={item.image}
+            tileRatioProp={1}
+            key={index + 'a'}
+            zIndex={1}
+          />
+          {/* <Text>{index}</Text> */}
         </View>
       );
     }
   };
   //TODO change it to Flashilist in the future
-  const wallDirection = globalDiceRollResult===7&&wallWind==="south"||(globalDiceRollResult===4&&wallWind==="west")||(globalDiceRollResult===9&&wallWind==="west")||(wallWind === 'east' && globalDiceRollResult === 7)||(wallWind === 'north' && globalDiceRollResult === 7)||(wallWind === 'east' && globalDiceRollResult === 8)||(globalDiceRollResult===4&&wallWind==="east")||(globalDiceRollResult===4&&wallWind==="south") || (globalDiceRollResult===3&&wallWind==="south")||(globalDiceRollResult==5&&wallWind==="north")||(globalDiceRollResult==10&&wallWind==="north")||(globalDiceRollResult==8&&wallWind==="south")||(globalDiceRollResult==11&&wallWind==="east")||(globalDiceRollResult==6&&wallWind==="north")||(globalDiceRollResult===2&&wallWind==="east")||(globalDiceRollResult===5&&wallWind==="west")||(globalDiceRollResult===6&&wallWind==="east")
+  /*  const wallDirection =
+    (globalDiceRollResult === 7 && wallWind === 'south') ||
+    (globalDiceRollResult === 4 && wallWind === 'west') ||
+    (globalDiceRollResult === 9 && wallWind === 'west') ||
+    (wallWind === 'east' && globalDiceRollResult === 7) ||
+    (wallWind === 'north' && globalDiceRollResult === 7) ||
+    (wallWind === 'east' && globalDiceRollResult === 8) ||
+    (globalDiceRollResult === 4 && wallWind === 'east') ||
+    (globalDiceRollResult === 4 && wallWind === 'south') ||
+    (globalDiceRollResult === 3 && wallWind === 'south') ||
+    (globalDiceRollResult == 5 && wallWind === 'north') ||
+    (globalDiceRollResult == 10 && wallWind === 'north') ||
+    (globalDiceRollResult == 8 && wallWind === 'south') ||
+    (globalDiceRollResult == 11 && wallWind === 'east') ||
+    (globalDiceRollResult == 6 && wallWind === 'north') ||
+    (globalDiceRollResult === 2 && wallWind === 'east') ||
+    (globalDiceRollResult === 5 && wallWind === 'west') ||
+    (globalDiceRollResult === 6 && wallWind === 'east') ||
+    (globalDiceRollResult === 3 && wallWind === 'east'); */
+  const wallDirection = wallDirectionTOP(globalDiceRollResult, wallWind);
 
   return (
     <View
@@ -125,7 +155,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
         height: 60,
         position: 'relative',
         width: 600,
-        justifyContent: wallDirection?"flex-start":'flex-end', // start tiles from left or right
+        justifyContent: wallDirection ? 'flex-start' : 'flex-end', // start tiles from left or right
       }}>
       <FlatList
         data={bottomTiles}
@@ -138,7 +168,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
           length: 39,
           offset: 39 * index,
           index,
-        })} 
+        })}
         ListEmptyComponent={<EmptyComponent />}
         extraData={wallState}
         inverted={isInverted}
