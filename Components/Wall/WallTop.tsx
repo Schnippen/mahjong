@@ -144,7 +144,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
     (globalDiceRollResult === 2 && wallWind === 'east') ||
     (globalDiceRollResult === 5 && wallWind === 'west') ||
     (globalDiceRollResult === 6 && wallWind === 'east') ||
-    (globalDiceRollResult === 3 && wallWind === 'east'); */
+    (globalDiceRollResult === 3 && wallWind === 'east')||(globalDiceRollResult === 6 && wallWind === 'west')*/
   const wallDirection = wallDirectionTOP(globalDiceRollResult, wallWind);
 
   return (
