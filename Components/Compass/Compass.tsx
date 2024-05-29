@@ -15,16 +15,16 @@ const Compass = () => {
   const backgroundColorSec = '#2f2f39';
   const dispatch = useDispatch()
   const playerBottomMainPlayer = useSelector(
-    (state: RootState) => state.playersReducer.player1.player1Wind,
+    (state: RootState) => state.playersReducer.player1.wind,
   );
   const playerRight = useSelector(
-    (state: RootState) => state.playersReducer.player2.player2Wind,
+    (state: RootState) => state.playersReducer.player2.wind,
   );
   const playerTop = useSelector(
-    (state: RootState) => state.playersReducer.player3.player3Wind,
+    (state: RootState) => state.playersReducer.player3.wind,
   );
   const playerLeft = useSelector(
-    (state: RootState) => state.playersReducer.player4.player4Wind,
+    (state: RootState) => state.playersReducer.player4.wind,
   );
   const handleChangeScoringDisplaySystem=()=>{
     dispatch(setShowScoreDifference())

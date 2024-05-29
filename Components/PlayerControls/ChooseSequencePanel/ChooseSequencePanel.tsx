@@ -6,6 +6,28 @@ import {Text} from '@rneui/themed';
 import PlayerTileOnHand from '../PlayerTileOnHand';
 import {FlashList} from '@shopify/flash-list';
 
+export const handleDisablePanelButton = () => {
+  console.log("handleDisablePanelButton")
+/*   setChiiPanelDisplayed(false);
+  //TODO add RON and TSUMO
+  let {result} = checkForSequence(handData, currentDiscard);
+  let val2 = checkForTriplet(handData, currentDiscard);
+  let val3 = checkForQuadruplet(handData, currentDiscard);
+  result ? setDisplayChiiButton(true) : setDisplayChiiButton(false);
+  val2 ? setDisplayPonButton(true) : setDisplayPonButton(false);
+  val3 ? setDisplayKanButton(true) : setDisplayKanButton(false); */
+  //(result| |val2||val3)?dispatch(INTERRUPT_TURN({val:true})):dispatch(INTERRUPT_TURN({val:false}))
+};
+
+const handleStealSelectedSequence = (index: number) => {
+  console.log('handleStealSelectedSequence');
+ /*  const {result, possibleSequences} = stealSequence(handData, currentDiscard);
+  let choosenSequence = [possibleSequences[index]];
+  addSequenceToHand(choosenSequence, dispatch, currentDiscard);
+  setChiiPanelDisplayed(false);
+  setChiiPanelState([]); */
+};
+const chiiPanelState:[] =[]
 const DisablePanelButton = () => {
   return (
     <TouchableWithoutFeedback onPress={() => handleDisablePanelButton()}>
@@ -135,3 +157,16 @@ const ChooseSequencePanel = () => {
   );
 };
 export default ChooseSequencePanel;
+
+
+/* const handleDisablePanelButton = () => {
+  setChiiPanelDisplayed(false);
+  //TODO add RON and TSUMO
+  let {result} = checkForSequence(handData, currentDiscard);
+  let val2 = checkForTriplet(handData, currentDiscard);
+  let val3 = checkForQuadruplet(handData, currentDiscard);
+  result ? setDisplayChiiButton(true) : setDisplayChiiButton(false);
+  val2 ? setDisplayPonButton(true) : setDisplayPonButton(false);
+  val3 ? setDisplayKanButton(true) : setDisplayKanButton(false);
+  //(result| |val2||val3)?dispatch(INTERRUPT_TURN({val:true})):dispatch(INTERRUPT_TURN({val:false}))
+};*/

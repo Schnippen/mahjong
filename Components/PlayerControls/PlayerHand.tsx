@@ -9,12 +9,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
 import TileOnHand from './TileOnHand';
 import {discardTile} from '../../Functions/discardTileFunction';
-import {addTileFromWallToHand} from '../../Store/handReducer';
 import {popTileFromtilesAfterHandout} from '../../Store/wallReducer';
 
 const PlayerHandComponent = () => {
   const handData = useSelector(
-    (state: RootState) => state.handReducer.player1Hand,
+    (state: RootState) => state.playersReducer.player1.playerHand.hand
   );
   const [selected, setSelected] = useState<number | null>(null);
   const [sortedData, setSortedData] = useState<TTileObject[]>(handData);
@@ -33,7 +32,7 @@ const PlayerHandComponent = () => {
 
   //main player is bottom one
   const playersWind = useSelector(
-    (state: RootState) => state.playersReducer.player1.player1Wind,
+    (state: RootState) => state.playersReducer.player1.wind,
   );
 
   const howManyTurnsElapsed = useSelector(
@@ -47,16 +46,6 @@ const PlayerHandComponent = () => {
   );
   const currentTurnIndex = useSelector(
     (state: RootState) => state.gameReducer.currentTurnIndex,
-  );
-
-  const isSequencePossible = useSelector(
-    (state: RootState) => state.gameReducer.player1Actions.CHII,
-  );
-  const isTripletPossible = useSelector(
-    (state: RootState) => state.gameReducer.player1Actions.PON,
-  );
-  const isQuadrupletPossible = useSelector(
-    (state: RootState) => state.gameReducer.player1Actions.KAN,
   );
   //const isItFirstTurn = turnsElapsed === 0 && handData.length !== 14;
   //const handDataLastIndex = handData.length - 1
@@ -84,69 +73,6 @@ const PlayerHandComponent = () => {
     console.info('nextTileState is not defined or empty');
     nextTile = null;
   }
-
-  //adding new tile to hand
-  useEffect(() => {
-    let playerPosition = ['player1', 'player2', 'player3', 'player4'];
-    let playerPos = playerPosition[currentTurnIndex];
-    //let gameOrder = ['east', 'south', 'west', 'north'];
-    //state.latestPlayerTurn=currentTurnIndex
-    //state.currentTurnIndex = nextIndex;
-    let currentTurn = gameTurn; //gameOrder[currentTurnIndex];
-
-    console.log(
-      'howManyTurnsElapsed nextTurn:',
-      gameTurn,
-      nextTile?.name,
-      handData.length,
-      'playerPos:',
-      playerPos,
-      'turnInterrupted:',
-      turnInterrupted,
-      !turnInterrupted && currentTurn === playersWind,
-      playersWind,
-      'currentTurn:',
-      currentTurn,
-      'howManyTurnsElapsed RUNS:',
-      howManyTurnsElapsed,
-      'handData length:',
-      handData.length,
-    );
-    //checking if nextTile exist
-    if (nextTile) {
-      //let player = "player1";
-      if (!turnInterrupted && currentTurn === playersWind) {
-        console.log(
-          "Player 1's turn ADDING TILE TO HAND:-",
-          nextTile.name,
-          !isSequencePossible && !isTripletPossible && !isQuadrupletPossible,
-          isSequencePossible,
-          isTripletPossible,
-          !isQuadrupletPossible,
-        );
-        if (
-          !isSequencePossible &&
-          !isTripletPossible &&
-          isQuadrupletPossible //change it there is a bug
-        ) {
-          console.log(
-            'there are no chii pon kan:',
-            !isSequencePossible && !isTripletPossible && !isQuadrupletPossible,
-          );
-          if (handData.length <= 13) {
-            dispatch(addTileFromWallToHand({player: 'player1', nextTile}));
-            dispatch(popTileFromtilesAfterHandout());
-          }
-        }
-      }
-    }
-  }, [
-    howManyTurnsElapsed,
-    isSequencePossible,
-    isTripletPossible,
-    isQuadrupletPossible,
-    turnInterrupted,
-  ]);
 
   useEffect(() => {
     if (sortTilesOnHand) {

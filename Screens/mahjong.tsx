@@ -21,8 +21,6 @@ import PlayerPanel from '../Components/PlayerControls/PlayerPanel';
 import SidePanel from '../Components/SidePanel/SidePanel';
 import DoraPanel from '../Components/DoraPanel/DoraPanel';
 import Compass from '../Components/Compass/Compass';
-import determineTurnOrder from '../Functions/determineTurnOrder';
-import {END_TURN} from '../Store/gameReducer';
 import StolenTilesPanelBottom from '../Components/StolenTiles/StolenTilesBottom/StolenTilesPanelBottom';
 import StolenTilesPanelTop from '../Components/StolenTiles/StolenTilesTop/StolenTilesPanelTop';
 import StolenTilesRight from '../Components/StolenTiles/StolenTilesRight/StolenTilesPanelRight';
@@ -91,12 +89,6 @@ function MahjongScreen({navigation, route}: any) {
     );
   };
   const dispatch = useDispatch();
-  const tilesAfterHandout = useSelector(
-    (state: RootState) => state.wallReducer.tilesAfterHandout,
-  );
-  const MainPlayerCurrentHand = useSelector(
-    (state: RootState) => state.handReducer.player1Hand,
-  );
  /*  console.log(
     'tilesAfterHandout:',
     tilesAfterHandout.length,
@@ -105,43 +97,20 @@ function MahjongScreen({navigation, route}: any) {
   ); */
   //winds of players
   const playerBottomMainPlayerWind = useSelector(
-    (state: RootState) => state.playersReducer.player1.player1Wind,
+    (state: RootState) => state.playersReducer.player1.wind,
   );
   const playerRightWind = useSelector(
-    (state: RootState) => state.playersReducer.player2.player2Wind,
+    (state: RootState) => state.playersReducer.player2.wind,
   );
   const playerTopWind = useSelector(
-    (state: RootState) => state.playersReducer.player3.player3Wind,
+    (state: RootState) => state.playersReducer.player3.wind,
   );
   const playerLeftWind = useSelector(
-    (state: RootState) => state.playersReducer.player4.player4Wind,
+    (state: RootState) => state.playersReducer.player4.wind,
   );
-  const firstHand = useSelector(
-    (state: RootState) => state.handReducer.firstHand,
-  );
-  const player1Hand = useSelector(
-    (state: RootState) => state.handReducer.player1Hand,
-  );
-  const DICE_ROLL = useSelector(
-    (state: RootState) => state.wallReducer.currentDiceRoll,
-  );
-  const currentDiscard = useSelector(
-    (state: RootState) => state.riverReducer.currentDiscard,
-  );
-  const startTakingFromWallXState = useSelector(
-    (state: RootState) => state.wallReducer.startTakingFromWallXState,
-  );
-  const playerRightHand = useSelector(
-    (state: RootState) => state.handReducer.player2Hand,
-  );
-  const playerTopHand = useSelector(
-    (state: RootState) => state.handReducer.player3Hand,
-  );
-  const turnInterrupted = useSelector(
-    (state: RootState) => state.gameReducer.turnInterrupted,
-  );
-  console.log("mahjong currentDiscard:",currentDiscard.map(t=>t.name),)
-  console.log("TURN INTERRUPTED:",turnInterrupted)
+ 
+  //console.log("mahjong currentDiscard:",currentDiscard.map(t=>t.name),)
+  //console.log("TURN INTERRUPTED:",turnInterrupted)
   /* console.log(
     'DICE_ROLL:',
     DICE_ROLL,
@@ -152,10 +121,7 @@ function MahjongScreen({navigation, route}: any) {
 console.info("playerTop:",playerTopHand.length,playerTopHand.map(t=>t.name))
 console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.name)) */
 
-  //Wall wind, perspective based,
-  const nextTurn = () => {
-    dispatch(END_TURN());
-  };
+
   return (
     <ScrollView>
       <Button title="initialize" onPress={() => initialGame(dispatch)}></Button>

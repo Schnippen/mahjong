@@ -6,8 +6,8 @@ import {
   setWallFragment,
 } from '../Store/wallReducer';
 import {TTileObject} from '../Types/types';
-import {updateAfterHandOut} from '../Store/handReducer';
 import { setStartTakingFromWallX } from './setStartTakingFromWallX';
+import { preparedHandsAfterHandOut } from '../Store/playersReducer';
 
 function checkDiceRoll(roll: number) {
   const EAST = [1, 5, 9];
@@ -199,10 +199,10 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     'fourthHand:',
     fourthHand.map(item => item.tileID),
   ); */
-  dispatch(updateAfterHandOut({player: 'firstHand', tile: firstHand}));
-  dispatch(updateAfterHandOut({player: 'secondHand', tile: secondHand}));
-  dispatch(updateAfterHandOut({player: 'thirdHand', tile: thirdHand}));
-  dispatch(updateAfterHandOut({player: 'fourthHand', tile: fourthHand}));
+  dispatch(preparedHandsAfterHandOut({player: 'firstHand', tile: firstHand}));
+  dispatch(preparedHandsAfterHandOut({player: 'secondHand', tile: secondHand}));
+  dispatch(preparedHandsAfterHandOut({player: 'thirdHand', tile: thirdHand}));
+  dispatch(preparedHandsAfterHandOut({player: 'fourthHand', tile: fourthHand}));
   //tilesReadyfor Round are the tiles that constitute wall to display
   dispatch(setTilesAfterHandout(tilesReadyForRound));
   dispatch(setDiceRollState(currentDiceRoll));
@@ -317,7 +317,7 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   dispatch(setWallFragment({direction: 'south', tiles: southWall}));
   dispatch(setWallFragment({direction: 'west', tiles: westWall}));
   dispatch(setWallFragment({direction: 'north', tiles: northWall}));
-  console.log(
+  console.log("wallCalculation.ts:",
     'eastWall:',
     eastWall.length,
     'southWall:',

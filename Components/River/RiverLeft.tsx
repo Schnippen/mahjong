@@ -8,8 +8,6 @@ import EmptyComponent from '../Wall/EmptyComponent';
 import { TTileObject } from '../../Types/types';
 
 export const RiverLeft = () => {
-  //const data = mahjongTilesSVGsArray.slice(12, 13); //river data
-
   const playersRiver = useSelector(
     (state: RootState) => state.riverReducer.player4RiverState,
   );
