@@ -9,8 +9,6 @@ import EmptyComponent from './EmptyComponent';
 import isNearDeadWallFunction from '../../Functions/isNearDeadWallFunction';
 //wallWind determines the wall state data source
 const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
-  const [topWallTiles, setTopWallTiles] = useState<TTileObject[]>([]);
-  const [bottomWallTiles, setBottomWallTiles] = useState<TTileObject[]>([]);
   const globalDiceRollResult = useSelector(
     (state: RootState) => state.wallReducer.currentDiceRoll,
   );
@@ -60,10 +58,15 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
       );
     } else {
       return (
-        <View style={{marginLeft: index === 0 ? 0 : -12, 
-          zIndex: -index,
-          marginRight:(globalDiceRollResult === 6 && wallWind === "west"&&index===0)?12:null
-      }}>
+        <View
+          style={{
+            marginLeft: index === 0 ? 0 : -12,
+            zIndex: -index,
+            marginRight:
+              globalDiceRollResult === 6 && wallWind === 'west' && index === 0
+                ? 12
+                : null,
+          }}>
           <WallTileRight
             svg={item.image}
             tileRatioProp={1}
@@ -76,17 +79,26 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
     }
   };
 
-  const isNearDeadwall = isNearDeadWallFunction({wallWind,globalDiceRollResult})
-  
-  const directionOfWall =(wallWind === 'west' && globalDiceRollResult === 2) // wallWind === 'north' && globalDiceRollResult === 7;
-  const leftAbsoluteDeadWall=''
-  
+  const isNearDeadwall = isNearDeadWallFunction({
+    wallWind,
+    globalDiceRollResult,
+  });
+
+  const directionOfWall = wallWind === 'west' && globalDiceRollResult === 2; // wallWind === 'north' && globalDiceRollResult === 7;
+  const leftAbsoluteDeadWall = '';
+
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
-      //console.log('wallRight:',isNearDeadwall) 
-    const marginLeft = 
-    (wallWind === 'west' && globalDiceRollResult === 2&&index===5)||(wallWind === 'south' && globalDiceRollResult === 5&&index===2)||(wallWind === 'east' && globalDiceRollResult === 4&&index===3)||isNearDeadwall && index === 7 ? 12 : index === 0 ? 0 : -12;
-    
-    
+    //console.log('wallRight:',isNearDeadwall)
+    const marginLeft =
+      (wallWind === 'west' && globalDiceRollResult === 2 && index === 5) ||
+      (wallWind === 'south' && globalDiceRollResult === 5 && index === 2) ||
+      (wallWind === 'east' && globalDiceRollResult === 4 && index === 3) ||
+      (isNearDeadwall && index === 7)
+        ? 12
+        : index === 0
+        ? 0
+        : -12;
+
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
     } else {
@@ -124,7 +136,7 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true}
-        style={{position: 'absolute', right: isNearDeadwall ? 10 : null,}} //this is bottom row //TODO fix, problems with styling
+        style={{position: 'absolute', right: isNearDeadwall ? 10 : null}} //this is bottom row //TODO fix, problems with styling
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,
@@ -139,8 +151,16 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true} //this is top row
-        style={{position: 'absolute',right: isNearDeadwall ? 0 : null,
-        top:2,left:(globalDiceRollResult===3&&wallWind==="east")||!isNearDeadwall?10:null}} //TODO many problems with "left" during set up
+        style={{
+          position: 'absolute',
+          right: isNearDeadwall ? 0 : null,
+          top: 2,
+          left:
+            (globalDiceRollResult === 3 && wallWind === 'east') ||
+            !isNearDeadwall
+              ? 10
+              : null, //(globalDiceRollResult === 2 && wallWind === 'west') is null
+        }} //TODO many problems with "left" during set up
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,

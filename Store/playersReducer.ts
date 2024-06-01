@@ -1,87 +1,105 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { TTileObject, TstolenTiles } from '../Types/types';
+import {TTileObject, TstolenTiles} from '../Types/types';
 //TODO if i want to make this multiplayer i have to re think how to display player score
 //player:Andy Bob Charlie Dylan
 export interface PlayersState {
   player1: {
     player1Score: number;
+    name: string;
     wind: string;
     position: string;
-    player1ScoreDifference:number;
-    playerHand:{hand:TTileObject[],melds:TstolenTiles[]}
+    player1ScoreDifference: number;
+    playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
   };
   player2: {
     player2Score: number;
+    name: string;
     wind: string;
     position: string;
-    player2ScoreDifference:number;
-    playerHand:{hand:TTileObject[],melds:TstolenTiles[]}
+    player2ScoreDifference: number;
+    playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
   };
   player3: {
     player3Score: number;
+    name: string;
     wind: string;
     position: string;
-    player3ScoreDifference:number;
-    playerHand:{hand:TTileObject[],melds:TstolenTiles[]}
+    player3ScoreDifference: number;
+    playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
   };
   player4: {
     player4Score: number;
+    name: string;
     wind: string;
     position: string;
-    player4ScoreDifference:number;
-    playerHand:{hand:TTileObject[],melds:TstolenTiles[]}
+    player4ScoreDifference: number;
+    playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
   };
-  assignHandsBasedOnWind:{  
+  assignHandsBasedOnWind: {
     firstHand: TTileObject[];
     secondHand: TTileObject[];
     thirdHand: TTileObject[];
-    fourthHand: TTileObject[];}
+    fourthHand: TTileObject[];
+  };
 }
 
 const initialState: PlayersState = {
   player1: {
     //you are always player one
     player1Score: 10000,
+    name: 'player1',
     wind: 'string',
     position: 'bottom',
-    player1ScoreDifference:0,
-    playerHand:{hand:[],melds:[]},
+    player1ScoreDifference: 0,
+    playerHand: {hand: [], melds: []},
   },
   player2: {
     player2Score: 15000,
+    name: 'player2',
     wind: 'string',
     position: 'right',
-    player2ScoreDifference:0,
-    playerHand:{hand:[],melds:[]},
+    player2ScoreDifference: 0,
+    playerHand: {hand: [], melds: []},
   },
   player3: {
     player3Score: 20000,
+    name: 'player3',
     wind: 'string',
     position: 'top',
-    player3ScoreDifference:0,
-    playerHand:{hand:[],melds:[]},
+    player3ScoreDifference: 0,
+    playerHand: {hand: [], melds: []},
   },
   player4: {
     player4Score: 25000,
+    name: 'player4',
     wind: 'string',
     position: 'left',
-    player4ScoreDifference:0,
-    playerHand:{hand:[],melds:[]},
+    player4ScoreDifference: 0,
+    playerHand: {hand: [], melds: []},
   },
-  assignHandsBasedOnWind:{ 
+  assignHandsBasedOnWind: {
     firstHand: [],
     secondHand: [],
     thirdHand: [],
-    fourthHand: []
-  }
+    fourthHand: [],
+  },
 };
-//init player1 - base , rest is 0 0 TODO maybe create a reducer? 
-const player1ScoreDifference = initialState.player1.player1ScoreDifference = initialState.player1.player1Score
-const player2ScoreDifference = initialState.player1.player1Score - initialState.player2.player2Score
-const player3ScoreDifference = initialState.player1.player1Score - initialState.player3.player3Score
-const player4ScoreDifference = initialState.player1.player1Score - initialState.player4.player4Score
+//init player1 - base , rest is 0 0 TODO maybe create a reducer?
+const player1ScoreDifference = (initialState.player1.player1ScoreDifference =
+  initialState.player1.player1Score);
+const player2ScoreDifference =
+  initialState.player1.player1Score - initialState.player2.player2Score;
+const player3ScoreDifference =
+  initialState.player1.player1Score - initialState.player3.player3Score;
+const player4ScoreDifference =
+  initialState.player1.player1Score - initialState.player4.player4Score;
 
-console.log("score difference:",[player1ScoreDifference,player2ScoreDifference,player3ScoreDifference,player4ScoreDifference])
+console.log('score difference:', [
+  player1ScoreDifference,
+  player2ScoreDifference,
+  player3ScoreDifference,
+  player4ScoreDifference,
+]);
 
 export const playersReducer = createSlice({
   name: 'playersReducer',
@@ -115,55 +133,99 @@ export const playersReducer = createSlice({
       const {player, tile} = action.payload;
       //console.log('action', player, tile);
       if (player === 'firstHand') {
-        state.assignHandsBasedOnWind.firstHand= [...state.assignHandsBasedOnWind.firstHand, ...tile];
+        state.assignHandsBasedOnWind.firstHand = [
+          ...state.assignHandsBasedOnWind.firstHand,
+          ...tile,
+        ];
         //console.log('FIRST:', state.firstHand === player);
       } else if (player === 'secondHand') {
-        state.assignHandsBasedOnWind.secondHand = [...state.assignHandsBasedOnWind.secondHand, ...tile];
+        state.assignHandsBasedOnWind.secondHand = [
+          ...state.assignHandsBasedOnWind.secondHand,
+          ...tile,
+        ];
       } else if (player === 'thirdHand') {
-        state.assignHandsBasedOnWind.thirdHand = [...state.assignHandsBasedOnWind.thirdHand, ...tile];
+        state.assignHandsBasedOnWind.thirdHand = [
+          ...state.assignHandsBasedOnWind.thirdHand,
+          ...tile,
+        ];
       } else if (player === 'fourthHand') {
-        state.assignHandsBasedOnWind.fourthHand = [...state.assignHandsBasedOnWind.fourthHand, ...tile];
+        state.assignHandsBasedOnWind.fourthHand = [
+          ...state.assignHandsBasedOnWind.fourthHand,
+          ...tile,
+        ];
       }
     },
-    assignHandsBasedOnWind:(state)=>{
+    assignHandsBasedOnWind: state => {
       if (state.player1.wind === 'east') {
-        state.player1.playerHand.hand = [...state.assignHandsBasedOnWind.firstHand];
-      } else if (state.player1.wind  === 'south') {
-        state.player1.playerHand.hand = [...state.assignHandsBasedOnWind.secondHand];
-      } else if (state.player1.wind  === 'west') {
-        state.player1.playerHand.hand = [...state.assignHandsBasedOnWind.thirdHand];
-      } else if (state.player1.wind  === 'north') {
-        state.player1.playerHand.hand = [...state.assignHandsBasedOnWind.fourthHand];
+        state.player1.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.firstHand,
+        ];
+      } else if (state.player1.wind === 'south') {
+        state.player1.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.secondHand,
+        ];
+      } else if (state.player1.wind === 'west') {
+        state.player1.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.thirdHand,
+        ];
+      } else if (state.player1.wind === 'north') {
+        state.player1.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.fourthHand,
+        ];
       }
-    
+
       if (state.player2.wind === 'east') {
-        state.player2.playerHand.hand = [...state.assignHandsBasedOnWind.firstHand];
+        state.player2.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.firstHand,
+        ];
       } else if (state.player2.wind === 'south') {
-        state.player2.playerHand.hand = [...state.assignHandsBasedOnWind.secondHand];
+        state.player2.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.secondHand,
+        ];
       } else if (state.player2.wind === 'west') {
-        state.player2.playerHand.hand = [...state.assignHandsBasedOnWind.thirdHand];
+        state.player2.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.thirdHand,
+        ];
       } else if (state.player2.wind === 'north') {
-        state.player2.playerHand.hand = [...state.assignHandsBasedOnWind.fourthHand];
+        state.player2.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.fourthHand,
+        ];
       }
-    
+
       if (state.player3.wind === 'east') {
-        state.player3.playerHand.hand = [...state.assignHandsBasedOnWind.firstHand];
+        state.player3.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.firstHand,
+        ];
       } else if (state.player3.wind === 'south') {
-        state.player3.playerHand.hand = [...state.assignHandsBasedOnWind.secondHand];
+        state.player3.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.secondHand,
+        ];
       } else if (state.player3.wind === 'west') {
-        state.player3.playerHand.hand = [...state.assignHandsBasedOnWind.thirdHand];
+        state.player3.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.thirdHand,
+        ];
       } else if (state.player3.wind === 'north') {
-        state.player3.playerHand.hand = [...state.assignHandsBasedOnWind.fourthHand];
+        state.player3.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.fourthHand,
+        ];
       }
-    
+
       if (state.player4.wind === 'east') {
-        state.player4.playerHand.hand  = [...state.assignHandsBasedOnWind.firstHand];
+        state.player4.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.firstHand,
+        ];
       } else if (state.player4.wind === 'south') {
-        state.player4.playerHand.hand  = [...state.assignHandsBasedOnWind.secondHand];
+        state.player4.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.secondHand,
+        ];
       } else if (state.player4.wind === 'west') {
-        state.player4.playerHand.hand  = [...state.assignHandsBasedOnWind.thirdHand];
+        state.player4.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.thirdHand,
+        ];
       } else if (state.player4.wind === 'north') {
-        state.player4.playerHand.hand  = [...state.assignHandsBasedOnWind.fourthHand];
+        state.player4.playerHand.hand = [
+          ...state.assignHandsBasedOnWind.fourthHand,
+        ];
       }
     },
     discardTileFromHand: (state, action) => {
@@ -174,7 +236,7 @@ export const playersReducer = createSlice({
         );
         //console.log("handReducer:",state.player1Hand.length)
       } else if (player === 'player2') {
-        state.player2.playerHand.hand  = state.player2.playerHand.hand.filter(
+        state.player2.playerHand.hand = state.player2.playerHand.hand.filter(
           t => t.tileID !== tile.tileID,
         );
       } else if (player === 'player3') {
@@ -189,8 +251,13 @@ export const playersReducer = createSlice({
     },
     drawTileFromWallToHand: (state, action) => {
       const {player, nextTile} = action.payload;
+      console.log(
+        'REDUX: drawing tile from the wall:',
+        nextTile.name,
+        'to',
+        player,
+      );
       if (player === 'player1') {
-        console.log('drawing tile from the wall:', nextTile.name);
         state.player1.playerHand.hand.push(nextTile);
       } else if (player === 'player2') {
         state.player2.playerHand.hand.push(nextTile);
@@ -202,17 +269,22 @@ export const playersReducer = createSlice({
     },
     rotateWindOrder: (state, action) => {
       const winds = ['east', 'south', 'west', 'north'];
-      const playersArray = [state.player1, state.player2, state.player3, state.player4];
-  // Rotate winds
-    playersArray.forEach((player) => {
-    const currentWindIndex = winds.indexOf(player.wind);
-    const newWindIndex = (currentWindIndex + 1) % winds.length;
-    player.wind = winds[newWindIndex];
-  });
-   },
+      const playersArray = [
+        state.player1,
+        state.player2,
+        state.player3,
+        state.player4,
+      ];
+      // Rotate winds
+      playersArray.forEach(player => {
+        const currentWindIndex = winds.indexOf(player.wind);
+        const newWindIndex = (currentWindIndex + 1) % winds.length;
+        player.wind = winds[newWindIndex];
+      });
+    },
     changePrevailingWind: (state, action) => {
       //state.value += action.payload
-      //this should be in game reducer 
+      //this should be in game reducer
     },
   },
 });

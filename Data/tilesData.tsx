@@ -5,6 +5,7 @@ import {
   souSVGarray,
   windsSVGArray,
 } from '../Assets/MahjongTiles/MahjongTiles';
+import {TTileObject} from '../Types/types';
 
 export interface Tile {
   name: string;
@@ -18,7 +19,7 @@ export interface Tile {
   tileID: number;
 }
 
-export const tilesData: Tile[] = [
+export const tilesData: TTileObject[] = [
   {
     name: 'bamboo1',
     type: 'bamboo',

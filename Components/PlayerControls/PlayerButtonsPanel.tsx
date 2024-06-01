@@ -12,9 +12,11 @@ import {
   ButtonPON,
 } from '../Buttons/ButtonSteal/ButtonSteal';
 
-import ChooseSequencePanel, { handleDisablePanelButton } from './ChooseSequencePanel/ChooseSequencePanel';
-import { View } from 'react-native';
-import { runGame } from '../../Functions/runGame';
+import ChooseSequencePanel, {
+  handleDisablePanelButton,
+} from './ChooseSequencePanel/ChooseSequencePanel';
+import {Text, View} from 'react-native';
+import {runGame} from '../../Functions/runGame';
 
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
@@ -34,17 +36,17 @@ const NextTurn = () => {
   const dispatch = useDispatch();
 
   const humanPlayerHand = useSelector(
-    (state: RootState) => state.playersReducer.player1.playerHand.hand
+    (state: RootState) => state.playersReducer.player1.playerHand.hand,
   );
 
   const playerRightHand = useSelector(
-    (state: RootState) => state.playersReducer.player2.playerHand.hand
+    (state: RootState) => state.playersReducer.player2.playerHand.hand,
   );
   const playerTopHand = useSelector(
-    (state: RootState) => state.playersReducer.player3.playerHand.hand
+    (state: RootState) => state.playersReducer.player3.playerHand.hand,
   );
   const playerLeftHand = useSelector(
-    (state: RootState) => state.playersReducer.player4.playerHand.hand
+    (state: RootState) => state.playersReducer.player4.playerHand.hand,
   );
 
   const humanPlayerWind = useSelector(
@@ -105,19 +107,25 @@ const PlayerButtonsPanel = () => {
   const latestTurn = useSelector(
     (state: RootState) => state.gameReducer.latestPlayerTurn,
   );
-  const currentTurn = useSelector(
+  const currentGlobalWind = useSelector(
     (state: RootState) => state.gameReducer.currentTurn,
   );
   const handData = useSelector(
-    (state: RootState) => state.playersReducer.player1.playerHand.hand
+    (state: RootState) => state.playersReducer.player1.playerHand.hand,
   );
   const currentDiscard = useSelector(
     (state: RootState) => state.riverReducer.currentDiscard,
   );
-  
-  const {playersReducer:{player1,player2,player3,player4}} = useSelector(
-    (state: RootState) => state
+  const gamePhase = useSelector(
+    (state: RootState) => state.gameReducer.gamePhase,
   );
+  const howManyTurnsElapsed = useSelector(
+    (state: RootState) => state.gameReducer.howManyTurnsElapsed,
+  );
+
+  const {
+    playersReducer: {player1, player2, player3, player4},
+  } = useSelector((state: RootState) => state);
   const [displayChiiButton, setDisplayChiiButton] = useState<boolean>(false);
   const [displayPonButton, setDisplayPonButton] = useState<boolean>(false);
   const [displayKanButton, setDisplayKanButton] = useState<boolean>(false);
@@ -125,8 +133,25 @@ const PlayerButtonsPanel = () => {
   const [chiiPanelState, setChiiPanelState] = useState<TTileObject[][]>([]);
   console.log('playersButtonPanel-latestTurn:', latestTurn);
 
-  const gameLogic=runGame({player1,player2,player3,player4})
-  
+  useEffect(() => {
+    console.log(
+      'useEffect: runGame():',
+      'latestTurn:',
+      latestTurn,
+      'currentTurn:',
+      currentGlobalWind,
+      howManyTurnsElapsed,
+      currentGlobalWind,
+    );
+    runGame(
+      {player1, player2, player3, player4},
+      currentDiscard,
+      gamePhase,
+      dispatch,
+      currentGlobalWind,
+    );
+  }, [currentDiscard]);
+
   return (
     <View
       style={{
@@ -149,25 +174,18 @@ const PlayerButtonsPanel = () => {
           alignItems: 'center',
           columnGap: 8,
         }}>
+        <Text>{handData ? handData.length : null}</Text>
         {displayKanButton ? (
-          <ButtonKAN
-            handlePress={() =>
-            console.log("ButtonKAN")
-            }
-          />
+          <ButtonKAN handlePress={() => console.log('ButtonKAN')} />
         ) : null}
         {displayPonButton ? (
-          <ButtonPON
-            handlePress={() =>console.log("ButtonPON")}
-          />
+          <ButtonPON handlePress={() => console.log('ButtonPON')} />
         ) : null}
         {displayChiiButton ? (
-          <ButtonCHII
-            handlePress={() =>console.log("ButtonCHII")}
-          />
+          <ButtonCHII handlePress={() => console.log('ButtonCHII')} />
         ) : null}
         {displayChiiButton || displayPonButton || displayKanButton ? (
-          <ButtonPASS handlePress={() =>console.log("ButtonPASS") } />
+          <ButtonPASS handlePress={() => console.log('ButtonPASS')} />
         ) : null}
         <NextTurn />
       </View>

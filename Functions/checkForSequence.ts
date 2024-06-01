@@ -21,7 +21,7 @@ export function checkForSequence(
   let isChiiPossible = tilesSuits.includes(discardedTileSuit);
 
   if (!isChiiPossible) {
-    console.log('Sequence: NO CHII');
+    //console.log('Sequence: NO CHII');
     result = false;
     return {result, possibleSequences};
   }

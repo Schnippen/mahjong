@@ -13,7 +13,7 @@ import {popTileFromtilesAfterHandout} from '../../Store/wallReducer';
 
 const PlayerHandComponent = () => {
   const handData = useSelector(
-    (state: RootState) => state.playersReducer.player1.playerHand.hand
+    (state: RootState) => state.playersReducer.player1.playerHand.hand,
   );
   const [selected, setSelected] = useState<number | null>(null);
   const [sortedData, setSortedData] = useState<TTileObject[]>(handData);
@@ -43,9 +43,6 @@ const PlayerHandComponent = () => {
   );
   const turnInterrupted = useSelector(
     (state: RootState) => state.gameReducer.turnInterrupted,
-  );
-  const currentTurnIndex = useSelector(
-    (state: RootState) => state.gameReducer.currentTurnIndex,
   );
   //const isItFirstTurn = turnsElapsed === 0 && handData.length !== 14;
   //const handDataLastIndex = handData.length - 1
@@ -105,7 +102,7 @@ const PlayerHandComponent = () => {
           ? `It's your turn - turn Interrupted:${turnInterrupted}`
           : "It's NOT your turn",
       );
-      if (gameTurn === playersWind) {
+      if (gameTurn === playersWind && !turnInterrupted) {
         //&&!turnInterrupted
         discardTile('player1', tile, dispatch);
         //console.log("discardTile")
