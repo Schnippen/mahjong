@@ -8,7 +8,7 @@ import { TstolenTiles } from '../../../Types/types';
 
 const StolenTilesPanelBottom=()=> {
     const state = useSelector(
-        (state: RootState) => state.handReducer.player1StolenTiles,
+        (state: RootState) => state.playersReducer.player1.playerHand.melds,
       );
      /*  StolenTilesPlayerLEFT
       StolenTilesPlayerRIGHT
@@ -17,7 +17,7 @@ const StolenTilesPanelBottom=()=> {
       StolenTilesPlayerKANRIGHT
       StolenTilesPlayerKANFRONT
       StolenTilesPlayerKANCLOSED */
-
+      console.log("StolenTilesPanelBottom:",state)
 
       const renderItem = ({ item }: { item: TstolenTiles }) => {
         let itemName = item.name;

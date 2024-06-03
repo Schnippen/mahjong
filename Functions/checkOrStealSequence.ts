@@ -1,6 +1,6 @@
 import { TTileObject } from "../Types/types";
 
-export function stealSequence(playerHand:TTileObject[], discardedTileArray:TTileObject[]) {
+export function checkOrStealSequence(playerHand:TTileObject[], discardedTileArray:TTileObject[]) {
     let result: boolean | null= null;
     let possibleSequences:TTileObject[][]= [];
 
@@ -17,7 +17,7 @@ export function stealSequence(playerHand:TTileObject[], discardedTileArray:TTile
     let isChiiPossible = tilesSuits.includes(discardedTileSuit);
 
     if (!isChiiPossible) {
-        console.log("Sequence: NO CHII");
+        //console.log("Sequence: NO CHII");
         result = false;
         return { result, possibleSequences };
     }

@@ -1,12 +1,14 @@
-import playersReducer, {PlayersState} from '../Store/playersReducer';
+import playersReducer, {PlayersState, drawTileFromWallToHand} from '../Store/playersReducer';
 import {TTileObject, TstolenTiles} from '../Types/types';
 import {checkForQuadruplet} from './checkForQuadruplet';
 
 import {checkForTriplet} from './checkForTriplet';
 import {checkForSequence} from './checkForSequence';
 import {tilesData} from '../Data/tilesData';
-import {END_TURN, INTERRUPT_TURN} from '../Store/gameReducer';
+import {END_TURN, INTERRUPT_TURN, setCurrentPlayer} from '../Store/gameReducer';
 import {popTileFromTheWall} from '../Store/wallReducer';
+import { checkOrStealSequence } from './checkOrStealSequence';
+import { setCurrentDiscard } from '../Store/riverReducer';
 
 type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind'>;
 type GamePhase = 'started' | 'ended' | 'none';
@@ -17,6 +19,9 @@ export const runGame = (
   gamePhase: GamePhase,
   dispatch: any, //TODO typescript
   currentGlobalWind: GameWinds,
+  setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayChiiButton:React.Dispatch<React.SetStateAction<boolean>>,
+  nextTile:TTileObject,
 ) => {
   let mockupData = tilesData.slice(1, 12);
   const start = performance.now();
@@ -46,6 +51,8 @@ export const runGame = (
     'currentDiscard:',
     currentDiscard[0]?.name,
   );
+
+  dispatch(setCurrentPlayer({current:currentPlayersTurn}))
 
   if (currentPlayersTurn === 'player1') {
     currentHand = player1.playerHand.hand;
@@ -109,11 +116,17 @@ export const runGame = (
       'right:',
       nextPlayerX,
     );
-    checkS = checkForSequence(
+    checkS = checkOrStealSequence(
       parameterHandThatHaveSequenceCheck,
       currentDiscard,
     );
     interruptTurn = checkS.result;
+    //TODO refactor
+    console.log("runGame():",checkS.possibleSequences.map(t=>t.map(i=>i.name)),checkS.possibleSequences.length>0)
+    if(checkS.possibleSequences.length>0){
+      setDisplayChiiButton(true)
+    }
+
   } else {
     console.log(
       'runGame():',
@@ -143,8 +156,19 @@ export const runGame = (
       // Set interruptTurn to true
       interruptTurn = true;
       // Special display if the player is player1
+      if(player.name ==="player2"||player.name ==="player3"||player.name ==="player4"){
+        // ai makes turn, do pon or passes turn
+        const passTime=()=>{
+          console.log("runGame(): passTime()2sec")
+          dispatch(INTERRUPT_TURN({val: false}));
+          interruptTurn = false;
+        }
+        setTimeout(passTime,500)
+      }
       if (player.name === 'player1') {
         console.log('Special display for player1');
+        //display pon and pass panel
+        setDisplayPonButton(true)
       }
       ///else setTimeout aiTurn or Pass
     }
@@ -193,8 +217,6 @@ export const runGame = (
 
   // continue with changing the turn
   //chech for Richii, check for ron check for tsumo
-  const end = performance.now();
-  console.log(`runGame() took ${end - start} milliseconds.`);
 
   if (currentHand.length >= 14) {
     console.log('runGame(): not adding new tile');
@@ -204,6 +226,12 @@ export const runGame = (
     console.log('runGame():', 'END_TURN');
     dispatch(END_TURN());
     dispatch(popTileFromTheWall());
-    //drawTileFromWallToHand({player:nextPlayer,nextTile:nextTile?})
+    //todo next tile function
+    console.log("runGame():nextTile:",nextTile?nextTile?.name:"no Next Tile")
+    dispatch(drawTileFromWallToHand({player:nextPlayerX,nextTile:nextTile}))
+    
   }
+  const end = performance.now();
+  console.log(`runGame() took ${end - start} milliseconds.`);
+
 };

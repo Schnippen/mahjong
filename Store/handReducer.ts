@@ -21,7 +21,7 @@ export const handReducer = createSlice({
   name: 'handReducer',
   initialState,
   reducers: {
-    setStolenTilesOnBoard: (state, action) => {
+  /*   setStolenTilesOnBoard: (state, action) => {
       const {player, tilesArray, name, isOpen} = action.payload;
       const newStolenTiles = {name, tiles: tilesArray, isOpen};
       if (player === 'player1') {
@@ -33,7 +33,7 @@ export const handReducer = createSlice({
       } else if (player === 'player4') {
         state.player4Hand.melds.push(newStolenTiles);
       }
-    },
+    }, */
     /* drawTileFromWallToHand: (state, action) => {
       const {player, nextTile} = action.payload;
       if (player === 'player1') {
@@ -50,7 +50,7 @@ export const handReducer = createSlice({
   },
 });
 export const {
-  setStolenTilesOnBoard,
+  //setStolenTilesOnBoard,
   //drawTileFromWallToHand,
 } = handReducer.actions;
 

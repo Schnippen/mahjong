@@ -153,6 +153,11 @@ export const gameReducer = createSlice({
         );
       }
     },
+    setCurrentPlayer:(state,action)=>{
+      let {current}=action.payload
+      state.currentPlayer =current
+      console.log("REDUX setCurrentPlayer:",state.currentPlayer)
+    },
     changePrevailingWind: (state, action) => {
       //state.value += action.payload
     },
@@ -170,6 +175,7 @@ export const {
   CHECK_FOR_PON,
   CHECK_FOR_KAN, */
   INTERRUPT_TURN,
+  setCurrentPlayer,
   changePrevailingWind,
 } = gameReducer.actions;
 

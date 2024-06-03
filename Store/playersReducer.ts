@@ -266,6 +266,20 @@ export const playersReducer = createSlice({
       } else if (player === 'player4') {
         state.player4.playerHand.hand.push(nextTile);
       }
+      
+    },
+    setStolenTilesOnBoard: (state, action) => {
+      const {player, tilesArray, name, isOpen} = action.payload;
+      const newStolenTiles = {name, tiles: tilesArray, isOpen};
+      if (player === 'player1') {
+        state.player1.playerHand.melds.push(newStolenTiles);
+      } else if (player === 'player2') {
+        state.player2.playerHand.melds.push(newStolenTiles);
+      } else if (player === 'player3') {
+        state.player3.playerHand.melds.push(newStolenTiles);
+      } else if (player === 'player4') {
+        state.player4.playerHand.melds.push(newStolenTiles);
+      }
     },
     rotateWindOrder: (state, action) => {
       const winds = ['east', 'south', 'west', 'north'];
@@ -297,7 +311,7 @@ export const {
   assignHandsBasedOnWind,
   discardTileFromHand,
   drawTileFromWallToHand,
-  rotateWindOrder,
+  rotateWindOrder,setStolenTilesOnBoard,
   changePrevailingWind,
 } = playersReducer.actions;
 

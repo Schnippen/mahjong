@@ -106,9 +106,9 @@ export const wallReducer = createSlice({
         case 'east':
           if (state.wallEastState.length !== 0) {
             state.wallEastState.pop();
-            console.log('POP EAST');
+            //console.log('POP EAST');
           } else {
-            console.log(' EAST+++');
+           //console.log(' EAST+++');
             orderIndex += 1;
             state.wallNorthState.pop();
           }
@@ -116,7 +116,7 @@ export const wallReducer = createSlice({
         case 'north':
           if (state.wallNorthState.length !== 0) {
             state.wallNorthState.pop();
-            console.log('POP NORTH');
+            //console.log('POP NORTH');
           } else {
             console.log(' NORTH+++');
             orderIndex += 1;
@@ -126,9 +126,9 @@ export const wallReducer = createSlice({
         case 'west':
           if (state.wallWestState.length !== 0) {
             state.wallWestState.pop();
-            console.log('POP WEST');
+            //console.log('POP WEST');
           } else {
-            console.log(' WEST+++');
+            //console.log(' WEST+++');
             orderIndex += 1;
             state.wallWestState.pop();
           }
@@ -136,9 +136,9 @@ export const wallReducer = createSlice({
         case 'south':
           if (state.wallSouthState.length !== 0) {
             state.wallSouthState.pop();
-            console.log('POP SOUTH');
+            //console.log('POP SOUTH');
           } else {
-            console.log(' SOUTH+++');
+            //console.log(' SOUTH+++');
             orderIndex += 0;
             state.wallEastState.pop();
           }

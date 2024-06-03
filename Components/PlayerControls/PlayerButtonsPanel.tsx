@@ -17,6 +17,9 @@ import ChooseSequencePanel, {
 } from './ChooseSequencePanel/ChooseSequencePanel';
 import {Text, View} from 'react-native';
 import {runGame} from '../../Functions/runGame';
+import { PassActionFunc } from '../../Functions/PlayerControlFunctions/PassActionFunc';
+import { stealTriplet } from '../../Functions/stealTriplet';
+import { handlePon } from '../../Functions/PlayerControlFunctions/handlePon';
 
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
@@ -101,9 +104,6 @@ const NextTurn = () => {
 const PlayerButtonsPanel = () => {
   const dispatch = useDispatch();
 
-  const yourWind = useSelector(
-    (state: RootState) => state.playersReducer.player1.wind,
-  );
   const latestTurn = useSelector(
     (state: RootState) => state.gameReducer.latestPlayerTurn,
   );
@@ -122,10 +122,19 @@ const PlayerButtonsPanel = () => {
   const howManyTurnsElapsed = useSelector(
     (state: RootState) => state.gameReducer.howManyTurnsElapsed,
   );
+  const nextTile = useSelector((state: RootState) => {
+    const tiles = state.wallReducer.tilesAfterHandout;
+    return tiles[tiles.length - 1];
+  });
+  
+  const playerWhoLeftTheTile = useSelector(
+    (state: RootState) => state.gameReducer.currentPlayer,
+  );
 
   const {
     playersReducer: {player1, player2, player3, player4},
   } = useSelector((state: RootState) => state);
+
   const [displayChiiButton, setDisplayChiiButton] = useState<boolean>(false);
   const [displayPonButton, setDisplayPonButton] = useState<boolean>(false);
   const [displayKanButton, setDisplayKanButton] = useState<boolean>(false);
@@ -149,6 +158,9 @@ const PlayerButtonsPanel = () => {
       gamePhase,
       dispatch,
       currentGlobalWind,
+      setDisplayPonButton,
+      setDisplayChiiButton,
+      nextTile,
     );
   }, [currentDiscard]);
 
@@ -179,13 +191,13 @@ const PlayerButtonsPanel = () => {
           <ButtonKAN handlePress={() => console.log('ButtonKAN')} />
         ) : null}
         {displayPonButton ? (
-          <ButtonPON handlePress={() => console.log('ButtonPON')} />
+          <ButtonPON handlePress={() => {console.log('ButtonPON'),handlePon({handData,currentDiscard,playerWhoLeftTheTile,setChiiPanelDisplayed,setDisplayChiiButton,setDisplayKanButton,setDisplayPonButton,dispatch})}} />
         ) : null}
         {displayChiiButton ? (
           <ButtonCHII handlePress={() => console.log('ButtonCHII')} />
         ) : null}
         {displayChiiButton || displayPonButton || displayKanButton ? (
-          <ButtonPASS handlePress={() => console.log('ButtonPASS')} />
+          <ButtonPASS handlePress={() => {console.log('ButtonPASS'),PassActionFunc({setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,setChiiPanelDisplayed,dispatch})}} />
         ) : null}
         <NextTurn />
       </View>

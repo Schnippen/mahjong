@@ -93,6 +93,7 @@ const WallRight = ({wallWind = ''}: {wallWind?: string}) => {
       (wallWind === 'west' && globalDiceRollResult === 2 && index === 5) ||
       (wallWind === 'south' && globalDiceRollResult === 5 && index === 2) ||
       (wallWind === 'east' && globalDiceRollResult === 4 && index === 3) ||
+      (wallWind === 'north' && globalDiceRollResult === 3 && index === 4) ||
       (isNearDeadwall && index === 7)
         ? 12
         : index === 0

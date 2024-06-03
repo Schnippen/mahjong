@@ -99,8 +99,8 @@ const PlayerHandComponent = () => {
       setSelected(null);
       console.log(
         gameTurn === playersWind
-          ? `It's your turn - turn Interrupted:${turnInterrupted}`
-          : "It's NOT your turn",
+          ? `It's your turn - turn Interrupted:${turnInterrupted} - ${tileID}`
+          : `It's NOT your turn - turn Interrupted:${turnInterrupted} - ${tileID}`,
       );
       if (gameTurn === playersWind && !turnInterrupted) {
         //&&!turnInterrupted
