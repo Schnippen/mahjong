@@ -11,15 +11,14 @@ import {
   ButtonPASS,
   ButtonPON,
 } from '../Buttons/ButtonSteal/ButtonSteal';
-
-import ChooseSequencePanel, {
-  handleDisablePanelButton,
-} from './ChooseSequencePanel/ChooseSequencePanel';
 import {Text, View} from 'react-native';
 import {runGame} from '../../Functions/runGame';
 import { PassActionFunc } from '../../Functions/PlayerControlFunctions/PassActionFunc';
-import { stealTriplet } from '../../Functions/stealTriplet';
+import { stealTriplet } from '../../Functions/StealingFunctions/stealTriplet';
 import { handlePon } from '../../Functions/PlayerControlFunctions/handlePon';
+import { checkOrStealSequence } from '../../Functions/checkOrStealSequence';
+import { handleChii } from '../../Functions/PlayerControlFunctions/handleChii';
+import ChooseSequencePanel from './ChooseSequencePanel/ChooseSequencePanel';
 
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
@@ -114,6 +113,7 @@ const PlayerButtonsPanel = () => {
     (state: RootState) => state.playersReducer.player1.playerHand.hand,
   );
   const currentDiscard = useSelector(
+    //if unknown null
     (state: RootState) => state.riverReducer.currentDiscard,
   );
   const gamePhase = useSelector(
@@ -130,7 +130,6 @@ const PlayerButtonsPanel = () => {
   const playerWhoLeftTheTile = useSelector(
     (state: RootState) => state.gameReducer.currentPlayer,
   );
-
   const {
     playersReducer: {player1, player2, player3, player4},
   } = useSelector((state: RootState) => state);
@@ -160,9 +159,11 @@ const PlayerButtonsPanel = () => {
       currentGlobalWind,
       setDisplayPonButton,
       setDisplayChiiButton,
+      setDisplayKanButton,
       nextTile,
     );
   }, [currentDiscard]);
+
 
   return (
     <View
@@ -172,7 +173,7 @@ const PlayerButtonsPanel = () => {
         justifyContent: 'center',
       }}>
       {/*  <ChooseSequencePanel/> */}
-      {chiiPanelDisplayed ? <ChooseSequencePanel /> : null}
+      {chiiPanelDisplayed ? <ChooseSequencePanel setChiiPanelDisplayed={setChiiPanelDisplayed} setDisplayChiiButton={setDisplayChiiButton} setDisplayPonButton={setDisplayPonButton} setDisplayKanButton={setDisplayKanButton} chiiPanelState={chiiPanelState} dispatch={dispatch} setChiiPanelState={setChiiPanelState} playerWind={player1.wind} playerWhoLeftTheTile={playerWhoLeftTheTile}/> : null}
       <View
         style={{
           minWidth: 560,
@@ -191,13 +192,28 @@ const PlayerButtonsPanel = () => {
           <ButtonKAN handlePress={() => console.log('ButtonKAN')} />
         ) : null}
         {displayPonButton ? (
-          <ButtonPON handlePress={() => {console.log('ButtonPON'),handlePon({handData,currentDiscard,playerWhoLeftTheTile,setChiiPanelDisplayed,setDisplayChiiButton,setDisplayKanButton,setDisplayPonButton,dispatch})}} />
+          <ButtonPON handlePress={() => {console.log('ButtonPON'),handlePon({handData,currentDiscard,playerWhoLeftTheTile,setChiiPanelDisplayed,setDisplayChiiButton,setDisplayKanButton,setDisplayPonButton,dispatch,playerWind: player1.wind})}} />
         ) : null}
         {displayChiiButton ? (
-          <ButtonCHII handlePress={() => console.log('ButtonCHII')} />
+           <ButtonCHII
+           handlePress={() => {
+             console.log('ButtonCHII');
+             handleChii({
+               handData,
+               currentDiscard,playerWhoLeftTheTile,
+               setChiiPanelState,
+               setChiiPanelDisplayed,
+               setDisplayChiiButton,
+               setDisplayPonButton,
+               setDisplayKanButton,
+               dispatch,
+               playerWind: player1.wind,
+             });
+           }}
+         />
         ) : null}
         {displayChiiButton || displayPonButton || displayKanButton ? (
-          <ButtonPASS handlePress={() => {console.log('ButtonPASS'),PassActionFunc({setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,setChiiPanelDisplayed,dispatch})}} />
+          <ButtonPASS handlePress={() => {console.log('ButtonPASS'),PassActionFunc({setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,setChiiPanelDisplayed,dispatch,displayChiiButton})}} />
         ) : null}
         <NextTurn />
       </View>

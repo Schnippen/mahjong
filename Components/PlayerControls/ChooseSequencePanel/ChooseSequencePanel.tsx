@@ -1,78 +1,49 @@
 import {TouchableWithoutFeedback, View} from 'react-native';
-import {TTileObject} from '../../../Types/types';
+import {TTileObject, TplayerString, WindTypes} from '../../../Types/types';
 import EmptyComponent from '../../Wall/EmptyComponent';
 import React from 'react';
 import {Text} from '@rneui/themed';
 import PlayerTileOnHand from '../PlayerTileOnHand';
 import {FlashList} from '@shopify/flash-list';
+import { handleDisablePanelButton } from './handleDisablePanelButton';
+import { DisablePanelButton } from './DisablePanelButton';
+import { discardTileFromHand } from '../../../Store/playersReducer';
+import { handleStealSelectedSequence } from './handleStealSelectedSequence';
+import { SequenceToChoose } from './SequenceToChoose';
 
-export const handleDisablePanelButton = () => {
-  console.log("handleDisablePanelButton")
-/*   setChiiPanelDisplayed(false);
-  //TODO add RON and TSUMO
-  let {result} = checkForSequence(handData, currentDiscard);
-  let val2 = checkForTriplet(handData, currentDiscard);
-  let val3 = checkForQuadruplet(handData, currentDiscard);
-  result ? setDisplayChiiButton(true) : setDisplayChiiButton(false);
-  val2 ? setDisplayPonButton(true) : setDisplayPonButton(false);
-  val3 ? setDisplayKanButton(true) : setDisplayKanButton(false); */
-  //(result| |val2||val3)?dispatch(INTERRUPT_TURN({val:true})):dispatch(INTERRUPT_TURN({val:false}))
-};
+//TODO move to types.ts typescript dispatch
+export type DisablePanelButtonParams ={
+  setChiiPanelDisplayed: React.Dispatch<React.SetStateAction<boolean>>;
+  setDisplayChiiButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,
+  
+}
+  
+  type ChiiPanelStateParams = {
+    chiiPanelState: TTileObject[][]; 
+  };
+  type ChooseSequencePanelDispatch={
+    dispatch:any
+    setChiiPanelState:React.Dispatch<React.SetStateAction<TTileObject[][]>>
+    playerWind:WindTypes
+    playerWhoLeftTheTile:TplayerString
+  }
+   type CombinedPanelParams = DisablePanelButtonParams & ChiiPanelStateParams&ChooseSequencePanelDispatch;
 
-const handleStealSelectedSequence = (index: number) => {
-  console.log('handleStealSelectedSequence');
- /*  const {result, possibleSequences} = stealSequence(handData, currentDiscard);
-  let choosenSequence = [possibleSequences[index]];
-  addSequenceToHand(choosenSequence, dispatch, currentDiscard);
-  setChiiPanelDisplayed(false);
-  setChiiPanelState([]); */
-};
+
+//TODO typescript dispatch
+type renderItemTypes={item: TTileObject[], index: number, setChiiPanelDisplayed: React.Dispatch<React.SetStateAction<boolean>>;
+  setDisplayChiiButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,dispatch:any,
+  setChiiPanelState:React.Dispatch<React.SetStateAction<TTileObject[][]>>,
+  playerWind:WindTypes,
+  playerWhoLeftTheTile:TplayerString}
+
 const chiiPanelState:[] =[]
-const DisablePanelButton = () => {
-  return (
-    <TouchableWithoutFeedback onPress={() => handleDisablePanelButton()}>
-      <View
-        style={{
-          height: 40,
-          width: 40,
-          backgroundColor: 'rgba(243, 251, 254, 0.3)',
-          position: 'absolute',
-          right: -10,
-          bottom: -5,
-          alignItems: 'center',
-          borderRadius: 25,
-          justifyContent: 'center',
-        }}>
-        <View
-          style={{
-            height: 35,
-            width: 35,
-            borderRadius: 25,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#f3fbfe',
-          }}>
-          <Text>{'<'}</Text>
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  );
-};
 
-const SequenceToChoose = (item: TTileObject, index: number) => {
-  return (
-    <View
-      style={{
-        height: 80,
-        backgroundColor: 'transparent',
-        justifyContent: 'center',
-      }}>
-      <PlayerTileOnHand svg={item.image} tileRatioProp={1} />
-    </View>
-  );
-};
-
-const renderItem = (item: TTileObject[], index: number) => {
+const renderItem = ({item,index,setChiiPanelDisplayed,setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,dispatch,setChiiPanelState,playerWind,playerWhoLeftTheTile}:renderItemTypes) => {
   console.log(
     'renderItem:',
     item.map(i => i.name),
@@ -81,10 +52,22 @@ const renderItem = (item: TTileObject[], index: number) => {
   let data = item;
   return (
     <TouchableWithoutFeedback
-      onPress={() => {
-        console.log(`selected ${index + 1} option`),
-          handleStealSelectedSequence(index);
-      }}>
+    onPress={() => {
+      console.log(`selected ${index + 1} option`);
+      handleStealSelectedSequence({
+        selectedSequence: item,
+        index,
+        setChiiPanelDisplayed,
+        setDisplayChiiButton,
+        setDisplayPonButton,
+        setDisplayKanButton,
+        dispatch,
+        setChiiPanelState, 
+        playerWhoLeftTheTile, 
+        playerWind,
+      });
+    }}
+  >
       <View
         style={{
           height: 80,
@@ -107,7 +90,8 @@ const renderItem = (item: TTileObject[], index: number) => {
   );
 };
 
-const ChooseSequencePanel = () => {
+
+const ChooseSequencePanel = ({setChiiPanelDisplayed,setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,chiiPanelState,dispatch,setChiiPanelState,playerWind,playerWhoLeftTheTile}:CombinedPanelParams) => {
   const topPanelBackgroundColor = '#3c7fc3';
   const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
 
@@ -140,12 +124,12 @@ const ChooseSequencePanel = () => {
             position: 'relative',
           }}>
           <Text style={{}}>Select</Text>
-          <DisablePanelButton />
+          <DisablePanelButton setChiiPanelDisplayed={setChiiPanelDisplayed} setDisplayChiiButton={setDisplayChiiButton} setDisplayPonButton={setDisplayPonButton} setDisplayKanButton={setDisplayKanButton} />
         </View>
         <FlashList
           data={chiiPanelState} //array with posible sequences
           renderItem={({item, index}: {item: TTileObject[]; index: number}) =>
-            renderItem(item, index)
+            renderItem({item, index,setChiiPanelDisplayed,setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,dispatch,setChiiPanelState,playerWind,playerWhoLeftTheTile})
           }
           estimatedItemSize={2}
           horizontal={true}
@@ -157,16 +141,3 @@ const ChooseSequencePanel = () => {
   );
 };
 export default ChooseSequencePanel;
-
-
-/* const handleDisablePanelButton = () => {
-  setChiiPanelDisplayed(false);
-  //TODO add RON and TSUMO
-  let {result} = checkForSequence(handData, currentDiscard);
-  let val2 = checkForTriplet(handData, currentDiscard);
-  let val3 = checkForQuadruplet(handData, currentDiscard);
-  result ? setDisplayChiiButton(true) : setDisplayChiiButton(false);
-  val2 ? setDisplayPonButton(true) : setDisplayPonButton(false);
-  val3 ? setDisplayKanButton(true) : setDisplayKanButton(false);
-  //(result| |val2||val3)?dispatch(INTERRUPT_TURN({val:true})):dispatch(INTERRUPT_TURN({val:false}))
-};*/

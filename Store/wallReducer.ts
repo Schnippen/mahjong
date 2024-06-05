@@ -92,6 +92,7 @@ export const wallReducer = createSlice({
       state.startTakingFromWallXState = wallName;
     },
     popTileFromtilesAfterHandout: state => {
+      console.log("Redux: popTileFromtilesAfterHandout.length:",state.tilesAfterHandout.length)
       state.tilesAfterHandout.pop();
     },
     popTileFromTheWall: state => {

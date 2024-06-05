@@ -1,25 +1,32 @@
+import { CHANGE_ORDER_AFTER_ACTION, INTERRUPT_TURN } from "../../Store/gameReducer";
 import { discardTileFromHand, setStolenTilesOnBoard } from "../../Store/playersReducer";
 import { popFromTheRiver } from "../../Store/riverReducer";
-import { TTileObject } from "../../Types/types";
-import { positionType, stealTriplet } from "../stealTriplet";
+import { TTileObject, TplayerString, WindTypes } from "../../Types/types";
+import { positionType, stealTriplet } from "../StealingFunctions/stealTriplet";
+
+type HandlePonParam={
+  handData: TTileObject[],
+  currentDiscard: TTileObject[],
+  playerWhoLeftTheTile:TplayerString,
+  dispatch:any,
+  setDisplayChiiButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setChiiPanelDisplayed:React.Dispatch<React.SetStateAction<boolean>>,
+  playerWind:WindTypes
+}
 
 //TODO dispatch typescript
 export const handlePon = (
     {handData,
         currentDiscard,
-        playerWhoLeftTheTile,dispatch,
+        playerWhoLeftTheTile,
+        dispatch,
         setDisplayChiiButton,
         setDisplayPonButton,
         setDisplayKanButton,
-        setChiiPanelDisplayed}:{
-            handData: TTileObject[],
-            currentDiscard: TTileObject[],
-            playerWhoLeftTheTile:string,dispatch:any,
-            setDisplayChiiButton:React.Dispatch<React.SetStateAction<boolean>>,
-            setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
-            setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,
-            setChiiPanelDisplayed:React.Dispatch<React.SetStateAction<boolean>>
-    }
+        playerWind,
+        setChiiPanelDisplayed}:HandlePonParam
   ) => {
    const start = performance.now();
    let positionOfPlayerWhoLeftTheTile = (playerWhoLeftTheTile: string): positionType => {
@@ -54,14 +61,18 @@ export const handlePon = (
         tilesArray: ponArray,
         name: position,
         isOpen: true,
+        type:"Pon"
       }),
     );
     dispatch(popFromTheRiver({player: playerWhoLeftTheTile}));
+    dispatch(INTERRUPT_TURN({val: false}));
+    dispatch(CHANGE_ORDER_AFTER_ACTION({playerWind:playerWind}))
     setDisplayChiiButton(false);
     setDisplayKanButton(false);
     setDisplayPonButton(false);
     setChiiPanelDisplayed(false);
     //dispatch(SET_LATEST_TURN()); 
+    //set current turn to the player and he must discard
     const end = performance.now();
     console.log(`handlePon() took ${end - start} milliseconds.`);
   };

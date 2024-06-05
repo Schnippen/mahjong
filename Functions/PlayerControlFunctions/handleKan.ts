@@ -1,0 +1,73 @@
+import { discardTileFromHand, setStolenTilesOnBoard } from "../../Store/playersReducer";
+import { stealQuadruplet } from "../StealingFunctions/stealQuadruplet";
+import { positionType } from "../StealingFunctions/stealTriplet";
+
+type HandleKanParam={
+    handData: TTileObject[],
+    currentDiscard: TTileObject[],
+    playerWhoLeftTheTile:string,dispatch:any,
+    setDisplayChiiButton:React.Dispatch<React.SetStateAction<boolean>>,
+    setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
+    setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,
+    setChiiPanelDisplayed:React.Dispatch<React.SetStateAction<boolean>>,
+    playerWind:string
+  }
+
+
+const handleStealQuadruplet = ({handData,
+    currentDiscard,
+    playerWhoLeftTheTile,
+    dispatch,
+    setDisplayChiiButton,
+    setDisplayPonButton,
+    setDisplayKanButton,
+    playerWind,
+    setChiiPanelDisplayed}:HandleKanParam
+  ) => {
+    const start = performance.now();
+    //TODO Shouminkan
+    //there is possibility that player declared kan on himself
+    let positionOfPlayerWhoLeftTheTile = (playerWhoLeftTheTile: string): positionType => {
+        if (playerWhoLeftTheTile === 'player1') {
+          return 'bottom';
+        } else if (playerWhoLeftTheTile === 'player2') {
+          return 'right';
+        } else if (playerWhoLeftTheTile === 'player3') {
+          return 'top';
+        } else if (playerWhoLeftTheTile === 'player4') {
+          return 'left';
+        } else {
+          return 'bottom';
+        }
+      };
+
+    let {result, kanArray} = stealQuadruplet(
+      handData,
+      currentDiscard,
+      position,
+    );
+    console.log(
+      'stealQuadruplet:',
+      result,
+      kanArray?.map(t => t.name),
+    );
+    kanArray?.forEach(tile => {
+      dispatch(discardTileFromHand({player: 'player1', tile: tile}));
+    });
+    dispatch(
+      setStolenTilesOnBoard({
+        player: 'player1',
+        tilesArray: kanArray,
+        name: 'position',
+        isOpen: true,
+        type:"Kan",
+      }),
+    );
+    setDisplayChiiButton(false);
+    setDisplayKanButton(false);
+    setDisplayPonButton(false);
+    setChiiPanelDisplayed(false);
+
+    const end = performance.now();
+    console.log(`handleKan() took ${end - start} milliseconds.`);
+  };

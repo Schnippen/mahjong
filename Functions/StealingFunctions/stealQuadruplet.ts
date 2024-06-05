@@ -1,4 +1,4 @@
-import {TTileObject} from '../Types/types';
+import {TTileObject} from '../../Types/types';
 
 const isPlayerHandContainingFourOfAKind = (playerHand: TTileObject[]) => {
   const frequencyMap: {[key: string]: number} = {};

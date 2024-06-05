@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {playerToYourLeftWind} from '../Functions/checkPlayersToYourLeftWind';
+import { TplayerString } from '../Types/types';
 
 //gamestate
 //playerstate
@@ -24,7 +25,7 @@ interface gameState {
   gameOrder: ['east', 'south', 'west', 'north'];
   startingTurn: number;
   currentTurnIndex: number;
-  currentPlayer: string;
+  currentPlayer: TplayerString;
   gameEnded: boolean;
   prevailingWind: string;
   round: number;
@@ -67,7 +68,7 @@ const initialState: gameState = {
   gameOrder: ['east', 'south', 'west', 'north'],
   startingTurn: 0,
   currentTurnIndex: 0,
-  currentPlayer: '',
+  currentPlayer: "null",
   howManyTurnsElapsed: 0,
   gameEnded: false,
   prevailingWind: 'east',
@@ -153,6 +154,10 @@ export const gameReducer = createSlice({
         );
       }
     },
+    CHANGE_ORDER_AFTER_ACTION:(state,action)=>{
+      let {playerWind}=action.payload
+      state.currentTurn = playerWind
+    },
     setCurrentPlayer:(state,action)=>{
       let {current}=action.payload
       state.currentPlayer =current
@@ -175,6 +180,7 @@ export const {
   CHECK_FOR_PON,
   CHECK_FOR_KAN, */
   INTERRUPT_TURN,
+  CHANGE_ORDER_AFTER_ACTION,
   setCurrentPlayer,
   changePrevailingWind,
 } = gameReducer.actions;

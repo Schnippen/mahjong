@@ -6,7 +6,7 @@ import {checkForTriplet} from './checkForTriplet';
 import {checkForSequence} from './checkForSequence';
 import {tilesData} from '../Data/tilesData';
 import {END_TURN, INTERRUPT_TURN, setCurrentPlayer} from '../Store/gameReducer';
-import {popTileFromTheWall} from '../Store/wallReducer';
+import {popTileFromTheWall, popTileFromtilesAfterHandout} from '../Store/wallReducer';
 import { checkOrStealSequence } from './checkOrStealSequence';
 import { setCurrentDiscard } from '../Store/riverReducer';
 
@@ -21,6 +21,7 @@ export const runGame = (
   currentGlobalWind: GameWinds,
   setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
   setDisplayChiiButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,
   nextTile:TTileObject,
 ) => {
   let mockupData = tilesData.slice(1, 12);
@@ -29,7 +30,6 @@ export const runGame = (
   //ustalamy czyja jest tura
   let currentPlayersTurn = '';
   let currentHand = [];
-  //let currentGlobalWind = currentTurn;
   let nextWind: string = '';
   let nextPlayerX: string = '';
   console.log(currentGlobalWind);
@@ -101,12 +101,13 @@ export const runGame = (
       return mockupData;
     }
   };
-
+  //TODO i can delete checkQ and checkT latet
   let checkQ = checkForQuadruplet(currentHand, currentDiscard);
   let checkT = checkForTriplet(currentHand, currentDiscard);
   let parameterHandThatHaveSequenceCheck = handThatHaveSequenceCheck();
   let checkS;
-  if (currentPlayersTurn === 'player1') {
+  //there is a bug with chii, if player passes the chii option, there is no change of current turn
+  if (currentPlayersTurn === 'player4') {
     //it will show displays
     console.log(
       'runGame():',
@@ -122,7 +123,7 @@ export const runGame = (
     );
     interruptTurn = checkS.result;
     //TODO refactor
-    console.log("runGame():",checkS.possibleSequences.map(t=>t.map(i=>i.name)),checkS.possibleSequences.length>0)
+    console.log("runGame() possibleSequences:",checkS.possibleSequences.map(t=>t.map(i=>i.name)),checkS.possibleSequences.length>0)
     if(checkS.possibleSequences.length>0){
       setDisplayChiiButton(true)
     }
@@ -173,6 +174,34 @@ export const runGame = (
       ///else setTimeout aiTurn or Pass
     }
   });
+
+  playersArray.forEach(player => {
+    let checkQ = checkForQuadruplet(player.playerHand.hand, currentDiscard);
+    if(checkQ){
+      //add specific result onl for kan that is on hand contained, it should not pause game
+      console.log("runGame(): checkQ",)
+      console.log(`Display for ${player.name}`);
+      dispatch(INTERRUPT_TURN({val: true}));
+      interruptTurn = true;
+
+      if(player.name ==="player2"||player.name ==="player3"||player.name ==="player4"){
+        // ai makes turn, do pon or passes turn
+        const passTime=()=>{
+          console.log("runGame(): passTime()2sec")
+          dispatch(INTERRUPT_TURN({val: false}));
+          interruptTurn = false;
+        }
+        setTimeout(passTime,500)
+      }
+      if (player.name === 'player1') {
+        console.log('Special display for player1');
+        //display pon and pass panel
+        setDisplayKanButton(true)
+      }
+    }
+    
+  })
+
   //pokazuje z opóźnieniem jednej tury
   console.log(
     currentHand.length,
@@ -217,10 +246,10 @@ export const runGame = (
 
   // continue with changing the turn
   //chech for Richii, check for ron check for tsumo
-
+/* 
   if (currentHand.length >= 14) {
     console.log('runGame(): not adding new tile');
-  }
+  } */
   //do we use end turn and draw new tile?
   if (!interruptTurn && gamePhase === 'started') {
     console.log('runGame():', 'END_TURN');
@@ -228,10 +257,15 @@ export const runGame = (
     dispatch(popTileFromTheWall());
     //todo next tile function
     console.log("runGame():nextTile:",nextTile?nextTile?.name:"no Next Tile")
+
+    if (currentHand.length >= 14) {
+      console.log('runGame(): not adding new tile');
+      return
+    }
+
+    dispatch(popTileFromtilesAfterHandout())
     dispatch(drawTileFromWallToHand({player:nextPlayerX,nextTile:nextTile}))
-    
   }
   const end = performance.now();
   console.log(`runGame() took ${end - start} milliseconds.`);
-
 };

@@ -1,12 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {TTileObject, TstolenTiles} from '../Types/types';
+import {TTileObject, TstolenTiles, WindTypes} from '../Types/types';
 //TODO if i want to make this multiplayer i have to re think how to display player score
 //player:Andy Bob Charlie Dylan
 export interface PlayersState {
   player1: {
     player1Score: number;
     name: string;
-    wind: string;
+    wind: WindTypes;
     position: string;
     player1ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
@@ -14,7 +14,7 @@ export interface PlayersState {
   player2: {
     player2Score: number;
     name: string;
-    wind: string;
+    wind: WindTypes;
     position: string;
     player2ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
@@ -22,7 +22,7 @@ export interface PlayersState {
   player3: {
     player3Score: number;
     name: string;
-    wind: string;
+    wind: WindTypes;
     position: string;
     player3ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
@@ -30,7 +30,7 @@ export interface PlayersState {
   player4: {
     player4Score: number;
     name: string;
-    wind: string;
+    wind: WindTypes;
     position: string;
     player4ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
@@ -48,7 +48,7 @@ const initialState: PlayersState = {
     //you are always player one
     player1Score: 10000,
     name: 'player1',
-    wind: 'string',
+    wind: 'null',
     position: 'bottom',
     player1ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
@@ -56,7 +56,7 @@ const initialState: PlayersState = {
   player2: {
     player2Score: 15000,
     name: 'player2',
-    wind: 'string',
+    wind: 'null',
     position: 'right',
     player2ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
@@ -64,7 +64,7 @@ const initialState: PlayersState = {
   player3: {
     player3Score: 20000,
     name: 'player3',
-    wind: 'string',
+    wind: 'null',
     position: 'top',
     player3ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
@@ -72,7 +72,7 @@ const initialState: PlayersState = {
   player4: {
     player4Score: 25000,
     name: 'player4',
-    wind: 'string',
+    wind: 'null',
     position: 'left',
     player4ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
@@ -282,7 +282,7 @@ export const playersReducer = createSlice({
       }
     },
     rotateWindOrder: (state, action) => {
-      const winds = ['east', 'south', 'west', 'north'];
+      const winds:Array<WindTypes> = ['east', 'south', 'west', 'north'];
       const playersArray = [
         state.player1,
         state.player2,
