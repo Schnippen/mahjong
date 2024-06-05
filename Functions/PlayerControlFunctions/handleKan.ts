@@ -1,4 +1,5 @@
 import { discardTileFromHand, setStolenTilesOnBoard } from "../../Store/playersReducer";
+import { TTileObject } from "../../Types/types";
 import { stealQuadruplet } from "../StealingFunctions/stealQuadruplet";
 import { positionType } from "../StealingFunctions/stealTriplet";
 
@@ -10,6 +11,7 @@ type HandleKanParam={
     setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
     setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,
     setChiiPanelDisplayed:React.Dispatch<React.SetStateAction<boolean>>,
+    setDisplayRiichiButton:React.Dispatch<React.SetStateAction<boolean>>,
     playerWind:string
   }
 
@@ -21,6 +23,7 @@ const handleStealQuadruplet = ({handData,
     setDisplayChiiButton,
     setDisplayPonButton,
     setDisplayKanButton,
+    setDisplayRiichiButton,
     playerWind,
     setChiiPanelDisplayed}:HandleKanParam
   ) => {
@@ -40,8 +43,9 @@ const handleStealQuadruplet = ({handData,
           return 'bottom';
         }
       };
+      const position: positionType = positionOfPlayerWhoLeftTheTile(playerWhoLeftTheTile);
 
-    let {result, kanArray} = stealQuadruplet(
+    let {result, kanArray,positionKan} = stealQuadruplet(
       handData,
       currentDiscard,
       position,
@@ -58,7 +62,7 @@ const handleStealQuadruplet = ({handData,
       setStolenTilesOnBoard({
         player: 'player1',
         tilesArray: kanArray,
-        name: 'position',
+        name: 'kanClosed',
         isOpen: true,
         type:"Kan",
       }),
@@ -67,7 +71,8 @@ const handleStealQuadruplet = ({handData,
     setDisplayKanButton(false);
     setDisplayPonButton(false);
     setChiiPanelDisplayed(false);
-
+    setDisplayRiichiButton(false)
+    
     const end = performance.now();
     console.log(`handleKan() took ${end - start} milliseconds.`);
   };

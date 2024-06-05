@@ -13,6 +13,7 @@ type HandlePonParam={
   setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
   setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,
   setChiiPanelDisplayed:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayRiichiButton:React.Dispatch<React.SetStateAction<boolean>>,
   playerWind:WindTypes
 }
 
@@ -25,6 +26,7 @@ export const handlePon = (
         setDisplayChiiButton,
         setDisplayPonButton,
         setDisplayKanButton,
+        setDisplayRiichiButton,
         playerWind,
         setChiiPanelDisplayed}:HandlePonParam
   ) => {
@@ -71,6 +73,8 @@ export const handlePon = (
     setDisplayKanButton(false);
     setDisplayPonButton(false);
     setChiiPanelDisplayed(false);
+    setDisplayRiichiButton(false)
+
     //dispatch(SET_LATEST_TURN()); 
     //set current turn to the player and he must discard
     const end = performance.now();

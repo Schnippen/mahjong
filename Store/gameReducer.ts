@@ -155,7 +155,10 @@ export const gameReducer = createSlice({
       }
     },
     CHANGE_ORDER_AFTER_ACTION:(state,action)=>{
+      //check if this works
       let {playerWind}=action.payload
+      const nextIndex = (state.gameOrder.indexOf(playerWind)) % state.gameOrder.length;
+      state.currentTurnIndex = nextIndex;
       state.currentTurn = playerWind
     },
     setCurrentPlayer:(state,action)=>{

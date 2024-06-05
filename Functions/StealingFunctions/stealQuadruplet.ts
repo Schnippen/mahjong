@@ -18,6 +18,7 @@ export function stealQuadruplet(
   discardedTileArray: TTileObject[],
   position: string,
 ) {
+  let kanPosition:string
   let kanArray: TTileObject[] = [];
   let isKan = isPlayerHandContainingFourOfAKind(playerHand);
   if (isKan) {
@@ -27,7 +28,8 @@ export function stealQuadruplet(
     );
 
     kanArray.push(...suitTiles);
-    return {result: true, kanArray: kanArray};
+    kanPosition = "kanClosed"
+    return {result: true, kanArray: kanArray, positionKan:kanPosition};
   }
   if (!discardedTileArray || discardedTileArray.length === 0) {
     console.info('NO DISCARDED TILE IN checkForQuadruplet');
@@ -57,30 +59,36 @@ export function stealQuadruplet(
     if (suitTiles.length == 3) {
       if (position === 'left') {
         kanArray.push(discardedTile, suitTiles[0], suitTiles[1], suitTiles[2]);
+        kanPosition = "kanLeft"
       } else if (position === 'top') {
         kanArray.push(suitTiles[0], discardedTile, suitTiles[1], suitTiles[2]);
+        kanPosition = "kanFront"
       } else if (position === 'right') {
         kanArray.push(suitTiles[2], suitTiles[1], suitTiles[0], discardedTile);
+        kanPosition = "kanRight"
       } else {
         console.error('Invalid position');
         return {result: false};
       }
-      return {result: true, kanArray: kanArray};
+      return {result: true, kanArray: kanArray,positionKan:kanPosition};
     }
   } else {
     let suitTiles = playerHand.filter(t => t.type === discardedTileSuit);
     if (suitTiles.length == 3) {
       if (position === 'left') {
         kanArray.push(discardedTile, suitTiles[0], suitTiles[1], suitTiles[2]);
+        kanPosition = "kanLeft"
       } else if (position === 'top') {
         kanArray.push(suitTiles[0], discardedTile, suitTiles[1], suitTiles[2]);
+        kanPosition = "kanFront"
       } else if (position === 'right') {
         kanArray.push(suitTiles[2], suitTiles[1], suitTiles[0], discardedTile);
+        kanPosition = "kanRight"
       } else {
         console.error('Invalid position');
         return {result: false};
       }
-      return {result: true, kanArray: kanArray};
+      return {result: true, kanArray: kanArray,positionKan:kanPosition};
     }
   }
   return {result: false};

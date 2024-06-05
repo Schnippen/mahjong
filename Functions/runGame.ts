@@ -1,4 +1,4 @@
-import playersReducer, {PlayersState, drawTileFromWallToHand} from '../Store/playersReducer';
+import {PlayersState, drawTileFromWallToHand} from '../Store/playersReducer';
 import {TTileObject, TstolenTiles} from '../Types/types';
 import {checkForQuadruplet} from './checkForQuadruplet';
 
@@ -8,11 +8,14 @@ import {tilesData} from '../Data/tilesData';
 import {END_TURN, INTERRUPT_TURN, setCurrentPlayer} from '../Store/gameReducer';
 import {popTileFromTheWall, popTileFromtilesAfterHandout} from '../Store/wallReducer';
 import { checkOrStealSequence } from './checkOrStealSequence';
-import { setCurrentDiscard } from '../Store/riverReducer';
+import { RiverState, setCurrentDiscard } from '../Store/riverReducer';
+import { getAllPossibleTiles } from './isReadyForRiichii/getAllPossibleTilesNow';
+import { canRiichi } from './isReadyForRiichii/canRichii';
 
 type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind'>;
 type GamePhase = 'started' | 'ended' | 'none';
 type GameWinds = 'east' | 'south' | 'west' | 'north';
+type TRiver = Omit<RiverState,"currentDiscard">
 export const runGame = (
   {player1, player2, player3, player4}: TPlayers,
   currentDiscard: TTileObject[],
@@ -22,7 +25,10 @@ export const runGame = (
   setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
   setDisplayChiiButton:React.Dispatch<React.SetStateAction<boolean>>,
   setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayRiichiButton:React.Dispatch<React.SetStateAction<boolean>>,
   nextTile:TTileObject,
+  tilesAfterHandoutLength:number,
+  {player1RiverState, player2RiverState, player3RiverState, player4RiverState}:TRiver
 ) => {
   let mockupData = tilesData.slice(1, 12);
   const start = performance.now();
@@ -32,7 +38,7 @@ export const runGame = (
   let currentHand = [];
   let nextWind: string = '';
   let nextPlayerX: string = '';
-  console.log(currentGlobalWind);
+  console.log("runGame() - currentGlobalWind:", currentGlobalWind);
   let playersArray = [player1, player2, player3, player4];
   let interruptTurn: boolean = false;
 
@@ -160,11 +166,13 @@ export const runGame = (
       if(player.name ==="player2"||player.name ==="player3"||player.name ==="player4"){
         // ai makes turn, do pon or passes turn
         const passTime=()=>{
-          console.log("runGame(): passTime()2sec")
+          console.log("runGame(): passTime()0.1sec")
           dispatch(INTERRUPT_TURN({val: false}));
           interruptTurn = false;
         }
-        setTimeout(passTime,500)
+        //setTimeout(passTime,100)
+        dispatch(INTERRUPT_TURN({val: false}));
+          interruptTurn = false;
       }
       if (player.name === 'player1') {
         console.log('Special display for player1');
@@ -187,11 +195,13 @@ export const runGame = (
       if(player.name ==="player2"||player.name ==="player3"||player.name ==="player4"){
         // ai makes turn, do pon or passes turn
         const passTime=()=>{
-          console.log("runGame(): passTime()2sec")
+          console.log("runGame(): passTime()0.1sec")
           dispatch(INTERRUPT_TURN({val: false}));
           interruptTurn = false;
         }
-        setTimeout(passTime,500)
+        //setTimeout(passTime,100)
+        dispatch(INTERRUPT_TURN({val: false}));
+          interruptTurn = false;
       }
       if (player.name === 'player1') {
         console.log('Special display for player1');
@@ -229,28 +239,42 @@ export const runGame = (
 
   let currentPlayers = 'player that has east as a wind makes first move,';
 
-  //discard the tile
-  // tile discarded=
-
-  // wait for all the checks of the possible stealSequences.
-
-  //if there are any display them
-  //wait for respone from all players than continue
-  //for each players hand run check for melds, when all pass then go
-
-  //if response
-  //steal tile and change the global turn, return function
-  //some global variable that will be run as middleware or useEffect, maybe game clock
 
   // as a new instance runGame() again?
 
   // continue with changing the turn
   //chech for Richii, check for ron check for tsumo
+  //check for win
 /* 
   if (currentHand.length >= 14) {
     console.log('runGame(): not adding new tile');
   } */
-  //do we use end turn and draw new tile?
+  //winning conditions should be checked after discarding or drawing tile, so the seperate
+  //use effect is needed
+playersArray.forEach(player => {
+  if (currentPlayersTurn === player.name){
+    let shit = getAllPossibleTiles({hand:currentHand,player1Melds:player1.playerHand.melds, player2Melds:player2.playerHand.melds, player3Melds:player3.playerHand.melds, player4Melds:player4.playerHand.melds,player1RiverState, player2RiverState, player3RiverState, player4RiverState})
+
+    let result = canRiichi({hand:currentHand,player1Melds:player1.playerHand.melds, player2Melds:player2.playerHand.melds, player3Melds:player3.playerHand.melds, player4Melds:player4.playerHand.melds,player1RiverState, player2RiverState, player3RiverState, player4RiverState})
+
+    console.log("runGame(): Richii,",player.name,result)
+    if(currentPlayersTurn === "player1" && result){
+      //set show richii 
+      setDisplayRiichiButton(true)
+    }
+
+  }else{ 
+    //console.log("runGame(): not my turn for Riichi",player.name)
+  }
+})
+
+  //if no tiles check for noten and tempai
+  if(tilesAfterHandoutLength===0){
+    console.info("Game Ended")
+    return
+  }
+
+
   if (!interruptTurn && gamePhase === 'started') {
     console.log('runGame():', 'END_TURN');
     dispatch(END_TURN());

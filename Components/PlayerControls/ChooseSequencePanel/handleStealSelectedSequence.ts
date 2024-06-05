@@ -41,7 +41,7 @@ export const handleStealSelectedSequence = ({index,selectedSequence,dispatch, pl
       dispatch(popFromTheRiver({player: playerWhoLeftTheTile}));
       dispatch(INTERRUPT_TURN({val: false}));
       dispatch(CHANGE_ORDER_AFTER_ACTION({playerWind:playerWind}))
-      //setChiiPanelState
+      setChiiPanelState([[]])//reset state to default
       setDisplayChiiButton(false);
       setDisplayKanButton(false);
       setDisplayPonButton(false);

@@ -130,6 +130,14 @@ const PlayerButtonsPanel = () => {
   const playerWhoLeftTheTile = useSelector(
     (state: RootState) => state.gameReducer.currentPlayer,
   );
+
+  const tilesAfterHandoutLength =  useSelector((state: RootState) => {
+    let result =  state.wallReducer.tilesAfterHandout.length
+    return result
+  });
+  const {
+    riverReducer: {player1RiverState, player2RiverState, player3RiverState, player4RiverState},
+  } = useSelector((state: RootState) => state);
   const {
     playersReducer: {player1, player2, player3, player4},
   } = useSelector((state: RootState) => state);
@@ -137,6 +145,8 @@ const PlayerButtonsPanel = () => {
   const [displayChiiButton, setDisplayChiiButton] = useState<boolean>(false);
   const [displayPonButton, setDisplayPonButton] = useState<boolean>(false);
   const [displayKanButton, setDisplayKanButton] = useState<boolean>(false);
+  const [displayRiichiButton, setDisplayRiichiButton] = useState<boolean>(false);
+
   const [chiiPanelDisplayed, setChiiPanelDisplayed] = useState<boolean>(false);
   const [chiiPanelState, setChiiPanelState] = useState<TTileObject[][]>([]);
   console.log('playersButtonPanel-latestTurn:', latestTurn);
@@ -160,7 +170,10 @@ const PlayerButtonsPanel = () => {
       setDisplayPonButton,
       setDisplayChiiButton,
       setDisplayKanButton,
+      setDisplayRiichiButton,
       nextTile,
+      tilesAfterHandoutLength,
+      {player1RiverState, player2RiverState, player3RiverState, player4RiverState}
     );
   }, [currentDiscard]);
 
@@ -192,7 +205,7 @@ const PlayerButtonsPanel = () => {
           <ButtonKAN handlePress={() => console.log('ButtonKAN')} />
         ) : null}
         {displayPonButton ? (
-          <ButtonPON handlePress={() => {console.log('ButtonPON'),handlePon({handData,currentDiscard,playerWhoLeftTheTile,setChiiPanelDisplayed,setDisplayChiiButton,setDisplayKanButton,setDisplayPonButton,dispatch,playerWind: player1.wind})}} />
+          <ButtonPON handlePress={() => {console.log('ButtonPON'),handlePon({handData,currentDiscard,playerWhoLeftTheTile,setChiiPanelDisplayed,setDisplayChiiButton,setDisplayKanButton,setDisplayPonButton,setDisplayRiichiButton,dispatch,playerWind: player1.wind})}} />
         ) : null}
         {displayChiiButton ? (
            <ButtonCHII
@@ -206,6 +219,7 @@ const PlayerButtonsPanel = () => {
                setDisplayChiiButton,
                setDisplayPonButton,
                setDisplayKanButton,
+               setDisplayRiichiButton,
                dispatch,
                playerWind: player1.wind,
              });
@@ -213,7 +227,7 @@ const PlayerButtonsPanel = () => {
          />
         ) : null}
         {displayChiiButton || displayPonButton || displayKanButton ? (
-          <ButtonPASS handlePress={() => {console.log('ButtonPASS'),PassActionFunc({setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,setChiiPanelDisplayed,dispatch,displayChiiButton})}} />
+          <ButtonPASS handlePress={() => {console.log('ButtonPASS'),PassActionFunc({setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,setChiiPanelDisplayed,setDisplayRiichiButton,dispatch,displayChiiButton,nextTile})}} />
         ) : null}
         <NextTurn />
       </View>

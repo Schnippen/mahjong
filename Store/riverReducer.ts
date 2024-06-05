@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TTileObject } from '../Types/types'
 
-interface RiverState {
+export interface RiverState {
     player1RiverState: TTileObject[],
     player2RiverState: TTileObject[],
     player3RiverState: TTileObject[],

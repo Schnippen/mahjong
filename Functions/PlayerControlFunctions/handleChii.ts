@@ -13,6 +13,7 @@ type HandleChiiParams = {
   setDisplayChiiButton:React.Dispatch<React.SetStateAction<boolean>>,
   setDisplayPonButton:React.Dispatch<React.SetStateAction<boolean>>,
   setDisplayKanButton:React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayRiichiButton:React.Dispatch<React.SetStateAction<boolean>>,
   dispatch:any, //TODO typescript
   playerWind:WindTypes,
 
@@ -27,6 +28,7 @@ export const handleChii=(
         setDisplayChiiButton,
         setDisplayPonButton,
         setDisplayKanButton,
+        setDisplayRiichiButton,
         dispatch,
         playerWind,
       }:HandleChiiParams)=>{
@@ -72,6 +74,7 @@ export const handleChii=(
       setDisplayPonButton(false)
       setDisplayKanButton(false)
       setDisplayChiiButton(false)
+      setDisplayRiichiButton(false)
     }
     const end = performance.now();
     console.log(`handleChii() took ${end - start} milliseconds.`);
