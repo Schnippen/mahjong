@@ -10,6 +10,7 @@ import {
   ButtonKAN,
   ButtonPASS,
   ButtonPON,
+  ButtonRIICHI,
 } from '../Buttons/ButtonSteal/ButtonSteal';
 import {Text, View} from 'react-native';
 import {runGame} from '../../Functions/runGame';
@@ -19,6 +20,7 @@ import { handlePon } from '../../Functions/PlayerControlFunctions/handlePon';
 import { checkOrStealSequence } from '../../Functions/checkOrStealSequence';
 import { handleChii } from '../../Functions/PlayerControlFunctions/handleChii';
 import ChooseSequencePanel from './ChooseSequencePanel/ChooseSequencePanel';
+import { handleRiichi } from '../../Functions/PlayerControlFunctions/handleRiichi';
 
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
@@ -226,6 +228,10 @@ const PlayerButtonsPanel = () => {
            }}
          />
         ) : null}
+        {displayRiichiButton?(
+          <ButtonRIICHI handlePress={() => {
+             console.log('ButtonRIICHI'),handleRiichi();}}/>
+            ):null}
         {displayChiiButton || displayPonButton || displayKanButton ? (
           <ButtonPASS handlePress={() => {console.log('ButtonPASS'),PassActionFunc({setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,setChiiPanelDisplayed,setDisplayRiichiButton,dispatch,displayChiiButton,nextTile})}} />
         ) : null}

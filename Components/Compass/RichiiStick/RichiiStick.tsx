@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 const RichiiStick = ({degrees}: {degrees: number}) => {
   //use transform on it
+  //TODO use animation
   const position =
     degrees === 0
       ? 'front'

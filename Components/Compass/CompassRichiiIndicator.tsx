@@ -1,6 +1,7 @@
-import React from 'react';
-import {View} from 'react-native';
+import React, { useEffect } from 'react';
+import {StyleSheet, View} from 'react-native';
 import RichiiStick from './RichiiStick/RichiiStick';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 const CompassRichiiIndicator = ({
   isRichiiActive,
@@ -9,6 +10,43 @@ const CompassRichiiIndicator = ({
   isRichiiActive: boolean;
   degrees: number;
 }) => {
+
+
+  const opacity = useSharedValue(0);
+  const translateY = useSharedValue(300);
+
+  useEffect(() => {
+    if (isRichiiActive) {
+      opacity.value = withTiming(1, { duration: 500 });
+      translateY.value = withTiming(0, { duration: 500 });
+    } else {
+      opacity.value = withTiming(0, { duration: 500 });
+      translateY.value = withTiming(300, { duration: 500 });
+    }
+  }, [isRichiiActive, opacity, translateY]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      transform: [{ translateY: translateY.value }],
+    };
+  });
+  const styles = StyleSheet.create({
+    animatedView: {
+      position: 'relative',
+      bottom: 0,
+      width: 150,
+      justifyContent:"center",
+      alignItems:"center",
+    }})
+
+  const RiichiiComponent=()=>{
+    return(
+    <Animated.View  style={[styles.animatedView,animatedStyle]}>
+      <RichiiStick degrees={degrees} />
+    </Animated.View >)
+  }
+
   return (
     <View
       style={{
@@ -27,7 +65,7 @@ const CompassRichiiIndicator = ({
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        {isRichiiActive ? <RichiiStick degrees={degrees} /> : null}
+        {isRichiiActive ? <RiichiiComponent /> : null}
       </View>
     </View>
   );
