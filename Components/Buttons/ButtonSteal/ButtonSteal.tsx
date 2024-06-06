@@ -34,9 +34,9 @@ const ButtonShape = ({
   );
 };
 
-export const ButtonRIICHI = () => {
+export const ButtonRIICHI = ({handlePress}:{handlePress:()=>void}) => {
   return (
-    <ButtonShape text="RIICHI" firstColor="#f6d106" secondColor="#cc7000" />
+    <ButtonShape text="RIICHI" firstColor="#f6d106" secondColor="#cc7000" handlePress={()=>{handlePress();console.log("pressed Riichii")}}/>
   );
 };
 export const ButtonPON = ({handlePress}:{handlePress:()=>void}) => {

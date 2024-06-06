@@ -230,7 +230,7 @@ const PlayerButtonsPanel = () => {
         ) : null}
         {displayRiichiButton?(
           <ButtonRIICHI handlePress={() => {
-             console.log('ButtonRIICHI'),handleRiichi();}}/>
+             console.log('ButtonRIICHI'),handleRiichi({dispatch,player:player1.name});}}/>
             ):null}
         {displayChiiButton || displayPonButton || displayKanButton ? (
           <ButtonPASS handlePress={() => {console.log('ButtonPASS'),PassActionFunc({setDisplayChiiButton,setDisplayPonButton,setDisplayKanButton,setChiiPanelDisplayed,setDisplayRiichiButton,dispatch,displayChiiButton,nextTile})}} />

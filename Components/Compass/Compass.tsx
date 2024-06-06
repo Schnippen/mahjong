@@ -14,18 +14,23 @@ const Compass = () => {
   const backgroundColor = '#5a5a66';
   const backgroundColorSec = '#2f2f39';
   const dispatch = useDispatch()
-  const playerBottomMainPlayer = useSelector(
-    (state: RootState) => state.playersReducer.player1.wind,
-  );
-  const playerRight = useSelector(
-    (state: RootState) => state.playersReducer.player2.wind,
-  );
-  const playerTop = useSelector(
-    (state: RootState) => state.playersReducer.player3.wind,
-  );
-  const playerLeft = useSelector(
-    (state: RootState) => state.playersReducer.player4.wind,
-  );
+  const {
+    playersReducer: {
+      player1: { wind: playerBottomMainPlayer },
+      player2: { wind: playerRight },
+      player3: { wind: playerTop },
+      player4: { wind: playerLeft }
+    }
+  } = useSelector((state: RootState) => state);
+  const {
+    playersReducer: {
+      player1: { isRiichi: player1IsRiichi },
+      player2: { isRiichi: player2IsRiichi },
+      player3: { isRiichi: player3IsRiichi },
+      player4: { isRiichi: player4IsRiichi }
+    }
+  } = useSelector((state: RootState) => state);
+
   const handleChangeScoringDisplaySystem=()=>{
     dispatch(setShowScoreDifference())
   }
@@ -56,7 +61,7 @@ const Compass = () => {
           }
         />
         <CompassPlayerSide
-          isRichiiActive={true}
+          isRichiiActive={player1IsRiichi}
           degrees={0}
           leftPosition={0}
           rightPosition={250}
@@ -67,7 +72,7 @@ const Compass = () => {
           currentWindDisplay={playerBottomMainPlayer}
         />
         <CompassPlayerSide
-          isRichiiActive={false}
+          isRichiiActive={player2IsRiichi}
           degrees={270}
           leftPosition={125}
           rightPosition={125}
@@ -78,7 +83,7 @@ const Compass = () => {
           currentWindDisplay={playerRight}
         />
         <CompassPlayerSide
-          isRichiiActive={false}
+          isRichiiActive={player3IsRiichi}
           degrees={180}
           leftPosition={0}
           rightPosition={0}
@@ -89,7 +94,7 @@ const Compass = () => {
           currentWindDisplay={playerTop}
         />
         <CompassPlayerSide
-          isRichiiActive={false}
+          isRichiiActive={player4IsRiichi}
           degrees={90}
           leftPosition={-125}
           rightPosition={125}

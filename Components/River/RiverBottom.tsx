@@ -13,16 +13,22 @@ const RiverBottom = () => {
   const playersRiver = useSelector(
     (state: RootState) => state.riverReducer.player1RiverState,
   );
-  
-  const renderItem = ({item, index}: {item: TTileObject; index: number}) => (
+  let riverLength = playersRiver.length
+
+
+  const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
+    const isRiichi =index?index===1:false
+    return(
     <View
       style={{
         marginTop: index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0,
         marginLeft: index >= 18 ? 360 : 0,
       }}>
-      <TileInTheRiverComponentFront svg={item.image} tileRatioProp={2} />
+      <TileInTheRiverComponentFront svg={item.image} tileRatioProp={2} isRiichi={isRiichi}/>
     </View>
-  );
+    )
+  };
+
   const numOfColumns = 6;
   return (
     <View

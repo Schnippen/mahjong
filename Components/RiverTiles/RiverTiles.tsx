@@ -5,9 +5,11 @@ import {SvgXml} from 'react-native-svg';
 export const TileInTheRiverComponentFront = ({
   svg,
   tileRatioProp = 3,
+  isRiichi
 }: {
   svg: string;
   tileRatioProp: number;
+  isRiichi:boolean
 }) => {
   //320 //60
   const tileRatio = tileRatioProp;
