@@ -4,29 +4,32 @@ import {TileInTheRiverComponentFront} from '../RiverTiles/RiverTiles';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
 import EmptyComponent from '../Wall/EmptyComponent';
-import { TTileObject } from '../../Types/types';
-import { tilesData } from '../../Data/tilesData';
+import {TTileObject} from '../../Types/types';
+import {tilesData} from '../../Data/tilesData';
 const RiverBottom = () => {
- // const data = tilesData.slice(12, 31); //river data
+  // const data = tilesData.slice(12, 31); //river data
   //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
   //add zIndex to the last tile
   const playersRiver = useSelector(
     (state: RootState) => state.riverReducer.player1RiverState,
   );
-  let riverLength = playersRiver.length
-
+  let riverLength = playersRiver.length;
 
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
-    const isRiichi =index?index===1:false
-    return(
-    <View
-      style={{
-        marginTop: index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0,
-        marginLeft: index >= 18 ? 360 : 0,
-      }}>
-      <TileInTheRiverComponentFront svg={item.image} tileRatioProp={2} isRiichi={isRiichi}/>
-    </View>
-    )
+    const isRiichi = index === 0;
+    return (
+      <View
+        style={{
+          marginTop: index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0,
+          marginLeft: index >= 18 ? 360 : 0,
+        }}>
+        <TileInTheRiverComponentFront
+          svg={item.image}
+          tileRatioProp={2}
+          isRiichi={isRiichi}
+        />
+      </View>
+    );
   };
 
   const numOfColumns = 6;
@@ -44,7 +47,7 @@ const RiverBottom = () => {
         scrollEnabled={false}
         numColumns={numOfColumns}
         keyExtractor={(item, index) => index.toString()}
-        ListEmptyComponent={<EmptyComponent/>}
+        ListEmptyComponent={<EmptyComponent />}
         extraData={playersRiver}
       />
     </View>

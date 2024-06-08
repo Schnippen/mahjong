@@ -5,7 +5,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
 import EmptyComponent from '../Wall/EmptyComponent';
-import { TTileObject } from '../../Types/types';
+import {TTileObject} from '../../Types/types';
 
 export const RiverLeft = () => {
   const playersRiver = useSelector(
@@ -13,20 +13,28 @@ export const RiverLeft = () => {
   );
   //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
   //add zIndex to the last tile, index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0
-  const renderItem = ({item, index}: {item: TTileObject; index: number}) => (
-    <View
-      style={{
-        alignItems: 'flex-start',
-        marginRight: index === 5 || index === 11 || index === 17 ? 0 : -14,
-        marginTop: index === 18 ? -82 : 0,
-        marginLeft: index === 18 ? 385 : 0,
-        /* marginLeft: index === 18? 399 : (index === 0 || index === 6 || index === 12 ? 0 : -14),
+  const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
+    const isRiichi = index === 0;
+    return (
+      <View
+        style={{
+          alignItems: 'flex-start',
+          marginRight: index === 5 || index === 11 || index === 17 ? 0 : -14,
+          marginTop: index === 18 ? -82 : 0,
+          marginLeft: index === 18 ? 385 : 0,
+          /* marginLeft: index === 18? 399 : (index === 0 || index === 6 || index === 12 ? 0 : -14),
         marginTop: index === 18 ? -82 : 0,
         zIndex:-index */
-      }}>
-      <TileInTheRiverComponentLeft svg={item.image} tileRatioProp={2} index={index} />
-    </View>
-  );
+        }}>
+        <TileInTheRiverComponentLeft
+          svg={item.image}
+          tileRatioProp={2}
+          index={index}
+          isRiichi={isRiichi}
+        />
+      </View>
+    );
+  };
   const numOfColumns = 6;
   return (
     //480 250
@@ -45,7 +53,7 @@ export const RiverLeft = () => {
         scrollEnabled={false}
         numColumns={numOfColumns}
         keyExtractor={(item, index) => item.tileID.toString()}
-        ListEmptyComponent={<EmptyComponent/>}
+        ListEmptyComponent={<EmptyComponent />}
         extraData={playersRiver}
       />
     </View>

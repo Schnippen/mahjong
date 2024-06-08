@@ -89,7 +89,7 @@ function MahjongScreen({navigation, route}: any) {
     );
   };
   const dispatch = useDispatch();
- /*  console.log(
+  /*  console.log(
     'tilesAfterHandout:',
     tilesAfterHandout.length,
     'MainPlayerCurrentHand:',
@@ -108,7 +108,7 @@ function MahjongScreen({navigation, route}: any) {
   const playerLeftWind = useSelector(
     (state: RootState) => state.playersReducer.player4.wind,
   );
- 
+
   //console.log("mahjong currentDiscard:",currentDiscard.map(t=>t.name),)
   //console.log("TURN INTERRUPTED:",turnInterrupted)
   /* console.log(
@@ -117,10 +117,9 @@ function MahjongScreen({navigation, route}: any) {
      playerBottomMainPlayerWind,
     playerTopWind,
   )*/
-/* console.info("playerRight:",playerRightHand.length, playerRightHand.map(t=>t.name))
+  /* console.info("playerRight:",playerRightHand.length, playerRightHand.map(t=>t.name))
 console.info("playerTop:",playerTopHand.length,playerTopHand.map(t=>t.name))
 console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.name)) */
-
 
   return (
     <ScrollView>
@@ -155,7 +154,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
               height: 560,
               position: 'relative',
               transform: [{rotateX: '0deg'}, {rotateZ: '0deg'}, {scale: 0.36}],
-            }}>  
+            }}>
             <Compass />
             <View
               style={{
@@ -174,8 +173,15 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                   top: 280,
                 }}>
                 <WallTop wallWind={playerTopWind} />
-                <View style={{position:"absolute",top:54,left:40,width:800,backgroundColor:"transparent"}}>
-                <StolenTilesPanelTop/>
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 54,
+                    left: 40,
+                    width: 800,
+                    backgroundColor: 'transparent',
+                  }}>
+                  <StolenTilesPanelTop />
                 </View>
               </View>
             </View>
@@ -200,8 +206,15 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                   right: 0,
                 }}>
                 <WallLeft wallWind={playerLeftWind} />
-                <View style={{position:"absolute",width:800,top:54,left:40,backgroundColor:"transparent"}}>
-                <StolenTilesPanelLeft/>
+                <View
+                  style={{
+                    position: 'absolute',
+                    width: 800,
+                    top: 54,
+                    left: 40,
+                    backgroundColor: 'transparent',
+                  }}>
+                  <StolenTilesPanelLeft />
                 </View>
               </View>
             </View>
@@ -225,20 +238,27 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                   left: 0,
                 }}>
                 <WallRight wallWind={playerRightWind} />
-                <View style={{position:"absolute",top:54,left:40,width:800,backgroundColor:"transparent"}}>
-                <StolenTilesRight/>
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 54,
+                    left: 40,
+                    width: 800,
+                    backgroundColor: 'transparent',
+                  }}>
+                  <StolenTilesRight />
                 </View>
               </View>
             </View>
             <View
               style={{
                 position: 'absolute',
-                left: 0,
+                left: -15,
                 top: 460,
                 width: 600,
                 alignItems: 'center',
                 marginBottom: 5,
-                backgroundColor:"transparent"
+                backgroundColor: 'transparent',
               }}>
               <RiverBottom />
               <View
@@ -249,15 +269,22 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                   /* alignItems: 'flex-start', */
                 }}>
                 <WallBottom wallWind={playerBottomMainPlayerWind} />
-                <View style={{position:"absolute",top:54,left:40,width:800,backgroundColor:"transparent"}}>
-                <StolenTilesPanelBottom/>
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 54,
+                    left: 40,
+                    width: 800,
+                    backgroundColor: 'transparent',
+                  }}>
+                  <StolenTilesPanelBottom />
                 </View>
               </View>
             </View>
           </View>
         </View>
         <View style={{position: 'absolute', bottom: 0}}>
-          <PlayerPanel /> 
+          <PlayerPanel />
         </View>
       </View>
     </ScrollView>
