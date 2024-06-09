@@ -10,12 +10,15 @@ import {TTileObject} from '../../Types/types';
 const RiverTop = () => {
   //const data = mahjongTilesSVGsArray.slice(0, 1); //river data
   const playersRiver = useSelector(
-    (state: RootState) => state.riverReducer.player3RiverState,
+    (state: RootState) => state.riverReducer.player3River.riverState,
   );
-  //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120 elevation: 1
-  //add zIndex to the last tile //TODO just use transform translate flip it on its head and flip Y axis
+  const riichiIndex = useSelector((state: RootState) => {
+    let result = state.riverReducer.player2River.riichiIndex;
+    return result;
+  });
+
   const cellRenderer = ({item, index}: {item: TTileObject; index: number}) => {
-    const isRiichi = index === 0;
+    const isRiichi = index === riichiIndex;
 
     return (
       <View

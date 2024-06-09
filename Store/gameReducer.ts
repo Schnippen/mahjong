@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {playerToYourLeftWind} from '../Functions/checkPlayersToYourLeftWind';
-import { TplayerString } from '../Types/types';
+import {TplayerString} from '../Types/types';
 
 //gamestate
 //playerstate
@@ -31,7 +31,7 @@ interface gameState {
   round: number;
   howManyTurnsElapsed: 0;
   turnInterrupted: boolean;
-  player1Actions: {
+  /*   player1Actions: {
     CHII: boolean;
     PON: boolean;
     KAN: boolean;
@@ -58,7 +58,7 @@ interface gameState {
     KAN: boolean;
     RON: boolean;
     TSUMO: boolean;
-  };
+  }; */
 }
 
 const initialState: gameState = {
@@ -68,13 +68,13 @@ const initialState: gameState = {
   gameOrder: ['east', 'south', 'west', 'north'],
   startingTurn: 0,
   currentTurnIndex: 0,
-  currentPlayer: "null",
+  currentPlayer: 'null',
   howManyTurnsElapsed: 0,
   gameEnded: false,
   prevailingWind: 'east',
   round: 0,
   turnInterrupted: false,
-  player1Actions: {
+  /*  player1Actions: {
     CHII: false,
     PON: false,
     KAN: false,
@@ -101,7 +101,7 @@ const initialState: gameState = {
     KAN: false,
     RON: false,
     TSUMO: false,
-  },
+  }, */
 };
 
 export const gameReducer = createSlice({
@@ -154,17 +154,18 @@ export const gameReducer = createSlice({
         );
       }
     },
-    CHANGE_ORDER_AFTER_ACTION:(state,action)=>{
+    CHANGE_ORDER_AFTER_ACTION: (state, action) => {
       //check if this works
-      let {playerWind}=action.payload
-      const nextIndex = (state.gameOrder.indexOf(playerWind)) % state.gameOrder.length;
+      let {playerWind} = action.payload;
+      const nextIndex =
+        state.gameOrder.indexOf(playerWind) % state.gameOrder.length;
       state.currentTurnIndex = nextIndex;
-      state.currentTurn = playerWind
+      state.currentTurn = playerWind;
     },
-    setCurrentPlayer:(state,action)=>{
-      let {current}=action.payload
-      state.currentPlayer =current
-      console.log("REDUX setCurrentPlayer:",state.currentPlayer)
+    setCurrentPlayer: (state, action) => {
+      let {current} = action.payload;
+      state.currentPlayer = current;
+      console.log('REDUX setCurrentPlayer:', state.currentPlayer);
     },
     changePrevailingWind: (state, action) => {
       //state.value += action.payload

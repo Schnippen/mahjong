@@ -1,5 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {TTileObject, TplayerString, TstolenTiles, WindTypes} from '../Types/types';
+import {
+  TTileObject,
+  TplayerString,
+  TstolenTiles,
+  WindTypes,
+} from '../Types/types';
 //TODO if i want to make this multiplayer i have to re think how to display player score
 //player:Andy Bob Charlie Dylan
 export interface PlayersState {
@@ -10,7 +15,7 @@ export interface PlayersState {
     position: string;
     player1ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
-    isRiichi:boolean
+    isRiichi: boolean;
   };
   player2: {
     player2Score: number;
@@ -19,7 +24,7 @@ export interface PlayersState {
     position: string;
     player2ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
-    isRiichi:boolean
+    isRiichi: boolean;
   };
   player3: {
     player3Score: number;
@@ -28,7 +33,7 @@ export interface PlayersState {
     position: string;
     player3ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
-    isRiichi:boolean
+    isRiichi: boolean;
   };
   player4: {
     player4Score: number;
@@ -37,7 +42,7 @@ export interface PlayersState {
     position: string;
     player4ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
-    isRiichi:boolean
+    isRiichi: boolean;
   };
   assignHandsBasedOnWind: {
     firstHand: TTileObject[];
@@ -56,7 +61,7 @@ const initialState: PlayersState = {
     position: 'bottom',
     player1ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
-    isRiichi:false,
+    isRiichi: false,
   },
   player2: {
     player2Score: 15000,
@@ -65,7 +70,7 @@ const initialState: PlayersState = {
     position: 'right',
     player2ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
-    isRiichi:false,
+    isRiichi: false,
   },
   player3: {
     player3Score: 20000,
@@ -74,7 +79,7 @@ const initialState: PlayersState = {
     position: 'top',
     player3ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
-    isRiichi:false,
+    isRiichi: false,
   },
   player4: {
     player4Score: 25000,
@@ -83,7 +88,7 @@ const initialState: PlayersState = {
     position: 'left',
     player4ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
-    isRiichi:false,
+    isRiichi: false,
   },
   assignHandsBasedOnWind: {
     firstHand: [],
@@ -102,12 +107,12 @@ const player3ScoreDifference =
 const player4ScoreDifference =
   initialState.player1.player1Score - initialState.player4.player4Score;
 
-console.log('score difference:', [
+/* console.log('score difference:', [
   player1ScoreDifference,
   player2ScoreDifference,
   player3ScoreDifference,
   player4ScoreDifference,
-]);
+]); */
 
 export const playersReducer = createSlice({
   name: 'playersReducer',
@@ -274,7 +279,6 @@ export const playersReducer = createSlice({
       } else if (player === 'player4') {
         state.player4.playerHand.hand.push(nextTile);
       }
-      
     },
     setStolenTilesOnBoard: (state, action) => {
       const {player, tilesArray, name, isOpen} = action.payload;
@@ -289,20 +293,32 @@ export const playersReducer = createSlice({
         state.player4.playerHand.melds.push(newStolenTiles);
       }
     },
-    setRiichi:(state,action)=>{
-      const {player,val} = action.payload;
+    setRiichi: (state, action) => {
+      const {player, val} = action.payload;
       if (player === 'player1') {
-        state.player1.isRiichi=val
+        state.player1.isRiichi = val;
       } else if (player === 'player2') {
-        state.player2.isRiichi=val
+        state.player2.isRiichi = val;
       } else if (player === 'player3') {
-        state.player3.isRiichi=val
+        state.player3.isRiichi = val;
       } else if (player === 'player4') {
-        state.player4.isRiichi=val
+        state.player4.isRiichi = val;
+      }
+    },
+    calculatePoints: (state, action) => {
+      const {player, val} = action.payload;
+      if (player === 'player1') {
+        state.player1.player1Score += val;
+      } else if (player === 'player2') {
+        state.player2.player2Score += val;
+      } else if (player === 'player3') {
+        state.player3.player3Score += val;
+      } else if (player === 'player4') {
+        state.player4.player4Score += val;
       }
     },
     rotateWindOrder: (state, action) => {
-      const winds:Array<WindTypes> = ['east', 'south', 'west', 'north'];
+      const winds: Array<WindTypes> = ['east', 'south', 'west', 'north'];
       const playersArray = [
         state.player1,
         state.player2,
@@ -333,6 +349,7 @@ export const {
   drawTileFromWallToHand,
   rotateWindOrder,
   setRiichi,
+  calculatePoints,
   setStolenTilesOnBoard,
   changePrevailingWind,
 } = playersReducer.actions;

@@ -11,12 +11,16 @@ const RiverBottom = () => {
   //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
   //add zIndex to the last tile
   const playersRiver = useSelector(
-    (state: RootState) => state.riverReducer.player1RiverState,
+    (state: RootState) => state.riverReducer.player1River.riverState,
   );
-  let riverLength = playersRiver.length;
+
+  const riichiIndex = useSelector((state: RootState) => {
+    let result = state.riverReducer.player1River.riichiIndex;
+    return result;
+  });
 
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
-    const isRiichi = index === 0;
+    const isRiichi = index === riichiIndex;
     return (
       <View
         style={{

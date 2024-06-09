@@ -9,12 +9,16 @@ import {TTileObject} from '../../Types/types';
 
 export const RiverLeft = () => {
   const playersRiver = useSelector(
-    (state: RootState) => state.riverReducer.player4RiverState,
+    (state: RootState) => state.riverReducer.player4River.riverState,
   );
-  //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
-  //add zIndex to the last tile, index >= 6 && index < 18 ? -25 : index >= 18 ? -105 : 0
+
+  const riichiIndex = useSelector((state: RootState) => {
+    let result = state.riverReducer.player4River.riichiIndex;
+    return result;
+  });
+
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
-    const isRiichi = index === 0;
+    const isRiichi = index === riichiIndex;
     return (
       <View
         style={{

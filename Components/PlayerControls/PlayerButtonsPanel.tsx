@@ -138,12 +138,7 @@ const PlayerButtonsPanel = () => {
     return result;
   });
   const {
-    riverReducer: {
-      player1RiverState,
-      player2RiverState,
-      player3RiverState,
-      player4RiverState,
-    },
+    riverReducer: {player1River, player2River, player3River, player4River},
   } = useSelector((state: RootState) => state);
   const {
     playersReducer: {player1, player2, player3, player4},
@@ -154,7 +149,7 @@ const PlayerButtonsPanel = () => {
   const [displayKanButton, setDisplayKanButton] = useState<boolean>(false);
   const [displayRiichiButton, setDisplayRiichiButton] =
     useState<boolean>(false);
-
+  const [isRichiiActive, setIsRichiiActive] = useState<boolean>(false);
   const [chiiPanelDisplayed, setChiiPanelDisplayed] = useState<boolean>(false);
   const [chiiPanelState, setChiiPanelState] = useState<TTileObject[][]>([]);
   console.log('playersButtonPanel-latestTurn:', latestTurn);
@@ -182,10 +177,10 @@ const PlayerButtonsPanel = () => {
       nextTile,
       tilesAfterHandoutLength,
       {
-        player1RiverState,
-        player2RiverState,
-        player3RiverState,
-        player4RiverState,
+        player1River,
+        player2River,
+        player3River,
+        player4River,
       },
     );
   }, [currentDiscard]);
@@ -225,10 +220,10 @@ const PlayerButtonsPanel = () => {
           columnGap: 8,
         }}>
         <Text>{handData ? handData.length : null}</Text>
-        {displayKanButton ? (
+        {displayKanButton && !isRichiiActive ? (
           <ButtonKAN handlePress={() => console.log('ButtonKAN')} />
         ) : null}
-        {displayPonButton ? (
+        {displayPonButton && !isRichiiActive ? (
           <ButtonPON
             handlePress={() => {
               console.log('ButtonPON'),
@@ -247,7 +242,7 @@ const PlayerButtonsPanel = () => {
             }}
           />
         ) : null}
-        {displayChiiButton ? (
+        {displayChiiButton && !isRichiiActive ? (
           <ButtonCHII
             handlePress={() => {
               console.log('ButtonCHII');
@@ -270,8 +265,18 @@ const PlayerButtonsPanel = () => {
         {true ? (
           <ButtonRIICHI
             handlePress={() => {
-              console.log('ButtonRIICHI'),
-                handleRiichi({dispatch, player: player1.name});
+              console.log('ButtonRIICHI');
+              handleRiichi({
+                dispatch,
+                player: player1.name,
+                setChiiPanelDisplayed,
+                setDisplayChiiButton,
+                setDisplayPonButton,
+                setDisplayKanButton,
+                setDisplayRiichiButton,
+                setIsRichiiActive,
+                river: player1River.riverState,
+              });
             }}
           />
         ) : null}
