@@ -14,16 +14,12 @@ import {checkOrStealSequence} from './checkOrStealSequence';
 import {RiverState, setCurrentDiscard} from '../Store/riverReducer';
 import {getAllPossibleTiles} from './isReadyForRiichii/getAllPossibleTilesNow';
 import {canRiichi} from './isReadyForRiichii/canRichii';
+import {isWinning} from './isWinning/isWinning';
 
 type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind'>;
 type GamePhase = 'started' | 'ended' | 'none';
 type GameWinds = 'east' | 'south' | 'west' | 'north';
-type TRiver = {
-  player1River: {riverState: TTileObject[]};
-  player2River: {riverState: TTileObject[]};
-  player3River: {riverState: TTileObject[]};
-  player4River: {riverState: TTileObject[]};
-};
+type TRiver = Omit<RiverState, 'currentDiscard'>;
 export const runGame = (
   {player1, player2, player3, player4}: TPlayers,
   currentDiscard: TTileObject[],
@@ -274,37 +270,53 @@ export const runGame = (
   //use effect is needed
   playersArray.forEach(player => {
     if (currentPlayersTurn === player.name) {
-      let shit = getAllPossibleTiles({
-        hand: currentHand,
-        player1Melds: player1.playerHand.melds,
-        player2Melds: player2.playerHand.melds,
-        player3Melds: player3.playerHand.melds,
-        player4Melds: player4.playerHand.melds,
-        player1RiverState,
-        player2RiverState,
-        player3RiverState,
-        player4RiverState,
-      });
-
       let result = canRiichi({
         hand: currentHand,
         player1Melds: player1.playerHand.melds,
         player2Melds: player2.playerHand.melds,
         player3Melds: player3.playerHand.melds,
         player4Melds: player4.playerHand.melds,
-        player1RiverState,
-        player2RiverState,
-        player3RiverState,
-        player4RiverState,
+        player1RiverState: player1River.riverState,
+        player2RiverState: player2River.riverState,
+        player3RiverState: player3River.riverState,
+        player4RiverState: player4River.riverState,
       });
-
       console.log('runGame(): Richii,', player.name, result);
       if (currentPlayersTurn === 'player1' && result) {
-        //set show richii
-        setDisplayRiichiButton(true);
+        //set show richii, richiiIndex from riverReducer
+        if (player1River.riichiIndex !== null) {
+          setDisplayRiichiButton(false);
+        } else {
+          setDisplayRiichiButton(true);
+        }
       }
     } else {
       //console.log("runGame(): not my turn for Riichi",player.name)
+    }
+  });
+
+  playersArray.forEach(player => {
+    //run it for all players, and display buttons only for player1
+    if (currentPlayersTurn === player.name) {
+      console.log('runGame(): isWinning - yaku ,');
+      let shit = currentDiscard;
+      //check for buttons to be displayed
+      /*       isWinning({
+        hand: currentHand,
+        player1Melds: player1.playerHand.melds,
+        player2Melds: player2.playerHand.melds,
+        player3Melds: player3.playerHand.melds,
+        player4Melds: player4.playerHand.melds,
+        discard:currentDiscard,
+        currentPlayer:currentPlayersTurn}) */
+
+      //make it manage all players
+      //canWin()?
+      // show ron
+      //show tsumo
+      //show noYaku
+      //isYaku
+      // go to summary screen, calculate winningHand
     }
   });
 

@@ -10,6 +10,7 @@ import {RootState} from '../../Store/store';
 import TileOnHand from './TileOnHand';
 import {discardTile} from '../../Functions/discardTileFunction';
 import {popTileFromtilesAfterHandout} from '../../Store/wallReducer';
+import EmptyComponent from '../Wall/EmptyComponent';
 
 const PlayerHandComponent = () => {
   const handData = useSelector(
@@ -104,6 +105,8 @@ const PlayerHandComponent = () => {
       );
       if (gameTurn === playersWind && !turnInterrupted) {
         //&&!turnInterrupted
+        //TODO add if isRichii, cannot discard = > automatic discarding of the last index??? check for win
+        //if(!isRichii){ discardTile('player1', tile, dispatch);}
         discardTile('player1', tile, dispatch);
         //console.log("discardTile")
       }
@@ -133,9 +136,7 @@ const PlayerHandComponent = () => {
       />
     );
   };
-  const EmptyComponent = () => {
-    return <View></View>;
-  };
+
   //console.log('handData:', handData);
   //TODO REFACTOR
   return (

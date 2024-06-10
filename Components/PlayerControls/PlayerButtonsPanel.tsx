@@ -11,6 +11,8 @@ import {
   ButtonPASS,
   ButtonPON,
   ButtonRIICHI,
+  ButtonRON,
+  ButtonTSUMO,
 } from '../Buttons/ButtonSteal/ButtonSteal';
 import {Text, View} from 'react-native';
 import {runGame} from '../../Functions/runGame';
@@ -152,6 +154,8 @@ const PlayerButtonsPanel = () => {
   const [isRichiiActive, setIsRichiiActive] = useState<boolean>(false);
   const [chiiPanelDisplayed, setChiiPanelDisplayed] = useState<boolean>(false);
   const [chiiPanelState, setChiiPanelState] = useState<TTileObject[][]>([]);
+  const [displayRonButton, setDisplayRonButton] = useState<boolean>(false);
+  const [displayTsumoButton, setDisplayTsumoButton] = useState<boolean>(false);
   console.log('playersButtonPanel-latestTurn:', latestTurn);
 
   useEffect(() => {
@@ -262,7 +266,7 @@ const PlayerButtonsPanel = () => {
             }}
           />
         ) : null}
-        {true ? (
+        {true ? ( //displayRiichiButton
           <ButtonRIICHI
             handlePress={() => {
               console.log('ButtonRIICHI');
@@ -277,6 +281,20 @@ const PlayerButtonsPanel = () => {
                 setIsRichiiActive,
                 river: player1River.riverState,
               });
+            }}
+          />
+        ) : null}
+        {displayRonButton ? (
+          <ButtonRON
+            handlePress={() => {
+              console.log('ButtonRON');
+            }}
+          />
+        ) : null}
+        {displayTsumoButton ? (
+          <ButtonTSUMO
+            handlePress={() => {
+              console.log('ButtonTSUMO');
             }}
           />
         ) : null}
