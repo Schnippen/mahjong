@@ -5,6 +5,7 @@ import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
 type isChiitoitsuTypes = {hand: TTileObject[]; discard: TTileObject[]};
 
 export function isChiitoitsu({hand, discard}: isChiitoitsuTypes) {
+  const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
   if (hand.length === 14) {
@@ -24,6 +25,8 @@ export function isChiitoitsu({hand, discard}: isChiitoitsuTypes) {
       pairsCount++;
     }
   }
+  const end = performance.now();
+  console.log(`isChiitoitsu() took ${end - start} milliseconds.`);
   if (pairsCount === 7) {
     return {result: true, typeOfAction: typeOfAction};
     // In Chiitoitsu, 6 pairs means waiting for the 7th pair

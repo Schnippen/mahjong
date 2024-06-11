@@ -1,5 +1,6 @@
 import {TTileObject, TstolenTiles} from '../../Types/types';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
+import {isTanyao} from './Yaku/isTanyao';
 import {isToiToi} from './Yaku/isToiToi';
 
 //type isWinningTypes closed hand and opened hand
@@ -38,6 +39,7 @@ export function isWinning({
   }
   if (currentMelds.length === 0) {
     let {result, typeOfAction} = isChiitoitsu({hand, discard}); // add is tenpai with chiitoitsu
+
     if (result && typeOfAction === 'RON') {
       //if player1 show buttons
       if (currentPlayer === 'player1') {
@@ -51,7 +53,9 @@ export function isWinning({
   }
   //opened hand win condition
   ///next
+  isTanyao({hand, discard, playerMelds: currentMelds});
   isToiToi({hand, discard, playerMelds: currentMelds});
+  //let {result, typeOfAction} =
   //smoki, wiatr stoły wiatr gracza
   //toi toi
 }

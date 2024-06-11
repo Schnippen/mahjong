@@ -5,17 +5,16 @@ import {
   tileCountsType,
 } from '../../../Types/types';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkToiToiTriplets} from '../UtilsFunctions/checkToiToiTriplets';
+import {checkTanyaoMelds} from '../UtilsFunctions/checkTanyaoMelds';
 
-type isToiToiTypes = {
+type isTanyaoTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
 };
 
-export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
+export function isTanyao({hand, discard, playerMelds}: isTanyaoTypes) {
   const start = performance.now();
-
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
 
@@ -24,37 +23,23 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
     handToCheck = hand;
     typeOfAction = 'TSUMO';
   } else {
-    handToCheck = [...hand, ...discard, ...meldedTiles]; //TODO check it
+    handToCheck = [...hand, ...discard, ...meldedTiles];
     typeOfAction = 'RON';
   }
 
-  //this yaku can be done on opened hand
   const tileCounts = countTilesByName(handToCheck);
 
   for (let tileName in tileCounts) {
     if (tileCounts[tileName] >= 2) {
       const newCounts = {...tileCounts};
       newCounts[tileName] -= 2;
-      if (checkToiToiTriplets(newCounts) === 4) {
-        return true;
+      if (checkTanyaoMelds(newCounts) === 4) {
+        return true; //return {result: true, typeOfAction: typeOfAction};
       }
-    }
-  }
-  //return false;
-
-  let triplesCount = 0;
-  for (let tileName in tileCounts) {
-    if (tileCounts[tileName] >= 3) {
-      //there is possibility of Kan
-      triplesCount++;
     }
   }
 
   const end = performance.now();
-  console.log(`isToiToi() took ${end - start} milliseconds.`);
-  if (triplesCount === 4) {
-    return {result: true, typeOfAction: typeOfAction};
-  } else {
-    return {result: false, typeOfAction: typeOfAction};
-  }
+  console.log(`isTanyao() took ${end - start} milliseconds.`);
+  return {result: false, typeOfAction: typeOfAction};
 }
