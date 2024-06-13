@@ -23,7 +23,10 @@ import {checkOrStealSequence} from '../../Functions/checkOrStealSequence';
 import {handleChii} from '../../Functions/PlayerControlFunctions/handleChii';
 import ChooseSequencePanel from './ChooseSequencePanel/ChooseSequencePanel';
 import {handleRiichi} from '../../Functions/PlayerControlFunctions/handleRiichi';
-
+import { playRonTsumoSound } from '../../Functions/playSounds/playRonTsumoSound';
+import { soundFunc } from '../../Functions/playSounds/soundFunc';
+import { handleTsumo } from '../../Functions/PlayerControlFunctions/handleTsumo';
+import { handleRon } from '../../Functions/PlayerControlFunctions/handleRon';
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
   let dropLastTile = max;
@@ -158,6 +161,8 @@ const PlayerButtonsPanel = () => {
   const [displayTsumoButton, setDisplayTsumoButton] = useState<boolean>(false);
   console.log('playersButtonPanel-latestTurn:', latestTurn);
 
+
+
   useEffect(() => {
     console.log(
       'useEffect: runGame():',
@@ -188,6 +193,16 @@ const PlayerButtonsPanel = () => {
       },
     );
   }, [currentDiscard]);
+
+  //AUDIO //SOUND
+useEffect(()=>{
+  if(displayRonButton||displayTsumoButton){
+    soundFunc({type:'rontsumoSound'})
+  }else if(displayChiiButton||displayPonButton||displayKanButton||displayRiichiButton){
+    soundFunc({type:'meldSound'})
+  }else{null}
+ 
+},[displayChiiButton,displayPonButton,displayKanButton,displayRiichiButton,displayRonButton,displayTsumoButton])
 
   return (
     <View
@@ -266,7 +281,7 @@ const PlayerButtonsPanel = () => {
             }}
           />
         ) : null}
-        {true ? ( //displayRiichiButton
+        {displayRiichiButton ? ( //displayRiichiButton
           <ButtonRIICHI
             handlePress={() => {
               console.log('ButtonRIICHI');
@@ -288,6 +303,7 @@ const PlayerButtonsPanel = () => {
           <ButtonRON
             handlePress={() => {
               console.log('ButtonRON');
+              handleRon({})
             }}
           />
         ) : null}
@@ -295,6 +311,7 @@ const PlayerButtonsPanel = () => {
           <ButtonTSUMO
             handlePress={() => {
               console.log('ButtonTSUMO');
+              handleTsumo({})
             }}
           />
         ) : null}
@@ -311,6 +328,8 @@ const PlayerButtonsPanel = () => {
                   dispatch,
                   displayChiiButton,
                   nextTile,
+                  setDisplayTsumoButton,
+                  setDisplayRonButton,
                 });
             }}
           />
@@ -321,4 +340,4 @@ const PlayerButtonsPanel = () => {
   );
 };
 
-export default PlayerButtonsPanel; //WHEN TURN IS INTERRUPTED  discardTile
+export default PlayerButtonsPanel; 

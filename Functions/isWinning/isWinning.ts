@@ -58,5 +58,5 @@ export function isWinning({
   //let {result, typeOfAction} =
   //smoki, wiatr stoły wiatr gracza
   //toi toi
-  //https://pixabay.com/users/universfield-28281460/ sounds
+
 }

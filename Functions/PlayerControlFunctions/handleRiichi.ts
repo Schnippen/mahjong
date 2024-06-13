@@ -1,6 +1,7 @@
 import {calculatePoints, setRiichi} from '../../Store/playersReducer';
 import {setRiichiIndexRiver} from '../../Store/riverReducer';
 import {TTileObject, TplayerString} from '../../Types/types';
+import { soundFunc } from '../playSounds/soundFunc';
 
 //TODO create correct more universal types
 type TPlayerRiver = {riverState: TTileObject[]};
@@ -56,4 +57,6 @@ export const handleRiichi = ({
   setDisplayPonButton(false);
   setDisplayKanButton(false);
   setDisplayRiichiButton(false);
+  //Audio
+  soundFunc({type:"riichi"})
 };

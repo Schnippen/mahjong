@@ -36,11 +36,6 @@ export const runGame = (
 ) => {
   let mockupData = tilesData.slice(1, 12);
   const start = performance.now();
-  //TODO maybe change
-  let player1RiverState = player1River.riverState;
-  let player2RiverState = player2River.riverState;
-  let player3RiverState = player3River.riverState;
-  let player4RiverState = player4River.riverState;
   //ustalamy czyja jest tura
   let currentPlayersTurn = '';
   let currentHand = [];

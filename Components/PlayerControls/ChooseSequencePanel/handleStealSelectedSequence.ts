@@ -1,3 +1,4 @@
+import { soundFunc } from "../../../Functions/playSounds/soundFunc";
 import { CHANGE_ORDER_AFTER_ACTION, INTERRUPT_TURN } from "../../../Store/gameReducer";
 import { discardTileFromHand, setStolenTilesOnBoard } from "../../../Store/playersReducer";
 import { popFromTheRiver } from "../../../Store/riverReducer";
@@ -46,4 +47,6 @@ export const handleStealSelectedSequence = ({index,selectedSequence,dispatch, pl
       setDisplayKanButton(false);
       setDisplayPonButton(false);
       setChiiPanelDisplayed(false);
+      //AUDIO
+      soundFunc({type:'chii'})
   };

@@ -2,6 +2,7 @@ import { discardTileFromHand, setStolenTilesOnBoard } from "../../Store/playersR
 import { TTileObject } from "../../Types/types";
 import { stealQuadruplet } from "../StealingFunctions/stealQuadruplet";
 import { positionType } from "../StealingFunctions/stealTriplet";
+import { soundFunc } from "../playSounds/soundFunc";
 
 type HandleKanParam={
     handData: TTileObject[],
@@ -72,7 +73,8 @@ const handleStealQuadruplet = ({handData,
     setDisplayPonButton(false);
     setChiiPanelDisplayed(false);
     setDisplayRiichiButton(false)
-    
+      //AUDIO
+  soundFunc({type:'kan'})
     const end = performance.now();
     console.log(`handleKan() took ${end - start} milliseconds.`);
   };

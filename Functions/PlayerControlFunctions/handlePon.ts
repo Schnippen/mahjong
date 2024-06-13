@@ -9,6 +9,7 @@ import {
 import {popFromTheRiver} from '../../Store/riverReducer';
 import {TTileObject, TplayerString, WindTypes} from '../../Types/types';
 import {positionType, stealTriplet} from '../StealingFunctions/stealTriplet';
+import { soundFunc } from '../playSounds/soundFunc';
 
 type HandlePonParam = {
   handData: TTileObject[];
@@ -83,7 +84,8 @@ export const handlePon = ({
   setDisplayPonButton(false);
   setChiiPanelDisplayed(false);
   setDisplayRiichiButton(false);
-
+  //AUDIO
+  soundFunc({type:'pon'})
   //dispatch(SET_LATEST_TURN());
   //set current turn to the player and he must discard
   const end = performance.now();

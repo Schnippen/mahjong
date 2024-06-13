@@ -3,6 +3,8 @@ import { setStolenTilesOnBoard } from "../../Store/playersReducer";
 import { popFromTheRiver } from "../../Store/riverReducer";
 import { TTileObject, TplayerString, WindTypes } from "../../Types/types"
 import { checkOrStealSequence } from "../checkOrStealSequence"
+import { playChiiSound } from "../playSounds/CallSounds/playChiiSound";
+import { soundFunc } from "../playSounds/soundFunc";
 
 type HandleChiiParams = {
   handData: TTileObject[];
@@ -62,6 +64,8 @@ export const handleChii=(
       setDisplayKanButton(false);
       setDisplayPonButton(false);
       setChiiPanelDisplayed(false);
+      //AUDIO
+      soundFunc({type:'chii'})
     }
     if (checkS.result && checkS.possibleSequences.length > 1) {
       console.log(

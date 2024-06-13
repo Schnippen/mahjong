@@ -1,18 +1,25 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {Dimensions} from 'react-native';
-import {Button} from '@rneui/themed';
 import {useAppDispatch} from '../../Store/hooks';
 import {setSortTileOnHand} from '../../Store/settingsReducer';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
+import { soundFunc } from '../../Functions/playSounds/soundFunc';
 const AutoSort = () => {
   const dispatch = useAppDispatch();
   const sortTilesOnHand = useSelector(
     (state: RootState) => state.settingsReducer.sortTilesOnHand,
   );
   const handleSortToggle = () => {
-    dispatch(setSortTileOnHand()); // Dispatch your action here
+    dispatch(setSortTileOnHand()); 
+    if(sortTilesOnHand===true){
+      soundFunc({type:"popUp"})
+    }
+    if(sortTilesOnHand===false){
+      soundFunc({type:"pop"})
+    }
+  
   };
 
   return (
