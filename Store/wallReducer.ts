@@ -148,6 +148,27 @@ export const wallReducer = createSlice({
           break;
       }
     },
+    setUncoverNextDora:(state)=>{
+      //TODO refactor
+      state.uncoveredCount += 1;
+      let doras = state.dorasFromDeadWall
+      let uncoveredNumber = state.uncoveredCount -1 
+      doras[uncoveredNumber].isDora=true
+      let tileToChange= doras[uncoveredNumber].tileID
+      console.log("REDUX doras:",doras.map(i=>i.name),uncoveredNumber,doras[uncoveredNumber].name)
+      console.log("redux wall=",doras.map(i=>i.isDora),uncoveredNumber,doras[uncoveredNumber].tileID)
+      const modifyProperty = (arr:TTileObject[], targetId:number, newProperty:boolean) => {
+        const targetObj = arr.find(obj => obj.tileID === targetId);
+        if (targetObj) {
+          console.log("FOUND:",targetObj.name)
+            targetObj.isDora = newProperty;
+        }};
+      modifyProperty(state.wallEastState,doras[uncoveredNumber].tileID,true)
+      modifyProperty(state.wallNorthState,doras[uncoveredNumber].tileID,true)
+      modifyProperty(state.wallSouthState,doras[uncoveredNumber].tileID,true)
+      modifyProperty(state.wallWestState,doras[uncoveredNumber].tileID,true)
+
+    }
   },
 });
 
@@ -163,6 +184,7 @@ export const {
   setStartTakingFromWallXState,
   popTileFromtilesAfterHandout,
   popTileFromTheWall,
+  setUncoverNextDora,
 } = wallReducer.actions;
 
 export default wallReducer.reducer;

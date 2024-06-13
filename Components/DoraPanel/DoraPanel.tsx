@@ -8,12 +8,15 @@ import {CurrentDoras} from './CurrentDoras';
 const DoraPanel = () => {
   const numberOfPlayers = '4P';
   const gameType = 'Friend Hanchan';
+  
+  const topPanelBackgroundColor = '#3c7fc3';
+  const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
   return (
     <View
       style={{
         width: 170,
         height: 110,
-        backgroundColor: 'lightblue',
+        backgroundColor: panelBackgroundColor,
         alignItems: 'center',
         borderRadius: 8,
         rowGap: 2,
@@ -24,11 +27,13 @@ const DoraPanel = () => {
       }}>
       <View
         style={{
-          //backgroundColor: 'yellow',
+          backgroundColor: topPanelBackgroundColor,
           width: '100%',
           height: 25,
           alignItems: 'center',
           justifyContent: 'center',
+          borderTopRightRadius:8,
+          borderTopLeftRadius:8,
         }}>
         <Text adjustsFontSizeToFit={true}>
           {numberOfPlayers + ' · ' + gameType}
@@ -39,7 +44,7 @@ const DoraPanel = () => {
           width: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'red',
+          backgroundColor: 'transparent',
         }}>
         <CurrentDoras />
       </View>

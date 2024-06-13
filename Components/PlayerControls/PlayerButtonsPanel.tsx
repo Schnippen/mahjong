@@ -27,6 +27,7 @@ import { playRonTsumoSound } from '../../Functions/playSounds/playRonTsumoSound'
 import { soundFunc } from '../../Functions/playSounds/soundFunc';
 import { handleTsumo } from '../../Functions/PlayerControlFunctions/handleTsumo';
 import { handleRon } from '../../Functions/PlayerControlFunctions/handleRon';
+import { setUncoverNextDora } from '../../Store/wallReducer';
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
   let dropLastTile = max;
@@ -334,6 +335,7 @@ useEffect(()=>{
             }}
           />
         ) : null}
+        <Button title={"nextDora"} onPress={()=>{dispatch(setUncoverNextDora())}}/>
         <NextTurn />
       </View>
     </View>

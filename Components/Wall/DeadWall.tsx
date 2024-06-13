@@ -10,12 +10,12 @@ const DeadWall = () => {
   const deadWallState = useSelector(
     (state: RootState) => state.wallReducer.deadWall,
   );
+
   const topTiles = deadWallState.filter((_, index) => index % 2 === 0);
   const bottomTiles = deadWallState.filter((_, index) => index % 2 === 1);
-
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
     const isDora = index === 2 && bottomTiles.includes(item);
-    //console.log('deadwallComponent:', item.state, item.name);
+    console.log('deadwallComponent:', item.state, item.name);
     return (
       <View>
         {isDora ? (

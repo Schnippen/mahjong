@@ -13,8 +13,7 @@ import EmptyComponent from './EmptyComponent';
 import isNearDeadWallFunction from '../../Functions/isNearDeadWallFunction';
 //wallWind determines the wall state data source
 const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
-  const [topWallTiles, setTopWallTiles] = useState<TTileObject[]>([]);
-  const [bottomWallTiles, setBottomWallTiles] = useState<TTileObject[]>([]);
+  
   const globalDiceRollResult = useSelector(
     (state: RootState) => state.wallReducer.currentDiceRoll,
   );
