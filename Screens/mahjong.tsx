@@ -137,7 +137,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           position: 'relative',
         }}>
         {/* <MenuPanel navigation={navigation} /> */}
-        {/* <DoraPanel /> */}
+        {/* <DoraPanel /> */}<DoraPanel />
         <SidePanel />
         <View
           style={{

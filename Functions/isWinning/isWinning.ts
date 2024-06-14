@@ -1,5 +1,11 @@
 import {TTileObject, TstolenTiles} from '../../Types/types';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
+import { isChinitsu } from './Yaku/isChinitsu';
+import { isIipeikou } from './Yaku/isIipeikou';
+import { isIttsuu } from './Yaku/isIttsuu';
+import { isRyanpeikou } from './Yaku/isRyanpeikou';
+import { isSanshokuDoujun } from './Yaku/isSanshokuDoujun';
+import { isSuuankou } from './Yaku/isSuuankou';
 import {isTanyao} from './Yaku/isTanyao';
 import {isToiToi} from './Yaku/isToiToi';
 
@@ -27,6 +33,7 @@ export function isWinning({
   setDisplayRonButton,
   setDisplayTsumoButton,
 }: isWinningTypes) {
+  const start = performance.now();
   let currentMelds: TstolenTiles[] = [];
   if (currentPlayer === 'player1') {
     currentMelds = player1Melds;
@@ -38,6 +45,8 @@ export function isWinning({
     currentMelds = player4Melds;
   }
   if (currentMelds.length === 0) {
+  
+
     let {result, typeOfAction} = isChiitoitsu({hand, discard}); // add is tenpai with chiitoitsu
 
     if (result && typeOfAction === 'RON') {
@@ -53,10 +62,103 @@ export function isWinning({
   }
   //opened hand win condition
   ///next
-  isTanyao({hand, discard, playerMelds: currentMelds});
-  isToiToi({hand, discard, playerMelds: currentMelds});
-  //let {result, typeOfAction} =
-  //smoki, wiatr stoły wiatr gracza
-  //toi toi
+  //TODO add point score in isYaku functions. it will be helpful to create AI in future
 
+  //yakus based on sequences:
+  //Iipeikou pure double sequence  //closed
+  isIipeikou({hand, discard, playerMelds: currentMelds})
+
+  //Ittsuu pure straight
+  isIttsuu({hand, discard, playerMelds: currentMelds})
+
+  //Pinfu //TODO closed
+
+  //Ryanpeikou Two Pure Double Sequences //closed
+  isRyanpeikou({hand, discard, playerMelds: currentMelds})
+
+  //Sanshoku doujun Three Colored Sequences
+  isSanshokuDoujun({hand, discard, playerMelds: currentMelds})
+
+  //other yakus:
+  //Riichi
+  //Daburu Riichi
+  //Ippatsu
+  //Menzen tsumo
+  //Haitei raoyue
+  //Houtei raoyui
+  //Rinshan kaihou
+  //Chankan
+  //Tenhou  yakuman
+  //Chiihou yakuman
+  //renhou
+
+  //yakus based on terminals / honors
+  //Tanyao
+  isTanyao({hand, discard, playerMelds: currentMelds});
+  
+  //yakuhai Dragon, Players Seat Wind or Round Wind Triplet.
+
+  //Shousangen 小三元 • Small Three Dragons
+
+  //Daisangen 大三元 • Big Three Dragons yakuman
+
+  //Shousuushii 小四喜 • Little Four Winds yakuman
+
+  //Daisuushii 大四喜 • Big Four Winds yakuman
+
+  //Chanta 全帯 • Terminals and Honors Everywhere
+
+  //Junchan 純全帯么 • Terminals Everywhere
+
+  //Honroutou 混老頭 • All Terminals and Honors
+
+  //Chinroutou 清老頭 • All Terminals yakuman
+
+  //Tsuuiisou 字 色 • All Honors yakuman
+
+  //Kokushi musou 国士無双 • Thirteen Orphans yakuman
+
+  //yakus based on PAIRS / triplets / quads
+  isChiitoitsu({hand,discard})
+
+  //Toitoi 対々 • All Triplets
+  isToiToi({hand, discard, playerMelds: currentMelds});
+  
+  //San ankou 三暗刻 • Three Concealed Triplets
+
+  //Suuankou 四暗刻 • Four Concealed Triplets yakuman
+  isSuuankou({hand, discard, playerMelds: currentMelds})
+
+  //Sanshoku doukou 三色同刻 • Three Colored Triplets
+
+  //Sankantsu 三槓子 • Three Quads
+
+  //Suukantsu 四槓子 • Four Quads yakuman
+
+  //yakus basED ON SUITS
+
+  //Hon itsu 混 色 • Half Flush
+
+  //Chinistu // only one  suit full flush
+  isChinitsu({hand, discard, playerMelds: currentMelds})
+
+  // /Ryuuiisou 緑 色 • All Green yakuman
+
+  //Chuuren poutou 九連宝燈 • Nine Gates yakuman
+  
+  //yakumab
+  /* Tenhou
+  Chiihou
+  Daisangen
+  Shousuushi
+  Daisuushi
+  Chinrouutou
+  Tsuuiisou
+  Suuankou
+  Suukantsu
+  Ryuuiisou
+  Chuuren Poutou
+  Kokushi Musou */
+  const end = performance.now();
+  console.log(`isWinning() took ${end - start} milliseconds.`);
 }

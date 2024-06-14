@@ -1,4 +1,5 @@
 import { discardTileFromHand, setStolenTilesOnBoard } from "../../Store/playersReducer";
+import { setUncoverNextDora } from "../../Store/wallReducer";
 import { TTileObject } from "../../Types/types";
 import { stealQuadruplet } from "../StealingFunctions/stealQuadruplet";
 import { positionType } from "../StealingFunctions/stealTriplet";
@@ -17,7 +18,7 @@ type HandleKanParam={
   }
 
 
-const handleStealQuadruplet = ({handData,
+export const handleKan = ({handData,
     currentDiscard,
     playerWhoLeftTheTile,
     dispatch,
@@ -68,6 +69,8 @@ const handleStealQuadruplet = ({handData,
         type:"Kan",
       }),
     );
+
+    dispatch(setUncoverNextDora())
     setDisplayChiiButton(false);
     setDisplayKanButton(false);
     setDisplayPonButton(false);

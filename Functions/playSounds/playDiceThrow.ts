@@ -2,7 +2,7 @@ import touch from '../../Assets/Sounds/touch.mp3'
 import Sound from 'react-native-sound';
 
 //var Sound = require('react-native-sound');
-
+//TODO change sound, dices have noise on them
 Sound.setCategory('Playback');
 
 let soundVolume:number = 0.5

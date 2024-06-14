@@ -17,17 +17,15 @@ import {
 import {Text, View} from 'react-native';
 import {runGame} from '../../Functions/runGame';
 import {PassActionFunc} from '../../Functions/PlayerControlFunctions/PassActionFunc';
-import {stealTriplet} from '../../Functions/StealingFunctions/stealTriplet';
 import {handlePon} from '../../Functions/PlayerControlFunctions/handlePon';
-import {checkOrStealSequence} from '../../Functions/checkOrStealSequence';
 import {handleChii} from '../../Functions/PlayerControlFunctions/handleChii';
 import ChooseSequencePanel from './ChooseSequencePanel/ChooseSequencePanel';
 import {handleRiichi} from '../../Functions/PlayerControlFunctions/handleRiichi';
-import { playRonTsumoSound } from '../../Functions/playSounds/playRonTsumoSound';
 import { soundFunc } from '../../Functions/playSounds/soundFunc';
 import { handleTsumo } from '../../Functions/PlayerControlFunctions/handleTsumo';
 import { handleRon } from '../../Functions/PlayerControlFunctions/handleRon';
 import { setUncoverNextDora } from '../../Store/wallReducer';
+import { handleKan } from '../../Functions/PlayerControlFunctions/handleKan';
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
   let dropLastTile = max;
@@ -241,7 +239,17 @@ useEffect(()=>{
         }}>
         <Text>{handData ? handData.length : null}</Text>
         {displayKanButton && !isRichiiActive ? (
-          <ButtonKAN handlePress={() => console.log('ButtonKAN')} />
+          <ButtonKAN handlePress={() => {console.log('ButtonKAN'),handleKan({
+             handData,
+            currentDiscard,
+            playerWhoLeftTheTile,
+            setChiiPanelDisplayed,
+            setDisplayChiiButton,
+            setDisplayKanButton,
+            setDisplayPonButton,
+            setDisplayRiichiButton,
+            dispatch,
+            playerWind: player1.wind,})}} />
         ) : null}
         {displayPonButton && !isRichiiActive ? (
           <ButtonPON
@@ -331,6 +339,7 @@ useEffect(()=>{
                   nextTile,
                   setDisplayTsumoButton,
                   setDisplayRonButton,
+                  displayKanButton,displayPonButton
                 });
             }}
           />
