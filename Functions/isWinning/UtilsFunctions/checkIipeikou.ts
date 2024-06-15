@@ -3,26 +3,31 @@ import { tileCountsType } from '../../../Types/types';
 export function checkIipeikou(tileCounts: tileCountsType): boolean {
   let sequenceCounts: { [key: string]: number } = {};
 
+  let tempTileCounts = { ...tileCounts };
+
   for (let tileName in tileCounts) {
     const [type, value] = tileName.split(/(\d+)/).filter(Boolean);
 
-    //checking for sequences in valid tile types
     if (['bamboo', 'circles', 'characters'].indexOf(type) === -1) continue;
 
-    const nextValue1 = `${type}${parseInt(value) + 1}`;
-    const nextValue2 = `${type}${parseInt(value) + 2}`;
+    const intValue = parseInt(value);
 
-    if (tileCounts[tileName] > 0 && tileCounts[nextValue1] > 0 && tileCounts[nextValue2] > 0) {
-      const sequence = `${tileName}-${nextValue1}-${nextValue2}`;
-      if (sequenceCounts[sequence]) {
-        sequenceCounts[sequence]++;
-      } else {
-        sequenceCounts[sequence] = 1;
-      }
+    while (
+      tempTileCounts[tileName] > 0 &&
+      tempTileCounts[`${type}${intValue + 1}`] > 0 &&
+      tempTileCounts[`${type}${intValue + 2}`] > 0
+    ) {
+      const sequence = `${tileName}-${type}${intValue + 1}-${type}${intValue + 2}`;
+      sequenceCounts[sequence] = (sequenceCounts[sequence] || 0) + 1;
+
+      tempTileCounts[tileName]--;
+      tempTileCounts[`${type}${intValue + 1}`]--;
+      tempTileCounts[`${type}${intValue + 2}`]--;
     }
   }
 
-  // checking if there is any sequence that appears at least twice
+  console.log(sequenceCounts);
+  
   for (let sequence in sequenceCounts) {
     if (sequenceCounts[sequence] >= 2) {
       return true;

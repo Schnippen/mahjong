@@ -45,6 +45,7 @@
 
     if (validAction) {
      /*  dispatch(playerAction(actionType, currentPlayer, actionTiles));
-      dispatch(endTurn()); */
+      dispatch(endTurn()); 
     }
   }; */
+

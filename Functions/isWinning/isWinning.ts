@@ -1,10 +1,13 @@
 import {TTileObject, TstolenTiles} from '../../Types/types';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
 import { isChinitsu } from './Yaku/isChinitsu';
+import { isDaisangen } from './Yaku/isDaisangen';
 import { isIipeikou } from './Yaku/isIipeikou';
 import { isIttsuu } from './Yaku/isIttsuu';
+import { isJunchan } from './Yaku/isJunchan';
 import { isRyanpeikou } from './Yaku/isRyanpeikou';
 import { isSanshokuDoujun } from './Yaku/isSanshokuDoujun';
+import { isShousangen } from './Yaku/isShousangen';
 import { isSuuankou } from './Yaku/isSuuankou';
 import {isTanyao} from './Yaku/isTanyao';
 import {isToiToi} from './Yaku/isToiToi';
@@ -65,18 +68,18 @@ export function isWinning({
   //TODO add point score in isYaku functions. it will be helpful to create AI in future
 
   //yakus based on sequences:
-  //Iipeikou pure double sequence  //closed
+  //Iipeikou pure double sequence  //closed //WORKING
   isIipeikou({hand, discard, playerMelds: currentMelds})
 
-  //Ittsuu pure straight
+  //Ittsuu pure straight //WORKING
   isIttsuu({hand, discard, playerMelds: currentMelds})
 
   //Pinfu //TODO closed
 
-  //Ryanpeikou Two Pure Double Sequences //closed
+  //Ryanpeikou Two Pure Double Sequences //closed  //WORKING
   isRyanpeikou({hand, discard, playerMelds: currentMelds})
 
-  //Sanshoku doujun Three Colored Sequences
+  //Sanshoku doujun Three Colored Sequences //WORKING
   isSanshokuDoujun({hand, discard, playerMelds: currentMelds})
 
   //other yakus:
@@ -93,14 +96,19 @@ export function isWinning({
   //renhou
 
   //yakus based on terminals / honors
-  //Tanyao
+
+  //Tanyao 2-8 //WORKING
   isTanyao({hand, discard, playerMelds: currentMelds});
   
   //yakuhai Dragon, Players Seat Wind or Round Wind Triplet.
 
-  //Shousangen 小三元 • Small Three Dragons
+  //Shousangen 小三元 • Small Three Dragons //WORKING
+  isShousangen({hand, discard, playerMelds: currentMelds})
 
   //Daisangen 大三元 • Big Three Dragons yakuman
+  isDaisangen({hand, discard, playerMelds: currentMelds})
+
+  //REMEMBER //TODO if there is daisangen do not count shousangen
 
   //Shousuushii 小四喜 • Little Four Winds yakuman
 
@@ -108,7 +116,8 @@ export function isWinning({
 
   //Chanta 全帯 • Terminals and Honors Everywhere
 
-  //Junchan 純全帯么 • Terminals Everywhere
+  //Junchan 純全帯么 • Terminals Everywhere //WORKING //but check it with checkMelds 2.0 ver
+  isJunchan({hand, discard, playerMelds: currentMelds})
 
   //Honroutou 混老頭 • All Terminals and Honors
 

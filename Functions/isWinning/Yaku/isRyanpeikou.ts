@@ -34,10 +34,8 @@ import { checkMelds } from '../../isReadyForRiichii/checkMelds';
     }
   
     const tileCounts = countTilesByName(handToCheck);
-  
-    // Check if there's a Ryanpeikou in the hand
+
     if (checkRyanpeikou(tileCounts)) {
-      // Ensure there are 4 melds and a pair
       for (let tileName in tileCounts) {
         if (tileCounts[tileName] >= 2) {
           const newCounts = { ...tileCounts };
@@ -47,7 +45,19 @@ import { checkMelds } from '../../isReadyForRiichii/checkMelds';
           }
         }
       }
-    }
+    }  
+/*     for (let tileName in tileCounts) {
+      if (tileCounts[tileName] >= 2) {
+        console.log(tileCounts)
+        const newCounts = { ...tileCounts };
+        newCounts[tileName] -= 2;
+        //console.log("RYAN",checkRyanpeikou(newCounts))
+        if (checkRyanpeikou(newCounts)) {
+          
+           return { result: true, typeOfAction: typeOfAction };
+        }
+        }
+      }  */
   
     const end = performance.now();
     console.log(`isRyanpeikou() took ${end - start} milliseconds.`);

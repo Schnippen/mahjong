@@ -1220,7 +1220,7 @@ export const tilesData: TTileObject[] = [
     tileID: 109,
   },
   {
-    name: 'white2',
+    name: 'white1',
     value: 'white',
     type: 'white',
     state: '',
@@ -1231,7 +1231,7 @@ export const tilesData: TTileObject[] = [
     tileID: 110,
   },
   {
-    name: 'white3',
+    name: 'white1',
     value: 'white',
     type: 'white',
     state: '',
@@ -1242,7 +1242,7 @@ export const tilesData: TTileObject[] = [
     tileID: 111,
   },
   {
-    name: 'white4',
+    name: 'white1',
     value: 'white',
     type: 'white',
     state: '',
@@ -1264,7 +1264,7 @@ export const tilesData: TTileObject[] = [
     tileID: 113,
   },
   {
-    name: 'green2',
+    name: 'green1',
     value: 'green',
     type: 'green',
     state: '',
@@ -1275,7 +1275,7 @@ export const tilesData: TTileObject[] = [
     tileID: 114,
   },
   {
-    name: 'green3',
+    name: 'green1',
     value: 'green',
     type: 'green',
     state: '',
@@ -1286,7 +1286,7 @@ export const tilesData: TTileObject[] = [
     tileID: 115,
   },
   {
-    name: 'green4',
+    name: 'green1',
     value: 'green',
     type: 'green',
     state: '',
@@ -1308,7 +1308,7 @@ export const tilesData: TTileObject[] = [
     tileID: 117,
   },
   {
-    name: 'red2',
+    name: 'red1',
     value: 'red',
     type: 'red',
     state: '',
@@ -1319,7 +1319,7 @@ export const tilesData: TTileObject[] = [
     tileID: 118,
   },
   {
-    name: 'red3',
+    name: 'red1',
     value: 'red',
     type: 'red',
     state: '',
@@ -1330,7 +1330,7 @@ export const tilesData: TTileObject[] = [
     tileID: 119,
   },
   {
-    name: 'red4',
+    name: 'red1',
     value: 'red',
     type: 'red',
     state: '',
@@ -1352,7 +1352,7 @@ export const tilesData: TTileObject[] = [
     tileID: 121,
   },
   {
-    name: 'east2',
+    name: 'east1',
     value: 'east',
     type: 'east',
     state: '',
@@ -1363,7 +1363,7 @@ export const tilesData: TTileObject[] = [
     tileID: 122,
   },
   {
-    name: 'east3',
+    name: 'east1',
     value: 'east',
     type: 'east',
     state: '',
@@ -1374,7 +1374,7 @@ export const tilesData: TTileObject[] = [
     tileID: 123,
   },
   {
-    name: 'east4',
+    name: 'east1',
     value: 'east',
     type: 'east',
     state: '',
@@ -1396,7 +1396,7 @@ export const tilesData: TTileObject[] = [
     tileID: 125,
   },
   {
-    name: 'south2',
+    name: 'south1',
     value: 'south',
     type: 'south',
     state: '',
@@ -1407,7 +1407,7 @@ export const tilesData: TTileObject[] = [
     tileID: 126,
   },
   {
-    name: 'south3',
+    name: 'south1',
     value: 'south',
     type: 'south',
     state: '',
@@ -1418,7 +1418,7 @@ export const tilesData: TTileObject[] = [
     tileID: 127,
   },
   {
-    name: 'south4',
+    name: 'south1',
     value: 'south',
     type: 'south',
     state: '',
@@ -1440,7 +1440,7 @@ export const tilesData: TTileObject[] = [
     tileID: 129,
   },
   {
-    name: 'west2',
+    name: 'west1',
     value: 'west',
     type: 'west',
     state: '',
@@ -1451,7 +1451,7 @@ export const tilesData: TTileObject[] = [
     tileID: 130,
   },
   {
-    name: 'west3',
+    name: 'west1',
     value: 'west',
     type: 'west',
     state: '',
@@ -1462,7 +1462,7 @@ export const tilesData: TTileObject[] = [
     tileID: 131,
   },
   {
-    name: 'west4',
+    name: 'west1',
     value: 'west',
     type: 'west',
     state: '',
@@ -1484,7 +1484,7 @@ export const tilesData: TTileObject[] = [
     tileID: 133,
   },
   {
-    name: 'north2',
+    name: 'north1',
     value: 'north',
     type: 'north',
     state: '',
@@ -1495,7 +1495,7 @@ export const tilesData: TTileObject[] = [
     tileID: 134,
   },
   {
-    name: 'north3',
+    name: 'north1',
     value: 'north',
     type: 'north',
     state: '',
@@ -1506,7 +1506,7 @@ export const tilesData: TTileObject[] = [
     tileID: 135,
   },
   {
-    name: 'north4',
+    name: 'north1',
     value: 'north',
     type: 'north',
     state: '',

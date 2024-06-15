@@ -26,6 +26,7 @@ import { handleTsumo } from '../../Functions/PlayerControlFunctions/handleTsumo'
 import { handleRon } from '../../Functions/PlayerControlFunctions/handleRon';
 import { setUncoverNextDora } from '../../Store/wallReducer';
 import { handleKan } from '../../Functions/PlayerControlFunctions/handleKan';
+import { testFunction } from '../../Functions/isWinning/Yaku/testFuntion';
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
   let dropLastTile = max;
@@ -344,7 +345,7 @@ useEffect(()=>{
             }}
           />
         ) : null}
-        <Button title={"nextDora"} onPress={()=>{dispatch(setUncoverNextDora())}}/>
+        <Button title={"testFunction()"} onPress={()=>testFunction()}/>
         <NextTurn />
       </View>
     </View>

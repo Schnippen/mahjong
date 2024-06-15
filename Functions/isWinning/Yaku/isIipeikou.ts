@@ -34,9 +34,18 @@ import { checkIipeikou } from '../UtilsFunctions/checkIipeikou';
     }
    
     const tileCounts = countTilesByName(handToCheck);
-  
+    
+/*     for (let tileName in tileCounts) {
+      if (tileCounts[tileName] >= 2) {
+        const newCounts = { ...tileCounts };
+        newCounts[tileName] -= 2;
+        if (checkIipeikou(newCounts)) {
+          return true;
+        }
+      }
+    } */
 // threre might be bug  
-if (checkIipeikou(tileCounts)) {
+ if (checkIipeikou(tileCounts)) {
   for (let tileName in tileCounts) {
     if (tileCounts[tileName] >= 2) {
       const newCounts = { ...tileCounts };
@@ -46,7 +55,7 @@ if (checkIipeikou(tileCounts)) {
       }
     }
   }
-}
+} 
 //must check for 4 triplets and a pair
 /*     if (checkIipekou(tileCounts)) {
       return { result: true, typeOfAction: typeOfAction };
