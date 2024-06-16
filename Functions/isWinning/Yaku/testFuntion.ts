@@ -6,6 +6,7 @@ import { isJunchan } from "./isJunchan";
 import { isRyanpeikou } from "./isRyanpeikou";
 import { isSanshokuDoujun } from "./isSanshokuDoujun";
 import { isShousangen } from "./isShousangen";
+import { isShousuushii } from "./isShousuushii";
 import { isTanyao } from "./isTanyao";
 
 type testFunctionTypes = {
@@ -156,6 +157,6 @@ type testFunctionTypes = {
   },]
 
 export const testFunction=()=>{
- let result = isDaisangen({hand:handExample, discard:discardExample, playerMelds: []})
+ let result = isShousuushii({hand:handExample, discard:discardExample, playerMelds: []})
  console.log("testFunction:",result, handExample.map(t=>t.name),discardExample[0].name)
 }

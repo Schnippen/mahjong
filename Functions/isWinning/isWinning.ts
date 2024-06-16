@@ -110,9 +110,11 @@ export function isWinning({
 
   //REMEMBER //TODO if there is daisangen do not count shousangen
 
-  //Shousuushii 小四喜 • Little Four Winds yakuman
+  //Shousuushii 小四喜 • Little Four Winds yakuman ... //CHECK
 
-  //Daisuushii 大四喜 • Big Four Winds yakuman
+  //Daisuushii 大四喜 • Big Four Winds yakuman //CHECK
+
+  //REMEMBER //TODO if there is Daisuushii do not count Shousuushii
 
   //Chanta 全帯 • Terminals and Honors Everywhere
 

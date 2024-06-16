@@ -1,15 +1,15 @@
 import { TTileObject, TstolenTiles, TypeOfAction } from "../../../Types/types";
 import { checkMelds } from "../../isReadyForRiichii/checkMelds";
 import { countTilesByName } from "../../isReadyForRiichii/countTilesByName";
-import { checkDaisangen } from "../UtilsFunctions/checkDaisangen";
+import { checkDaisuushii } from "../UtilsFunctions/checkDaisuushii";
 
-type isDaisangenTypes = {
+type isDaisuushiiTypes = {
     hand: TTileObject[];
     discard: TTileObject[];
     playerMelds: TstolenTiles[];
   };
   
-  export function isDaisangen({ hand, discard, playerMelds }: isDaisangenTypes) {
+  export function isDaisuushii({ hand, discard, playerMelds }: isDaisuushiiTypes) {
     const start = performance.now();
     let handToCheck: TTileObject[] = [];
     let typeOfAction: TypeOfAction = '';
@@ -25,7 +25,7 @@ type isDaisangenTypes = {
   
     const tileCounts = countTilesByName(handToCheck);
 
-    if (checkDaisangen(tileCounts)) {
+    if (checkDaisuushii(tileCounts)) {
       //return { result: true, typeOfAction: typeOfAction }; //there is problem with melds
       for (let tileName in tileCounts) {
         if (tileCounts[tileName] >= 2) {
@@ -39,6 +39,6 @@ type isDaisangenTypes = {
     }   
 
     const end = performance.now();
-    console.log(`isDaisangen() took ${end - start} milliseconds.`);
+    console.log(`isDaisuushii() took ${end - start} milliseconds.`);
     return { result: false, typeOfAction: typeOfAction };
   }
