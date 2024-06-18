@@ -6,7 +6,7 @@ export function checkChanta(tileCounts: tileCountsType): boolean {
   const honors = ['east', 'south', 'west', 'north', 'red', 'green', 'white'];
   const remainingTileCounts = {...tileCounts};
 
-  console.log('insideChanta:', tileCounts);
+  //console.log('insideChanta:', tileCounts);
 
   const isTerminalOrHonor = (type: string, value: string) => {
     return honors.includes(type) || value === '1' || value === '9';

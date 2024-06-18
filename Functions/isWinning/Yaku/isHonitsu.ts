@@ -44,6 +44,6 @@ export function isHonitsu({hand, discard, playerMelds}: isHonitsuTypes) {
   }
 
   const end = performance.now();
-  console.log(`isHonitsu() took ${end - start} milliseconds.`);
+  //console.log(`isHonitsu() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

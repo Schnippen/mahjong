@@ -17,7 +17,7 @@ export function checkHonroutou(tileCounts: tileCountsType): boolean {
   let pairFound = false;
   let remainingTileCounts = {...tileCounts};
 
-  console.log('insideHonroutou:', tileCounts);
+  //console.log('insideHonroutou:', tileCounts);
 
   const isTerminalOrHonor = (type: string, value: string) => {
     return (

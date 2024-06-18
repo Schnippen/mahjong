@@ -37,6 +37,6 @@ export function isRyuuiisou({hand, discard, playerMelds}: isRyuuiisouTypes) {
   }
 
   const end = performance.now();
-  console.log(`isRyuuiisou() took ${end - start} milliseconds.`);
+  //console.log(`isRyuuiisou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

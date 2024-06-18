@@ -39,6 +39,6 @@ export function isKokushiMusou({
   }
 
   const end = performance.now();
-  console.log(`isKokushiMusou() took ${end - start} milliseconds.`);
+  //console.log(`isKokushiMusou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

@@ -47,6 +47,6 @@ export function isChuurenPoutou({
   }
 
   const end = performance.now();
-  console.log(`isChuurenPoutou() took ${end - start} milliseconds.`);
+  //console.log(`isChuurenPoutou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

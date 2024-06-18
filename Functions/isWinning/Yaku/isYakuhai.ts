@@ -1,19 +1,15 @@
 import {TTileObject, TstolenTiles, TypeOfAction} from '../../../Types/types';
 import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkSanshokudoukou} from '../UtilsFunctions/checkSanshokudoukou';
+import {checkYakuhai} from '../UtilsFunctions/checkYakuhai';
 
-type isSanshokudoukouTypes = {
+type isYakuhaiTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
 };
 
-export function isSanshokuDoukou({
-  hand,
-  discard,
-  playerMelds,
-}: isSanshokudoukouTypes) {
+export function isYakuhai({hand, discard, playerMelds}: isYakuhaiTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
@@ -28,7 +24,7 @@ export function isSanshokuDoukou({
   }
 
   const tileCounts = countTilesByName(handToCheck);
-  if (checkSanshokudoukou(tileCounts)) {
+  if (checkYakuhai(tileCounts)) {
     for (let tileName in tileCounts) {
       if (tileCounts[tileName] >= 2) {
         const newCounts = {...tileCounts};
@@ -41,6 +37,6 @@ export function isSanshokuDoukou({
   }
 
   const end = performance.now();
-  //console.log(`isSanshokudoukou() took ${end - start} milliseconds.`);
+  console.log(`isYakuhai() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

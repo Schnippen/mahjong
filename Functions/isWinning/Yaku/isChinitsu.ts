@@ -41,6 +41,6 @@ export function isChinitsu({hand, discard, playerMelds}: isChinitsuTypes) {
   }
 
   const end = performance.now();
-  console.log(`isChinitsu() took ${end - start} milliseconds.`);
+  //console.log(`isChinitsu() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

@@ -63,7 +63,7 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
   } */
 
   const end = performance.now();
-  console.log(`isToiToi() took ${end - start} milliseconds.`);
+  //console.log(`isToiToi() took ${end - start} milliseconds.`);
   /*   if (triplesCount === 4) {
     return {result: true, typeOfAction: typeOfAction};
   } else { */

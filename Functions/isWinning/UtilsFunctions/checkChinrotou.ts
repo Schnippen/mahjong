@@ -7,7 +7,7 @@ export function checkChinroutou(tileCounts: tileCountsType): boolean {
   let pairFound = false;
   let remainingTileCounts = {...tileCounts};
 
-  console.log('insideChinroutou:', tileCounts);
+  //console.log('insideChinroutou:', tileCounts);
   const isTerminal = (type: string, value: string) => {
     return terminals.includes(value) && validTypes.includes(type);
   };

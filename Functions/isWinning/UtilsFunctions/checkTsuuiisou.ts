@@ -14,7 +14,7 @@ export function checkTsuuiisou(tileCounts: tileCountsType): boolean {
   let pairFound = false;
   let remainingTileCounts = {...tileCounts};
 
-  console.log('insideTsuuiisou:', tileCounts);
+  //console.log('insideTsuuiisou:', tileCounts);
 
   for (let tileName in remainingTileCounts) {
     const [type] = tileName.split(/(\d+)/).filter(Boolean);
