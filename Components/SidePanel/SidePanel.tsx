@@ -5,21 +5,20 @@ import {useAppDispatch} from '../../Store/hooks';
 import {setSortTileOnHand} from '../../Store/settingsReducer';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
-import { soundFunc } from '../../Functions/playSounds/soundFunc';
+import {soundFunc} from '../../Functions/playSounds/soundFunc';
 const AutoSort = () => {
   const dispatch = useAppDispatch();
   const sortTilesOnHand = useSelector(
     (state: RootState) => state.settingsReducer.sortTilesOnHand,
   );
   const handleSortToggle = () => {
-    dispatch(setSortTileOnHand()); 
-    if(sortTilesOnHand===true){
-      soundFunc({type:"popUp"})
+    dispatch(setSortTileOnHand());
+    if (sortTilesOnHand === true) {
+      soundFunc({type: 'popUp'});
     }
-    if(sortTilesOnHand===false){
-      soundFunc({type:"pop"})
+    if (sortTilesOnHand === false) {
+      soundFunc({type: 'pop'});
     }
-  
   };
 
   return (
@@ -31,6 +30,7 @@ const AutoSort = () => {
         alignItems: 'center',
         width: '100%',
         flex: 1 / 5,
+        borderTopRightRadius: 8,
       }}
       onPress={() => handleSortToggle()}>
       <Text
@@ -46,17 +46,22 @@ const AutoSort = () => {
   );
 };
 const SidePanel = () => {
+  const topPanelBackgroundColor = '#3c7fc3';
+  const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
+
   const screenHeight = Dimensions.get('window').height;
   return (
     <View
       style={{
         height: 200,
         width: 50,
-        backgroundColor: 'red',
+        backgroundColor: panelBackgroundColor,
         left: 0,
         position: 'absolute',
         flexDirection: 'column',
         alignItems: 'center',
+        borderTopRightRadius: 8,
+        borderBottomRightRadius: 8,
       }}>
       <AutoSort />
     </View>

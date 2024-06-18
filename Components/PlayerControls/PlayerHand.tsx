@@ -9,7 +9,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
 import TileOnHand from './TileOnHand';
 import {discardTile} from '../../Functions/discardTileFunction';
-import {popTileFromtilesAfterHandout} from '../../Store/wallReducer';
 import EmptyComponent from '../Wall/EmptyComponent';
 
 const PlayerHandComponent = () => {
@@ -36,9 +35,9 @@ const PlayerHandComponent = () => {
     (state: RootState) => state.playersReducer.player1.wind,
   );
 
-  const howManyTurnsElapsed = useSelector(
+  /*   const howManyTurnsElapsed = useSelector(
     (state: RootState) => state.gameReducer.howManyTurnsElapsed,
-  );
+  ); */
   const nextTileState = useSelector(
     (state: RootState) => state.wallReducer.tilesAfterHandout,
   );

@@ -8,7 +8,7 @@ import {CurrentDoras} from './CurrentDoras';
 const DoraPanel = () => {
   const numberOfPlayers = '4P';
   const gameType = 'Friend Hanchan';
-  
+
   const topPanelBackgroundColor = '#3c7fc3';
   const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
   return (
@@ -32,8 +32,8 @@ const DoraPanel = () => {
           height: 25,
           alignItems: 'center',
           justifyContent: 'center',
-          borderTopRightRadius:8,
-          borderTopLeftRadius:8,
+          borderTopRightRadius: 8,
+          borderTopLeftRadius: 8,
         }}>
         <Text adjustsFontSizeToFit={true}>
           {numberOfPlayers + ' · ' + gameType}

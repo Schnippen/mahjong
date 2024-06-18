@@ -365,7 +365,12 @@ const PlayerButtonsPanel = () => {
             }}
           />
         ) : null}
-        <Button title={'testFunction()'} onPress={() => testFunction()} />
+        <Button
+          title={'testFunction()'}
+          onPress={() => {
+            testFunction(), dispatch(setUncoverNextDora());
+          }}
+        />
         <NextTurn />
       </View>
     </View>

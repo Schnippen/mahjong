@@ -137,7 +137,8 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           position: 'relative',
         }}>
         {/* <MenuPanel navigation={navigation} /> */}
-        {/* <DoraPanel /> */}<DoraPanel />
+        {/* <DoraPanel /> */}
+        <DoraPanel />
         <SidePanel />
         <View
           style={{
@@ -292,3 +293,6 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
 } //TODO change the left and right tiles in compass with correct width and height
 export default MahjongScreen;
 //https://github.com/software-mansion/react-native-reanimated/issues/2750
+
+//Normally, the game ends after the dealer loses in South 4 (for hanchans) or East 4 (tonpussen).
+//https://riichi.wiki/End_game_scenarios

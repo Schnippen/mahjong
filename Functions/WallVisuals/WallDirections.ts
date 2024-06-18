@@ -23,3 +23,25 @@ export const wallDirectionTOP = (
     (globalDiceRollResult === 3 && wallWind === 'east')
   );
 };
+
+export const wallLeftAbsoluteLeft = (
+  globalDiceRollResult: number,
+  wallWind: string,
+) => {
+  return (
+    (globalDiceRollResult === 6 && wallWind === 'south') ||
+    (globalDiceRollResult === 9 && wallWind === 'east') ||
+    (globalDiceRollResult === 8 && wallWind === 'north') ||
+    (globalDiceRollResult === 11 && wallWind === 'west') ||
+    (globalDiceRollResult === 3 && wallWind === 'west') ||
+    (globalDiceRollResult === 5 && wallWind === 'east') ||
+    (globalDiceRollResult === 4 && wallWind === 'north') ||
+    (globalDiceRollResult === 12 && wallWind === 'north') ||
+    (globalDiceRollResult === 10 && wallWind === 'south') ||
+    (globalDiceRollResult === 7 && wallWind === 'west') ||
+    (globalDiceRollResult === 2 && wallWind === 'south')
+  );
+};
+/* globalDiceRollResult === 6 && wallWind === 'east'
+    ? 0
+    :  */

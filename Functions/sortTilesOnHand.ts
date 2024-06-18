@@ -1,6 +1,7 @@
 import {TTileObject} from '../Types/types';
 
 export const customSort = (a: TTileObject, b: TTileObject) => {
+  const start = performance.now();
   // First sort by type
   if (a.type < b.type) return -1;
   if (a.type > b.type) return 1;
@@ -13,5 +14,7 @@ export const customSort = (a: TTileObject, b: TTileObject) => {
   if (a.tileID < b.tileID) return -1;
   if (a.tileID > b.tileID) return 1;
 
+  const end = performance.now();
+  console.log(`customSort() took ${(end - start) / 1000} seconds.`);
   return 0; // If types, values, and tileIDs are equal
 };
