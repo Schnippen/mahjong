@@ -21,12 +21,12 @@ import {handlePon} from '../../Functions/PlayerControlFunctions/handlePon';
 import {handleChii} from '../../Functions/PlayerControlFunctions/handleChii';
 import ChooseSequencePanel from './ChooseSequencePanel/ChooseSequencePanel';
 import {handleRiichi} from '../../Functions/PlayerControlFunctions/handleRiichi';
-import { soundFunc } from '../../Functions/playSounds/soundFunc';
-import { handleTsumo } from '../../Functions/PlayerControlFunctions/handleTsumo';
-import { handleRon } from '../../Functions/PlayerControlFunctions/handleRon';
-import { setUncoverNextDora } from '../../Store/wallReducer';
-import { handleKan } from '../../Functions/PlayerControlFunctions/handleKan';
-import { testFunction } from '../../Functions/isWinning/Yaku/testFuntion';
+import {soundFunc} from '../../Functions/playSounds/soundFunc';
+import {handleTsumo} from '../../Functions/PlayerControlFunctions/handleTsumo';
+import {handleRon} from '../../Functions/PlayerControlFunctions/handleRon';
+import {setUncoverNextDora} from '../../Store/wallReducer';
+import {handleKan} from '../../Functions/PlayerControlFunctions/handleKan';
+import {testFunction} from '../../Functions/isWinning/Yaku/testFuntion';
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
   let dropLastTile = max;
@@ -161,8 +161,6 @@ const PlayerButtonsPanel = () => {
   const [displayTsumoButton, setDisplayTsumoButton] = useState<boolean>(false);
   console.log('playersButtonPanel-latestTurn:', latestTurn);
 
-
-
   useEffect(() => {
     console.log(
       'useEffect: runGame():',
@@ -191,18 +189,33 @@ const PlayerButtonsPanel = () => {
         player3River,
         player4River,
       },
+      setDisplayRonButton,
+      setDisplayTsumoButton,
     );
   }, [currentDiscard]);
 
   //AUDIO //SOUND
-useEffect(()=>{
-  if(displayRonButton||displayTsumoButton){
-    soundFunc({type:'rontsumoSound'})
-  }else if(displayChiiButton||displayPonButton||displayKanButton||displayRiichiButton){
-    soundFunc({type:'meldSound'})
-  }else{null}
- 
-},[displayChiiButton,displayPonButton,displayKanButton,displayRiichiButton,displayRonButton,displayTsumoButton])
+  useEffect(() => {
+    if (displayRonButton || displayTsumoButton) {
+      soundFunc({type: 'rontsumoSound'});
+    } else if (
+      displayChiiButton ||
+      displayPonButton ||
+      displayKanButton ||
+      displayRiichiButton
+    ) {
+      soundFunc({type: 'meldSound'});
+    } else {
+      null;
+    }
+  }, [
+    displayChiiButton,
+    displayPonButton,
+    displayKanButton,
+    displayRiichiButton,
+    displayRonButton,
+    displayTsumoButton,
+  ]);
 
   return (
     <View
@@ -240,17 +253,23 @@ useEffect(()=>{
         }}>
         <Text>{handData ? handData.length : null}</Text>
         {displayKanButton && !isRichiiActive ? (
-          <ButtonKAN handlePress={() => {console.log('ButtonKAN'),handleKan({
-             handData,
-            currentDiscard,
-            playerWhoLeftTheTile,
-            setChiiPanelDisplayed,
-            setDisplayChiiButton,
-            setDisplayKanButton,
-            setDisplayPonButton,
-            setDisplayRiichiButton,
-            dispatch,
-            playerWind: player1.wind,})}} />
+          <ButtonKAN
+            handlePress={() => {
+              console.log('ButtonKAN'),
+                handleKan({
+                  handData,
+                  currentDiscard,
+                  playerWhoLeftTheTile,
+                  setChiiPanelDisplayed,
+                  setDisplayChiiButton,
+                  setDisplayKanButton,
+                  setDisplayPonButton,
+                  setDisplayRiichiButton,
+                  dispatch,
+                  playerWind: player1.wind,
+                });
+            }}
+          />
         ) : null}
         {displayPonButton && !isRichiiActive ? (
           <ButtonPON
@@ -313,7 +332,7 @@ useEffect(()=>{
           <ButtonRON
             handlePress={() => {
               console.log('ButtonRON');
-              handleRon({})
+              handleRon({});
             }}
           />
         ) : null}
@@ -321,7 +340,7 @@ useEffect(()=>{
           <ButtonTSUMO
             handlePress={() => {
               console.log('ButtonTSUMO');
-              handleTsumo({})
+              handleTsumo({});
             }}
           />
         ) : null}
@@ -340,16 +359,17 @@ useEffect(()=>{
                   nextTile,
                   setDisplayTsumoButton,
                   setDisplayRonButton,
-                  displayKanButton,displayPonButton
+                  displayKanButton,
+                  displayPonButton,
                 });
             }}
           />
         ) : null}
-        <Button title={"testFunction()"} onPress={()=>testFunction()}/>
+        <Button title={'testFunction()'} onPress={() => testFunction()} />
         <NextTurn />
       </View>
     </View>
   );
 };
 
-export default PlayerButtonsPanel; 
+export default PlayerButtonsPanel;

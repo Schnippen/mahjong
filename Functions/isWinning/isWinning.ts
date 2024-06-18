@@ -62,20 +62,7 @@ export function isWinning({
   } else if (currentPlayer === 'player4') {
     currentMelds = player4Melds;
   }
-  if (currentMelds.length === 0) {
-    let {result, typeOfAction} = isChiitoitsu({hand, discard}); // add is tenpai with chiitoitsu
 
-    if (result && typeOfAction === 'RON') {
-      //if player1 show buttons
-      if (currentPlayer === 'player1') {
-        setDisplayRonButton(true);
-      }
-    } else if (result && typeOfAction === 'TSUMO') {
-      if (currentPlayer === 'player1') {
-        setDisplayTsumoButton(true);
-      }
-    }
-  }
   //opened hand win condition
   ///next
 
@@ -154,6 +141,7 @@ export function isWinning({
 
   //yakus based on PAIRS / triplets / quads
   isChiitoitsu({hand, discard});
+  // add is tenpai with chiitoitsu???
 
   //Toitoi 対々 • All Triplets //CHECK
   isToiToi({hand, discard, playerMelds: currentMelds});
@@ -194,6 +182,79 @@ export function isWinning({
   //Kokushi musou 国士無双 • Thirteen Orphans yakuman //WORKING
   isKokushiMusou({hand, discard, playerMelds: currentMelds});
 
+  /*      if (result && typeOfAction === 'RON') {
+        //if player1 show buttons
+        if (currentPlayer === 'player1') {
+          setDisplayRonButton(true);
+        }
+      } else if (result && typeOfAction === 'TSUMO') {
+        if (currentPlayer === 'player1') {
+          setDisplayTsumoButton(true);
+        }
+      } else {
+        return null;
+      } */
+
+  const yakuChecks = [
+    isIipeikou,
+    isIttsuu,
+    isRyanpeikou,
+    isSanshokuDoujun,
+    isTanyao,
+    isYakuhai,
+    isShousangen,
+    isDaisangen,
+    isShousuushii,
+    isDaisuushii,
+    isChanta,
+    isJunchan,
+    isHonrotou,
+    isChinroutou,
+    isTsuuiisou,
+    isChiitoitsu,
+    isToiToi,
+    isSanshokuDoukou,
+    isHonitsu,
+    isChinitsu,
+    isRyuuiisou,
+    isChuurenPoutou,
+    isKokushiMusou,
+  ];
+
+  let ron = false;
+  let tsumo = false;
+  //TODO make it more elegant, finish yakus
+  type YakuResult = {
+    result: boolean;
+    typeOfAction: 'TSUMO' | 'RON' | '';
+  };
+  for (const check of yakuChecks) {
+    const result: YakuResult | boolean = check({
+      hand,
+      discard,
+      playerMelds: currentMelds,
+    });
+    if (typeof result === 'object' && result.result) {
+      if (result.typeOfAction === 'RON') {
+        ron = true;
+      } else if (result.typeOfAction === 'TSUMO') {
+        tsumo = true;
+      }
+    }
+  }
+
+  if (ron && currentPlayer === 'player1') {
+    setDisplayRonButton(true);
+  }
+
+  if (tsumo && currentPlayer === 'player1') {
+    setDisplayTsumoButton(true);
+  }
+
   const end = performance.now();
-  console.log(`isWinning() took ${end - start} milliseconds.`);
+  console.log(
+    `isWinning() took ${end - start} milliseconds. - ${
+      (end - start) / 1000
+    } seconds`,
+  );
 }

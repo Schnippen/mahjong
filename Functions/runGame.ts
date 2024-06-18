@@ -1,5 +1,5 @@
 import {PlayersState, drawTileFromWallToHand} from '../Store/playersReducer';
-import {TTileObject, TstolenTiles} from '../Types/types';
+import {TTileObject} from '../Types/types';
 import {checkForQuadruplet} from './checkForQuadruplet';
 
 import {checkForTriplet} from './checkForTriplet';
@@ -11,8 +11,7 @@ import {
   popTileFromtilesAfterHandout,
 } from '../Store/wallReducer';
 import {checkOrStealSequence} from './checkOrStealSequence';
-import {RiverState, setCurrentDiscard} from '../Store/riverReducer';
-import {getAllPossibleTiles} from './isReadyForRiichii/getAllPossibleTilesNow';
+import {RiverState} from '../Store/riverReducer';
 import {canRiichi} from './isReadyForRiichii/canRichii';
 import {isWinning} from './isWinning/isWinning';
 
@@ -33,6 +32,8 @@ export const runGame = (
   nextTile: TTileObject,
   tilesAfterHandoutLength: number,
   {player1River, player2River, player3River, player4River}: TRiver,
+  setDisplayRonButton: React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayTsumoButton: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   let mockupData = tilesData.slice(1, 12);
   const start = performance.now();
@@ -296,14 +297,17 @@ export const runGame = (
       console.log('runGame(): isWinning - yaku ,');
       let shit = currentDiscard;
       //check for buttons to be displayed
-      /*       isWinning({
+      isWinning({
         hand: currentHand,
         player1Melds: player1.playerHand.melds,
         player2Melds: player2.playerHand.melds,
         player3Melds: player3.playerHand.melds,
         player4Melds: player4.playerHand.melds,
-        discard:currentDiscard,
-        currentPlayer:currentPlayersTurn}) */
+        discard: currentDiscard,
+        currentPlayer: currentPlayersTurn,
+        setDisplayRonButton,
+        setDisplayTsumoButton,
+      });
 
       //make it manage all players
       //canWin()?
@@ -340,5 +344,9 @@ export const runGame = (
     dispatch(drawTileFromWallToHand({player: nextPlayerX, nextTile: nextTile}));
   }
   const end = performance.now();
-  console.log(`runGame() took ${end - start} milliseconds.`);
+  console.log(
+    `runGame() took ${end - start} milliseconds. ${
+      (end - start) / 1000
+    } seconds`,
+  );
 };
