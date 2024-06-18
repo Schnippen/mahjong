@@ -3,7 +3,7 @@ import {tileCountsType} from '../../../Types/types';
 export function checkJunchanMelds(tileCounts: tileCountsType): boolean {
   let meldsFound = 0;
   let validTypes = ['bamboo', 'circles', 'characters'];
-  console.log('insideJunchan:', tileCounts);
+  //console.log('insideJunchan:', tileCounts);
   for (let tileName in tileCounts) {
     const [type, value] = tileName.split(/(\d+)/).filter(Boolean);
 

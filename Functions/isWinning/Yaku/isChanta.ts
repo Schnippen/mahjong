@@ -54,6 +54,6 @@ export function isChanta({hand, discard, playerMelds}: isChantaTypes) {
   } */
 
   const end = performance.now();
-  console.log(`isChanta() took ${end - start} milliseconds.`);
+  //console.log(`isChanta() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

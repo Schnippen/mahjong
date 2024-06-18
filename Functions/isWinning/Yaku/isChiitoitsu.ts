@@ -26,7 +26,7 @@ export function isChiitoitsu({hand, discard}: isChiitoitsuTypes) {
     }
   }
   const end = performance.now();
-  console.log(`isChiitoitsu() took ${end - start} milliseconds.`);
+  //console.log(`isChiitoitsu() took ${end - start} milliseconds.`);
   if (pairsCount === 7) {
     return {result: true, typeOfAction: typeOfAction};
     // In Chiitoitsu, 6 pairs means waiting for the 7th pair

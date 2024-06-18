@@ -1,10 +1,10 @@
-import { tileCountsType } from "../../../Types/types";
+import {tileCountsType} from '../../../Types/types';
 
 export function checkRyanpeikou(tileCounts: tileCountsType): boolean {
-  let sequenceCounts: { [key: string]: number } = {};
+  let sequenceCounts: {[key: string]: number} = {};
 
   // Create a copy of the tile counts to manipulate
-  let tempTileCounts = { ...tileCounts };
+  let tempTileCounts = {...tileCounts};
 
   for (let tileName in tileCounts) {
     const [type, value] = tileName.split(/(\d+)/).filter(Boolean);
@@ -20,7 +20,9 @@ export function checkRyanpeikou(tileCounts: tileCountsType): boolean {
       tempTileCounts[`${type}${intValue + 1}`] > 0 &&
       tempTileCounts[`${type}${intValue + 2}`] > 0
     ) {
-      const sequence = `${tileName}-${type}${intValue + 1}-${type}${intValue + 2}`;
+      const sequence = `${tileName}-${type}${intValue + 1}-${type}${
+        intValue + 2
+      }`;
       sequenceCounts[sequence] = (sequenceCounts[sequence] || 0) + 1;
 
       // Deduct the counts for the found sequence
@@ -30,7 +32,7 @@ export function checkRyanpeikou(tileCounts: tileCountsType): boolean {
     }
   }
 
-  console.log("RYANPEIKOU COUNTS:", sequenceCounts);
+  //console.log("RYANPEIKOU COUNTS:", sequenceCounts);
 
   // Check if there are at least two sequences that appear at least twice
   let pairsOfSequences = 0;

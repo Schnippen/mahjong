@@ -39,6 +39,6 @@ export function isHonrotou({hand, discard, playerMelds}: isHonrotouTypes) {
   }
 
   const end = performance.now();
-  console.log(`isHonrotou() took ${end - start} milliseconds.`);
+  //console.log(`isHonrotou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

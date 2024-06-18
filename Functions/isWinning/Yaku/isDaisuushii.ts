@@ -39,6 +39,6 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
   }
 
   const end = performance.now();
-  console.log(`isDaisuushii() took ${end - start} milliseconds.`);
+  //console.log(`isDaisuushii() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

@@ -1,5 +1,4 @@
-import { tileCountsType } from "../../../Types/types";
-
+import {tileCountsType} from '../../../Types/types';
 
 export function checkShousangen(tileCounts: tileCountsType): boolean {
   const dragonTiles = ['red', 'white', 'green'];
@@ -14,9 +13,9 @@ export function checkShousangen(tileCounts: tileCountsType): boolean {
   for (let tileName in tileCounts) {
     const [type] = tileName.split(/(\d+)/).filter(Boolean);
     if (dragonTiles.includes(type)) {
-      if (type === "white") white += tileCounts[tileName];
-      if (type === "red") red += tileCounts[tileName];
-      if (type === "green") green += tileCounts[tileName];
+      if (type === 'white') white += tileCounts[tileName];
+      if (type === 'red') red += tileCounts[tileName];
+      if (type === 'green') green += tileCounts[tileName];
     }
   }
 
@@ -36,7 +35,7 @@ export function checkShousangen(tileCounts: tileCountsType): boolean {
     pairCount++;
   }
 
-  console.log("tileCounts:", tileCounts, "tripletsOrQuadsCount:", tripletsOrQuadsCount, "pairCount:", pairCount, "green:", green, "red:", red, "white:", white);
-  
+  /*   console.log("tileCounts:", tileCounts, "tripletsOrQuadsCount:", tripletsOrQuadsCount, "pairCount:", pairCount, "green:", green, "red:", red, "white:", white); */
+
   return tripletsOrQuadsCount === 2 && pairCount === 1;
 }

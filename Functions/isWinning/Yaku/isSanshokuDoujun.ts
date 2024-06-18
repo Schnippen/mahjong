@@ -48,6 +48,6 @@ export function isSanshokuDoujun({
   }
 
   const end = performance.now();
-  console.log(`isSanshokuDoujun() took ${end - start} milliseconds.`);
+  //console.log(`isSanshokuDoujun() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

@@ -37,6 +37,6 @@ export function isYakuhai({hand, discard, playerMelds}: isYakuhaiTypes) {
   }
 
   const end = performance.now();
-  console.log(`isYakuhai() took ${end - start} milliseconds.`);
+  //console.log(`isYakuhai() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

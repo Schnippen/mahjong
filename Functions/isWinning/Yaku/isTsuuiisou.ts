@@ -40,6 +40,6 @@ export function isTsuuiisou({hand, discard, playerMelds}: isTsuuiisouTypes) {
   }
 
   const end = performance.now();
-  console.log(`isTsuuiisou() took ${end - start} milliseconds.`);
+  //console.log(`isTsuuiisou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

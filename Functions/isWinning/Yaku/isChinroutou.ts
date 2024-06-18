@@ -40,6 +40,6 @@ export function isChinroutou({hand, discard, playerMelds}: isChinroutouTypes) {
   }
 
   const end = performance.now();
-  console.log(`isChinroutou() took ${end - start} milliseconds.`);
+  //console.log(`isChinroutou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

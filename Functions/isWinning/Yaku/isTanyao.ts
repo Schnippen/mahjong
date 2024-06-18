@@ -40,6 +40,6 @@ export function isTanyao({hand, discard, playerMelds}: isTanyaoTypes) {
   }
 
   const end = performance.now();
-  console.log(`isTanyao() took ${end - start} milliseconds.`);
+  //console.log(`isTanyao() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }
