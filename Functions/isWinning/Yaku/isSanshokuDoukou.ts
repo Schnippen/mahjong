@@ -1,15 +1,19 @@
 import {TTileObject, TstolenTiles, TypeOfAction} from '../../../Types/types';
 import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkDaisuushii} from '../UtilsFunctions/checkDaisuushii';
+import {checkSanshokudoukou} from '../UtilsFunctions/checkSanshokudoukou';
 
-type isDaisuushiiTypes = {
+type isSanshokudoukouTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
 };
 
-export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
+export function isSanshokuDoukou({
+  hand,
+  discard,
+  playerMelds,
+}: isSanshokudoukouTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
@@ -24,9 +28,7 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
   }
 
   const tileCounts = countTilesByName(handToCheck);
-
-  if (checkDaisuushii(tileCounts)) {
-    //return { result: true, typeOfAction: typeOfAction }; //there is problem with melds
+  if (checkSanshokudoukou(tileCounts)) {
     for (let tileName in tileCounts) {
       if (tileCounts[tileName] >= 2) {
         const newCounts = {...tileCounts};
@@ -39,6 +41,6 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
   }
 
   const end = performance.now();
-  console.log(`isDaisuushii() took ${end - start} milliseconds.`);
+  console.log(`isSanshokudoukou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

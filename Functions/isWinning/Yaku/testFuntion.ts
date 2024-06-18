@@ -1,22 +1,34 @@
-import { TTileObject, TstolenTiles } from "../../../Types/types";
-import { isDaisangen } from "./isDaisangen";
-import { isIipeikou } from "./isIipeikou";
-import { isIttsuu } from "./isIttsuu";
-import { isJunchan } from "./isJunchan";
-import { isRyanpeikou } from "./isRyanpeikou";
-import { isSanshokuDoujun } from "./isSanshokuDoujun";
-import { isShousangen } from "./isShousangen";
-import { isShousuushii } from "./isShousuushii";
-import { isTanyao } from "./isTanyao";
+import {TTileObject, TstolenTiles} from '../../../Types/types';
+import {isChanta} from './isChanta';
+import {isChinitsu} from './isChinitsu';
+import {isChinroutou} from './isChinroutou';
+import {isChuurenPoutou} from './isChuurenPoutou';
+import {isDaisangen} from './isDaisangen';
+import {isHonitsu} from './isHonitsu';
+import {isHonrotou} from './isHonrotou';
+import {isIipeikou} from './isIipeikou';
+import {isIttsuu} from './isIttsuu';
+import {isJunchan} from './isJunchan';
+import {isKokushiMusou} from './isKokushiMusou';
+import {isRyanpeikou} from './isRyanpeikou';
+import {isRyuuiisou} from './isRyuuiisou';
+import {isSanankou} from './isSanankou';
+import {isSanshokuDoujun} from './isSanshokuDoujun';
+import {isSanshokuDoukou} from './isSanshokuDoukou';
+import {isShousangen} from './isShousangen';
+import {isShousuushii} from './isShousuushii';
+import {isTanyao} from './isTanyao';
+import {isTsuuiisou} from './isTsuuiisou';
 
 type testFunctionTypes = {
-    hand: TTileObject[];
-    discard: TTileObject[];
-    playerMelds?: TstolenTiles[];
-  };
+  hand: TTileObject[];
+  discard: TTileObject[];
+  playerMelds?: TstolenTiles[];
+};
 
- export let handExample:TTileObject[] = [{
-    name: 'red1',
+export let handExample: TTileObject[] = [
+  {
+    name: 'circles1',
     type: 'characters',
     value: 1,
     state: '',
@@ -24,9 +36,10 @@ type testFunctionTypes = {
     japaneseName: 'manzu1',
     isDora: false,
     tileID: 82,
-  image:""},
+    image: '',
+  },
   {
-    name: 'red1',
+    name: 'circles1',
     type: 'characters',
     value: 2,
     state: '',
@@ -34,9 +47,10 @@ type testFunctionTypes = {
     japaneseName: 'manzu2',
     isDora: false,
     tileID: 83,
-  image:""},
+    image: '',
+  },
   {
-    name: 'red1',
+    name: 'circles1',
     type: 'characters',
     value: 3,
     state: '',
@@ -44,8 +58,10 @@ type testFunctionTypes = {
     japaneseName: 'manzu3',
     isDora: false,
     tileID: 84,
-  image:""},{
-    name: 'green1',
+    image: '',
+  },
+  {
+    name: 'circles3',
     type: 'bamboo',
     value: 7,
     state: '',
@@ -53,9 +69,10 @@ type testFunctionTypes = {
     japaneseName: 'douzu7',
     isDora: false,
     tileID: 34,
-  image:""},
+    image: '',
+  },
   {
-    name: 'green1',
+    name: 'circles3',
     type: 'bamboo',
     value: 8,
     state: '',
@@ -63,9 +80,10 @@ type testFunctionTypes = {
     japaneseName: 'douzu8',
     isDora: false,
     tileID: 35,
-  image:""},
+    image: '',
+  },
   {
-    name: 'green1',
+    name: 'circles3',
     type: 'bamboo',
     value: 9,
     state: '',
@@ -73,9 +91,10 @@ type testFunctionTypes = {
     japaneseName: 'douzu9',
     isDora: false,
     tileID: 36,
-  image:""},
+    image: '',
+  },
   {
-    name: 'white1',
+    name: 'circles5',
     type: 'circles',
     value: 1,
     state: '',
@@ -83,8 +102,10 @@ type testFunctionTypes = {
     japaneseName: 'pinzu1',
     isDora: false,
     tileID: 37,
-  image:""},{
-    name: 'white1',
+    image: '',
+  },
+  {
+    name: 'circles5',
     type: 'circles',
     value: 1,
     state: '',
@@ -93,8 +114,10 @@ type testFunctionTypes = {
 
     isDora: false,
     tileID: 46,
-  image:""},{
-    name: 'character2',
+    image: '',
+  },
+  {
+    name: 'circles5',
     type: 'circles',
     value: 1,
     state: '',
@@ -102,8 +125,10 @@ type testFunctionTypes = {
     japaneseName: 'pinzu1',
     isDora: false,
     tileID: 55,
-  image:""}, {
-    name: 'character2',
+    image: '',
+  },
+  {
+    name: 'bamboo6',
     type: 'characters',
     value: 1,
     state: '',
@@ -111,9 +136,10 @@ type testFunctionTypes = {
     japaneseName: 'manzu1',
     isDora: false,
     tileID: 82,
-  image:""},
+    image: '',
+  },
   {
-    name: 'bamboo3',
+    name: 'bamboo1',
     type: 'characters',
     value: 2,
     state: '',
@@ -121,9 +147,10 @@ type testFunctionTypes = {
     japaneseName: 'manzu2',
     isDora: false,
     tileID: 83,
-  image:""},
+    image: '',
+  },
   {
-    name: 'bamboo4',
+    name: 'bamboo2',
     type: 'characters',
     value: 3,
     state: '',
@@ -131,9 +158,10 @@ type testFunctionTypes = {
     japaneseName: 'manzu3',
     isDora: false,
     tileID: 84,
-  image:""}, 
+    image: '',
+  },
   {
-    name: 'bamboo5',
+    name: 'bamboo3',
     type: 'characters',
     value: 9,
     state: '',
@@ -142,10 +170,13 @@ type testFunctionTypes = {
 
     isDora: false,
     tileID: 90,
-  image:""},]
+    image: '',
+  },
+];
 
-  export let discardExample = [ {
-    name: 'white1',
+export let discardExample = [
+  {
+    name: 'bamboo6',
     type: 'characters',
     value: 9,
     state: '',
@@ -153,10 +184,21 @@ type testFunctionTypes = {
     japaneseName: 'manzu9',
     isDora: false,
     tileID: 99,
-    image:""
-  },]
+    image: '',
+  },
+];
 
-export const testFunction=()=>{
- let result = isShousuushii({hand:handExample, discard:discardExample, playerMelds: []})
- console.log("testFunction:",result, handExample.map(t=>t.name),discardExample[0].name)
-}
+export const testFunction = () => {
+  let result = isSanankou({
+    hand: handExample,
+    discard: discardExample,
+    playerMelds: [],
+  });
+  console.log(
+    'testFunction:',
+    result,
+    handExample.map(t => t.name),
+    discardExample[0].name,
+    handExample.length + discardExample.length,
+  );
+};

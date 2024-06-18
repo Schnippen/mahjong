@@ -1,32 +1,40 @@
 import {TTileObject, TstolenTiles, TypeOfAction} from '../../../Types/types';
 import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkDaisuushii} from '../UtilsFunctions/checkDaisuushii';
+import {checkChuurenPoutou} from '../UtilsFunctions/checkChuurenPoutou';
+import {checkIipeikou} from '../UtilsFunctions/checkIipeikou';
 
-type isDaisuushiiTypes = {
+type isChuurenPoutouTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
 };
 
-export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
+export function isChuurenPoutou({
+  hand,
+  discard,
+  playerMelds,
+}: isChuurenPoutouTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+  if (meldedTiles.length > 0) {
+    typeOfAction = '';
+    return {result: false, typeOfAction: typeOfAction};
+  }
   if (hand.length === 14) {
     handToCheck = hand;
     typeOfAction = 'TSUMO';
   } else {
-    handToCheck = [...hand, ...discard, ...meldedTiles];
+    handToCheck = [...hand, ...discard]; //is closed only
     typeOfAction = 'RON';
   }
 
   const tileCounts = countTilesByName(handToCheck);
 
-  if (checkDaisuushii(tileCounts)) {
-    //return { result: true, typeOfAction: typeOfAction }; //there is problem with melds
+  if (checkChuurenPoutou(tileCounts)) {
     for (let tileName in tileCounts) {
       if (tileCounts[tileName] >= 2) {
         const newCounts = {...tileCounts};
@@ -39,6 +47,6 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
   }
 
   const end = performance.now();
-  console.log(`isDaisuushii() took ${end - start} milliseconds.`);
+  console.log(`isChuurenPoutou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

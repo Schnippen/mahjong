@@ -1,20 +1,23 @@
 import {TTileObject, TstolenTiles, TypeOfAction} from '../../../Types/types';
 import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkDaisuushii} from '../UtilsFunctions/checkDaisuushii';
+import {checkSuukantsu} from '../UtilsFunctions/checkSuukantsu';
 
-type isDaisuushiiTypes = {
+type isSuukantsuTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
 };
 
-export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
+export function isSuukantsu({hand, discard, playerMelds}: isSuukantsuTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+
+  //TODO
+  //CLOSED HAND, BUT KANS MELDED
   if (hand.length === 14) {
     handToCheck = hand;
     typeOfAction = 'TSUMO';
@@ -25,8 +28,7 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
 
   const tileCounts = countTilesByName(handToCheck);
 
-  if (checkDaisuushii(tileCounts)) {
-    //return { result: true, typeOfAction: typeOfAction }; //there is problem with melds
+  if (checkSuukantsu(tileCounts)) {
     for (let tileName in tileCounts) {
       if (tileCounts[tileName] >= 2) {
         const newCounts = {...tileCounts};
@@ -39,6 +41,6 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
   }
 
   const end = performance.now();
-  console.log(`isDaisuushii() took ${end - start} milliseconds.`);
+  console.log(`isSuukantsu() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

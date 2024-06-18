@@ -1,16 +1,31 @@
 import {TTileObject, TstolenTiles} from '../../Types/types';
+import {isChanta} from './Yaku/isChanta';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
-import { isChinitsu } from './Yaku/isChinitsu';
-import { isDaisangen } from './Yaku/isDaisangen';
-import { isIipeikou } from './Yaku/isIipeikou';
-import { isIttsuu } from './Yaku/isIttsuu';
-import { isJunchan } from './Yaku/isJunchan';
-import { isRyanpeikou } from './Yaku/isRyanpeikou';
-import { isSanshokuDoujun } from './Yaku/isSanshokuDoujun';
-import { isShousangen } from './Yaku/isShousangen';
-import { isSuuankou } from './Yaku/isSuuankou';
+import {isChinitsu} from './Yaku/isChinitsu';
+import {isChinroutou} from './Yaku/isChinroutou';
+import {isChuurenPoutou} from './Yaku/isChuurenPoutou';
+import {isDaisangen} from './Yaku/isDaisangen';
+import {isDaisuushii} from './Yaku/isDaisuushii';
+import {isHonitsu} from './Yaku/isHonitsu';
+import {isHonrotou} from './Yaku/isHonrotou';
+import {isIipeikou} from './Yaku/isIipeikou';
+import {isIttsuu} from './Yaku/isIttsuu';
+import {isJunchan} from './Yaku/isJunchan';
+import {isKokushiMusou} from './Yaku/isKokushiMusou';
+import {isRyanpeikou} from './Yaku/isRyanpeikou';
+import {isRyuuiisou} from './Yaku/isRyuuiisou';
+import {isSanankou} from './Yaku/isSanankou';
+import {isSankantsu} from './Yaku/isSankantsu';
+import {isSanshokuDoujun} from './Yaku/isSanshokuDoujun';
+import {isSanshokuDoukou} from './Yaku/isSanshokuDoukou';
+import {isShousangen} from './Yaku/isShousangen';
+import {isShousuushii} from './Yaku/isShousuushii';
+import {isSuuankou} from './Yaku/isSuuankou';
+import {isSuukantsu} from './Yaku/isSuukantsu';
 import {isTanyao} from './Yaku/isTanyao';
 import {isToiToi} from './Yaku/isToiToi';
+import {isTsuuiisou} from './Yaku/isTsuuiisou';
+import {isYakuhai} from './Yaku/isYakuhai';
 
 //type isWinningTypes closed hand and opened hand
 type isWinningTypes = {
@@ -48,8 +63,6 @@ export function isWinning({
     currentMelds = player4Melds;
   }
   if (currentMelds.length === 0) {
-  
-
     let {result, typeOfAction} = isChiitoitsu({hand, discard}); // add is tenpai with chiitoitsu
 
     if (result && typeOfAction === 'RON') {
@@ -65,26 +78,31 @@ export function isWinning({
   }
   //opened hand win condition
   ///next
+
   //TODO add point score in isYaku functions. it will be helpful to create AI in future
 
+  //TODO there might be a problem with kans...
   //yakus based on sequences:
   //Iipeikou pure double sequence  //closed //WORKING
-  isIipeikou({hand, discard, playerMelds: currentMelds})
+  isIipeikou({hand, discard, playerMelds: currentMelds});
 
   //Ittsuu pure straight //WORKING
-  isIttsuu({hand, discard, playerMelds: currentMelds})
+  isIttsuu({hand, discard, playerMelds: currentMelds});
 
   //Pinfu //TODO closed
 
   //Ryanpeikou Two Pure Double Sequences //closed  //WORKING
-  isRyanpeikou({hand, discard, playerMelds: currentMelds})
+  isRyanpeikou({hand, discard, playerMelds: currentMelds});
 
   //Sanshoku doujun Three Colored Sequences //WORKING
-  isSanshokuDoujun({hand, discard, playerMelds: currentMelds})
+  isSanshokuDoujun({hand, discard, playerMelds: currentMelds});
 
   //other yakus:
-  //Riichi
-  //Daburu Riichi
+
+  //Riichi //TODO
+
+  //Daburu Riichi //TODO
+
   //Ippatsu
   //Menzen tsumo
   //Haitei raoyue
@@ -99,77 +117,83 @@ export function isWinning({
 
   //Tanyao 2-8 //WORKING
   isTanyao({hand, discard, playerMelds: currentMelds});
-  
-  //yakuhai Dragon, Players Seat Wind or Round Wind Triplet.
+
+  //yakuhai Dragon, Players Seat Wind or Round Wind Triplet. //CHECK
+  //yakuhai table wind, players wind
+  isYakuhai({hand, discard, playerMelds: currentMelds});
 
   //Shousangen 小三元 • Small Three Dragons //WORKING
-  isShousangen({hand, discard, playerMelds: currentMelds})
+  isShousangen({hand, discard, playerMelds: currentMelds});
 
-  //Daisangen 大三元 • Big Three Dragons yakuman
-  isDaisangen({hand, discard, playerMelds: currentMelds})
+  //Daisangen 大三元 • Big Three Dragons yakuman //WORKING
+  isDaisangen({hand, discard, playerMelds: currentMelds});
 
   //REMEMBER //TODO if there is daisangen do not count shousangen
 
-  //Shousuushii 小四喜 • Little Four Winds yakuman ... //CHECK
+  //Shousuushii 小四喜 • Little Four Winds yakuman ... //WORKING
+  isShousuushii({hand, discard, playerMelds: currentMelds});
 
   //Daisuushii 大四喜 • Big Four Winds yakuman //CHECK
-
+  isDaisuushii({hand, discard, playerMelds: currentMelds});
   //REMEMBER //TODO if there is Daisuushii do not count Shousuushii
 
-  //Chanta 全帯 • Terminals and Honors Everywhere
+  //Chanta 全帯 • Terminals and Honors Everywhere //NEED TESTING
+  isChanta({hand, discard, playerMelds: currentMelds});
 
-  //Junchan 純全帯么 • Terminals Everywhere //WORKING //but check it with checkMelds 2.0 ver
-  isJunchan({hand, discard, playerMelds: currentMelds})
+  //Junchan 純全帯么 • Terminals Everywhere //WORKING //but check it with checkMelds 2.0 ver //also it can be closed or opened
+  isJunchan({hand, discard, playerMelds: currentMelds});
 
-  //Honroutou 混老頭 • All Terminals and Honors
+  //Honroutou 混老頭 • All Terminals and Honors //WORKING
+  isHonrotou({hand, discard, playerMelds: currentMelds});
 
-  //Chinroutou 清老頭 • All Terminals yakuman
+  //Chinroutou 清老頭 • All Terminals Yakuman //WORKING
+  isChinroutou({hand, discard, playerMelds: currentMelds});
 
-  //Tsuuiisou 字 色 • All Honors yakuman
-
-  //Kokushi musou 国士無双 • Thirteen Orphans yakuman
+  //Tsuuiisou 字 色 • All Honors yakuman //WORKING
+  isTsuuiisou({hand, discard, playerMelds: currentMelds});
 
   //yakus based on PAIRS / triplets / quads
-  isChiitoitsu({hand,discard})
+  isChiitoitsu({hand, discard});
 
-  //Toitoi 対々 • All Triplets
+  //Toitoi 対々 • All Triplets //CHECK
   isToiToi({hand, discard, playerMelds: currentMelds});
-  
+
   //San ankou 三暗刻 • Three Concealed Triplets
+  //TODO FIX ISSUES https://riichi.wiki/Sanankou
+  //he third triplet may not be completed off another player's discard (ron), as the triplet would not be "concealed".
+  //isSanankou({hand, discard, playerMelds: currentMelds});
 
   //Suuankou 四暗刻 • Four Concealed Triplets yakuman
-  isSuuankou({hand, discard, playerMelds: currentMelds})
+  //TODO FIX ISSUES https://riichi.wiki/Suuankou
+  //he third triplet may not be completed off another player's discard (ron), as the triplet would not be "concealed".
+  //isSuuankou({hand, discard, playerMelds: currentMelds});
 
-  //Sanshoku doukou 三色同刻 • Three Colored Triplets
+  //Sanshoku doukou 三色同刻 • Three Colored Triplets //WORKING //TODO /
+  isSanshokuDoukou({hand, discard, playerMelds: currentMelds});
 
-  //Sankantsu 三槓子 • Three Quads
+  //Sankantsu 三槓子 • Three Quads //TODO //PROBLEM WITH KANS
+  // isSankantsu({hand, discard, playerMelds: currentMelds});
 
-  //Suukantsu 四槓子 • Four Quads yakuman
+  //Suukantsu 四槓子 • Four Quads yakuman //TODO //PROBLEM WITH KANS
+  //isSuukantsu({hand, discard, playerMelds: currentMelds});
 
   //yakus basED ON SUITS
 
-  //Hon itsu 混 色 • Half Flush
+  //Hon itsu 混 色 • Half Flush //WORKING
+  isHonitsu({hand, discard, playerMelds: currentMelds});
 
-  //Chinistu // only one  suit full flush
-  isChinitsu({hand, discard, playerMelds: currentMelds})
+  //Chinistu // only one  suit full flush //WORKING
+  isChinitsu({hand, discard, playerMelds: currentMelds});
 
-  // /Ryuuiisou 緑 色 • All Green yakuman
+  // /Ryuuiisou 緑 色 • All Green yakuman //WORKING
+  isRyuuiisou({hand, discard, playerMelds: currentMelds});
 
-  //Chuuren poutou 九連宝燈 • Nine Gates yakuman
-  
-  //yakumab
-  /* Tenhou
-  Chiihou
-  Daisangen
-  Shousuushi
-  Daisuushi
-  Chinrouutou
-  Tsuuiisou
-  Suuankou
-  Suukantsu
-  Ryuuiisou
-  Chuuren Poutou
-  Kokushi Musou */
+  //Chuuren poutou 九連宝燈 • Nine Gates yakuman //closed only //WORKING
+  isChuurenPoutou({hand, discard, playerMelds: currentMelds});
+
+  //Kokushi musou 国士無双 • Thirteen Orphans yakuman //WORKING
+  isKokushiMusou({hand, discard, playerMelds: currentMelds});
+
   const end = performance.now();
   console.log(`isWinning() took ${end - start} milliseconds.`);
 }

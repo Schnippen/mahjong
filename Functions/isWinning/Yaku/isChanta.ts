@@ -1,15 +1,19 @@
-import {TTileObject, TstolenTiles, TypeOfAction} from '../../../Types/types';
-import {checkMelds} from '../../isReadyForRiichii/checkMelds';
+import {
+  TTileObject,
+  TstolenTiles,
+  TypeOfAction,
+  tileCountsType,
+} from '../../../Types/types';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkDaisuushii} from '../UtilsFunctions/checkDaisuushii';
+import {checkChanta} from '../UtilsFunctions/checkChanta';
 
-type isDaisuushiiTypes = {
+type isChantaTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
 };
 
-export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
+export function isChanta({hand, discard, playerMelds}: isChantaTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
@@ -24,9 +28,7 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
   }
 
   const tileCounts = countTilesByName(handToCheck);
-
-  if (checkDaisuushii(tileCounts)) {
-    //return { result: true, typeOfAction: typeOfAction }; //there is problem with melds
+  /*  if (checkChanta(tileCounts)) {
     for (let tileName in tileCounts) {
       if (tileCounts[tileName] >= 2) {
         const newCounts = {...tileCounts};
@@ -36,9 +38,22 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
         }
       }
     }
+  } */
+
+  if (checkChanta(tileCounts)) {
+    return {result: true, typeOfAction: typeOfAction};
   }
+  /*   for (let tileName in tileCounts) {
+    if (tileCounts[tileName] >= 2) {
+      const newCounts = {...tileCounts};
+      newCounts[tileName] -= 2;
+      if (checkMelds(newCounts) === 4) {
+        return {result: true, typeOfAction: typeOfAction};
+      }
+    }
+  } */
 
   const end = performance.now();
-  console.log(`isDaisuushii() took ${end - start} milliseconds.`);
+  console.log(`isChanta() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

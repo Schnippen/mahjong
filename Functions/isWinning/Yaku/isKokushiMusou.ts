@@ -6,19 +6,20 @@ import {
 } from '../../../Types/types';
 import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkSanshokuDoujun} from '../UtilsFunctions/checkSanshokuDoujun';
+import {checkIttsuu} from '../UtilsFunctions/checkIttsuu';
+import {checkKokushiMusou} from '../UtilsFunctions/checkKokushiMusou';
 
-type isSanshokuDoujunTypes = {
+type isKokushiMusouTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
 };
 
-export function isSanshokuDoujun({
+export function isKokushiMusou({
   hand,
   discard,
   playerMelds,
-}: isSanshokuDoujunTypes) {
+}: isKokushiMusouTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
@@ -33,21 +34,11 @@ export function isSanshokuDoujun({
   }
 
   const tileCounts = countTilesByName(handToCheck);
-
-  // Check if there's a Sanshoku Doujun in the hand
-  if (checkSanshokuDoujun(tileCounts)) {
-    for (let tileName in tileCounts) {
-      if (tileCounts[tileName] >= 2) {
-        const newCounts = {...tileCounts};
-        newCounts[tileName] -= 2;
-        if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
-        }
-      }
-    }
+  if (checkKokushiMusou(tileCounts)) {
+    return {result: true, typeOfAction: typeOfAction};
   }
 
   const end = performance.now();
-  console.log(`isSanshokuDoujun() took ${end - start} milliseconds.`);
+  console.log(`isKokushiMusou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
 }

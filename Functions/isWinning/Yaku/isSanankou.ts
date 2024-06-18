@@ -6,17 +6,16 @@ import {
 } from '../../../Types/types';
 import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkToiToiTriplets} from '../UtilsFunctions/checkToiToiTriplets';
+import {checkSanankou} from '../UtilsFunctions/checkSanankou';
 
-type isToiToiTypes = {
+type isSanankouTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
 };
 
-export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
+export function isSanankou({hand, discard, playerMelds}: isSanankouTypes) {
   const start = performance.now();
-
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
 
@@ -25,24 +24,12 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
     handToCheck = hand;
     typeOfAction = 'TSUMO';
   } else {
-    handToCheck = [...hand, ...discard, ...meldedTiles]; //TODO check it
+    handToCheck = [...hand, ...discard, ...meldedTiles];
     typeOfAction = 'RON';
   }
 
-  //this yaku can be done on opened hand
   const tileCounts = countTilesByName(handToCheck);
-
-  /*   for (let tileName in tileCounts) {
-    if (tileCounts[tileName] >= 2) {
-      const newCounts = {...tileCounts};
-      newCounts[tileName] -= 2;
-      if (checkToiToiTriplets(newCounts) === 4) {
-        return true;
-      }
-    }
-  } */
-  if (checkToiToiTriplets(tileCounts)) {
-    //return { result: true, typeOfAction: typeOfAction }; //there is problem with melds
+  if (checkSanankou(tileCounts)) {
     for (let tileName in tileCounts) {
       if (tileCounts[tileName] >= 2) {
         const newCounts = {...tileCounts};
@@ -54,19 +41,7 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
     }
   }
 
-  /*   let triplesCount = 0;
-  for (let tileName in tileCounts) {
-    if (tileCounts[tileName] >= 3) {
-      //there is possibility of Kan
-      triplesCount++;
-    }
-  } */
-
   const end = performance.now();
-  console.log(`isToiToi() took ${end - start} milliseconds.`);
-  /*   if (triplesCount === 4) {
-    return {result: true, typeOfAction: typeOfAction};
-  } else { */
+  console.log(`isSanankou() took ${end - start} milliseconds.`);
   return {result: false, typeOfAction: typeOfAction};
-  //}
 }

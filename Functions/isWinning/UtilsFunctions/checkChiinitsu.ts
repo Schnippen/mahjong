@@ -1,4 +1,4 @@
-import { tileCountsType } from '../../../Types/types';
+import {tileCountsType} from '../../../Types/types';
 
 export function checkChinitsu(tileCounts: tileCountsType) {
   let meldsFound = 0;
@@ -35,14 +35,13 @@ export function checkChinitsu(tileCounts: tileCountsType) {
     }
   }
 
-
   const otherSuits = Object.keys(tileCounts).filter(tileName => {
     const [type] = tileName.split(/(\d+)/).filter(Boolean);
     return type !== suitType;
   });
 
   if (otherSuits.length > 0) {
-    return 0; // return 0 melds found if there's a mix of suits
+    return 0;
   }
 
   return meldsFound;
