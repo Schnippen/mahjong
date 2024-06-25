@@ -10,6 +10,7 @@ import {isIipeikou} from './isIipeikou';
 import {isIttsuu} from './isIttsuu';
 import {isJunchan} from './isJunchan';
 import {isKokushiMusou} from './isKokushiMusou';
+import {isPinfu} from './isPinfu';
 import {isRyanpeikou} from './isRyanpeikou';
 import {isRyuuiisou} from './isRyuuiisou';
 import {isSanankou} from './isSanankou';
@@ -28,7 +29,7 @@ type testFunctionTypes = {
 
 export let handExample: TTileObject[] = [
   {
-    name: 'circles1',
+    name: 'characters1',
     type: 'characters',
     value: 1,
     state: '',
@@ -39,7 +40,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'circles1',
+    name: 'characters2',
     type: 'characters',
     value: 2,
     state: '',
@@ -50,7 +51,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'circles1',
+    name: 'characters3',
     type: 'characters',
     value: 3,
     state: '',
@@ -61,7 +62,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'circles3',
+    name: 'bamboo2',
     type: 'bamboo',
     value: 7,
     state: '',
@@ -72,7 +73,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'circles3',
+    name: 'bamboo3',
     type: 'bamboo',
     value: 8,
     state: '',
@@ -83,7 +84,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'circles3',
+    name: 'bamboo4',
     type: 'bamboo',
     value: 9,
     state: '',
@@ -94,7 +95,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'circles5',
+    name: 'bamboo7',
     type: 'circles',
     value: 1,
     state: '',
@@ -105,7 +106,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'circles5',
+    name: 'bamboo8',
     type: 'circles',
     value: 1,
     state: '',
@@ -128,7 +129,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'bamboo6',
+    name: 'circles6',
     type: 'characters',
     value: 1,
     state: '',
@@ -139,7 +140,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'bamboo1',
+    name: 'circles7',
     type: 'characters',
     value: 2,
     state: '',
@@ -150,7 +151,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'bamboo2',
+    name: 'circles9',
     type: 'characters',
     value: 3,
     state: '',
@@ -161,7 +162,7 @@ export let handExample: TTileObject[] = [
     image: '',
   },
   {
-    name: 'bamboo3',
+    name: 'circles9',
     type: 'characters',
     value: 9,
     state: '',
@@ -189,7 +190,7 @@ export let discardExample = [
 ];
 
 export const testFunction = () => {
-  let result = isSanankou({
+  let result = isPinfu({
     hand: handExample,
     discard: discardExample,
     playerMelds: [],
@@ -202,3 +203,4 @@ export const testFunction = () => {
     handExample.length + discardExample.length,
   );
 };
+//https://www.npmjs.com/package/react-native-haptic-feedback

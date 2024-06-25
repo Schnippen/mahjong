@@ -8,6 +8,8 @@ export function isChiitoitsu({hand, discard}: isChiitoitsuTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
+  let yakuName = 'Chiitoitsu';
+
   if (hand.length === 14) {
     handToCheck = hand;
     typeOfAction = 'TSUMO';
@@ -28,9 +30,19 @@ export function isChiitoitsu({hand, discard}: isChiitoitsuTypes) {
   const end = performance.now();
   //console.log(`isChiitoitsu() took ${end - start} milliseconds.`);
   if (pairsCount === 7) {
-    return {result: true, typeOfAction: typeOfAction};
+    return {
+      result: true,
+      typeOfAction: typeOfAction,
+      han: 2,
+      yakuName: yakuName,
+    };
     // In Chiitoitsu, 6 pairs means waiting for the 7th pair
   } else {
-    return {result: false, typeOfAction: typeOfAction};
+    return {
+      result: false,
+      typeOfAction: typeOfAction,
+      han: 0,
+      yakuName: yakuName,
+    };
   }
 }

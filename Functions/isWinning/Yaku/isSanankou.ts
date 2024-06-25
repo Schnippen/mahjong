@@ -18,7 +18,7 @@ export function isSanankou({hand, discard, playerMelds}: isSanankouTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
-
+  let yakuName = 'Sanankou';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   if (hand.length === 14) {
     handToCheck = hand;
@@ -35,13 +35,25 @@ export function isSanankou({hand, discard, playerMelds}: isSanankouTypes) {
         const newCounts = {...tileCounts};
         newCounts[tileName] -= 2;
         if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
+          return {
+            result: true,
+            typeOfAction: typeOfAction,
+            han: 2,
+            yakuName: yakuName,
+          };
         }
       }
     }
   }
 
   const end = performance.now();
-  console.log(`isSanankou() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  //console.log(`isSanankou() took ${end - start} milliseconds.`);
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }
+
+//TODO https://riichi.wiki/Sanankou  there is stuff to check

@@ -19,6 +19,13 @@ export function isJunchan({hand, discard, playerMelds}: isJunchanTypes) {
   let typeOfAction: TypeOfAction = '';
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+  let han: number;
+  let yakuName = 'Junchan';
+  if (meldedTiles.length === 0) {
+    han = 3;
+  } else {
+    han = 2;
+  }
   if (hand.length === 14) {
     handToCheck = hand;
     typeOfAction = 'TSUMO';
@@ -34,23 +41,22 @@ export function isJunchan({hand, discard, playerMelds}: isJunchanTypes) {
       const newCounts = {...tileCounts};
       newCounts[tileName] -= 2;
       if (checkJunchanMelds(newCounts)) {
-        return {result: true, typeOfAction: typeOfAction};
+        return {
+          result: true,
+          typeOfAction: typeOfAction,
+          han: han,
+          yakuName: yakuName,
+        };
       }
     }
   }
 
   const end = performance.now();
   //console.log(`isJunchan() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }
-
-/*     // Check for 4 melds and 1 pair
-    for (let tileName in tileCounts) {
-        if (tileCounts[tileName] >= 2) {
-          const newCounts = { ...tileCounts };
-          newCounts[tileName] -= 2;
-          if (checkJunchanMelds(newCounts) === 4) {
-            return true; // return { result: true, typeOfAction: typeOfAction };
-          }
-          }
-        } */

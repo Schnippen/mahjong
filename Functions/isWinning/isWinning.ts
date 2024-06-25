@@ -12,6 +12,7 @@ import {isIipeikou} from './Yaku/isIipeikou';
 import {isIttsuu} from './Yaku/isIttsuu';
 import {isJunchan} from './Yaku/isJunchan';
 import {isKokushiMusou} from './Yaku/isKokushiMusou';
+import {isPinfu} from './Yaku/isPinfu';
 import {isRyanpeikou} from './Yaku/isRyanpeikou';
 import {isRyuuiisou} from './Yaku/isRyuuiisou';
 import {isSanankou} from './Yaku/isSanankou';
@@ -77,6 +78,7 @@ export function isWinning({
   isIttsuu({hand, discard, playerMelds: currentMelds});
 
   //Pinfu //TODO closed
+  isPinfu({hand, discard, playerMelds: currentMelds});
 
   //Ryanpeikou Two Pure Double Sequences //closed  //WORKING
   isRyanpeikou({hand, discard, playerMelds: currentMelds});
@@ -124,7 +126,7 @@ export function isWinning({
   isDaisuushii({hand, discard, playerMelds: currentMelds});
   //REMEMBER //TODO if there is Daisuushii do not count Shousuushii
 
-  //Chanta 全帯 • Terminals and Honors Everywhere //NEED TESTING
+  //Chanta 全帯 • Terminals and Honors Everywhere //CHECKING
   isChanta({hand, discard, playerMelds: currentMelds});
 
   //Junchan 純全帯么 • Terminals Everywhere //WORKING //but check it with checkMelds 2.0 ver //also it can be closed or opened
@@ -195,7 +197,11 @@ export function isWinning({
         return null;
       } */
 
+  //array of functions
+
+  //TODO check if all yakus are in this array
   const yakuChecks = [
+    isPinfu,
     isIipeikou,
     isIttsuu,
     isRyanpeikou,
@@ -223,7 +229,27 @@ export function isWinning({
 
   let ron = false;
   let tsumo = false;
+
   //TODO make it more elegant, finish yakus
+
+  //this function will check the scoring and names of yakus:
+  let totalHanRon = 0;
+  let totalHanTsumo = 0;
+  let listOfYakusInHand: Array<string> = [];
+  for (const check of yakuChecks) {
+    const result = check({hand, discard, playerMelds: currentMelds});
+    if (typeof result === 'object' && result.result) {
+      if (result.typeOfAction === 'RON') {
+        totalHanRon += result.han || 0;
+        listOfYakusInHand.push(result.yakuName);
+      } else if (result.typeOfAction === 'TSUMO') {
+        totalHanTsumo += result.han || 0;
+        listOfYakusInHand.push(result.yakuName);
+      }
+    }
+  }
+
+  //this for loop checks if tsumo or ron is valid
   type YakuResult = {
     result: boolean;
     typeOfAction: 'TSUMO' | 'RON' | '';
@@ -258,3 +284,6 @@ export function isWinning({
     } seconds`,
   );
 }
+
+//https://speechgen.io/en/tts-japanese/
+//Daichi

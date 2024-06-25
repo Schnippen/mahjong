@@ -368,7 +368,7 @@ const PlayerButtonsPanel = () => {
         <Button
           title={'testFunction()'}
           onPress={() => {
-            testFunction(), dispatch(setUncoverNextDora());
+            testFunction();
           }}
         />
         <NextTurn />

@@ -14,10 +14,15 @@ export function isPinfu({hand, discard, playerMelds}: isPinfuTypes) {
   let typeOfAction: TypeOfAction = '';
   let winningTile: TTileObject;
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
-
+  let yakuName = 'Pinfu';
   if (meldedTiles.length > 0) {
     typeOfAction = '';
-    return {result: false, typeOfAction: typeOfAction};
+    return {
+      result: false,
+      typeOfAction: typeOfAction,
+      han: 0,
+      yakuName: yakuName,
+    };
   }
 
   if (hand.length === 14) {
@@ -41,5 +46,10 @@ export function isPinfu({hand, discard, playerMelds}: isPinfuTypes) {
 
   const end = performance.now();
   //console.log(`isPinfu() took ${end - start} milliseconds.`);
-  return {result: pinfuResult, typeOfAction: typeOfAction};
+  return {
+    result: pinfuResult,
+    typeOfAction: typeOfAction,
+    han: pinfuResult ? 1 : 0,
+    yakuName: yakuName,
+  };
 }

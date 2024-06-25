@@ -92,7 +92,10 @@ export const wallReducer = createSlice({
       state.startTakingFromWallXState = wallName;
     },
     popTileFromtilesAfterHandout: state => {
-      console.log("Redux: popTileFromtilesAfterHandout.length:",state.tilesAfterHandout.length)
+      console.log(
+        'Redux: popTileFromtilesAfterHandout.length:',
+        state.tilesAfterHandout.length,
+      );
       state.tilesAfterHandout.pop();
     },
     popTileFromTheWall: state => {
@@ -109,7 +112,7 @@ export const wallReducer = createSlice({
             state.wallEastState.pop();
             //console.log('POP EAST');
           } else {
-           //console.log(' EAST+++');
+            //console.log(' EAST+++');
             orderIndex += 1;
             state.wallNorthState.pop();
           }
@@ -148,27 +151,41 @@ export const wallReducer = createSlice({
           break;
       }
     },
-    setUncoverNextDora:(state)=>{
+    setUncoverNextDora: state => {
       //TODO refactor
       state.uncoveredCount += 1;
-      let doras = state.dorasFromDeadWall
-      let uncoveredNumber = state.uncoveredCount -1 
-      doras[uncoveredNumber].isDora=true
-      let tileToChange= doras[uncoveredNumber].tileID
-      console.log("REDUX doras:",doras.map(i=>i.name),uncoveredNumber,doras[uncoveredNumber].name)
-      console.log("redux wall=",doras.map(i=>i.isDora),uncoveredNumber,doras[uncoveredNumber].tileID)
-      const modifyProperty = (arr:TTileObject[], targetId:number, newProperty:boolean) => {
+      let doras = state.dorasFromDeadWall;
+      let uncoveredNumber = state.uncoveredCount - 1;
+      doras[uncoveredNumber].isDora = true;
+      let tileToChange = doras[uncoveredNumber].tileID;
+      console.log(
+        'REDUX doras:',
+        doras.map(i => i.name),
+        uncoveredNumber,
+        doras[uncoveredNumber].name,
+      );
+      console.log(
+        'redux wall=',
+        doras.map(i => i.isDora),
+        uncoveredNumber,
+        doras[uncoveredNumber].tileID,
+      );
+      const modifyProperty = (
+        arr: TTileObject[],
+        targetId: number,
+        newProperty: boolean,
+      ) => {
         const targetObj = arr.find(obj => obj.tileID === targetId);
         if (targetObj) {
-          console.log("FOUND:",targetObj.name)
-            targetObj.isDora = newProperty;
-        }};
-      modifyProperty(state.wallEastState,doras[uncoveredNumber].tileID,true)
-      modifyProperty(state.wallNorthState,doras[uncoveredNumber].tileID,true)
-      modifyProperty(state.wallSouthState,doras[uncoveredNumber].tileID,true)
-      modifyProperty(state.wallWestState,doras[uncoveredNumber].tileID,true)
-
-    }
+          console.log('FOUND:', targetObj.name);
+          targetObj.isDora = newProperty;
+        }
+      };
+      modifyProperty(state.wallEastState, doras[uncoveredNumber].tileID, true);
+      modifyProperty(state.wallNorthState, doras[uncoveredNumber].tileID, true);
+      modifyProperty(state.wallSouthState, doras[uncoveredNumber].tileID, true);
+      modifyProperty(state.wallWestState, doras[uncoveredNumber].tileID, true);
+    },
   },
 });
 

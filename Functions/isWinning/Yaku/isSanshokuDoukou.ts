@@ -17,7 +17,7 @@ export function isSanshokuDoukou({
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
-
+  let yakuName = 'Sanshoku Doukou';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   if (hand.length === 14) {
     handToCheck = hand;
@@ -34,7 +34,12 @@ export function isSanshokuDoukou({
         const newCounts = {...tileCounts};
         newCounts[tileName] -= 2;
         if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
+          return {
+            result: true,
+            typeOfAction: typeOfAction,
+            han: 2,
+            yakuName: yakuName,
+          };
         }
       }
     }
@@ -42,5 +47,10 @@ export function isSanshokuDoukou({
 
   const end = performance.now();
   //console.log(`isSanshokudoukou() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }

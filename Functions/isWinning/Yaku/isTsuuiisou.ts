@@ -14,7 +14,7 @@ export function isTsuuiisou({hand, discard, playerMelds}: isTsuuiisouTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
-
+  let yakuName = 'Tsuuiisou';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   if (hand.length === 14) {
     handToCheck = hand;
@@ -33,7 +33,12 @@ export function isTsuuiisou({hand, discard, playerMelds}: isTsuuiisouTypes) {
         const newCounts = {...tileCounts};
         newCounts[tileName] -= 2;
         if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
+          return {
+            result: true,
+            typeOfAction: typeOfAction,
+            han: 13,
+            yakuName: yakuName,
+          };
         }
       }
     }
@@ -41,5 +46,10 @@ export function isTsuuiisou({hand, discard, playerMelds}: isTsuuiisouTypes) {
 
   const end = performance.now();
   //console.log(`isTsuuiisou() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }

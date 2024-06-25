@@ -21,6 +21,7 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
   let typeOfAction: TypeOfAction = '';
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+  let yakuName = 'ToiToi';
   if (hand.length === 14) {
     handToCheck = hand;
     typeOfAction = 'TSUMO';
@@ -48,7 +49,12 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
         const newCounts = {...tileCounts};
         newCounts[tileName] -= 2;
         if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
+          return {
+            result: true,
+            typeOfAction: typeOfAction,
+            han: 2,
+            yakuName: yakuName,
+          };
         }
       }
     }
@@ -67,6 +73,11 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
   /*   if (triplesCount === 4) {
     return {result: true, typeOfAction: typeOfAction};
   } else { */
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
   //}
 }

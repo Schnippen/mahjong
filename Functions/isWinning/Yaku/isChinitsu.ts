@@ -1,12 +1,6 @@
-import {
-  TTileObject,
-  TstolenTiles,
-  TypeOfAction,
-  tileCountsType,
-} from '../../../Types/types';
+import {TTileObject, TstolenTiles, TypeOfAction} from '../../../Types/types';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
 import {checkChinitsu} from '../UtilsFunctions/checkChiinitsu';
-import {checkTanyaoMelds} from '../UtilsFunctions/checkTanyaoMelds';
 
 type isChinitsuTypes = {
   hand: TTileObject[];
@@ -20,6 +14,15 @@ export function isChinitsu({hand, discard, playerMelds}: isChinitsuTypes) {
   let typeOfAction: TypeOfAction = '';
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+
+  let han: number;
+  let yakuName = 'Chinitsu';
+  if (meldedTiles.length === 0) {
+    han = 6;
+  } else {
+    han = 5;
+  }
+
   if (hand.length === 14) {
     handToCheck = hand;
     typeOfAction = 'TSUMO';
@@ -35,12 +38,22 @@ export function isChinitsu({hand, discard, playerMelds}: isChinitsuTypes) {
       const newCounts = {...tileCounts};
       newCounts[tileName] -= 2;
       if (checkChinitsu(newCounts) === 4) {
-        return {result: true, typeOfAction: typeOfAction};
+        return {
+          result: true,
+          typeOfAction: typeOfAction,
+          han: han,
+          yakuName: yakuName,
+        };
       }
     }
   }
 
   const end = performance.now();
   //console.log(`isChinitsu() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }

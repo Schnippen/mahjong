@@ -13,7 +13,7 @@ export function isHonrotou({hand, discard, playerMelds}: isHonrotouTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
-
+  let yakuName = 'Honrotou';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   if (hand.length === 14) {
     handToCheck = hand;
@@ -32,7 +32,12 @@ export function isHonrotou({hand, discard, playerMelds}: isHonrotouTypes) {
         const newCounts = {...tileCounts};
         newCounts[tileName] -= 2;
         if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
+          return {
+            result: true,
+            typeOfAction: typeOfAction,
+            han: 2,
+            yakuName: yakuName,
+          };
         }
       }
     }
@@ -40,5 +45,10 @@ export function isHonrotou({hand, discard, playerMelds}: isHonrotouTypes) {
 
   const end = performance.now();
   //console.log(`isHonrotou() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }

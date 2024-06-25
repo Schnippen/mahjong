@@ -13,7 +13,7 @@ export function isShousangen({hand, discard, playerMelds}: isShousangenTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
-
+  let yakuName = 'Shousangen';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   if (hand.length === 14) {
     handToCheck = hand;
@@ -32,7 +32,12 @@ export function isShousangen({hand, discard, playerMelds}: isShousangenTypes) {
         const newCounts = {...tileCounts};
         newCounts[tileName] -= 2;
         if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
+          return {
+            result: true,
+            typeOfAction: typeOfAction,
+            han: 2,
+            yakuName: yakuName,
+          };
         }
       }
     }
@@ -50,5 +55,10 @@ export function isShousangen({hand, discard, playerMelds}: isShousangenTypes) {
 
   const end = performance.now();
   //console.log(`isShousangen() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }

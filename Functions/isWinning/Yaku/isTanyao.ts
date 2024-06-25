@@ -19,6 +19,7 @@ export function isTanyao({hand, discard, playerMelds}: isTanyaoTypes) {
   let typeOfAction: TypeOfAction = '';
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+  let yakuName = 'Tanyao';
   if (hand.length === 14) {
     handToCheck = hand;
     typeOfAction = 'TSUMO';
@@ -34,12 +35,22 @@ export function isTanyao({hand, discard, playerMelds}: isTanyaoTypes) {
       const newCounts = {...tileCounts};
       newCounts[tileName] -= 2;
       if (checkTanyaoMelds(newCounts) === 4) {
-        return true; //return {result: true, typeOfAction: typeOfAction};
+        return {
+          result: true,
+          typeOfAction: typeOfAction,
+          han: 1,
+          yakuName: yakuName,
+        };
       }
     }
   }
 
   const end = performance.now();
   //console.log(`isTanyao() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }

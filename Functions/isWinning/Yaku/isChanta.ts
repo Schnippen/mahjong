@@ -17,10 +17,18 @@ export function isChanta({hand, discard, playerMelds}: isChantaTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
-
+  let han: number;
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+  let yakuName = 'Chanta';
+  if (meldedTiles.length === 0) {
+    han = 2;
+  } else {
+    han = 1;
+  }
+
+  //TODO check if tsumo variant is correct
   if (hand.length === 14) {
-    handToCheck = hand;
+    handToCheck = [...hand, ...meldedTiles];
     typeOfAction = 'TSUMO';
   } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
@@ -41,7 +49,12 @@ export function isChanta({hand, discard, playerMelds}: isChantaTypes) {
   } */
   //working as intended
   if (checkChanta(tileCounts)) {
-    return {result: true, typeOfAction: typeOfAction};
+    return {
+      result: true,
+      typeOfAction: typeOfAction,
+      han: han,
+      yakuName: yakuName,
+    };
   }
   /*   for (let tileName in tileCounts) {
     if (tileCounts[tileName] >= 2) {
@@ -54,6 +67,11 @@ export function isChanta({hand, discard, playerMelds}: isChantaTypes) {
   } */
 
   const end = performance.now();
-  console.log(`isChanta() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  //console.log(`isChanta() took ${end - start} milliseconds.`);
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }

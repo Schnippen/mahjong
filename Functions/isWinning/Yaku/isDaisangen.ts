@@ -24,7 +24,7 @@ export function isDaisangen({hand, discard, playerMelds}: isDaisangenTypes) {
   }
 
   const tileCounts = countTilesByName(handToCheck);
-
+  let yakuName = 'Daisangen';
   if (checkDaisangen(tileCounts)) {
     //return { result: true, typeOfAction: typeOfAction }; //there is problem with melds
     for (let tileName in tileCounts) {
@@ -32,7 +32,12 @@ export function isDaisangen({hand, discard, playerMelds}: isDaisangenTypes) {
         const newCounts = {...tileCounts};
         newCounts[tileName] -= 2;
         if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
+          return {
+            result: true,
+            typeOfAction: typeOfAction,
+            han: 13,
+            yakuName: yakuName,
+          };
         }
       }
     }
@@ -40,5 +45,10 @@ export function isDaisangen({hand, discard, playerMelds}: isDaisangenTypes) {
 
   const end = performance.now();
   //console.log(`isDaisangen() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }

@@ -1,9 +1,4 @@
-import {
-  TTileObject,
-  TstolenTiles,
-  TypeOfAction,
-  tileCountsType,
-} from '../../../Types/types';
+import {TTileObject, TstolenTiles, TypeOfAction} from '../../../Types/types';
 import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
 import {checkRyanpeikou} from '../UtilsFunctions/checkRyanpeikou';
@@ -20,10 +15,16 @@ export function isRyanpeikou({hand, discard, playerMelds}: isRyanpeikouTypes) {
   let typeOfAction: TypeOfAction = '';
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+  let yakuName = 'Ryanpeikou';
   //closed only
   if (meldedTiles.length > 0) {
     typeOfAction = '';
-    return {result: false, typeOfAction: typeOfAction};
+    return {
+      result: false,
+      typeOfAction: typeOfAction,
+      han: 0,
+      yakuName: yakuName,
+    };
   }
   if (hand.length === 14) {
     handToCheck = hand;
@@ -41,7 +42,12 @@ export function isRyanpeikou({hand, discard, playerMelds}: isRyanpeikouTypes) {
         const newCounts = {...tileCounts};
         newCounts[tileName] -= 2;
         if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
+          return {
+            result: true,
+            typeOfAction: typeOfAction,
+            han: 3,
+            yakuName: yakuName,
+          };
         }
       }
     }
@@ -61,5 +67,10 @@ export function isRyanpeikou({hand, discard, playerMelds}: isRyanpeikouTypes) {
 
   const end = performance.now();
   //console.log(`isRyanpeikou() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }

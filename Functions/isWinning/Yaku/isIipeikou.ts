@@ -13,7 +13,7 @@ export function isIipeikou({hand, discard, playerMelds}: isIipekouTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
-
+  let yakuName = 'Honrotou';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   if (meldedTiles.length > 0) {
     typeOfAction = '';
@@ -45,7 +45,12 @@ export function isIipeikou({hand, discard, playerMelds}: isIipekouTypes) {
         const newCounts = {...tileCounts};
         newCounts[tileName] -= 2;
         if (checkMelds(newCounts) === 4) {
-          return {result: true, typeOfAction: typeOfAction};
+          return {
+            result: true,
+            typeOfAction: typeOfAction,
+            han: 1,
+            yakuName: yakuName,
+          };
         }
       }
     }
@@ -57,5 +62,10 @@ export function isIipeikou({hand, discard, playerMelds}: isIipekouTypes) {
 
   const end = performance.now();
   //console.log(`isIipekou() took ${end - start} milliseconds.`);
-  return {result: false, typeOfAction: typeOfAction};
+  return {
+    result: false,
+    typeOfAction: typeOfAction,
+    han: 0,
+    yakuName: yakuName,
+  };
 }
