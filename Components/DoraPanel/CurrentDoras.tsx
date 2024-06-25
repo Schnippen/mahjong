@@ -14,7 +14,7 @@ export const CurrentDoras = () => {
   );
   const uncoveredCount = useSelector(
     (state: RootState) => state.wallReducer.uncoveredCount,
-  ); 
+  );
   //if uncovered doras >5 = > end game
   //const uncoveredArray = [0];
   //console.log('currentDoras:', currentDoras.length);
@@ -42,7 +42,7 @@ export const CurrentDoras = () => {
         offset: 39 * index,
         index,
       })}
-      ListEmptyComponent={<EmptyComponent/>}
+      ListEmptyComponent={<EmptyComponent />}
     />
   );
 };

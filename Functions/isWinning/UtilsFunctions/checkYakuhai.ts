@@ -1,6 +1,6 @@
 import {tileCountsType} from '../../../Types/types';
 
-export function checkYakuhai(tileCounts: tileCountsType): boolean {
+export function checkYakuhai(tileCounts: tileCountsType): number {
   const yakuhaiTiles = [
     'red',
     'green',
@@ -20,5 +20,5 @@ export function checkYakuhai(tileCounts: tileCountsType): boolean {
     }
   }
 
-  return yakuhaiTripletsCount > 0;
+  return yakuhaiTripletsCount;
 }
