@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import MahjongScreen from './Screens/mahjong';
 import {BottomTabBar} from '@react-navigation/bottom-tabs';
 import Settings from './Screens/Settings';
+import EndRoundScreen from './Screens/EndRoundScreen';
 
 function MainApp() {
   const Stack = createNativeStackNavigator();
@@ -19,12 +20,12 @@ function MainApp() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="MahjongScreen"
+        initialRouteName="EndRoundScreen"
         screenOptions={{orientation: 'landscape', headerShown: false}}>
         <Stack.Screen name="MahjongScreen" component={MahjongScreen} />
         {/* <Stack.Screen name="EndGameScreen" component={EndGameScreen} /> */}
         {/* <Stack.Screen name="StartGameScreen" component={StartGameScreen} /> */}
-        {/* <Stack.Screen name="EndRoundScreen" component={EndRoundScreen} /> */}
+        <Stack.Screen name="EndRoundScreen" component={EndRoundScreen} />
         <RootStack.Group screenOptions={{presentation: 'modal'}}>
           <Stack.Screen name="Settings" component={Settings} />
         </RootStack.Group>
