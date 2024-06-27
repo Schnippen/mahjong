@@ -1,24 +1,33 @@
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store/store';
 
 const options = {
     enableVibrateFallback: true,
     ignoreAndroidSystemSettings: false,
   };
 
+  const triggerHapticFeedback = (type:string) => {
+    const vibrationsEnabled = useSelector((state:RootState) => state.settingsReducer.sortTilesOnHand);
+    if (vibrationsEnabled) {
+      ReactNativeHapticFeedback.trigger(type, options);
+    }
+  };
+  
   export const handleImpactLight = () => {
-      ReactNativeHapticFeedback.trigger('impactLight', options);   
-    };
-
-export const hanpticImpactMedium = () => {
-    ReactNativeHapticFeedback.trigger('impactMedium', options);   
+    triggerHapticFeedback('impactLight');
   };
-
-export  const handleImpactHeavy = () => {
-    console.log('haptic button');
-    ReactNativeHapticFeedback.trigger('impactHeavy', options);   
+  
+  export const handleImpactMedium = () => {
+    triggerHapticFeedback('impactMedium');
   };
-
-  export  const handleNotificationSuccess = () => {
+  
+  export const handleImpactHeavy = () => {
     console.log('haptic button');
-    ReactNativeHapticFeedback.trigger('notificationSuccess', options);   
+    triggerHapticFeedback('impactHeavy');
+  };
+  
+  export const handleNotificationSuccess = () => {
+    console.log('haptic button');
+    triggerHapticFeedback('notificationSuccess');
   };

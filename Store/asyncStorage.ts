@@ -1,12 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SettingStoreTypes } from "../Types/types";
 
-interface SettingStoreTypes{
-  sound:boolean,
-  volume:number,
-  voices:'NONE'| 'MALE'| 'FEMALE',
-  vibrations:boolean,
-  numerals:boolean,
-}
+
 
 
 const defaultSettings: SettingStoreTypes = {
