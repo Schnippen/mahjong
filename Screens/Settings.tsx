@@ -1,150 +1,215 @@
-import {Button} from '@rneui/themed';
-import React from 'react';
-import {Text, View} from 'react-native';
+import {Button, ButtonGroup, Divider,Slider} from '@rneui/themed';
+import React, { useState } from 'react';
+import {ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
+import { getSettings, resetSettings, updateSetting } from '../Store/asyncStorage';
+
 
 function Settings({navigation}: {navigation: any}) {
+  const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
+const [volumeState, setVolumeState] = useState(0);
+const [selectedVoiceType, setSelectedVoiceType] = useState(0);
+const [soundState, setSoundState] = useState(0);
+const [vibrationsState, setVibrationsState] = useState(0);
+const [numeralsActive,setNumeralsActive]=useState(0)
+
+//TODO
+const loadSettings = async () => {
+  const storedSettings = await getSettings();
+  console.log("loadSettings:",storedSettings)
+  //set all the haptics, volumes etc....
+}
+
+const handleSound =async (value:number)=>{
+  setSoundState(value);
+  if(value===0){
+    //true
+    await updateSetting('sound', true);
+  }else if(value===1){
+    //false
+    await updateSetting('sound', false);
+  }
+}
+
+const handleVibrations =async (value:number)=>{
+  setVibrationsState(value);
+  if(value===0){
+    //true
+    await updateSetting('vibrations', true);
+  }else if(value===1){
+    //false
+    await updateSetting('vibrations', false);
+  }
+}
+const handleSelectedVoiceType=async (value:number)=>{
+  setSelectedVoiceType(value);
+    if(value===0){
+    //NONE
+    console.log("VALUE:",value)
+    await updateSetting('voices', 'NONE');
+  }else if(value===1){
+    //MALE
+    console.log("VALUE:",value)
+    await updateSetting('voices', 'MALE');
+  }
+  else if(value===2){
+    //FEMALE
+    console.log("VALUE:",value)
+    await updateSetting('voices', 'FEMALE');
+  }
+}
+
+const handleVolume=async (value:number)=>{
+  setVolumeState(value);
+  let result = value/10
+  console.log("VOlume:",value/10)
+    await updateSetting('volume', result);
+  
+}
+
+const handleNumerals=async (value:number)=>{
+  setNumeralsActive(value);
+  if(value===0){
+    //true
+    await updateSetting('numerals', true);
+  }else if(value===1){
+    //false
+    await updateSetting('numerals', false);
+  }
+}
+
+const handleResetToDefault=async()=>{
+  //reset
+  await resetSettings()
+  //set default
+  const defaultSettings = await getSettings();
+  console.log("RESET SETTINGS",defaultSettings)
+  let numerals = defaultSettings.numerals===true?0:1
+  let sound = defaultSettings.sound ===true?0:1
+  let vibrations =  defaultSettings.vibrations===true?0:1
+  let voices = defaultSettings.voices==="FEMALE"?2:1 
+  let volume = defaultSettings.volume===1?10:0
+  setNumeralsActive(numerals)
+  setSelectedVoiceType(voices)
+  setSoundState(sound)
+  setVibrationsState(vibrations)
+  setVolumeState(volume)
+}
+
+const  ButtonGoBack =()=> {
   return (
-    <View>
-      <Button onPress={() => navigation.goBack()} title={'GO BACK'}></Button>
-      <Text>Settings</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={() =>null}>
+      <View
+        style={{
+          height: 40,
+          width: 40,
+          backgroundColor: 'rgba(243, 251, 254, 0.3)',
+
+          alignItems: 'center',
+          borderRadius: 25,
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            height: 35,
+            width: 35,
+            borderRadius: 25,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#f3fbfe',
+          }}>
+          <Text style={{color:"black"}}>{'X'}</Text>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+}
+
+  return (
+    <ScrollView
+    style={{
+      backgroundColor: panelBackgroundColor,
+      width: '100%',
+      height: "100%",
+      padding:8,
+    }}>
+      <View style={{flexDirection:"row",alignItems:"center",height:100,backgroundColor:'red'}}>
+        <View></View>
+        <Text style={{fontSize:48,fontWeight:"bold",}}>Settings:</Text>
+        <View></View>
+      <ButtonGoBack />
+      </View>
+  
+      <Button title="setItem" onPress={()=>{null}}/>
+      <Button title="getItem" onPress={()=>loadSettings()}/>
+      <Divider style={{width:"80%",margin:10,}} width={2} inset={true} orientation='horizontal'/>
+    <ButtonGroup
+      buttons={['Sound ON', 'Sound OFF',]}
+      selectedIndex={soundState}
+      onPress={(value) => {
+        handleSound(value);
+      }}
+      containerStyle={{ marginBottom: 20 }}
+    />
+        <ButtonGroup
+      buttons={['Vibrations ON', 'Vibrations OFF',]}
+      selectedIndex={vibrationsState}
+      onPress={(value) => {
+        handleVibrations(value)
+      }}
+      containerStyle={{ marginBottom: 20 }}
+    />
+      <ButtonGroup
+      buttons={['NONE', 'MALE', 'FEMALE']}
+      selectedIndex={selectedVoiceType}
+      onPress={(value) => {
+        handleSelectedVoiceType(value)
+      }}
+      containerStyle={{ marginBottom: 20 }}
+    />
+    <Divider style={{width:"80%",margin:10,}} width={2} inset={true} orientation='horizontal'/>
+    <View><Text style={{fontSize:28,fontWeight:"bold"}}>Set Volume:</Text></View>
+    <View style={{
+      padding: 20,
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'stretch',
+    }}>
+          <Slider
+            value={volumeState}
+            onValueChange={handleVolume}
+            maximumValue={10}
+            minimumValue={0}
+            //maximumTrackTintColor 
+            //minimumTrackTintColor 
+            step={1}
+            allowTouchTrack
+            trackStyle={{ height: 10, backgroundColor: '  ' }}
+            thumbStyle={{ height: 50, width: 50, backgroundColor: 'transparent' }}
+            //animationType='spring'
+            //animateTransitions= //TODO
+            thumbProps={{
+              children: (
+                <View style={{justifyContent:"center",alignItems:'center',height:50,width:50,backgroundColor:"#0d2d54",borderRadius:8}}>
+                <Text style={{color:"#fbd54e",fontSize:20,fontWeight:"bold"}} >{volumeState}</Text>
+                </View>
+              ),
+            }}
+          />
+        </View>
+        <Divider style={{width:"80%",margin:10,}} width={2} inset={true} orientation='horizontal'/>
+        <ButtonGroup
+      buttons={['Numerals ON', 'Numerals OFF']}
+      selectedIndex={numeralsActive}
+      onPress={(value) => {
+        handleNumerals(value)
+      }}
+      containerStyle={{ marginBottom: 20 }}
+    />
+        <Divider style={{width:"80%",margin:10,}} width={2} inset={true} orientation='horizontal'/>
+        <Button title={"Reset to default"} onPress={()=>handleResetToDefault()}/>
+        <View style={{marginBottom:40}}/>
+    </ScrollView>
   );
 }
 
 export default Settings;
-
-//last tiles position in wall relative to wind
-
-//it is south wall but the divide happens on west wall
-// wallWind === 'south' && globalDiceRollResult ===2
-// const isNearDeadwall = wallWind === 'south' && globalDiceRollResult === 2;
-
-// wallWind === 'west' && globalDiceRollResult ===3
-//justify-content flex-end  west
-//Margin right west 4 tiles
-// const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 3;
-
-// wallWind === 'north' && globalDiceRollResult ===4
-//justify-content flex-end  west
-//Margin right west 4 tiles
-// const isNearDeadwall = wallWind === 'north' && globalDiceRollResult === 4;
-
-// wallWind === 'east' && globalDiceRollResult === 5
-//isNearDeadwall = wallWind === 'east' && globalDiceRollResult === 5;
-//justify-content flex-end  EAST
-//Margin right SOUTH
-
-
-//it is south wall but the divide happens on west wall
-// wallWind === 'south' && globalDiceRollResult === 6
-// const isNearDeadwall = wallWind === 'south' && globalDiceRollResult === 6
-
-// wallWind === 'west' && globalDiceRollResult === 7
-// const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 7
-//justify-content flex-start WEST
-
-// wallWind === 'north' && globalDiceRollResult ===8
-//justify-content flex-end  North
-//const isNearDeadwall = wallWind === 'north' && globalDiceRollResult === 8;
-
-//Margin right NORTH 2 tiles
-// wallWind === 'east' && globalDiceRollResult ===9
-//justify-content flex-end  east
-//Margin right east 3 tiles
-
-// wallWind === 'south' && globalDiceRollResult ===10
-//justify-content flex-end  west
-//Margin right west 4 tiles
-// const isNearDeadwall = wallWind === 'south' && globalDiceRollResult === 10;
-
-
-// wallWind === 'west' && globalDiceRollResult ===11
-//justify-content flex-end  west
-//Margin right west 4 tiles
-// const isNearDeadwall = wallWind === 'west' && globalDiceRollResult === 11;
-
-// wallWind === 'north' && globalDiceRollResult ===12
-//justify-content flex-end  north
-//Margin right west 6 tiles
-// const isNearDeadwall = wallWind === 'north' && globalDiceRollResult === 12;
-
-// porposition of creating wall that will sit on the gameboard
-/* 
-  if (DICE_ROLL === 2) {
-    //2 south //5 west
-
-    eastWall = tilesReadyForRound.slice(0, 11);
-    southWall = []; //2*2 dead wall deadWallFragment.slice(0,4)
-    westWall = tilesReadyForRound.slice(45, 69); //5*2 dead wall deadWallFragment.slice(4,14)
-    northWall = tilesReadyForRound.slice(11, 45);
-  }
-  if (DICE_ROLL === 3) {
-    //3 west 4 north
-    eastWall = tilesReadyForRound.slice(9, 43);
-    southWall = tilesReadyForRound.slice(0, 9);
-    westWall = []; //3*2 deadwall
-    northWall = tilesReadyForRound.slice(43, 69); // 4*2 dead wall
-  }
-  if (DICE_ROLL === 4) {
-    //4 north  / 3 east
-    eastWall = tilesReadyForRound.slice(41, 69); //3*2 dead wall
-    southWall = tilesReadyForRound.slice(7, 41);
-    westWall = tilesReadyForRound.slice(0, 7);
-    northWall = []; //4*2 dead wall
-  }
-  if (DICE_ROLL === 5) {
-    //5 east /2 south
-    eastWall = []; //5*2 dead wall
-    southWall = tilesReadyForRound.slice(39, 69); //2*2 dead wall
-    westWall = tilesReadyForRound.slice(5, 37);
-    northWall = tilesReadyForRound.slice(0, 5);
-  }
-  if (DICE_ROLL === 6) {
-    //6 south //1 west
-    eastWall = tilesReadyForRound.slice(0, 3);
-    southWall = []; //6*2 dead wall
-    westWall = tilesReadyForRound.slice(37, 69); //1*2 dead wall
-    northWall = tilesReadyForRound.slice(3, 37);
-  }
-  if (DICE_ROLL === 7) {
-    //WEST
-    //7 west
-    eastWall = tilesReadyForRound.slice(1, 35); // east full
-    southWall = tilesReadyForRound.slice(0, 1); // 1 left,
-    westWall = []; //DEAD WALL is from 0 to 14
-    northWall = tilesReadyForRound.slice(35, 69); //north full
-  }
-  if (DICE_ROLL === 8) {
-    //rest 7 south /1 south
-    eastWall = tilesReadyForRound.slice(33, 67);
-    southWall = tilesReadyForRound.slice(0, 33);
-    westWall = [];
-    northWall = tilesReadyForRound.slice(67, 69); //7*2 dead wall
-  }
-  if (DICE_ROLL === 9) {
-    eastWall = tilesReadyForRound.slice(65, 69); //2*2 dead wall
-    southWall = tilesReadyForRound.slice(31, 65);
-    westWall = tilesReadyForRound.slice(0, 31);
-    northWall = [];
-  }
-  if (DICE_ROLL === 10) {
-    //SOUTH
-    eastWall = []; //empty
-    southWall = tilesReadyForRound.slice(63, 69); //3*2 dead wall
-    westWall = tilesReadyForRound.slice(29, 63);
-    northWall = tilesReadyForRound.slice(0, 29);
-  }
-  if (DICE_ROLL === 11) {
-    //WEST
-    eastWall = tilesReadyForRound.slice(0, 27);
-    southWall = [];
-    westWall = tilesReadyForRound.slice(61, 69); //4*2 dead wall
-    northWall = tilesReadyForRound.slice(27, 61);
-  }
-  if (DICE_ROLL === 12) {
-    //NORTH
-    eastWall = tilesReadyForRound.slice(25, 59); //empty
-    southWall = tilesReadyForRound.slice(0, 25);
-    westWall = [];
-    northWall = tilesReadyForRound.slice(59, 69); //5*2 dead wall + 7*2
-  } */
