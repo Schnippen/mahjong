@@ -31,3 +31,5 @@ const options = {
     console.log('haptic button');
     triggerHapticFeedback('notificationSuccess');
   };
+
+  //TODO add Haptics

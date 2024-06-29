@@ -2,7 +2,6 @@ import {TTileObject, TstolenTiles, TypeOfAction} from '../../../Types/types';
 import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
 import {checkChinroutou} from '../UtilsFunctions/checkChinrotou';
-import {checkHonroutou} from '../UtilsFunctions/checkHonroutou';
 
 type isChinroutouTypes = {
   hand: TTileObject[];

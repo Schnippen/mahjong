@@ -1,6 +1,6 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {playerToYourLeftWind} from '../Functions/checkPlayersToYourLeftWind';
-import {TplayerString} from '../Types/types';
+import {TTileObject, TplayerString, YakuType} from '../Types/types';
 
 //gamestate
 //playerstate
@@ -30,35 +30,8 @@ interface gameState {
   prevailingWind: string;
   round: number;
   howManyTurnsElapsed: 0;
-  turnInterrupted: boolean;
-  /*   player1Actions: {
-    CHII: boolean;
-    PON: boolean;
-    KAN: boolean;
-    RON: boolean;
-    TSUMO: boolean;
-  };
-  player2Actions: {
-    CHII: boolean;
-    PON: boolean;
-    KAN: boolean;
-    RON: boolean;
-    TSUMO: boolean;
-  };
-  player3Actions: {
-    CHII: boolean;
-    PON: boolean;
-    KAN: boolean;
-    RON: boolean;
-    TSUMO: boolean;
-  };
-  player4Actions: {
-    CHII: boolean;
-    PON: boolean;
-    KAN: boolean;
-    RON: boolean;
-    TSUMO: boolean;
-  }; */
+  turnInterrupted: boolean; //todo make winnig action better type,
+  winningHand:{hand:TTileObject[],winningTile:TTileObject[],yakuList:YakuType[],winningAction:string}
 }
 
 const initialState: gameState = {
@@ -74,34 +47,7 @@ const initialState: gameState = {
   prevailingWind: 'east',
   round: 0,
   turnInterrupted: false,
-  /*  player1Actions: {
-    CHII: false,
-    PON: false,
-    KAN: false,
-    RON: false,
-    TSUMO: false,
-  },
-  player2Actions: {
-    CHII: false,
-    PON: false,
-    KAN: false,
-    RON: false,
-    TSUMO: false,
-  },
-  player3Actions: {
-    CHII: false,
-    PON: false,
-    KAN: false,
-    RON: false,
-    TSUMO: false,
-  },
-  player4Actions: {
-    CHII: false,
-    PON: false,
-    KAN: false,
-    RON: false,
-    TSUMO: false,
-  }, */
+  winningHand:{hand:[],winningTile:[],yakuList:[],winningAction:''}
 };
 
 export const gameReducer = createSlice({
@@ -170,6 +116,25 @@ export const gameReducer = createSlice({
     changePrevailingWind: (state, action) => {
       //state.value += action.payload
     },
+    setWinningHand: (state, action: PayloadAction<{ hand: TTileObject[], tile: TTileObject[], yaku: YakuType[], winAction: string, type: string }>) => {
+      const { hand, tile, yaku, winAction, type } = action.payload;
+      if(type==="reset"){
+        state.winningHand = {
+          hand: [],
+          winningTile: [],
+          yakuList: [],
+          winningAction: '',
+        };
+      }else if(action.type==="update"){
+        state.winningHand = {
+          hand: [...hand],
+          winningTile: [...tile],
+          yakuList: [...yaku],
+          winningAction: winAction,
+        };
+      }
+      //state.winningHand.hand
+    },
   },
 });
 
@@ -187,6 +152,7 @@ export const {
   CHANGE_ORDER_AFTER_ACTION,
   setCurrentPlayer,
   changePrevailingWind,
+  setWinningHand
 } = gameReducer.actions;
 
 export default gameReducer.reducer;

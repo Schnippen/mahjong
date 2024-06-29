@@ -1,4 +1,4 @@
-import {TTileObject, TstolenTiles} from '../../Types/types';
+import {TTileObject, TstolenTiles, YakuType} from '../../Types/types';
 import {isChanta} from './Yaku/isChanta';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
 import {isChinitsu} from './Yaku/isChinitsu';
@@ -77,7 +77,7 @@ export function isWinning({
   //Ittsuu pure straight //WORKING
   isIttsuu({hand, discard, playerMelds: currentMelds});
 
-  //Pinfu //TODO closed
+  //Pinfu //TODO closed //working??
   isPinfu({hand, discard, playerMelds: currentMelds});
 
   //Ryanpeikou Two Pure Double Sequences //closed  //WORKING
@@ -90,17 +90,17 @@ export function isWinning({
 
   //Riichi //TODO
 
-  //Daburu Riichi //TODO
+  //Daburu Riichi //TODO //have sounds for that
 
-  //Ippatsu
-  //Menzen tsumo
-  //Haitei raoyue
-  //Houtei raoyui
-  //Rinshan kaihou
-  //Chankan
-  //Tenhou  yakuman
-  //Chiihou yakuman
-  //renhou
+  //Ippatsu //have sound for that
+  //Menzen tsumo //have sound for that
+  //Haitei raoyue //have sound for that
+  //Houtei raoyui //have sound for that
+  //Rinshan kaihou //have sound for that
+  //Chankan //have sound for that
+  //Tenhou  yakuman //have sound for that
+  //Chiihou yakuman //have sound for that
+  //renhou //have sound for that
 
   //yakus based on terminals / honors
 
@@ -232,22 +232,22 @@ export function isWinning({
 
   //TODO make it more elegant, finish yakus
 
-  //this function will check the scoring and names of yakus:
-  let totalHanRon = 0;
+  //this function is now in handleRon, handleTsumo
+  /* let totalHanRon = 0;
   let totalHanTsumo = 0;
-  let listOfYakusInHand: Array<string> = [];
+  let listOfYakusInHand: YakuType[] = [];
   for (const check of yakuChecks) {
     const result = check({hand, discard, playerMelds: currentMelds});
     if (typeof result === 'object' && result.result) {
       if (result.typeOfAction === 'RON') {
         totalHanRon += result.han || 0;
-        listOfYakusInHand.push(result.yakuName);
+        listOfYakusInHand.push({han:result.han, yakuName:result.yakuName});
       } else if (result.typeOfAction === 'TSUMO') {
         totalHanTsumo += result.han || 0;
-        listOfYakusInHand.push(result.yakuName);
+        listOfYakusInHand.push({han:result.han, yakuName:result.yakuName});
       }
     }
-  }
+  } */
 
   //this for loop checks if tsumo or ron is valid
   type YakuResult = {

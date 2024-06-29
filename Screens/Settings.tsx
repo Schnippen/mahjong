@@ -85,10 +85,10 @@ const handleVibrations =async (value:number)=>{
 const handleSelectedVoiceType=async (value:number)=>{
   setSelectedVoiceType(value);
     if(value===0){
-    //NONE
+    //OFF
     console.log("VALUE:",value)
-    await updateSetting('voices', 'NONE');
-    dispatch(setVoiceType('NONE'))
+    await updateSetting('voices', 'OFF');
+    dispatch(setVoiceType('OFF'))
   }else if(value===1){
     //MALE
     console.log("VALUE:",value)
@@ -215,7 +215,7 @@ const  ButtonGoBack =()=> {
       containerStyle={{ marginBottom: 20 }}
     />
       <ButtonGroup
-      buttons={['NONE', 'MALE', 'FEMALE']}
+      buttons={['OFF', 'MALE', 'FEMALE']}
       selectedIndex={selectedVoiceType}
       onPress={(value) => {
         handleSelectedVoiceType(value)

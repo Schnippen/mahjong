@@ -119,6 +119,10 @@ const PlayerButtonsPanel = () => {
   const handData = useSelector(
     (state: RootState) => state.playersReducer.player1.playerHand.hand,
   );
+  const playerMelds = useSelector(
+    (state: RootState) => state.playersReducer.player1.playerHand.melds,
+
+  )
   const currentDiscard = useSelector(
     //if unknown null
     (state: RootState) => state.riverReducer.currentDiscard,
@@ -159,7 +163,7 @@ const PlayerButtonsPanel = () => {
   const [chiiPanelState, setChiiPanelState] = useState<TTileObject[][]>([]);
   const [displayRonButton, setDisplayRonButton] = useState<boolean>(false);
   const [displayTsumoButton, setDisplayTsumoButton] = useState<boolean>(false);
-  console.log('playersButtonPanel-latestTurn:', latestTurn);
+  //console.log('playersButtonPanel-latestTurn:', latestTurn);
 
   useEffect(() => {
     console.log(
@@ -332,7 +336,8 @@ const PlayerButtonsPanel = () => {
           <ButtonRON
             handlePress={() => {
               console.log('ButtonRON');
-              handleRon({});
+              handleRon({hand:handData,dispatch:dispatch,discard:currentDiscard,currentMelds:playerMelds});
+
             }}
           />
         ) : null}
@@ -340,7 +345,7 @@ const PlayerButtonsPanel = () => {
           <ButtonTSUMO
             handlePress={() => {
               console.log('ButtonTSUMO');
-              handleTsumo({});
+              handleTsumo({hand:handData,dispatch:dispatch,discard:currentDiscard,currentMelds:playerMelds});
             }}
           />
         ) : null}

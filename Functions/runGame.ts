@@ -322,6 +322,8 @@ export const runGame = (
   //if no tiles check for noten and tempai
   if (tilesAfterHandoutLength === 0) {
     console.info('Game Ended');
+    //TODO
+    //go to  endscreen, check tenpai noten
     return;
   }
 
