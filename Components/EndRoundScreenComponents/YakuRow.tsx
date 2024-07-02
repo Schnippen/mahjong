@@ -1,18 +1,73 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import Animated, { Easing, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import { soundFunc } from '../../Functions/playSounds/soundFunc';
+import { YakuType } from '../../Types/types';
+//TODO change typescript - ?
+export const YakuRow = ({ data, time }: { data?: YakuType; time?: number }) => {
+  const topPanelBackgroundColor = '#3c7fc3';
+  const [loading, setLoading] = useState(true);
+  const translateX = useSharedValue(-200);
+  const opacity = useSharedValue(0);
+let soundName = data?.yakuName.split(" ").join("").toLowerCase() 
 
-export const YakuRow = () => {
-    const topPanelBackgroundColor = '#3c7fc3';
+//TODO create dorani dorasan etc sounds ;_;
 
-    return (
-      <View style={{flexDirection:"row",height:38,width:140,backgroundColor:topPanelBackgroundColor,borderRadius:4,alignItems:'center',paddingHorizontal:4,borderWidth:1,borderColor:'black',}}>
-        <View style={{flex:3,justifyContent:"center",height:38}}>
-          <Text style={{fontWeight:"bold",textAlign:"center"}}>Sanshoku Doukou</Text>
-          </View>
-        
-        <View style={{flexDirection:"row",backgroundColor:"#113764",height:24,borderRadius:4,flex:2,alignItems:'center',justifyContent:"center"}}>
-        <Text style={{color:"#fbd54e",fontWeight:"bold",}}>1</Text>
-        <Text style={{color:"#fbd54e"}}>HAN</Text>
-        </View> 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+      //soundFunc({type:"popDown"})
+      translateX.value = withTiming(0, { duration: 500, easing: Easing.out(Easing.exp) }); // Animate to position 0
+      opacity.value = withTiming(1, { duration: 500, easing: Easing.out(Easing.exp) }); // Animate to opacity 1
+    }, time);
+
+    return () => clearTimeout(timer); // Cleanup the timer on unmount
+  }, [time]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: translateX.value }],
+      opacity: opacity.value,
+    };
+  });
+
+  if (loading) {
+    return null;
+  }
+  let name= data?.yakuName?data.yakuName:null
+  let han= data?.han?data.han:null
+  return (
+    <Animated.View style={[styles.yakuRow, animatedStyle]}>
+      <View style={{ flex: 3, justifyContent: "center", height: 38 }}>
+        <Text style={{ fontWeight: "bold", textAlign: "center" }}>{name}</Text>
       </View>
-    );};
+      <View style={styles.hanContainer}>
+        <Text style={{ color: "#fbd54e", fontWeight: "bold" }}>{han}</Text>
+        <Text style={{ color: "#fbd54e" }}>HAN</Text>
+      </View>
+    </Animated.View>
+  );
+};
+
+const styles = StyleSheet.create({
+  yakuRow: {
+    flexDirection: "row",
+    height: 38,
+    width: 140,
+    backgroundColor: '#3c7fc3',
+    borderRadius: 4,
+    alignItems: 'center',
+    paddingHorizontal: 4,
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  hanContainer: {
+    flexDirection: "row",
+    backgroundColor: "#113764",
+    height: 32,
+    borderRadius: 4,
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: "center",
+  },
+});
