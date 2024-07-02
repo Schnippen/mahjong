@@ -116,25 +116,24 @@ export const gameReducer = createSlice({
     changePrevailingWind: (state, action) => {
       //state.value += action.payload
     },
-    setWinningHand: (state, action: PayloadAction<{ hand: TTileObject[], tile: TTileObject[], yaku: YakuType[], winAction: string, type: string }>) => {
-      const { hand, tile, yaku, winAction, type } = action.payload;
-      if(type==="reset"){
-        state.winningHand = {
-          hand: [],
-          winningTile: [],
-          yakuList: [],
-          winningAction: '',
-        };
-      }else if(action.type==="update"){
+    setWinningHand: (state, action: PayloadAction<{ hand: TTileObject[], tile: TTileObject[], yaku: YakuType[], winAction: string}>) => {
+      const { hand, tile, yaku, winAction } = action.payload;
         state.winningHand = {
           hand: [...hand],
           winningTile: [...tile],
           yakuList: [...yaku],
           winningAction: winAction,
         };
-      }
-      //state.winningHand.hand
     },
+    resetWinningHand:(state)=>{
+        state.winningHand = {
+          hand: [],
+          winningTile: [],
+          yakuList: [],
+          winningAction: '',
+        };
+        console.log("REDUX RESETED WINNING HAND")
+    }
   },
 });
 
@@ -152,7 +151,7 @@ export const {
   CHANGE_ORDER_AFTER_ACTION,
   setCurrentPlayer,
   changePrevailingWind,
-  setWinningHand
+  setWinningHand,resetWinningHand
 } = gameReducer.actions;
 
 export default gameReducer.reducer;

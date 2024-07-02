@@ -133,11 +133,11 @@ export const runGame = (
     );
     interruptTurn = checkS.result;
     //TODO refactor
-    console.log(
+   /*  console.log(
       'runGame() possibleSequences:',
       checkS.possibleSequences.map(t => t.map(i => i.name)),
       checkS.possibleSequences.length > 0,
-    );
+    ); */
     if (checkS.possibleSequences.length > 0) {
       setDisplayChiiButton(true);
     }
@@ -161,11 +161,11 @@ export const runGame = (
   playersArray.forEach(player => {
     if (currentPlayersTurn === player.name) return;
     const checkT = checkForTriplet(player.playerHand.hand, currentDiscard);
-    console.log(`checkForTriplet result for ${player.name}:`, checkT);
+    //console.log(`checkForTriplet result for ${player.name}:`, checkT);
 
     if (checkT) {
       // Show the display for the player
-      console.log(`Display for ${player.name}`);
+      //console.log(`Display for ${player.name}`);
       dispatch(INTERRUPT_TURN({val: true}));
       // Set interruptTurn to true
       interruptTurn = true;
@@ -198,8 +198,8 @@ export const runGame = (
     let checkQ = checkForQuadruplet(player.playerHand.hand, currentDiscard);
     if (checkQ) {
       //add specific result onl for kan that is on hand contained, it should not pause game
-      console.log('runGame(): checkQ');
-      console.log(`Display for ${player.name}`);
+      //console.log('runGame(): checkQ');
+      //console.log(`Display for ${player.name}`);
       dispatch(INTERRUPT_TURN({val: true}));
       interruptTurn = true;
 

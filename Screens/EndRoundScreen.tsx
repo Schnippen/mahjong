@@ -1,50 +1,51 @@
 import React from 'react';
-import { FlatList, Text, View} from 'react-native';
+import { FlatList, StyleSheet, Text, View} from 'react-native';
 import {tilesData} from '../Data/tilesData';
 import EmptyComponent from '../Components/Wall/EmptyComponent';
-import {TTileObject} from '../Types/types';
-import PlayersTileOnHand from '../Components/PlayerControls/PlayerTileOnHand';
+import { YakuType} from '../Types/types';
 import { EndRoundScreenCurentDorasList } from '../Components/EndRoundScreenComponents/EndRoundScreenCurentDorasList';
 import { EndRoundScreenCurentUraDorasList } from '../Components/EndRoundScreenComponents/EndRoundScreenCurentUraDorasList';
 import { ButtonTakeScreenshot } from '../Components/EndRoundScreenComponents/ButtonTakeScreenshot';
-import { ButtonEndRound } from '../Components/EndRoundScreenComponents/ButtonEndRound';
 import { YakuRow } from '../Components/EndRoundScreenComponents/YakuRow';
+import { RootState } from '../Store/store';
+import { useAppSelector } from '../Store/hooks';
+import { WinningHand } from '../Components/EndRoundScreenComponents/WinningHandComponent';
+import { Score } from '../Components/EndRoundScreenComponents/AnimatedScore';
+import { resetToNextRound } from '../Functions/resetToNextRound';
+import { useAppDispatch } from '../Store/hooks';
+import { Button } from '@rneui/themed';
 
-function EndRoundScreen() {
+//TODO love this 
+/* onLayout={(event) => {
+  const {x, y, width, height} = event.nativeEvent.layout;
+  console.log(x,y,width,height)
+}} */
+
+function EndRoundScreen({navigation}:{navigation:any}) {
   const topPanelBackgroundColor = '#3c7fc3';
   const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
-  const exampleData = tilesData.slice(12, 26);
-
+  const exampleData = tilesData.slice(12, 25);
+  const exampleData2= tilesData.slice(25, 26);
   //props, winning hand of a player, winning tile by tsumo or ron
 
-  const RenderItem = ({item, index}: {item: TTileObject; index: number}) => {
-    return <PlayersTileOnHand svg={item.image} tileRatioProp={1.2} />;
-  };
+  const dispatch = useAppDispatch()
 
-  const WinningHand = () => {
-    // winning hand state
-    return (
-      <View style={{backgroundColor: 'red', width: 600, height: 70,borderRadius:8,paddingHorizontal:4,justifyContent:"center",alignItems:"center",paddingLeft:5}}>
-        <View style={{width:"100%",height:56,backgroundColor:"blue",justifyContent:'center'}}>
-        <FlatList
-          horizontal={true}
-          scrollEnabled={false}
-          data={exampleData}
-          renderItem={RenderItem}
-          ListEmptyComponent={<EmptyComponent />}
-          keyExtractor={(item, index) => item.tileID.toString()}/>
-        </View>
-      </View>
-    );
-  };
 
     const YakuList=()=>{
+      const winningHand = useAppSelector((state: RootState) => state.gameReducer.winningHand);
+      let shit = winningHand.yakuList
+      let shitExample:YakuType[]=[{han:1,yakuName:"ToiToi"},{han:3,yakuName:"Tanyao"},{han:1,yakuName:"Junchan"},{han:2,yakuName:"Yakuahi"},{han:13,yakuName:"Chinitsu"},{han:4,yakuName:"Tsuuiisou"}]
+    
+
       return(
-        <View style={{backgroundColor:"brown",width:"100%",paddingHorizontal:5}}>
+        <View style={{backgroundColor:"brown",width:"100%",paddingHorizontal:5,minHeight:136}} 
+        >
           <FlatList
-          data={[0,1,2,3,4,5,6,7,8,9,10]}
+          data={shitExample}
           ListEmptyComponent={<EmptyComponent/>}
-          renderItem={YakuRow}
+          renderItem={({ item, index }) => (
+            <YakuRow key={index} data={item} time={index * 2000} /* onRendered={handleRendered} */ />
+          )}          
           numColumns={4}
           columnWrapperStyle={{columnGap:10,marginVertical:2}}
           contentContainerStyle={{marginVertical:5,}}
@@ -79,40 +80,40 @@ function EndRoundScreen() {
         </View>)
     }
 
-    const ButtonContainers=()=>{
+    const ButtonContainers=({dispatch,navigation}:{dispatch:any,navigation:any})=>{
+      
       return(
         <View style={{backgroundColor:"blue",flexDirection:'row',justifyContent:'space-around',alignItems:"center",flex:1,}}>
         <ButtonTakeScreenshot/>
-        <ButtonEndRound/>
+        <Button
+      title="OK"
+      buttonStyle={{
+        borderColor: 'rgba(78, 116, 289, 1)',
+        borderRadius:8
+      }}
+      type="outline"
+      raised
+      titleStyle={{ color: 'rgba(78, 116, 289, 1)' }}
+      containerStyle={{
+        width: 80,
+/*         marginHorizontal: 50,
+        marginVertical: 10, */
+        borderRadius:8,
+      }}
+       onPress={()=>
+        resetToNextRound({dispatch,navigation})
+       }
+    />
         </View>
       )
     }
 
-    const Score=()=>{
-      return(
-        <View style={{height:120,width:200,backgroundColor:"purple",paddingHorizontal:5}}>
-          <View style={{flexDirection:'row', backgroundColor:topPanelBackgroundColor,}}>
-            <View style={{flexDirection:'row'}}>
-            <Text style={{color:"#fbd54e",fontSize:28,fontWeight:'bold'}}>50 </Text>
-            <Text style={{color:"#fbd54e",fontSize:28}}>Fu </Text>
-            </View>
-            <View style={{flexDirection:'row'}}>
-            <Text style={{color:"#fbd54e",fontSize:28,fontWeight:'bold'}}>5 </Text>
-            <Text style={{color:"#fbd54e",fontSize:28}}>Han</Text>
-            </View>
-          </View>
-          <View style={{flexDirection:'row',justifyContent:"flex-start",backgroundColor:"red",alignItems:'baseline'}} >
-            <Text style={{fontSize:40,fontWeight:'bold'}}>96000 </Text>
-          <Text style={{fontSize:28,fontWeight:'bold'}}>PTS</Text>
-          </View>
-        </View>
-      )
-    }
+
 
     const ScoreContainer=()=>{
       return(        
       <View style={{backgroundColor:"pink",flexDirection:'row',width:420}}>
-        <Score/>
+        <Score />{/* toValue={96000} duration={5000}  */}
         <View style={{flexDirection:'row',alignItems:"center",justifyContent:'center',backgroundColor:"blue"}}>
           <Text style={{color:"#fbd54e",fontSize:42,fontWeight:'bold'}}>Mangan</Text>
         </View>
@@ -141,7 +142,7 @@ function EndRoundScreen() {
         <YakuList/>
         <View style={{flexDirection:'row',flex:1,backgroundColor:"lime"}}>
         <ScoreContainer/>
-        <ButtonContainers/>
+        <ButtonContainers dispatch={dispatch} navigation={navigation}/>
         </View>
       </View>
     </View>

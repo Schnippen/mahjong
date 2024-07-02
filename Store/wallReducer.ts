@@ -186,6 +186,22 @@ export const wallReducer = createSlice({
       modifyProperty(state.wallSouthState, doras[uncoveredNumber].tileID, true);
       modifyProperty(state.wallWestState, doras[uncoveredNumber].tileID, true);
     },
+    resetWallReducer:(state)=>{
+      state.tilesLeft = 136,
+      state.tilesLeftInWall= 0,
+      state.currentDiceRoll= 0,
+      state.wallTilesArray= [],
+      state.wallEastState= [],
+      state.wallSouthState= [],
+      state.wallWestState= [],
+      state.wallNorthState= [],
+      state.tilesAfterHandout= [],
+      state.deadWall= [],
+      state.dorasFromDeadWall= [],
+      state.uncoveredCount= 1,
+      state.startTakingFromWallXState= 'string',
+      console.log("REDUX RESETED WALL REDUCER")
+    }
   },
 });
 
@@ -202,6 +218,7 @@ export const {
   popTileFromtilesAfterHandout,
   popTileFromTheWall,
   setUncoverNextDora,
+  resetWallReducer,
 } = wallReducer.actions;
 
 export default wallReducer.reducer;
