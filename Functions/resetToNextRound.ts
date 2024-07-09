@@ -1,7 +1,9 @@
 import { resetWinningHand } from "../Store/gameReducer"
 import { resetWallReducer } from "../Store/wallReducer"
+import { playPopDownSound } from "./playSounds/Sounds/playPopDownSound"
 
 export const resetToNextRound=({dispatch,navigation}:{dispatch:any,navigation:any})=>{
+    playPopDownSound()
     //dispatch
     //reset game reducer
     // hands
@@ -11,6 +13,6 @@ export const resetToNextRound=({dispatch,navigation}:{dispatch:any,navigation:an
     ///change compass
     //change score
     //change prevailingWind
-    //navigation.navigate("MahjongScreen")
+    navigation.navigate("MahjongScreen")
     console.log("resetToNextRound pressed")
 }

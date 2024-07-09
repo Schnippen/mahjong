@@ -9,6 +9,7 @@ import Settings from './Screens/Settings';
 import EndRoundScreen from './Screens/EndRoundScreen';
 import useUpdateSettings from './Functions/utils/updateSettingsHook';
 import StartGameScreen from './Screens/StartGameScreen';
+import { hasAndroidPermission, savePicture } from './Functions/utils/cameraRollPermission';
 
 function MainApp() {
   const Stack = createNativeStackNavigator();
@@ -17,11 +18,12 @@ function MainApp() {
 
   useEffect(() => {
     console.info('first useEffect()');
-    updateSettings()
+    updateSettings() 
+    hasAndroidPermission()
   }, []);
   const RootStack = createNativeStackNavigator();
-  
 
+ 
   return (
     <NavigationContainer>
       <Stack.Navigator

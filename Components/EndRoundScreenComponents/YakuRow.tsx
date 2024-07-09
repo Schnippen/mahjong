@@ -15,8 +15,9 @@ let soundName = data?.yakuName.split(" ").join("").toLowerCase()
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      console.log("yaku-row",soundName)
       setLoading(false);
-      //soundFunc({type:"popDown"})
+      soundFunc({type:soundName})
       translateX.value = withTiming(0, { duration: 500, easing: Easing.out(Easing.exp) }); // Animate to position 0
       opacity.value = withTiming(1, { duration: 500, easing: Easing.out(Easing.exp) }); // Animate to opacity 1
     }, time);

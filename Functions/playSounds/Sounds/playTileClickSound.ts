@@ -1,4 +1,5 @@
 import Sound from 'react-native-sound';
+import store from '../../../Store/store';
 
 //var Sound = require('react-native-sound');
 
@@ -14,16 +15,33 @@ const tileClickSound = new Sound('tileclick.mp3', Sound.MAIN_BUNDLE, (error) => 
 });
 
 // Define the play function inside a component to use hooks
-export const playTileClick = (volume: number) => {
-  tileClickSound.setVolume(volume);
-  tileClickSound.play(success => {
-    if (success) {
-      console.log('successfully finished playing tileClickSound');
-    } else {
-      console.log('playback failed due to audio decoding errors');
-    }
-  });
+export const playTileClick = () => {
+  setTimeout(() => {
+    const tileClickSound = new Sound('tileclick.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // if loaded successfully
+      console.log("tileClickSound loaded: duration in seconds: " + tileClickSound.getDuration() +
+        " number of channels: " + tileClickSound.getNumberOfChannels());
+    });
+  
+    setTimeout(() => {
+      let volume = store.getState().settingsReducer.settings.volume
+      tileClickSound.setVolume(volume);
+      tileClickSound.play(success => {
+        if (success) {
+          console.log('successfully finished playing tileClickSound');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    }, 5);
+  }, 5);
 };
+
+
 
 //create sound store in redux,
 // control volume, turn on turn off sounds
