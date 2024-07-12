@@ -6,7 +6,7 @@ import {soundFunc} from './playSounds/soundFunc';
 import {shuffledTilesForGameStart} from './shuffledTilesForGameStart';
 import WallCalculation from './wallCalculation';
 
-export const initialGame = (dispatch: any) => {
+export const initializeNewRound = (dispatch: any) => {
   const finishedWall: TTileObject[] = shuffledTilesForGameStart();
   WallCalculation(dispatch, finishedWall);
   firstShuffledOfWindsForGameStart(dispatch);
@@ -14,6 +14,9 @@ export const initialGame = (dispatch: any) => {
   dispatch(assignHandsBasedOnWind());
   dispatch(START_GAME({phase: 'started'}));
   soundFunc({type: 'diceThrow'});
+
+  //CHANGE WIND? add honba or richii sticks?
+
   //console.log("initializeGame:",finishedWall)
   //maybe clean up  assignHandsBasedOnWind state?
 };

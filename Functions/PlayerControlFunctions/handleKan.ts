@@ -3,9 +3,8 @@ import {
   setStolenTilesOnBoard,
 } from '../../Store/playersReducer';
 import {setUncoverNextDora} from '../../Store/wallReducer';
-import {TTileObject} from '../../Types/types';
+import {positionType, TTileObject} from '../../Types/types';
 import {stealQuadruplet} from '../StealingFunctions/stealQuadruplet';
-import {positionType} from '../StealingFunctions/stealTriplet';
 import {soundFunc} from '../playSounds/soundFunc';
 
 type HandleKanParam = {
@@ -71,7 +70,7 @@ export const handleKan = ({
     setStolenTilesOnBoard({
       player: 'player1',
       tilesArray: kanArray,
-      name: 'kanClosed',
+      name: positionKan, //positionKan
       isOpen: true,
       type: 'Kan',
     }),

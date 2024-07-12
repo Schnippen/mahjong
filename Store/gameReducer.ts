@@ -31,7 +31,12 @@ interface gameState {
   round: number;
   howManyTurnsElapsed: 0;
   turnInterrupted: boolean; //todo make winnig action better type,
-  winningHand:{hand:TTileObject[],winningTile:TTileObject[],yakuList:YakuType[],winningAction:string}
+  winningHand: {
+    hand: TTileObject[];
+    winningTile: TTileObject[];
+    yakuList: YakuType[];
+    winningAction: string;
+  };
 }
 
 const initialState: gameState = {
@@ -47,7 +52,7 @@ const initialState: gameState = {
   prevailingWind: 'east',
   round: 0,
   turnInterrupted: false,
-  winningHand:{hand:[],winningTile:[],yakuList:[],winningAction:''}
+  winningHand: {hand: [], winningTile: [], yakuList: [], winningAction: ''},
 };
 
 export const gameReducer = createSlice({
@@ -116,24 +121,32 @@ export const gameReducer = createSlice({
     changePrevailingWind: (state, action) => {
       //state.value += action.payload
     },
-    setWinningHand: (state, action: PayloadAction<{ hand: TTileObject[], tile: TTileObject[], yaku: YakuType[], winAction: string}>) => {
-      const { hand, tile, yaku, winAction } = action.payload;
-        state.winningHand = {
-          hand: [...hand],
-          winningTile: [...tile],
-          yakuList: [...yaku],
-          winningAction: winAction,
-        };
+    setWinningHand: (
+      state,
+      action: PayloadAction<{
+        hand: TTileObject[];
+        tile: TTileObject[];
+        yaku: YakuType[];
+        winAction: string;
+      }>,
+    ) => {
+      const {hand, tile, yaku, winAction} = action.payload;
+      state.winningHand = {
+        hand: [...hand],
+        winningTile: [...tile],
+        yakuList: [...yaku],
+        winningAction: winAction,
+      };
     },
-    resetWinningHand:(state)=>{
-        state.winningHand = {
-          hand: [],
-          winningTile: [],
-          yakuList: [],
-          winningAction: '',
-        };
-        console.log("REDUX RESETED WINNING HAND")
-    }
+    resetWinningHand: state => {
+      state.winningHand = {
+        hand: [],
+        winningTile: [],
+        yakuList: [],
+        winningAction: '',
+      };
+      console.log('REDUX RESETED WINNING HAND');
+    },
   },
 });
 
@@ -151,7 +164,8 @@ export const {
   CHANGE_ORDER_AFTER_ACTION,
   setCurrentPlayer,
   changePrevailingWind,
-  setWinningHand,resetWinningHand
+  setWinningHand,
+  resetWinningHand,
 } = gameReducer.actions;
 
 export default gameReducer.reducer;

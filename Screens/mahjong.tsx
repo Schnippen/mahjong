@@ -285,7 +285,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           </View>
         </View>
         <View style={{position: 'absolute', bottom: 0}}>
-          <PlayerPanel />
+          <PlayerPanel navigation={navigation} />
         </View>
       </View>
     </ScrollView>

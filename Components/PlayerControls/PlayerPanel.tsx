@@ -1,15 +1,9 @@
 import React from 'react';
 import {Dimensions, View} from 'react-native';
-import {TTileObject} from '../../Types/types';
-import {useSelector,useDispatch} from 'react-redux';
-import {RootState} from '../../Store/store';
-import { Button } from '@rneui/themed';
-import { discardTile } from '../../Functions/discardTileFunction';
 import PlayerHandComponent from './PlayerHand';
 import PlayerButtonsPanel from './PlayerButtonsPanel';
 
-
-const PlayerPanel = () => {
+const PlayerPanel = ({navigation}: {navigation: any}) => {
   const screenWidth = Dimensions.get('window').width;
   return (
     <View
@@ -21,7 +15,7 @@ const PlayerPanel = () => {
         //backgroundColor: 'pink',
         position: 'relative',
       }}>
-      <PlayerButtonsPanel/>
+      <PlayerButtonsPanel navigation={navigation} />
       <PlayerHandComponent />
     </View>
   );

@@ -24,7 +24,6 @@ import {handleRiichi} from '../../Functions/PlayerControlFunctions/handleRiichi'
 import {soundFunc} from '../../Functions/playSounds/soundFunc';
 import {handleTsumo} from '../../Functions/PlayerControlFunctions/handleTsumo';
 import {handleRon} from '../../Functions/PlayerControlFunctions/handleRon';
-import {setUncoverNextDora} from '../../Store/wallReducer';
 import {handleKan} from '../../Functions/PlayerControlFunctions/handleKan';
 import {testFunction} from '../../Functions/isWinning/Yaku/testFuntion';
 const chooseRandomTile = (hand: TTileObject[]) => {
@@ -107,7 +106,7 @@ const NextTurn = () => {
   );
 };
 
-const PlayerButtonsPanel = () => {
+const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
   const dispatch = useDispatch();
 
   const latestTurn = useSelector(
@@ -121,8 +120,7 @@ const PlayerButtonsPanel = () => {
   );
   const playerMelds = useSelector(
     (state: RootState) => state.playersReducer.player1.playerHand.melds,
-
-  )
+  );
   const currentDiscard = useSelector(
     //if unknown null
     (state: RootState) => state.riverReducer.currentDiscard,
@@ -195,6 +193,7 @@ const PlayerButtonsPanel = () => {
       },
       setDisplayRonButton,
       setDisplayTsumoButton,
+      navigation,
     );
   }, [currentDiscard]);
 
@@ -336,17 +335,34 @@ const PlayerButtonsPanel = () => {
           <ButtonRON
             handlePress={() => {
               console.log('ButtonRON');
-              handleRon({hand:handData,dispatch:dispatch,discard:currentDiscard,currentMelds:playerMelds});
-
+              handleRon({
+                hand: handData,
+                dispatch: dispatch,
+                discard: currentDiscard,
+                currentMelds: playerMelds,
+              });
+              setTimeout(() => {
+                navigation.navigate('EndRoundScreen');
+                setDisplayRonButton(false);
+              }, 1500);
             }}
-          />
+          /> //there also can be pass
         ) : null}
         {displayTsumoButton ? (
           <ButtonTSUMO
             handlePress={() => {
               console.log('ButtonTSUMO');
-              handleTsumo({hand:handData,dispatch:dispatch,discard:currentDiscard,currentMelds:playerMelds});
-            }}
+              handleTsumo({
+                hand: handData,
+                dispatch: dispatch,
+                discard: currentDiscard,
+                currentMelds: playerMelds,
+              });
+              setTimeout(() => {
+                navigation.navigate('EndRoundScreen');
+                setDisplayTsumoButton(false);
+              }, 1500);
+            }} //there also can be pass
           />
         ) : null}
         {displayChiiButton || displayPonButton || displayKanButton ? (

@@ -1,4 +1,4 @@
-import {TTileObject} from '../../Types/types';
+import {kanPositionTypes, positionType, TTileObject} from '../../Types/types';
 
 const isPlayerHandContainingFourOfAKind = (playerHand: TTileObject[]) => {
   const frequencyMap: {[key: string]: number} = {};
@@ -16,20 +16,22 @@ const isPlayerHandContainingFourOfAKind = (playerHand: TTileObject[]) => {
 export function stealQuadruplet(
   playerHand: TTileObject[],
   discardedTileArray: TTileObject[],
-  position: string,
+  position: positionType,
 ) {
-  let kanPosition:string
+  let kanPosition: kanPositionTypes;
   let kanArray: TTileObject[] = [];
   let isKan = isPlayerHandContainingFourOfAKind(playerHand);
   if (isKan) {
+    let discardedTile = discardedTileArray[0];
+    console.log('DISCARDED:', discardedTile.name);
     let suitTiles = playerHand.filter(
       tile =>
         tile.type === discardedTile.type && tile.name === discardedTile.name,
     );
 
     kanArray.push(...suitTiles);
-    kanPosition = "kanClosed"
-    return {result: true, kanArray: kanArray, positionKan:kanPosition};
+    kanPosition = 'kanClosed';
+    return {result: true, kanArray: kanArray, positionKan: kanPosition};
   }
   if (!discardedTileArray || discardedTileArray.length === 0) {
     console.info('NO DISCARDED TILE IN checkForQuadruplet');
@@ -59,36 +61,36 @@ export function stealQuadruplet(
     if (suitTiles.length == 3) {
       if (position === 'left') {
         kanArray.push(discardedTile, suitTiles[0], suitTiles[1], suitTiles[2]);
-        kanPosition = "kanLeft"
+        kanPosition = 'kanLeft';
       } else if (position === 'top') {
         kanArray.push(suitTiles[0], discardedTile, suitTiles[1], suitTiles[2]);
-        kanPosition = "kanFront"
+        kanPosition = 'kanFront';
       } else if (position === 'right') {
         kanArray.push(suitTiles[2], suitTiles[1], suitTiles[0], discardedTile);
-        kanPosition = "kanRight"
+        kanPosition = 'kanRight';
       } else {
         console.error('Invalid position');
         return {result: false};
       }
-      return {result: true, kanArray: kanArray,positionKan:kanPosition};
+      return {result: true, kanArray: kanArray, positionKan: kanPosition};
     }
   } else {
     let suitTiles = playerHand.filter(t => t.type === discardedTileSuit);
     if (suitTiles.length == 3) {
       if (position === 'left') {
         kanArray.push(discardedTile, suitTiles[0], suitTiles[1], suitTiles[2]);
-        kanPosition = "kanLeft"
+        kanPosition = 'kanLeft';
       } else if (position === 'top') {
         kanArray.push(suitTiles[0], discardedTile, suitTiles[1], suitTiles[2]);
-        kanPosition = "kanFront"
+        kanPosition = 'kanFront';
       } else if (position === 'right') {
         kanArray.push(suitTiles[2], suitTiles[1], suitTiles[0], discardedTile);
-        kanPosition = "kanRight"
+        kanPosition = 'kanRight';
       } else {
         console.error('Invalid position');
         return {result: false};
       }
-      return {result: true, kanArray: kanArray,positionKan:kanPosition};
+      return {result: true, kanArray: kanArray, positionKan: kanPosition};
     }
   }
   return {result: false};

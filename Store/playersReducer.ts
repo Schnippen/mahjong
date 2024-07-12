@@ -55,7 +55,7 @@ export interface PlayersState {
 const initialState: PlayersState = {
   player1: {
     //you are always player one
-    player1Score: 10000,
+    player1Score: 25000,
     name: 'player1',
     wind: 'null',
     position: 'bottom',
@@ -64,7 +64,7 @@ const initialState: PlayersState = {
     isRiichi: false,
   },
   player2: {
-    player2Score: 15000,
+    player2Score: 25000,
     name: 'player2',
     wind: 'null',
     position: 'right',
@@ -73,7 +73,7 @@ const initialState: PlayersState = {
     isRiichi: false,
   },
   player3: {
-    player3Score: 20000,
+    player3Score: 25000,
     name: 'player3',
     wind: 'null',
     position: 'top',
@@ -332,6 +332,30 @@ export const playersReducer = createSlice({
         player.wind = winds[newWindIndex];
       });
     },
+    resetPlayersReducerToNextRound: state => {
+      return {
+        ...state,
+        player1: {
+          ...initialState.player1,
+          player1Score: state.player1.player1Score,
+        },
+        player2: {
+          ...initialState.player2,
+          player2Score: state.player2.player2Score,
+        },
+        player3: {
+          ...initialState.player3,
+          player3Score: state.player3.player3Score,
+        },
+        player4: {
+          ...initialState.player4,
+          player4Score: state.player4.player4Score,
+        },
+        assignHandsBasedOnWind: {
+          ...initialState.assignHandsBasedOnWind,
+        },
+      };
+    },
     changePrevailingWind: (state, action) => {
       //state.value += action.payload
       //this should be in game reducer
@@ -351,6 +375,7 @@ export const {
   setRiichi,
   calculatePoints,
   setStolenTilesOnBoard,
+  resetPlayersReducerToNextRound,
   changePrevailingWind,
 } = playersReducer.actions;
 

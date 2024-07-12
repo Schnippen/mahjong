@@ -34,6 +34,7 @@ export const runGame = (
   {player1River, player2River, player3River, player4River}: TRiver,
   setDisplayRonButton: React.Dispatch<React.SetStateAction<boolean>>,
   setDisplayTsumoButton: React.Dispatch<React.SetStateAction<boolean>>,
+  navigation: any,
 ) => {
   let mockupData = tilesData.slice(1, 12);
   const start = performance.now();
@@ -133,7 +134,7 @@ export const runGame = (
     );
     interruptTurn = checkS.result;
     //TODO refactor
-   /*  console.log(
+    /*  console.log(
       'runGame() possibleSequences:',
       checkS.possibleSequences.map(t => t.map(i => i.name)),
       checkS.possibleSequences.length > 0,
@@ -197,7 +198,7 @@ export const runGame = (
   playersArray.forEach(player => {
     let checkQ = checkForQuadruplet(player.playerHand.hand, currentDiscard);
     if (checkQ) {
-      //add specific result onl for kan that is on hand contained, it should not pause game
+      //add specific result only for kan that is on hand contained, it should not pause game
       //console.log('runGame(): checkQ');
       //console.log(`Display for ${player.name}`);
       dispatch(INTERRUPT_TURN({val: true}));
@@ -324,6 +325,7 @@ export const runGame = (
     console.info('Game Ended');
     //TODO
     //go to  endscreen, check tenpai noten
+    navigation.navigate('EndRoundScreen');
     return;
   }
 
@@ -347,7 +349,7 @@ export const runGame = (
   }
   const end = performance.now();
   console.log(
-    `runGame() took ${end - start} milliseconds. ${
+    `runGame() took ook ${end - start} milliseconds. - ${
       (end - start) / 1000
     } seconds`,
   );

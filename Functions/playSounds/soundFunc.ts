@@ -1,172 +1,182 @@
-import store, { RootState } from "../../Store/store"
-import { VoicesTypes } from "../../Types/types"
-import { playFemaleChiiSound } from "./CallSounds/Female/playFemaleChiiSound"
-import { playFemaleKanSound } from "./CallSounds/Female/playFemaleKanSound"
-import { playFemalePonSound } from "./CallSounds/Female/playFemalePonSound"
-import { playFemaleRiichiSound } from "./CallSounds/Female/playFemaleRiichiSound"
-import { playFemaleRonSound } from "./CallSounds/Female/playFemaleRonSound"
-import { playFemaleTsumoSound } from "./CallSounds/Female/playFemaleTsumoSound"
-import { playdicetrowSound } from "./Sounds/playDiceThrow"
-import { playMeldActionSound } from "./Sounds/playMeldActionSound"
-import { playPopDownSound } from "./Sounds/playPopDownSound"
-import { playPopSound } from "./Sounds/playPopSound"
-import { playPopUpSound } from "./Sounds/playPopUpSound"
-import { playRonTsumoActiveSound } from "./Sounds/playRonTsumoSound"
-import { playTileClick } from "./Sounds/playTileClickSound"
-import { playFemaleYakuChantaSound } from "./YakuSounds/Female/playFemaleYakuChantaSound"
-import { playFemaleYakuChiitoitsuSound } from "./YakuSounds/Female/playFemaleYakuChiitoitsuSound"
-import { playFemaleYakuChinistuSound } from "./YakuSounds/Female/playFemaleYakuChinistuSound"
-import { playFemaleYakuChinroutouSound } from "./YakuSounds/Female/playFemaleYakuChinroutouSound"
-import { playFemaleYakuChuurenPoutouSound } from "./YakuSounds/Female/playFemaleYakuChuurenPoutouSound"
-import { playFemaleYakuDaisangenSound } from "./YakuSounds/Female/playFemaleYakuDaisangenSound"
-import { playFemaleYakuDaisuushiiSound } from "./YakuSounds/Female/playFemaleYakuDaisuushiiSound"
-import { playFemaleYakuHonitsuSound } from "./YakuSounds/Female/playFemaleYakuHonitsuSound"
-import { playFemaleYakuIipeikouSound } from "./YakuSounds/Female/playFemaleYakuIipeikouSound"
-import { playFemaleYakuIttsuuSound } from "./YakuSounds/Female/playFemaleYakuIttsuuSound"
-import { playFemaleYakuJunchanSound } from "./YakuSounds/Female/playFemaleYakuJunchanSound"
-import { playFemaleYakuKokushiMusouSound } from "./YakuSounds/Female/playFemaleYakuKokushiMusouSound"
-import { playFemaleYakuPinfuSound } from "./YakuSounds/Female/playFemaleYakuPinfuSound"
-import { playFemaleYakuRyanpeikouSound } from "./YakuSounds/Female/playFemaleYakuRyanpeikouSound"
-import { playFemaleYakuRyuuiisouSound } from "./YakuSounds/Female/playFemaleYakuRyuuiisouSound"
-import { playFemaleYakuSanankouSound } from "./YakuSounds/Female/playFemaleYakuSanankouSound"
-import { playFemaleYakuSankantsuSound } from "./YakuSounds/Female/playFemaleYakuSankantsuSound"
-import { playFemaleYakuSanshokuDoujunSound } from "./YakuSounds/Female/playFemaleYakuSanshokuDoujunSound"
-import { playFemaleYakuSanshokuDoukouSound } from "./YakuSounds/Female/playFemaleYakuSanshokuDoukouSound"
-import { playFemaleYakuShousangenSound } from "./YakuSounds/Female/playFemaleYakuShousangenSound"
-import { playFemaleYakuShousuushiiSound } from "./YakuSounds/Female/playFemaleYakuShousuushiiSound"
-import { playFemaleYakuSuuankouSound } from "./YakuSounds/Female/playFemaleYakuSuuankouSound"
-import { playFemaleYakuSuukantsuSound } from "./YakuSounds/Female/playFemaleYakuSuukantsuSound"
-import { playFemaleYakuTanyaoSound } from "./YakuSounds/Female/playFemaleYakuTanyaoSound"
-import { playFemaleYakuToitoiSound } from "./YakuSounds/Female/playFemaleYakuToitoiSound"
-import { playFemaleYakuTsuuiisouSound } from "./YakuSounds/Female/playFemaleYakuTsuuiisouSound"
-import { playFemaleYakuYakuhaiSound } from "./YakuSounds/Female/playFemaleYakuYakuhaiSound"
-
+import store, {RootState} from '../../Store/store';
+import {VoicesTypes} from '../../Types/types';
+import {playFemaleChiiSound} from './CallSounds/Female/playFemaleChiiSound';
+import {playFemaleKanSound} from './CallSounds/Female/playFemaleKanSound';
+import {playFemalePonSound} from './CallSounds/Female/playFemalePonSound';
+import {playFemaleRiichiSound} from './CallSounds/Female/playFemaleRiichiSound';
+import {playFemaleRonSound} from './CallSounds/Female/playFemaleRonSound';
+import {playFemaleTsumoSound} from './CallSounds/Female/playFemaleTsumoSound';
+import {playDiceThrowSound} from './Sounds/playDiceThrow';
+import {playMeldActionSound} from './Sounds/playMeldActionSound';
+import {playPopDownSound} from './Sounds/playPopDownSound';
+import {playPopSound} from './Sounds/playPopSound';
+import {playPopUpSound} from './Sounds/playPopUpSound';
+import {playRonTsumoActiveSound} from './Sounds/playRonTsumoSound';
+import {playTileClick} from './Sounds/playTileClickSound';
+import {playFemaleYakuChantaSound} from './YakuSounds/Female/playFemaleYakuChantaSound';
+import {playFemaleYakuChiitoitsuSound} from './YakuSounds/Female/playFemaleYakuChiitoitsuSound';
+import {playFemaleYakuChinistuSound} from './YakuSounds/Female/playFemaleYakuChinistuSound';
+import {playFemaleYakuChinroutouSound} from './YakuSounds/Female/playFemaleYakuChinroutouSound';
+import {playFemaleYakuChuurenPoutouSound} from './YakuSounds/Female/playFemaleYakuChuurenPoutouSound';
+import {playFemaleYakuDaisangenSound} from './YakuSounds/Female/playFemaleYakuDaisangenSound';
+import {playFemaleYakuDaisuushiiSound} from './YakuSounds/Female/playFemaleYakuDaisuushiiSound';
+import {playFemaleYakuHonitsuSound} from './YakuSounds/Female/playFemaleYakuHonitsuSound';
+import {playFemaleYakuIipeikouSound} from './YakuSounds/Female/playFemaleYakuIipeikouSound';
+import {playFemaleYakuIttsuuSound} from './YakuSounds/Female/playFemaleYakuIttsuuSound';
+import {playFemaleYakuJunchanSound} from './YakuSounds/Female/playFemaleYakuJunchanSound';
+import {playFemaleYakuKokushiMusouSound} from './YakuSounds/Female/playFemaleYakuKokushiMusouSound';
+import {playFemaleYakuPinfuSound} from './YakuSounds/Female/playFemaleYakuPinfuSound';
+import {playFemaleYakuRyanpeikouSound} from './YakuSounds/Female/playFemaleYakuRyanpeikouSound';
+import {playFemaleYakuRyuuiisouSound} from './YakuSounds/Female/playFemaleYakuRyuuiisouSound';
+import {playFemaleYakuSanankouSound} from './YakuSounds/Female/playFemaleYakuSanankouSound';
+import {playFemaleYakuSankantsuSound} from './YakuSounds/Female/playFemaleYakuSankantsuSound';
+import {playFemaleYakuSanshokuDoujunSound} from './YakuSounds/Female/playFemaleYakuSanshokuDoujunSound';
+import {playFemaleYakuSanshokuDoukouSound} from './YakuSounds/Female/playFemaleYakuSanshokuDoukouSound';
+import {playFemaleYakuShousangenSound} from './YakuSounds/Female/playFemaleYakuShousangenSound';
+import {playFemaleYakuShousuushiiSound} from './YakuSounds/Female/playFemaleYakuShousuushiiSound';
+import {playFemaleYakuSuuankouSound} from './YakuSounds/Female/playFemaleYakuSuuankouSound';
+import {playFemaleYakuSuukantsuSound} from './YakuSounds/Female/playFemaleYakuSuukantsuSound';
+import {playFemaleYakuTanyaoSound} from './YakuSounds/Female/playFemaleYakuTanyaoSound';
+import {playFemaleYakuToitoiSound} from './YakuSounds/Female/playFemaleYakuToitoiSound';
+import {playFemaleYakuTsuuiisouSound} from './YakuSounds/Female/playFemaleYakuTsuuiisouSound';
+import {playFemaleYakuYakuhaiSound} from './YakuSounds/Female/playFemaleYakuYakuhaiSound';
 
 type SoundFuncTypes = {
-    type: "chii" | "pon" | "kan" | "riichi" | "ron" | "tsumo" | 'meldSound' | 'rontsumoSound' | 'touchSound' | 'tileClickSound' | 'pop' | 'popDown' | 'popUp' | 'diceThrow';
-  };
+  type:
+    | 'chii'
+    | 'pon'
+    | 'kan'
+    | 'riichi'
+    | 'ron'
+    | 'tsumo'
+    | 'meldSound'
+    | 'rontsumoSound'
+    | 'touchSound'
+    | 'tileClickSound'
+    | 'pop'
+    | 'popDown'
+    | 'popUp'
+    | 'diceThrow';
+};
 //add male add female from async storage, async storage will be set in setting screen
-const soundType=(type:string)=>{
-    console.log("soundType:",type)
-    if(type==="chii"){
-        playFemaleChiiSound()
-    }
-    else if (type==="pon"){
-        playFemalePonSound()
-    }else if (type==="kan"){
-        playFemaleKanSound()
-    }else if (type==="riichi"){
-        playFemaleRiichiSound()
-    }else if (type==="ron"){
-        playFemaleRonSound()
-    }else if (type==="tsumo"){
-        playFemaleTsumoSound()
-    }else if(type==="rontsumoSound"){
-        playRonTsumoActiveSound()
-    }else if(type==='touchSound'){
-        playTouchSound()
-    }else if(type==='tileClickSound'){
-        playTileClick()
-    }else if(type==='pop'){
-        playPopSound()
-    }else if(type==='popUp'){
-        playPopUpSound()
-    }else if(type==='popDown'){
-        playPopDownSound()
-    }
-    else if(type==="meldSound"){
-        playMeldActionSound()
-    }else if(type==="chanta"){
-        playFemaleYakuChantaSound()
-    }else if (type==="chinitsu"){
-        playFemaleYakuChinistuSound()
-    }else if (type==="chiitoitsu"){
-        playFemaleYakuChiitoitsuSound()
-    }else if(type==="chinroutou"){
-        playFemaleYakuChinroutouSound()
-    }else if(type ==="chuurenpoutou"){
-        playFemaleYakuChuurenPoutouSound()
-    }else if(type==="daisangen"){
-        playFemaleYakuDaisangenSound()
-    }else if(type==="daisuushii"){
-        playFemaleYakuDaisuushiiSound()
-    }else if(type ==='honitsu'){
-        playFemaleYakuHonitsuSound()
-    }else if(type==="honrotou"){
-        playFemaleYakuChinroutouSound()
-    }else if(type==="iipeikou"){
-        playFemaleYakuIipeikouSound()
-    }else if(type==="ittsuu"){
-        playFemaleYakuIttsuuSound()
-    }else if(type==="junchan"){
-        playFemaleYakuJunchanSound()
-    }else if(type==="kokushimusou"){
-        playFemaleYakuKokushiMusouSound()
-    }else if(type==="pinfu"){
-        playFemaleYakuPinfuSound()
-    }else if(type==="ryanpeikou"){
-        playFemaleYakuRyanpeikouSound()
-    }else if(type==="ryuuiisou"){
-        playFemaleYakuRyuuiisouSound()
-    }
-    else if(type==="sanankou"){
-        playFemaleYakuSanankouSound()
-    }
-    else if(type==="sankantsu"){
-        playFemaleYakuSankantsuSound()
-    }else if(type==="sanshokudoukou"){
-        playFemaleYakuSanshokuDoukouSound()
-    }else if(type==="sanshokudoujun"){
-        playFemaleYakuSanshokuDoujunSound()
-    }else if(type==="shousangen"){
-        playFemaleYakuShousangenSound()
-    }else if(type==="shousuushii"){
-        playFemaleYakuShousuushiiSound()
-    }else if(type==="shousuushii"){
-        playFemaleYakuShousuushiiSound()
-    }else if(type==="suuankou"){
-        playFemaleYakuSuuankouSound()
-    }else if(type==="suukantsu"){
-        playFemaleYakuSuukantsuSound()
-    }
-    else if(type==="tanyao"){
-        playFemaleYakuTanyaoSound()
-    }
-    else if(type==="toitoi"){
-        playFemaleYakuToitoiSound()
-    }
-    else if(type==="tsuuiisou"){
-        playFemaleYakuTsuuiisouSound()
-    }
-    else if(type==="yakuhai"){
-        playFemaleYakuYakuhaiSound()
-    }
-   }
+const soundType = (type: string) => {
+  console.log('soundType:', type);
+  if (type === 'chii') {
+    playFemaleChiiSound();
+  } else if (type === 'pon') {
+    playFemalePonSound();
+  } else if (type === 'kan') {
+    playFemaleKanSound();
+  } else if (type === 'riichi') {
+    playFemaleRiichiSound();
+  } else if (type === 'ron') {
+    playFemaleRonSound();
+  } else if (type === 'tsumo') {
+    playFemaleTsumoSound();
+  } else if (type === 'rontsumoSound') {
+    playRonTsumoActiveSound();
+  } else if (type === 'touchSound') {
+    playTouchSound();
+  } else if (type === 'tileClickSound') {
+    playTileClick();
+  } else if (type === 'pop') {
+    playPopSound();
+  } else if (type === 'popUp') {
+    playPopUpSound();
+  } else if (type === 'popDown') {
+    playPopDownSound();
+  } else if (type === 'meldSound') {
+    playMeldActionSound();
+  } else if (type === 'chanta') {
+    playFemaleYakuChantaSound();
+  } else if (type === 'chinitsu') {
+    playFemaleYakuChinistuSound();
+  } else if (type === 'chiitoitsu') {
+    playFemaleYakuChiitoitsuSound();
+  } else if (type === 'chinroutou') {
+    playFemaleYakuChinroutouSound();
+  } else if (type === 'chuurenpoutou') {
+    playFemaleYakuChuurenPoutouSound();
+  } else if (type === 'daisangen') {
+    playFemaleYakuDaisangenSound();
+  } else if (type === 'daisuushii') {
+    playFemaleYakuDaisuushiiSound();
+  } else if (type === 'honitsu') {
+    playFemaleYakuHonitsuSound();
+  } else if (type === 'honrotou') {
+    playFemaleYakuChinroutouSound();
+  } else if (type === 'iipeikou') {
+    playFemaleYakuIipeikouSound();
+  } else if (type === 'ittsuu') {
+    playFemaleYakuIttsuuSound();
+  } else if (type === 'junchan') {
+    playFemaleYakuJunchanSound();
+  } else if (type === 'kokushimusou') {
+    playFemaleYakuKokushiMusouSound();
+  } else if (type === 'pinfu') {
+    playFemaleYakuPinfuSound();
+  } else if (type === 'ryanpeikou') {
+    playFemaleYakuRyanpeikouSound();
+  } else if (type === 'ryuuiisou') {
+    playFemaleYakuRyuuiisouSound();
+  } else if (type === 'sanankou') {
+    playFemaleYakuSanankouSound();
+  } else if (type === 'sankantsu') {
+    playFemaleYakuSankantsuSound();
+  } else if (type === 'sanshokudoukou') {
+    playFemaleYakuSanshokuDoukouSound();
+  } else if (type === 'sanshokudoujun') {
+    playFemaleYakuSanshokuDoujunSound();
+  } else if (type === 'shousangen') {
+    playFemaleYakuShousangenSound();
+  } else if (type === 'shousuushii') {
+    playFemaleYakuShousuushiiSound();
+  } else if (type === 'shousuushii') {
+    playFemaleYakuShousuushiiSound();
+  } else if (type === 'suuankou') {
+    playFemaleYakuSuuankouSound();
+  } else if (type === 'suukantsu') {
+    playFemaleYakuSuukantsuSound();
+  } else if (type === 'tanyao') {
+    playFemaleYakuTanyaoSound();
+  } else if (type === 'toitoi') {
+    playFemaleYakuToitoiSound();
+  } else if (type === 'tsuuiisou') {
+    playFemaleYakuTsuuiisouSound();
+  } else if (type === 'yakuhai') {
+    playFemaleYakuYakuhaiSound();
+  } else if (type === 'diceThrow') {
+    playDiceThrowSound();
+  }
+};
 
-   const playSound=(type:string,voiceGender:VoicesTypes,soundVolume:number)=>{
-    if(voiceGender==="OFF"){
-        null
-        //no voices
-    }else if(voiceGender==="FEMALE"){
-        
-        //female voices
-        //playFemaleSound ( type )
-        //return soundType(type,soundVolume)
-        
-    }else if(voiceGender==="MALE"){
-        null
-        //male voices
-        //playMaleSound ( type )
-        soundType(type)
-    }
-}
+const playSound = (
+  type: string,
+  voiceGender: VoicesTypes,
+  soundVolume: number,
+) => {
+  if (voiceGender === 'OFF') {
+    null;
+    //no voices
+  } else if (voiceGender === 'FEMALE') {
+    //female voices
+    //playFemaleSound ( type )
+    //return soundType(type,soundVolume)
+  } else if (voiceGender === 'MALE') {
+    null;
+    //male voices
+    //playMaleSound ( type )
+    soundType(type);
+  }
+};
 
-export function soundFunc({type}:SoundFuncTypes){
-    let soundVolume = store.getState().settingsReducer.settings.volume
-    let voiceGender = store.getState().settingsReducer.settings.voices
-    console.log("soundFunc test",soundVolume,voiceGender,type)
-    soundType(type)
-    //playFemaleYakuSanshokuDoukouSound(soundVolume)
+export function soundFunc({type}: SoundFuncTypes) {
+  return;
+  let soundVolume = store.getState().settingsReducer.settings.volume;
+  let voiceGender = store.getState().settingsReducer.settings.voices;
+  console.log('soundFunc test', soundVolume, voiceGender, type);
+  soundType(type);
+  //playFemaleYakuSanshokuDoukouSound(soundVolume)
   /*      if(type==="chii"){
         playFemaleChiiSound()
     }
@@ -262,13 +272,12 @@ export function soundFunc({type}:SoundFuncTypes){
     else if(type==="yakuhai"){
         playFemaleYakuYakuhaiSound(soundVolume)
     }  */
-    } 
-
+}
 
 function playTouchSound() {
-    throw new Error("Function not implemented.")
+  throw new Error('Function not implemented.');
 }
-    //add tileclick to melds
+//add tileclick to melds
 //SYSTEM SOUNDS
 /* else if(type==='touchSound'){
             playTouchSound(soundVolume)

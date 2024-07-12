@@ -15,6 +15,10 @@ export const customSort = (a: TTileObject, b: TTileObject) => {
   if (a.tileID > b.tileID) return 1;
 
   const end = performance.now();
-  console.log(`customSort() took ${(end - start) / 1000} seconds.`);
+  /* console.log(
+    `customSort() took ${end - start} milliseconds. ${
+      (end - start) / 1000
+    } seconds`,
+  ); */
   return 0; // If types, values, and tileIDs are equal
 };

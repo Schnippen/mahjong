@@ -1,9 +1,8 @@
-import {TTileObject} from '../../Types/types';
+import {positionType, TTileObject} from '../../Types/types';
 
 //this function is only for button popUP, stealing will be in seperate function
 //so if you press PON button with debounce the proper stealing function will run
 //TODO paste types into types.ts
-export type positionType ='left' | 'top' | 'right' | 'bottom';
 export function stealTriplet(
   playerHand: TTileObject[],
   discardedTileArray: TTileObject[],

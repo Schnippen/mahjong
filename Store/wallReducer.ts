@@ -105,7 +105,14 @@ export const wallReducer = createSlice({
       let wind = windsOrder[orderIndex];
       //TODO make it more elegant
       state.tilesLeftInWall -= 1;
-      console.log('POP WORKS', state.tilesLeftInWall, wind, orderIndex);
+      console.log(
+        'POP WORKS',
+        'tiles left in the wall:',
+        state.tilesLeftInWall,
+        wind,
+        orderIndex,
+      );
+      if (state.tilesLeftInWall === 0) return;
       switch (wind) {
         case 'east':
           if (state.wallEastState.length !== 0) {
@@ -186,22 +193,22 @@ export const wallReducer = createSlice({
       modifyProperty(state.wallSouthState, doras[uncoveredNumber].tileID, true);
       modifyProperty(state.wallWestState, doras[uncoveredNumber].tileID, true);
     },
-    resetWallReducer:(state)=>{
-      state.tilesLeft = 136,
-      state.tilesLeftInWall= 0,
-      state.currentDiceRoll= 0,
-      state.wallTilesArray= [],
-      state.wallEastState= [],
-      state.wallSouthState= [],
-      state.wallWestState= [],
-      state.wallNorthState= [],
-      state.tilesAfterHandout= [],
-      state.deadWall= [],
-      state.dorasFromDeadWall= [],
-      state.uncoveredCount= 1,
-      state.startTakingFromWallXState= 'string',
-      console.log("REDUX RESETED WALL REDUCER")
-    }
+    resetWallReducer: state => {
+      (state.tilesLeft = 136),
+        (state.tilesLeftInWall = 0),
+        (state.currentDiceRoll = 0),
+        (state.wallTilesArray = []),
+        (state.wallEastState = []),
+        (state.wallSouthState = []),
+        (state.wallWestState = []),
+        (state.wallNorthState = []),
+        (state.tilesAfterHandout = []),
+        (state.deadWall = []),
+        (state.dorasFromDeadWall = []),
+        (state.uncoveredCount = 1),
+        (state.startTakingFromWallXState = 'string'),
+        console.log('REDUX RESETED WALL REDUCER');
+    },
   },
 });
 
