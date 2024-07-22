@@ -281,8 +281,8 @@ export const playersReducer = createSlice({
       }
     },
     setStolenTilesOnBoard: (state, action) => {
-      const {player, tilesArray, name, isOpen} = action.payload;
-      const newStolenTiles = {name, tiles: tilesArray, isOpen};
+      const {player, tilesArray, name, isOpen,type} = action.payload;
+      const newStolenTiles = {name, tiles: tilesArray, isOpen,type:type};
       if (player === 'player1') {
         state.player1.playerHand.melds.push(newStolenTiles);
       } else if (player === 'player2') {

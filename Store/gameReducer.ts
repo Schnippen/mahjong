@@ -1,6 +1,6 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {playerToYourLeftWind} from '../Functions/checkPlayersToYourLeftWind';
-import {TTileObject, TplayerString, YakuType} from '../Types/types';
+import {GameWinds, TTileObject, TplayerString, YakuType} from '../Types/types';
 
 //gamestate
 //playerstate
@@ -17,7 +17,6 @@ deck: Represents the remaining tiles in the deck.
 discardPile: Tracks the tiles that have been discarded by players.
 lastDiscard: Stores information about the last tile discarded (e.g., suit, rank, player ID). */
 type GamePhase = 'started' | 'ended' | 'none';
-type GameWinds = 'east' | 'south' | 'west' | 'north';
 interface gameState {
   gamePhase: GamePhase;
   currentTurn: GameWinds;

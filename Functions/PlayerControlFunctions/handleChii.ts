@@ -3,7 +3,6 @@ import { setStolenTilesOnBoard } from "../../Store/playersReducer";
 import { popFromTheRiver } from "../../Store/riverReducer";
 import { TTileObject, TplayerString, WindTypes } from "../../Types/types"
 import { checkOrStealSequence } from "../checkOrStealSequence"
-import { playChiiSound } from "../playSounds/CallSounds/playChiiSound";
 import { soundFunc } from "../playSounds/soundFunc";
 
 type HandleChiiParams = {

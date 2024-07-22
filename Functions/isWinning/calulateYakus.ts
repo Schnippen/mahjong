@@ -1,5 +1,7 @@
 import { setWinningHand } from "../../Store/gameReducer";
-import { TTileObject, TstolenTiles, YakuType } from "../../Types/types";
+import { TTileObject, TstolenTiles, WindTypes, YakuType } from "../../Types/types";
+import calculateRonPoints from "../calculatePoints/calculateRonPoints";
+import calculateTsumoPoints from "../calculatePoints/calculateTsumoPoints";
 import { countTilesByName } from "../isReadyForRiichii/countTilesByName";
 import { isChanta } from "./Yaku/isChanta";
 import { isChiitoitsu } from "./Yaku/isChiitoitsu";
@@ -55,7 +57,7 @@ import { isYakuhai } from "./Yaku/isYakuhai";
 
 
   export const checkYakusInHand = (
-    hand: TTileObject[], discard: TTileObject[], currentMelds: TstolenTiles[], dispatch: any
+    hand: TTileObject[], discard: TTileObject[], currentMelds: TstolenTiles[], dispatch: any,winnerWind:WindTypes
   ): { totalHan: number; listOfYakusInHand: YakuType[] } => {
     let totalHanRon = 0;
     let totalHanTsumo = 0;
@@ -93,10 +95,16 @@ import { isYakuhai } from "./Yaku/isYakuhai";
     }
   
     winningHand = [...hand, ...limitedMeldedTiles];
-  
+    
     totalHan = totalHanRon === 0 ? totalHanTsumo : totalHanRon;
-  
+    let typeOfWin = totalHanRon === 0 ? "tsumo" : 'ron'; //add  to setwinning hand
+    if (typeOfWin === "tsumo") {
+      calculateTsumoPoints(totalHan, winnerWind, hand, currentMelds, winnerWind,discard);
+    } else {
+      //calculateRonPoints(totalHan, winnerWind);
+    }
+    //calculateRonPoints(totalHan,winnersWind)
+    //calculate points
     dispatch(setWinningHand({ hand: winningHand, tile: winningTile, yaku: listOfYakusInHand, winAction: winningAction, type: 'update' }));
-  
     return { totalHan, listOfYakusInHand };
   };

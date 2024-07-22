@@ -50,8 +50,6 @@ function compareObjects(obj1: TTileObject, obj2: TTileObject) {
 //should it be hardcoded?
 
 const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
-  //  const dispatch = useDispatch();
-  //const finishedWall: TTileObject[] = store.getState().wallReducer.wallTilesArray;
   const shuffledWall = shuffledTiles;
   const DICE_ROLL =
     Math.floor(Math.random() * 6) + 1 + (Math.floor(Math.random() * 6) + 1);
