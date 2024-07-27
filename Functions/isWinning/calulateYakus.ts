@@ -99,9 +99,9 @@ import { isYakuhai } from "./Yaku/isYakuhai";
     totalHan = totalHanRon === 0 ? totalHanTsumo : totalHanRon;
     let typeOfWin = totalHanRon === 0 ? "tsumo" : 'ron'; //add  to setwinning hand
     if (typeOfWin === "tsumo") {
-      calculateTsumoPoints(totalHan, winnerWind, hand, currentMelds, winnerWind,discard);
+      calculateTsumoPoints(totalHan, winnerWind, hand, currentMelds, winnerWind,discard,typeOfWin);
     } else {
-      //calculateRonPoints(totalHan, winnerWind);
+      calculateRonPoints(totalHan, winnerWind, hand, currentMelds, winnerWind,discard);
     }
     //calculateRonPoints(totalHan,winnersWind)
     //calculate points

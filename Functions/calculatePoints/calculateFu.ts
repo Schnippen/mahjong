@@ -1,7 +1,11 @@
-import { GameWinds, TstolenTiles, TTileObject, WindTypes } from "../../Types/types";
+import { TstolenTiles, TTileObject, WindTypes } from "../../Types/types";
 import { countTilesByName } from "../isReadyForRiichii/countTilesByName";
+import { calculateWait } from "./calculateWait";
 
-export const calculateFu = (hand: TTileObject[], currentMelds: TstolenTiles[], gameWinds: GameWinds, typeOfWin: 'tsumo' | 'ron',discard: TTileObject[],playersWind:WindTypes, prevailingWind:WindTypes): number => {
+
+
+
+export const calculateFu = (hand: TTileObject[], currentMelds: TstolenTiles[], typeOfWin: 'tsumo' | 'ron',discard: TTileObject[],playersWind:WindTypes, prevailingWind:WindTypes): number => {
     let fu = 20; // Base fu
 
     //const melds = hand.melds; // Current melds
@@ -11,6 +15,10 @@ export const calculateFu = (hand: TTileObject[], currentMelds: TstolenTiles[], g
     //check({ hand, discard, playerMelds: currentMelds })
     let meldedTiles = currentMelds.flatMap(meld => meld.tiles);
     let handToCheck = [...hand, ...discard, ...meldedTiles];
+    let discardAndHand = [...discard, ...hand];
+
+    
+    const waitType = calculateWait(hand, discard, hand[hand.length - 1]);
 
     // Winning method adjustments
     if (typeOfWin === 'ron' && isHandClosed) {
@@ -20,13 +28,14 @@ export const calculateFu = (hand: TTileObject[], currentMelds: TstolenTiles[], g
     }
   
     // Waiting form adjustments
-    if (hand.winningWait === 'middle') {
-      fu += 2; // Middle wait
-    } else if (hand.winningWait === 'edge') {
-      fu += 2; // Edge wait
-    } else if (hand.winningWait === 'pair') {
-      fu += 2; // Pair wait
-    }
+    // Waiting form adjustments
+    if (waitType === 'middle') {
+        fu += 2; // Middle wait
+      } else if (waitType === 'edge') {
+        fu += 2; // Edge wait
+      } else if (waitType === 'pair') {
+        fu += 2; // Pair wait
+      }
     
     // Value pairs adjustments
     const tileCounts = countTilesByName(handToCheck);
@@ -68,7 +77,6 @@ export const calculateFu = (hand: TTileObject[], currentMelds: TstolenTiles[], g
   }
 
 
-  let discardAndHand = [...discard, ...hand];
   const tileCountsForClosed = countTilesByName(discardAndHand);
 
   for (let tileName in tileCountsForClosed) {

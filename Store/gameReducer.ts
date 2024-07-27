@@ -26,7 +26,7 @@ interface gameState {
   currentTurnIndex: number;
   currentPlayer: TplayerString;
   gameEnded: boolean;
-  prevailingWind: string;
+  prevailingWind: GameWinds;
   round: number;
   howManyTurnsElapsed: 0;
   turnInterrupted: boolean; //todo make winnig action better type,

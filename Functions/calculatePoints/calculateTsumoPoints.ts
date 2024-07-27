@@ -2,38 +2,66 @@ import store from "../../Store/store";
 import { GameWinds, TstolenTiles, TTileObject, WindTypes } from "../../Types/types";
 import { calculateFu } from "./calculateFu";
 
-const calculateTsumoPoints = (totalHan: number, playersWind: WindTypes, hand: TTileObject[], currentMelds: TstolenTiles[], winnerWind: WindTypes,discard:TTileObject[]): number => {
+type pointsNameType='Mangan'|'Haneman'|'Baiman'| 'Sanbaiman'|'Yakuman'|''
+
+const calculateTsumoPoints = (totalHan: number, playersWind: WindTypes, hand: TTileObject[], currentMelds: TstolenTiles[], winnerWind: WindTypes,discard:TTileObject[],typeOfWin: 'tsumo' | 'ron'): {points:number,pointsName:pointsNameType,fu:number } => {
 
 
-  let prevailingWind = store.getState().gameReducer.prevailingWind;
+  let prevailingWind:WindTypes = store.getState().gameReducer.prevailingWind;
 
-  let fu = calculateFu(hand, currentMelds, prevailingWind, playersWind, discard,prevailingWind);
-  
+  let fu = calculateFu(hand, currentMelds, typeOfWin, discard,playersWind,prevailingWind);
+
   let points = 0;
+  let pointsName: pointsNameType = '';
 
-  
-  if (winnerWind === "east") {
-    // East player wins, different points calculation
-    points = fu * (2 ** (totalHan + 2));
-  } else {
-    // Other player wins
-    points = fu * (2 ** (totalHan + 1));
-  }
-
-  // Additional points calculation logic based on han
   if (totalHan >= 13) {
-    return 8000; // Yakuman
+    points = 8000;
+    pointsName = 'Yakuman';
   } else if (totalHan >= 11) {
-    return 6000; // Sanbaiman
+    points = 6000;
+    pointsName = 'Sanbaiman';
   } else if (totalHan >= 8) {
-    return 4000; // Baiman
+    points = 4000;
+    pointsName = 'Baiman';
   } else if (totalHan >= 6) {
-    return 3000; // Haneman
-  } else if (totalHan >= 5 || (totalHan >= 4 && fu >= 40) || (totalHan >= 3 && fu >= 70)) {
-    return 2000; // Mangan
+    points = 3000;
+    pointsName = 'Haneman';
+  } else if (totalHan >= 5) {
+    points = 2000;
+    pointsName = 'Mangan';
+  } else {
+    // Calculate base points
+    if (winnerWind === "east") {
+      points = fu * (2 ** (totalHan + 2));
+    } else {
+      points = fu * (2 ** (totalHan + 1));
+    }
+
+    if (points >= 2000) {
+      points = 2000;
+      pointsName = 'Mangan';
+    } else {
+      pointsName = `${totalHan} Han ${fu} Fu`;
+    }
   }
 
-  return points;
+  if (typeOfWin === 'tsumo') {
+    if (winnerWind === "east") {
+      points *= 6; 
+    } else {
+      points *= 3; 
+    }
+  } else if (typeOfWin === 'ron') {
+    if (winnerWind === "east") {
+      points *= 6;
+    } else {
+      points *= 4;
+    }
+  }
+
+  points = Math.ceil(points / 100) * 100;
+
+  return { points, pointsName, fu };
 }
 //return POINTS // POINTS NAME
   export default calculateTsumoPoints
