@@ -3,11 +3,12 @@ import {
   setDiceRollState,
   setDorasFromDeadWall,
   setTilesAfterHandout,
+  setUraDorasFromDeadWall,
   setWallFragment,
 } from '../Store/wallReducer';
 import {TTileObject} from '../Types/types';
-import { setStartTakingFromWallX } from './setStartTakingFromWallX';
-import { preparedHandsAfterHandOut } from '../Store/playersReducer';
+import {setStartTakingFromWallX} from './setStartTakingFromWallX';
+import {preparedHandsAfterHandOut} from '../Store/playersReducer';
 
 function checkDiceRoll(roll: number) {
   const EAST = [1, 5, 9];
@@ -63,6 +64,7 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   let handedoutTiles: TTileObject[] = [];
   let tilesReadyForRound: TTileObject[] = [];
   let doras: TTileObject[] = [];
+  let uraDoras: TTileObject[] = [];
   let firstHand: TTileObject[] = [];
   let secondHand: TTileObject[] = [];
   let thirdHand: TTileObject[] = [];
@@ -181,10 +183,19 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     deadWallFragment[13],
   );
   doras[0].isDora = true;
+
+  uraDoras = uraDoras.concat(
+    deadWallFragment[4],
+    deadWallFragment[8],
+    deadWallFragment[10],
+    deadWallFragment[12],
+    deadWallFragment[14],
+  );
   /*   tilesReadyForRound = wallWithoutDeadWall.filter((tile: TTileObject) => !handedoutTiles.some((handedoutTile: TTileObject) => handedoutTile.tileID === tile.tileID)); */
   //console.log('calcL:', player1Hand.length);
   dispatch(setDeadWallFragment(deadWallFragment));
   dispatch(setDorasFromDeadWall({tiles: doras}));
+  dispatch(setUraDorasFromDeadWall({tiles: uraDoras}));
   console.log('deadWall:', deadWallFragment.length);
   /*   console.log('dorasLength:', doras.length);
   console.log(
@@ -315,7 +326,8 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   dispatch(setWallFragment({direction: 'south', tiles: southWall}));
   dispatch(setWallFragment({direction: 'west', tiles: westWall}));
   dispatch(setWallFragment({direction: 'north', tiles: northWall}));
-  console.log("wallCalculation.ts:",
+  console.log(
+    'wallCalculation.ts:',
     'eastWall:',
     eastWall.length,
     'southWall:',
@@ -327,7 +339,7 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     'sum:',
     eastWall.length + southWall.length + westWall.length + northWall.length,
   );
-  setStartTakingFromWallX(DICE_ROLL,dispatch)
+  setStartTakingFromWallX(DICE_ROLL, dispatch);
   /* console.log("shuffledWall:",shuffledWall.length)
   console.log("deadWallFragment:",deadWallFragment.length, "wallWithoutDeadWall:",wallWithoutDeadWall.length)
   console.log("player1Hand:",player1Hand.length, "player2Hand:",player2Hand.length,"player3Hand:",player3Hand.length,"player4Hand:",player4Hand.length)

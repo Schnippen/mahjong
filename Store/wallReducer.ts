@@ -31,6 +31,7 @@ interface wallState {
   tilesAfterHandout: TTileObject[];
   deadWall: TTileObject[];
   dorasFromDeadWall: TTileObject[];
+  uraDorasFromDeadWall: TTileObject[];
   uncoveredCount: number;
   startTakingFromWallXState: string;
 }
@@ -47,6 +48,7 @@ const initialState: wallState = {
   tilesAfterHandout: [],
   deadWall: [],
   dorasFromDeadWall: [],
+  uraDorasFromDeadWall: [],
   uncoveredCount: 1,
   startTakingFromWallXState: 'string',
 };
@@ -83,6 +85,10 @@ export const wallReducer = createSlice({
     setDorasFromDeadWall: (state, action) => {
       const {tiles} = action.payload;
       state.dorasFromDeadWall = [...state.dorasFromDeadWall, ...tiles];
+    },
+    setUraDorasFromDeadWall: (state, action) => {
+      const {tiles} = action.payload;
+      state.uraDorasFromDeadWall = [...state.uraDorasFromDeadWall, ...tiles];
     },
     incrementUncoveredCount: state => {
       state.uncoveredCount += 1;
@@ -226,6 +232,7 @@ export const {
   popTileFromTheWall,
   setUncoverNextDora,
   resetWallReducer,
+  setUraDorasFromDeadWall,
 } = wallReducer.actions;
 
 export default wallReducer.reducer;
