@@ -26,7 +26,6 @@ import {handleTsumo} from '../../Functions/PlayerControlFunctions/handleTsumo';
 import {handleRon} from '../../Functions/PlayerControlFunctions/handleRon';
 import {handleKan} from '../../Functions/PlayerControlFunctions/handleKan';
 import {testFunction} from '../../Functions/isWinning/Yaku/testFuntion';
-//import AITurn from '../../Functions/AI-move/aiTurn';
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
   let dropLastTile = max;
@@ -70,7 +69,8 @@ const NextTurn = () => {
   const playerLeftWind = useSelector(
     (state: RootState) => state.playersReducer.player4.wind,
   );
-   const AITurn = (
+
+  const AITurn = (
     gameTurn: string,
     humanPlayerWind: string,
     playerProps: {
@@ -86,7 +86,7 @@ const NextTurn = () => {
     console.log('AITURN', playerProps?.player, tileToDiscard?.name);
     discardTile(playerX, tileToDiscard, dispatch);
   };
- 
+
   const playerProps =
     gameTurn === playerRightWind
       ? {player: 'player2', hand: playerRightHand}
@@ -98,14 +98,6 @@ const NextTurn = () => {
 
   if (playerProps === null) return null;
 
-/*  useEffect(()=>{
-  console.log("NEXT TURN RUN")
-  if (playerProps === null){null}else{
-    console.log("NEXT TURN RUN",playerProps)  
-    setTimeout(()=>AITurn(gameTurn, humanPlayerWind, playerProps),2000)
-  }
-  //AITurn(gameTurn, humanPlayerWind, playerProps)
- },[currentDiscard]) */
   return (
     <Button
       title={'AITURN'}
@@ -148,6 +140,14 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
     (state: RootState) => state.gameReducer.currentPlayer,
   );
 
+  const tilesLeftInWall = useSelector(
+    (state: RootState) => state.wallReducer.tilesLeftInWall,
+  );
+
+  /*   const prevailingWind = useSelector(
+    (state: RootState) => state.gameReducer.prevailingWind,
+  ); */
+  //console.log('playerWhoLeftTheTile', playerWhoLeftTheTile);
   const tilesAfterHandoutLength = useSelector((state: RootState) => {
     let result = state.wallReducer.tilesAfterHandout.length;
     return result;
@@ -180,6 +180,7 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
       currentGlobalWind,
       howManyTurnsElapsed,
       currentGlobalWind,
+      isRichiiActive,
     );
     runGame(
       {player1, player2, player3, player4},
@@ -203,7 +204,6 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
       setDisplayTsumoButton,
       navigation,
     );
-    
   }, [currentDiscard]);
 
   //AUDIO //SOUND
@@ -322,7 +322,7 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
             }}
           />
         ) : null}
-        {displayRiichiButton ? ( //displayRiichiButton
+        {displayRiichiButton && tilesLeftInWall > 4 ? ( //displayRiichiButton
           <ButtonRIICHI
             handlePress={() => {
               console.log('ButtonRIICHI');
@@ -349,7 +349,8 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
                 dispatch: dispatch,
                 discard: currentDiscard,
                 currentMelds: playerMelds,
-                winnerWind:player1.wind
+                winnerWind: player1.wind,
+                isRichiiActive: isRichiiActive,
               });
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
@@ -367,7 +368,8 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
                 dispatch: dispatch,
                 discard: currentDiscard,
                 currentMelds: playerMelds,
-                winnerWind:player1.wind
+                winnerWind: player1.wind,
+                isRichiiActive: isRichiiActive,
               });
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');

@@ -1,6 +1,12 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {playerToYourLeftWind} from '../Functions/checkPlayersToYourLeftWind';
-import {GameWinds, TTileObject, TplayerString, YakuType} from '../Types/types';
+import {
+  GameWinds,
+  TTileObject,
+  TplayerString,
+  YakuType,
+  pointsNameType,
+} from '../Types/types';
 
 //gamestate
 //playerstate
@@ -35,6 +41,9 @@ interface gameState {
     winningTile: TTileObject[];
     yakuList: YakuType[];
     winningAction: string;
+    points: number;
+    pointsName: pointsNameType;
+    fu: number;
   };
 }
 
@@ -51,7 +60,15 @@ const initialState: gameState = {
   prevailingWind: 'east',
   round: 0,
   turnInterrupted: false,
-  winningHand: {hand: [], winningTile: [], yakuList: [], winningAction: ''},
+  winningHand: {
+    hand: [],
+    winningTile: [],
+    yakuList: [],
+    winningAction: '',
+    points: 0,
+    pointsName: '',
+    fu: 0,
+  },
 };
 
 export const gameReducer = createSlice({
@@ -127,14 +144,21 @@ export const gameReducer = createSlice({
         tile: TTileObject[];
         yaku: YakuType[];
         winAction: string;
+        points: number;
+        pointsName: pointsNameType;
+        fu: number;
       }>,
     ) => {
-      const {hand, tile, yaku, winAction} = action.payload;
+      const {hand, tile, yaku, winAction, points, pointsName, fu} =
+        action.payload;
       state.winningHand = {
         hand: [...hand],
         winningTile: [...tile],
         yakuList: [...yaku],
         winningAction: winAction,
+        points: points,
+        pointsName: pointsName,
+        fu: fu,
       };
     },
     resetWinningHand: state => {
@@ -143,6 +167,9 @@ export const gameReducer = createSlice({
         winningTile: [],
         yakuList: [],
         winningAction: '',
+        points: 0,
+        pointsName: '',
+        fu: 0,
       };
       console.log('REDUX RESETED WINNING HAND');
     },

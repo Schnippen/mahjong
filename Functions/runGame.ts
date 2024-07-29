@@ -296,7 +296,6 @@ export const runGame = (
     //run it for all players, and display buttons only for player1
     if (currentPlayersTurn === player.name) {
       console.log('runGame(): isWinning - yaku ,');
-      let shit = currentDiscard;
       //check for buttons to be displayed
       isWinning({
         hand: currentHand,

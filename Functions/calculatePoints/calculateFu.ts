@@ -1,73 +1,83 @@
-import { TstolenTiles, TTileObject, WindTypes } from "../../Types/types";
-import { countTilesByName } from "../isReadyForRiichii/countTilesByName";
-import { calculateWait } from "./calculateWait";
+import {TstolenTiles, TTileObject, WindTypes} from '../../Types/types';
+import {countTilesByName} from '../isReadyForRiichii/countTilesByName';
+import {calculateWait} from './calculateWait';
 
+export const calculateFu = (
+  hand: TTileObject[],
+  currentMelds: TstolenTiles[],
+  typeOfWin: 'TSUMO' | 'RON',
+  discard: TTileObject[],
+  playersWind: WindTypes,
+  prevailingWind: WindTypes,
+): number => {
+  let fu = 20; // Base fu
 
+  //const melds = hand.melds; // Current melds
 
+  const isHandClosed = currentMelds.every(meld => !meld.isOpen);
 
-export const calculateFu = (hand: TTileObject[], currentMelds: TstolenTiles[], typeOfWin: 'tsumo' | 'ron',discard: TTileObject[],playersWind:WindTypes, prevailingWind:WindTypes): number => {
-    let fu = 20; // Base fu
+  //check({ hand, discard, playerMelds: currentMelds })
+  let meldedTiles = currentMelds.flatMap(meld => meld.tiles);
+  let handToCheck = [...hand, ...discard, ...meldedTiles];
+  let discardAndHand = [...discard, ...hand];
 
-    //const melds = hand.melds; // Current melds
+  const waitType = calculateWait(hand, discard, hand[hand.length - 1]);
 
-    const isHandClosed = currentMelds.every(meld => !meld.isOpen);
+  // Winning method adjustments
+  if (typeOfWin === 'RON' && isHandClosed) {
+    fu += 10; // Closed ron
+  } else if (typeOfWin === 'TSUMO') {
+    fu += 2; // Tsumo
+  }
 
-    //check({ hand, discard, playerMelds: currentMelds })
-    let meldedTiles = currentMelds.flatMap(meld => meld.tiles);
-    let handToCheck = [...hand, ...discard, ...meldedTiles];
-    let discardAndHand = [...discard, ...hand];
+  // Waiting form adjustments
+  // Waiting form adjustments
+  if (waitType === 'middle') {
+    fu += 2; // Middle wait
+  } else if (waitType === 'edge') {
+    fu += 2; // Edge wait
+  } else if (waitType === 'pair') {
+    fu += 2; // Pair wait
+  }
 
-    
-    const waitType = calculateWait(hand, discard, hand[hand.length - 1]);
+  // Value pairs adjustments
+  const tileCounts = countTilesByName(handToCheck);
+  const valueTiles = ['red', 'green', 'white', prevailingWind, playersWind];
+  let valuePairCount = 0;
 
-    // Winning method adjustments
-    if (typeOfWin === 'ron' && isHandClosed) {
-      fu += 10; // Closed ron
-    } else if (typeOfWin === 'tsumo') {
-      fu += 2; // Tsumo
+  for (let tileName in tileCounts) {
+    const [type] = tileName.split(/(\d+)/).filter(Boolean);
+
+    if (valueTiles.includes(type) && tileCounts[tileName] >= 2) {
+      valuePairCount++;
+      fu += 2; // Dragon pair or Wind pair
     }
-  
-    // Waiting form adjustments
-    // Waiting form adjustments
-    if (waitType === 'middle') {
-        fu += 2; // Middle wait
-      } else if (waitType === 'edge') {
-        fu += 2; // Edge wait
-      } else if (waitType === 'pair') {
-        fu += 2; // Pair wait
-      }
-    
-    // Value pairs adjustments
-    const tileCounts = countTilesByName(handToCheck);
-    const valueTiles = ['red', 'green', 'white', prevailingWind, playersWind];
-    let valuePairCount = 0;
-  
-    for (let tileName in tileCounts) {
-      const [type] = tileName.split(/(\d+)/).filter(Boolean);
-  
-      if (valueTiles.includes(type) && tileCounts[tileName] >= 2) {
-        valuePairCount++;
-        fu += 2; // Dragon pair or Wind pair
-      }
-    }
-  
-   
+  }
+
   // Triplets and quads adjustments
-  const honorTiles = ['red', 'green', 'white', 'east', 'south', 'west', 'north'];
+  const honorTiles = [
+    'red',
+    'green',
+    'white',
+    'east',
+    'south',
+    'west',
+    'north',
+  ];
   for (const meld of currentMelds) {
     if (meld.name === 'Pon' || meld.name === 'Kan') {
       const isClosed = !meld.isOpen;
-      let multiplier = meld.name === 'Kan' ? (isClosed ? 16 : 8) : (isClosed ? 4 : 2);
-      
-    
-      const tileName = meld.tiles[0]?.name || ''; 
-      const tileType = tileName.split(/(\d+)/)[0] || ''; 
+      let multiplier =
+        meld.name === 'Kan' ? (isClosed ? 16 : 8) : isClosed ? 4 : 2;
+
+      const tileName = meld.tiles[0]?.name || '';
+      const tileType = tileName.split(/(\d+)/)[0] || '';
       const tileValueMatch = tileName.match(/\d+/);
-      const tileValue = tileValueMatch ? parseInt(tileValueMatch[0], 10) : 0; 
-  
+      const tileValue = tileValueMatch ? parseInt(tileValueMatch[0], 10) : 0;
+
       const isHonorTile = honorTiles.includes(tileType);
       const isTerminal = tileValue === 1 || tileValue === 9;
-  
+
       if (isHonorTile || isTerminal) {
         fu += multiplier * 2; // Yaochupai
       } else {
@@ -75,7 +85,6 @@ export const calculateFu = (hand: TTileObject[], currentMelds: TstolenTiles[], t
       }
     }
   }
-
 
   const tileCountsForClosed = countTilesByName(discardAndHand);
 
@@ -99,8 +108,8 @@ export const calculateFu = (hand: TTileObject[], currentMelds: TstolenTiles[], t
     }
   }
 
-    // Round up to the nearest ten
-    fu = Math.ceil(fu / 10) * 10;
-  
-    return fu;
-  }
+  // Round up to the nearest ten
+  fu = Math.ceil(fu / 10) * 10;
+
+  return fu;
+};
