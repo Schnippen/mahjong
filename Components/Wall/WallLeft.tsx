@@ -130,7 +130,7 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
     <View
       style={{
         flexDirection: 'row',
-        backgroundColor: 'purple',
+        //backgroundColor: 'purple',
         height: 60,
         position: 'relative',
         width: 600,

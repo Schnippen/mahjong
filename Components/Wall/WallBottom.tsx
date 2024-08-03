@@ -75,12 +75,22 @@ const WallBottom = ({wallWind = ''}: {wallWind?: string}) => {
       );
     }
   };
-  const isNearDeadwall =isNearDeadWallFunction({wallWind,globalDiceRollResult})
-  
+  const isNearDeadwall = isNearDeadWallFunction({
+    wallWind,
+    globalDiceRollResult,
+  });
+
   const renderItem = ({item, index}: {index: number; item: TTileObject}) => {
-    const marginLeft =(globalDiceRollResult===4&&wallWind==="east"&&index===3)||
-    (globalDiceRollResult===3&&wallWind==="north"&&index===4)||(globalDiceRollResult===5&&wallWind==="south"&&index===2)||(globalDiceRollResult===6&&wallWind==="west"&&index===1)||(isNearDeadwall && index === 7)||(globalDiceRollResult===2&&wallWind==="west"&&index===5) ? 30 :0 //too much deterministic aproach
-      //console.log("wallBottom:",isNearDeadwall)
+    const marginLeft =
+      (globalDiceRollResult === 4 && wallWind === 'east' && index === 3) ||
+      (globalDiceRollResult === 3 && wallWind === 'north' && index === 4) ||
+      (globalDiceRollResult === 5 && wallWind === 'south' && index === 2) ||
+      (globalDiceRollResult === 6 && wallWind === 'west' && index === 1) ||
+      (isNearDeadwall && index === 7) ||
+      (globalDiceRollResult === 2 && wallWind === 'west' && index === 5)
+        ? 30
+        : 0; //too much deterministic aproach
+    //console.log("wallBottom:",isNearDeadwall)
     if (item.state === 'deadwall') {
       return <DeadWallTile item={item} index={index} />;
     } else {
@@ -102,7 +112,7 @@ const WallBottom = ({wallWind = ''}: {wallWind?: string}) => {
     <View
       style={{
         flexDirection: 'row',
-        backgroundColor: 'purple',
+        //backgroundColor: 'purple',
         height: 60,
         position: 'relative',
         justifyContent: isNearDeadwall ? 'flex-end' : 'flex-start', // work TODO

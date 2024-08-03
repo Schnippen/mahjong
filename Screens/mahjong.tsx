@@ -25,6 +25,7 @@ import StolenTilesPanelBottom from '../Components/StolenTiles/StolenTilesBottom/
 import StolenTilesPanelTop from '../Components/StolenTiles/StolenTilesTop/StolenTilesPanelTop';
 import StolenTilesRight from '../Components/StolenTiles/StolenTilesRight/StolenTilesPanelRight';
 import StolenTilesPanelLeft from '../Components/StolenTiles/StolenTilesLeft/StolenTilesPanelLeft';
+import {boardColor} from '../Data/colors';
 //tiles
 //winning conditions
 //tile component
@@ -133,7 +134,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           justifyContent: 'center',
           //height: screenHeight,
           //width: screenWidth,
-          backgroundColor: 'green',
+          backgroundColor: boardColor,
           position: 'relative',
         }}>
         {/* <MenuPanel navigation={navigation} /> */}
@@ -143,7 +144,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
         <View
           style={{
             marginTop: -75,
-            backgroundColor: 'orange',
+            backgroundColor: boardColor,
             transform: [{rotateX: '45deg'}, {rotateZ: '0deg'}, {scale: 1}],
           }}>
           <View
@@ -169,7 +170,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
               <RiverTop />
               <View
                 style={{
-                  backgroundColor: 'blue',
+                  //backgroundColor: 'blue',
                   position: 'absolute',
                   top: 280,
                 }}>
@@ -191,16 +192,16 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                 position: 'absolute',
                 right: 460,
                 top: 50,
-                height: 460,
+                height: 460, //previous 460 //TODO change it, make it wider?
                 width: 250,
                 justifyContent: 'center',
-                backgroundColor: 'orange',
+                //backgroundColor: 'orange',
                 alignItems: 'center',
               }}>
               <RiverLeft />
               <View
                 style={{
-                  backgroundColor: 'blue',
+                  //backgroundColor: 'blue',
                   transform: [{rotateZ: '90deg'}],
                   alignItems: 'flex-start',
                   position: 'absolute',
@@ -233,7 +234,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
               <RiverRight />
               <View
                 style={{
-                  backgroundColor: 'blue',
+                  //backgroundColor: 'blue',
                   transform: [{rotateZ: '270deg'}],
                   position: 'absolute',
                   left: 0,
@@ -264,7 +265,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
               <RiverBottom />
               <View
                 style={{
-                  backgroundColor: 'blue',
+                  //backgroundColor: 'blue',
                   position: 'absolute',
                   top: 280,
                   /* alignItems: 'flex-start', */
