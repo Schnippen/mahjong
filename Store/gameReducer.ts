@@ -44,6 +44,7 @@ interface gameState {
     points: number;
     pointsName: pointsNameType;
     fu: number;
+    totalHan: number;
   };
 }
 
@@ -68,6 +69,7 @@ const initialState: gameState = {
     points: 0,
     pointsName: '',
     fu: 0,
+    totalHan: 0,
   },
 };
 
@@ -147,9 +149,10 @@ export const gameReducer = createSlice({
         points: number;
         pointsName: pointsNameType;
         fu: number;
+        totalHan: number;
       }>,
     ) => {
-      const {hand, tile, yaku, winAction, points, pointsName, fu} =
+      const {hand, tile, yaku, winAction, points, pointsName, fu, totalHan} =
         action.payload;
       state.winningHand = {
         hand: [...hand],
@@ -159,6 +162,7 @@ export const gameReducer = createSlice({
         points: points,
         pointsName: pointsName,
         fu: fu,
+        totalHan: totalHan,
       };
     },
     resetWinningHand: state => {
@@ -170,6 +174,7 @@ export const gameReducer = createSlice({
         points: 0,
         pointsName: '',
         fu: 0,
+        totalHan: 0,
       };
       console.log('REDUX RESETED WINNING HAND');
     },

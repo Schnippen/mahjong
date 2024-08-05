@@ -150,7 +150,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           <View
             style={{
               alignItems: 'center',
-              backgroundColor: 'blue',
+              //backgroundColor: 'blue',
               justifyContent: 'center',
               width: 540,
               height: 560,

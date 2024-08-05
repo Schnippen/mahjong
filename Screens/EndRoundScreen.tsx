@@ -9,11 +9,12 @@ import {YakuRow} from '../Components/EndRoundScreenComponents/YakuRow';
 import {RootState} from '../Store/store';
 import {useAppSelector} from '../Store/hooks';
 import {WinningHand} from '../Components/EndRoundScreenComponents/WinningHandComponent';
-import {Score} from '../Components/EndRoundScreenComponents/AnimatedScore';
+import {Score} from '../Components/EndRoundScreenComponents/EndRoundScore';
 import {resetToNextRound} from '../Functions/resetToNextRound';
 import {useAppDispatch} from '../Store/hooks';
 import {Button} from '@rneui/themed';
 import {captureScrenshot} from '../Functions/utils/captureScreenshot';
+import ScoreContainer from '../Components/EndRoundScreenComponents/EndRoundScreenScoreContainer';
 
 //TODO love this
 /* onLayout={(event) => {
@@ -196,26 +197,6 @@ function EndRoundScreen({navigation}: {navigation: any}) {
           }}
           onPress={() => resetToNextRound({dispatch, navigation})}
         />
-      </View>
-    );
-  };
-
-  const ScoreContainer = () => {
-    return (
-      <View style={{backgroundColor: 'pink', flexDirection: 'row', width: 420}}>
-        <Score />
-        {/* toValue={96000} duration={5000}  */}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'blue',
-          }}>
-          <Text style={{color: '#fbd54e', fontSize: 42, fontWeight: 'bold'}}>
-            Mangan
-          </Text>
-        </View>
       </View>
     );
   };

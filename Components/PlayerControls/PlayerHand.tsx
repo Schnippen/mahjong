@@ -44,6 +44,10 @@ const PlayerHandComponent = () => {
   const turnInterrupted = useSelector(
     (state: RootState) => state.gameReducer.turnInterrupted,
   );
+
+  const currentDiscard = useSelector(
+    (state: RootState) => state.riverReducer.currentDiscard,
+  );
   //const isItFirstTurn = turnsElapsed === 0 && handData.length !== 14;
   //const handDataLastIndex = handData.length - 1
   //let nextTile = nextTileState[nextTileState.length-1]

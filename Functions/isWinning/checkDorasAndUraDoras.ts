@@ -16,26 +16,28 @@ const checkDorasAndUraDoras = (
   let uradoras = store.getState().wallReducer.uraDorasFromDeadWall; //if they are any after won riichi
   let doraHan: number = 0;
   let uraDoraHan: number = 0;
-  let doraName = '';
-  handToCheck.forEach(element => {
-    if (doras.includes(element)) {
+  let doraName = 'Dora';
+  let uraDoraName = '';
+  handToCheck.forEach(doraTile => {
+    if (doraTile.isDora && doras.includes(doraTile)) {
       doraHan++;
     }
   });
 
   if (isRichiiActive) {
     handToCheck.forEach(tile => {
-      if (uradoras.includes(tile)) {
+      if (tile.isDora && uradoras.includes(tile)) {
         uraDoraHan++;
       }
     });
+    uraDoraName = 'UraDora';
   }
   //1 each dora is 1 han
   //dora
   //dora ni
   //dora san
   //...
-  return {doraHan, doraName, uraDoraHan};
+  return {doraHan, doraName, uraDoraHan, uraDoraName};
 };
 
 export default checkDorasAndUraDoras;

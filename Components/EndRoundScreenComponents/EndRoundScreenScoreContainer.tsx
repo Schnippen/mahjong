@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import Score from './AnimatedScore';
+import Score from './EndRoundScore';
 import {useAppSelector} from '../../Store/hooks';
 import {RootState} from '../../Store/store';
 

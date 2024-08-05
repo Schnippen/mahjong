@@ -108,7 +108,7 @@ export const checkYakusInHand = (
   totalHan = totalHanRon === 0 ? totalHanTsumo : totalHanRon;
   let typeOfWin: 'TSUMO' | 'RON' = totalHanRon === 0 ? 'TSUMO' : 'RON'; //add  to setwinning hand
   //CHECK FOR DORAS AND URA DORAS
-  let {doraHan, doraName, uraDoraHan} = checkDorasAndUraDoras(
+  let {doraHan, doraName, uraDoraHan, uraDoraName} = checkDorasAndUraDoras(
     hand,
     currentMelds,
     discard,
@@ -116,6 +116,14 @@ export const checkYakusInHand = (
   );
   totalHan = totalHan + doraHan;
   totalHan = totalHan + uraDoraHan;
+  if (doraName != '') {
+    listOfYakusInHand.push({han: doraHan, yakuName: doraName});
+    console.log('Counting Doras:', doraHan, doraName);
+  }
+  if (uraDoraName != '') {
+    listOfYakusInHand.push({han: uraDoraHan, yakuName: uraDoraName});
+    console.log('Counting UraDoras:', uraDoraHan, uraDoraName);
+  }
   //listOfYakusInHand.push(doraName) TODO correct typescript
   let {points, pointsName, fu} = calculatePoints(
     totalHan,
@@ -137,6 +145,7 @@ export const checkYakusInHand = (
       points: points,
       pointsName: pointsName,
       fu: fu,
+      totalHan: totalHan,
       //type: 'update',
     }),
   );
