@@ -55,7 +55,7 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
       </View>
       <View style={styles.hanContainer}>
         <Text style={{color: '#fbd54e', fontWeight: 'bold'}}>{han}</Text>
-        <Text style={{color: '#fbd54e'}}>HAN</Text>
+        <Text style={{color: '#fbd54e', fontWeight: 'bold'}}> HAN</Text>
       </View>
     </Animated.View>
   );

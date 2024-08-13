@@ -40,11 +40,12 @@ interface gameState {
     hand: TTileObject[];
     winningTile: TTileObject[];
     yakuList: YakuType[];
-    winningAction: string;
+    winningAction: 'TSUMO' | 'RON' | '';
     points: number;
     pointsName: pointsNameType;
     fu: number;
     totalHan: number;
+    isRichiiActive: boolean;
   };
 }
 
@@ -70,6 +71,7 @@ const initialState: gameState = {
     pointsName: '',
     fu: 0,
     totalHan: 0,
+    isRichiiActive: false,
   },
 };
 
@@ -145,15 +147,25 @@ export const gameReducer = createSlice({
         hand: TTileObject[];
         tile: TTileObject[];
         yaku: YakuType[];
-        winAction: string;
+        winAction: 'TSUMO' | 'RON' | '';
         points: number;
         pointsName: pointsNameType;
         fu: number;
         totalHan: number;
+        isRichiiActive: boolean;
       }>,
     ) => {
-      const {hand, tile, yaku, winAction, points, pointsName, fu, totalHan} =
-        action.payload;
+      const {
+        hand,
+        tile,
+        yaku,
+        winAction,
+        points,
+        pointsName,
+        fu,
+        totalHan,
+        isRichiiActive,
+      } = action.payload;
       state.winningHand = {
         hand: [...hand],
         winningTile: [...tile],
@@ -163,6 +175,7 @@ export const gameReducer = createSlice({
         pointsName: pointsName,
         fu: fu,
         totalHan: totalHan,
+        isRichiiActive: isRichiiActive,
       };
     },
     resetWinningHand: state => {
@@ -175,6 +188,7 @@ export const gameReducer = createSlice({
         pointsName: '',
         fu: 0,
         totalHan: 0,
+        isRichiiActive: false,
       };
       console.log('REDUX RESETED WINNING HAND');
     },

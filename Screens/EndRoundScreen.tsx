@@ -9,7 +9,6 @@ import {YakuRow} from '../Components/EndRoundScreenComponents/YakuRow';
 import {RootState} from '../Store/store';
 import {useAppSelector} from '../Store/hooks';
 import {WinningHand} from '../Components/EndRoundScreenComponents/WinningHandComponent';
-import {Score} from '../Components/EndRoundScreenComponents/EndRoundScore';
 import {resetToNextRound} from '../Functions/resetToNextRound';
 import {useAppDispatch} from '../Store/hooks';
 import {Button} from '@rneui/themed';
@@ -36,7 +35,7 @@ function EndRoundScreen({navigation}: {navigation: any}) {
       (state: RootState) => state.gameReducer.winningHand,
     );
     let winningHandData = winningHand.yakuList;
-    let shitExample: YakuType[] = [
+    let yakuListExample: YakuType[] = [
       {han: 1, yakuName: 'ToiToi'},
       {han: 3, yakuName: 'Tanyao'},
       {han: 1, yakuName: 'Junchan'},
@@ -92,7 +91,7 @@ function EndRoundScreen({navigation}: {navigation: any}) {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 28}}>Doras</Text>
+          <Text style={{fontSize: 28, fontWeight: 'bold'}}>Doras</Text>
         </View>
         <View
           style={{
@@ -126,7 +125,7 @@ function EndRoundScreen({navigation}: {navigation: any}) {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 28}}>Ura</Text>
+          <Text style={{fontSize: 28, fontWeight: 'bold'}}>Ura</Text>
         </View>
         <View
           style={{
@@ -257,6 +256,6 @@ Share.share({title:"Image",url:imageURI})
     </View>
   );
 }
-//later show global scores??? mayme add table like in mahjongsoft
+//later show global scores??? maybe add table like in mahjongsoft
 //add stars 1st, 2nd etc
 export default EndRoundScreen;

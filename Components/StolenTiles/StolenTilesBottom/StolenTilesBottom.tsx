@@ -6,7 +6,17 @@ import {
   StolenTileComponentPlayerVERTICAL,
   StolenTileComponentPlayerVERTICALReversed,
 } from '../StolenTilesBottom/StolenTilesBottomComponents';
-import {TstolenTiles} from '../../../Types/types';
+import {TstolenTiles, TTileObject} from '../../../Types/types';
+let placeHolder = `<svg width="100" height="100">
+    <circle
+      cx="50"
+      cy="50"
+      r="40"
+      stroke="green"
+      stroke-width="4"
+      fill="yellow"
+    />
+  </svg>`;
 
 export const StolenTilesPlayerLEFT = ({data}: {data: TstolenTiles}) => {
   //const shit = mahjongTilesSVGsArray
@@ -26,11 +36,11 @@ export const StolenTilesPlayerLEFT = ({data}: {data: TstolenTiles}) => {
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[1].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[2].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
     </View>
@@ -54,11 +64,11 @@ export const StolenTilesPlayerRIGHT = ({data}: {data: TstolenTiles}) => {
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[1].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerHORIZONTAL
-        svg={data.tiles[2].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
     </View>
@@ -81,11 +91,11 @@ export const StolenTilesPlayerFRONT = ({data}: {data: TstolenTiles}) => {
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerHORIZONTAL
-        svg={data.tiles[1].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[2].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
     </View>
@@ -108,15 +118,15 @@ export const StolenTilesPlayerKANLEFT = ({data}: {data: TstolenTiles}) => {
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[1].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[2].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[3].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
     </View>
@@ -134,15 +144,15 @@ export const StolenTilesPlayerKANRIGHT = ({data}: {data: TstolenTiles}) => {
         justifyContent: 'center',
       }}>
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[3].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[2].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[1].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerHORIZONTAL
@@ -170,23 +180,26 @@ export const StolenTilesPlayerKANFRONT = ({data}: {data: TstolenTiles}) => {
       />
       <View style={{flexDirection: 'column', rowGap: -18}}>
         <StolenTileComponentPlayerHORIZONTAL
-          svg={data.tiles[1].image}
+          svg={data.tiles[0].image}
           tileRatioProp={1.5}
         />
         <StolenTileComponentPlayerHORIZONTAL
-          svg={data.tiles[2].image}
+          svg={data.tiles[0].image}
           tileRatioProp={1.5}
         />
       </View>
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[3].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
     </View>
   );
 };
 export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
-  console.log('STOLEN KAN:', data);
+  let TileImage = data.tiles ? data.tiles[0]?.image : placeHolder;
+  let TileName = data.tiles ? data.tiles[0]?.name : placeHolder;
+
+  console.log('STOLEN KAN:', /* data.tiles, */ TileName);
   return (
     <View
       style={{
@@ -198,19 +211,13 @@ export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
         justifyContent: 'center',
       }}>
       <StolenTileComponentPlayerVERTICALReversed
-        svg={data.tiles[0].image}
+        svg={TileImage}
         tileRatioProp={1.5}
       />
-      <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[1].image}
-        tileRatioProp={1.5}
-      />
-      <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[2].image}
-        tileRatioProp={1.5}
-      />
+      <StolenTileComponentPlayerVERTICAL svg={TileImage} tileRatioProp={1.5} />
+      <StolenTileComponentPlayerVERTICAL svg={TileImage} tileRatioProp={1.5} />
       <StolenTileComponentPlayerVERTICALReversed
-        svg={data.tiles[3].image}
+        svg={TileImage}
         tileRatioProp={1.5}
       />
     </View>

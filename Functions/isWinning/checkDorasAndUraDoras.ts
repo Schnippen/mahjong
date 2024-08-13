@@ -7,36 +7,84 @@ const checkDorasAndUraDoras = (
   discard: TTileObject[],
   isRichiiActive: boolean,
 ) => {
-  //hand as parameter
-
-  let meldedTiles = currentMelds.flatMap(meld => meld.tiles);
+  let meldedTiles = currentMelds.flatMap(meld => meld.tiles || []);
   let handToCheck = [...hand, ...discard, ...meldedTiles];
 
-  let doras = store.getState().wallReducer.dorasFromDeadWall;
-  let uradoras = store.getState().wallReducer.uraDorasFromDeadWall; //if they are any after won riichi
-  let doraHan: number = 0;
-  let uraDoraHan: number = 0;
-  let doraName = 'Dora';
+  let doras = store.getState().wallReducer.dorasFromDeadWall || [];
+  let uradoras = store.getState().wallReducer.uraDorasFromDeadWall || [];
+
+  const getCorrectedTileName = (tile: TTileObject) => {
+    if (!tile) return '';
+
+    let {name, type} = tile;
+    if (!name) return '';
+
+    let match = name.match(/(\D+)(\d+)/);
+
+    if (match) {
+      let tileType = match[1];
+      let tileNumber = parseInt(match[2], 10);
+
+      if (['characters', 'bamboo', 'circles'].includes(tileType)) {
+        tileNumber = (tileNumber % 9) + 1;
+        return `${tileType}${tileNumber}`;
+      } else if (['east', 'south', 'west', 'north'].includes(tileType)) {
+        const windOrder = ['east', 'south', 'west', 'north'];
+        let nextWindIndex =
+          (windOrder.indexOf(tileType) + 1) % windOrder.length;
+        return windOrder[nextWindIndex];
+      } else if (['white', 'green', 'red'].includes(tileType)) {
+        const dragonOrder = ['white', 'green', 'red'];
+        let nextDragonIndex =
+          (dragonOrder.indexOf(tileType) + 1) % dragonOrder.length;
+        return dragonOrder[nextDragonIndex];
+      }
+    }
+    return name;
+  };
+
+  const dorasWithNumberCorrection = doras.map(getCorrectedTileName);
+  const uraDorasWithNumberCorrection = uradoras.map(getCorrectedTileName);
+
+  let doraHan = 0;
+  let uraDoraHan = 0;
+  let doraName = '';
   let uraDoraName = '';
-  handToCheck.forEach(doraTile => {
-    if (doraTile.isDora && doras.includes(doraTile)) {
-      doraHan++;
+
+  handToCheck.forEach(tile => {
+    if (tile && tile.isDora) {
+      let correctedDoraName = ['characters', 'bamboo', 'circles'].includes(
+        tile.type,
+      )
+        ? tile.name
+        : tile.value;
+
+      if (dorasWithNumberCorrection.find(tile => tile === correctedDoraName)) {
+        doraName = 'Dora';
+        doraHan++;
+      }
     }
   });
 
-  if (isRichiiActive) {
+  if (isRichiiActive && uraDorasWithNumberCorrection.length > 0) {
+    uraDoraName = 'UraDora';
     handToCheck.forEach(tile => {
-      if (tile.isDora && uradoras.includes(tile)) {
-        uraDoraHan++;
+      if (tile && tile.isDora) {
+        let correctedDoraName = ['characters', 'bamboo', 'circles'].includes(
+          tile.type,
+        )
+          ? tile.name
+          : tile.value;
+
+        if (
+          uraDorasWithNumberCorrection.find(tile => tile === correctedDoraName)
+        ) {
+          uraDoraHan++;
+        }
       }
     });
-    uraDoraName = 'UraDora';
   }
-  //1 each dora is 1 han
-  //dora
-  //dora ni
-  //dora san
-  //...
+  console.log('COUNTING DORAS:', doraHan, doraName, uraDoraHan, uraDoraName);
   return {doraHan, doraName, uraDoraHan, uraDoraName};
 };
 

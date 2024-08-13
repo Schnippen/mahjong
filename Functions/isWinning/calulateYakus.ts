@@ -114,6 +114,13 @@ export const checkYakusInHand = (
     discard,
     isRichiiActive,
   );
+  console.log(
+    'CALCULATE YAKUS: DORA',
+    doraHan,
+    doraName,
+    uraDoraHan,
+    uraDoraName,
+  );
   totalHan = totalHan + doraHan;
   totalHan = totalHan + uraDoraHan;
   if (doraName != '') {
@@ -141,12 +148,13 @@ export const checkYakusInHand = (
       hand: winningHand,
       tile: winningTile,
       yaku: listOfYakusInHand,
-      winAction: winningAction,
+      winAction: typeOfWin,
       points: points,
       pointsName: pointsName,
       fu: fu,
       totalHan: totalHan,
       //type: 'update',
+      isRichiiActive: isRichiiActive,
     }),
   );
   return {totalHan, listOfYakusInHand};
