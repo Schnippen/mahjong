@@ -6,7 +6,17 @@ import {
   StolenTileComponentPlayerVERTICAL,
   StolenTileComponentPlayerVERTICALReversed,
 } from '../StolenTilesBottom/StolenTilesBottomComponents';
-import {TstolenTiles} from '../../../Types/types';
+import {TstolenTiles, TTileObject} from '../../../Types/types';
+let placeHolder = `<svg width="100" height="100">
+    <circle
+      cx="50"
+      cy="50"
+      r="40"
+      stroke="green"
+      stroke-width="4"
+      fill="yellow"
+    />
+  </svg>`;
 
 export const StolenTilesPlayerLEFT = ({data}: {data: TstolenTiles}) => {
   //const shit = mahjongTilesSVGsArray
@@ -186,7 +196,7 @@ export const StolenTilesPlayerKANFRONT = ({data}: {data: TstolenTiles}) => {
   );
 };
 export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
-  console.log('STOLEN KAN:',data.tiles[0]); //TODO when i add values to  data.tiles[0] it creates error,
+  console.log('STOLEN KAN:', data);
   return (
     <View
       style={{
@@ -198,19 +208,19 @@ export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
         justifyContent: 'center',
       }}>
       <StolenTileComponentPlayerVERTICALReversed
-        /* svg={data.tiles[0].image} */
-        tileRatioProp={1.5}
-      />
-      <StolenTileComponentPlayerVERTICAL
         svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[0].image}
+        svg={data.tiles[1].image}
+        tileRatioProp={1.5}
+      />
+      <StolenTileComponentPlayerVERTICAL
+        svg={data.tiles[2].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICALReversed
-       /*  svg={data.tiles[0].image} */
+        svg={data.tiles[3].image}
         tileRatioProp={1.5}
       />
     </View>

@@ -19,6 +19,7 @@ export const resetToNextRound = ({
   dispatch(resetWinningHand());
   dispatch(resetWallReducer()); //wallreducer to 0
   dispatch(resetPlayersReducerToNextRound()); //resets player reducers beside scores
+  //reset player hand
 
   ///change compass
 

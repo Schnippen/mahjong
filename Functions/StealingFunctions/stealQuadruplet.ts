@@ -18,6 +18,7 @@ export function stealQuadruplet(
   discardedTileArray: TTileObject[],
   position: positionType,
 ) {
+  console.log('stealQuadruplet():', playerHand, discardedTileArray, position);
   let kanPosition: kanPositionTypes;
   let kanArray: TTileObject[] = [];
   let isKan = isPlayerHandContainingFourOfAKind(playerHand);

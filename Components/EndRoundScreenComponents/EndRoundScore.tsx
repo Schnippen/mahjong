@@ -19,21 +19,44 @@ export const Score = () => {
   const displayWinningFu = winningFu || '';
   const displayWinningPoints = winningPoints || '';
   const displayTotalHan = totalHan || '';
+
   return (
     <View style={styles.container}>
-      <View style={{}}>
-        <View style={{}}>
-          <Text>{displayWinningFu}</Text>
-          <Text>Fu</Text>
-        </View>
-        <View style={{}}>
-          <Text>{displayTotalHan}</Text>
-          <Text>Han</Text>
-        </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          backgroundColor: 'black',
+          width: '100%',
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text style={{fontWeight: 'bold', fontSize: 24}}>
+          {displayWinningFu + ' '}
+        </Text>
+        <Text style={{fontWeight: 'bold'}}>Fu </Text>
+        <Text style={{fontSize: 24, fontWeight: 'bold'}}>
+          {displayTotalHan + ' '}
+        </Text>
+        <Text style={{fontWeight: 'bold'}}>Han </Text>
       </View>
-      <View style={{}}>
-        <Text>{displayWinningPoints}</Text>
-        <Text style={{}}>PTS</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          width: '100%',
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text
+          style={{
+            fontSize: 30,
+            textAlignVertical: 'center',
+            fontWeight: 'bold',
+          }}>
+          {displayWinningPoints + ' '}
+        </Text>
+        <Text style={{fontSize: 18, textAlignVertical: 'center'}}>PTS</Text>
       </View>
     </View>
   );
@@ -44,24 +67,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: 200,
     backgroundColor: 'purple',
-    paddingHorizontal: 5,
-  },
-  topPanel: {
-    flexDirection: 'row',
-    flex: 1,
-  },
-  textContainer: {
-    flexDirection: 'row',
-  },
-  bottomPanel: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    backgroundColor: 'red',
-    alignItems: 'baseline',
-  },
-  pointsText: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    paddingLeft: 5,
   },
 });
 

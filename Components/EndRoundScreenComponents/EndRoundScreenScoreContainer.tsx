@@ -12,7 +12,6 @@ const ScoreContainer = () => {
   return (
     <View style={{backgroundColor: 'pink', flexDirection: 'row', width: 420}}>
       <Score />
-      {/* toValue={96000} duration={5000}  */}
       <View
         style={{
           flexDirection: 'row',

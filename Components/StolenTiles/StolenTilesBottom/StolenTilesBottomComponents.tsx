@@ -173,12 +173,12 @@ export const StolenTileComponentPlayerVERTICALReversed = ({
             justifyContent: 'center',
             borderRadius: tileBorderRadiusHandPlayerPerspective,
           }}>
-          <SvgXml
+          {/*     <SvgXml
             width={tileImageWidth}
             height={tileImageHeight}
             xml={svg}
             style={{borderRadius: tileBorderRadiusHandPlayerPerspective}}
-          />
+          /> */}
         </View>
       </View>
     </View>

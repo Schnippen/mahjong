@@ -275,9 +275,9 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                   style={{
                     position: 'absolute',
                     top: 54,
-                    left: 40,
-                    width: 800,
-                    backgroundColor: 'transparent',
+                    left: 0,
+                    width: 920, //TODO changed width from 800 to 920
+                    backgroundColor: 'red',
                   }}>
                   <StolenTilesPanelBottom />
                 </View>
