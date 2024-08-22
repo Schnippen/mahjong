@@ -196,10 +196,7 @@ export const StolenTilesPlayerKANFRONT = ({data}: {data: TstolenTiles}) => {
   );
 };
 export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
-  let TileImage = data.tiles ? data.tiles[0]?.image : placeHolder;
-  let TileName = data.tiles ? data.tiles[0]?.name : placeHolder;
-
-  console.log('STOLEN KAN:', /* data.tiles, */ TileName);
+  console.log('STOLEN KAN:', data);
   return (
     <View
       style={{
@@ -211,15 +208,24 @@ export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
         justifyContent: 'center',
       }}>
       <StolenTileComponentPlayerVERTICALReversed
-        svg={TileImage}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
-      <StolenTileComponentPlayerVERTICAL svg={TileImage} tileRatioProp={1.5} />
-      <StolenTileComponentPlayerVERTICAL svg={TileImage} tileRatioProp={1.5} />
+      <StolenTileComponentPlayerVERTICAL
+        svg={data.tiles[1].image}
+        tileRatioProp={1.5}
+      />
+      <StolenTileComponentPlayerVERTICAL
+        svg={data.tiles[2].image}
+        tileRatioProp={1.5}
+      />
       <StolenTileComponentPlayerVERTICALReversed
-        svg={TileImage}
+        svg={data.tiles[3].image}
         tileRatioProp={1.5}
       />
     </View>
   );
 };
+
+
+//TODO check if kans work as intended 
