@@ -14,6 +14,8 @@ import {useAppDispatch} from '../Store/hooks';
 import {Button} from '@rneui/themed';
 import {captureScrenshot} from '../Functions/utils/captureScreenshot';
 import ScoreContainer from '../Components/EndRoundScreenComponents/EndRoundScreenScoreContainer';
+import EndRoundScreenDoras from '../Components/EndRoundScreenComponents/EndRoundScreenDoras';
+import EndRoundScreenUraDoras from '../Components/EndRoundScreenComponents/EndRoundScreenUraDoras';
 
 //TODO love this
 /* onLayout={(event) => {
@@ -68,75 +70,6 @@ function EndRoundScreen({navigation}: {navigation: any}) {
           scrollEnabled={false}
           keyExtractor={(item, index) => index.toString()}
         />
-      </View>
-    );
-  };
-
-  const EndRoundScreenDoras = () => {
-    return (
-      <View
-        style={{
-          backgroundColor: 'pink',
-          width: 240,
-          flexDirection: 'row',
-          borderRadius: 8,
-          paddingHorizontal: 10,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View
-          style={{
-            backgroundColor: 'blue',
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text style={{fontSize: 28, fontWeight: 'bold'}}>Doras</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: 'red',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flex: 2,
-          }}>
-          <EndRoundScreenCurentDorasList />
-        </View>
-      </View>
-    );
-  };
-
-  const EndRoundScreenUraDoras = () => {
-    return (
-      <View
-        style={{
-          backgroundColor: 'pink',
-          width: 240,
-          flexDirection: 'row',
-          borderRadius: 8,
-          paddingHorizontal: 10,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View
-          style={{
-            backgroundColor: 'blue',
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text style={{fontSize: 28, fontWeight: 'bold'}}>Ura</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: 'red',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flex: 2,
-            height: 40,
-          }}>
-          <EndRoundScreenCurentUraDorasList />
-        </View>
       </View>
     );
   };
@@ -242,6 +175,7 @@ Share.share({title:"Image",url:imageURI})
             flexDirection: 'row',
             gap: 10,
             justifyContent: 'flex-start',
+            //paddingTop: 2,
           }}>
           <EndRoundScreenDoras />
           <EndRoundScreenUraDoras />

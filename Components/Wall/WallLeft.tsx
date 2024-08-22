@@ -143,7 +143,13 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
         keyExtractor={(item, index) => index.toString()}
         scrollEnabled={false}
         horizontal={true}
-        style={{position: 'absolute', top: 0, left: 13}} //Styling problems in "left" property?
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: globalDiceRollResult === 8 && wallWind === 'north' ? null : 13,
+          right:
+            globalDiceRollResult === 8 && wallWind === 'north' ? -13 : null,
+        }} //Styling problems in "left" property?
         getItemLayout={(data, index) => ({
           length: 39,
           offset: 39 * index,

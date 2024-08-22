@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {soundFunc} from '../../Functions/playSounds/soundFunc';
 import {YakuType} from '../../Types/types';
+import {GoldTextColor} from '../../Data/colors';
 //TODO change typescript - ?
 export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
   const topPanelBackgroundColor = '#3c7fc3';
@@ -54,8 +55,8 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
         <Text style={{fontWeight: 'bold', textAlign: 'center'}}>{name}</Text>
       </View>
       <View style={styles.hanContainer}>
-        <Text style={{color: '#fbd54e', fontWeight: 'bold'}}>{han}</Text>
-        <Text style={{color: '#fbd54e', fontWeight: 'bold'}}> HAN</Text>
+        <Text style={{color: GoldTextColor, fontWeight: 'bold'}}>{han}</Text>
+        <Text style={{color: GoldTextColor, fontWeight: 'bold'}}> HAN</Text>
       </View>
     </Animated.View>
   );

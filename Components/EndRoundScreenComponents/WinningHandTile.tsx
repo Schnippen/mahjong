@@ -50,7 +50,7 @@ export const WinningHandTile = ({
   }
 
   return (
-    <Animated.View style={[{backgroundColor: 'white'}, animatedStyle]}>
+    <Animated.View style={[{backgroundColor: 'transparent'}, animatedStyle]}>
       <PlayersTileOnHand svg={item.image} tileRatioProp={1.2} />
     </Animated.View>
   );
