@@ -5,8 +5,6 @@ import {useAppSelector} from '../../Store/hooks';
 import {RootState} from '../../Store/store';
 
 export const Score = () => {
-  const topPanelBackgroundColor = '#3c7fc3';
-
   const winningFu = useAppSelector(
     (state: RootState) => state.gameReducer.winningHand.fu,
   );
@@ -25,7 +23,7 @@ export const Score = () => {
       <View
         style={{
           flexDirection: 'row',
-          backgroundColor: 'black',
+          backgroundColor: 'transparent',
           width: '100%',
           flex: 1,
           justifyContent: 'center',
@@ -66,7 +64,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: 200,
-    backgroundColor: 'purple',
+    backgroundColor: 'transparent',
     paddingLeft: 5,
   },
 });

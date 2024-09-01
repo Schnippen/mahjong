@@ -10,14 +10,14 @@ const ScoreContainer = () => {
   );
 
   return (
-    <View style={{backgroundColor: 'pink', flexDirection: 'row', width: 420}}>
+    <View style={{flexDirection: 'row', width: 420}}>
       <Score />
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'blue',
+          backgroundColor: 'transparent',
         }}>
         <Text style={{color: '#fbd54e', fontSize: 42, fontWeight: 'bold'}}>
           {pointsName}

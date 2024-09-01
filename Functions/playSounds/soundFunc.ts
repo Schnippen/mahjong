@@ -13,6 +13,7 @@ import {playPopSound} from './Sounds/playPopSound';
 import {playPopUpSound} from './Sounds/playPopUpSound';
 import {playRonTsumoActiveSound} from './Sounds/playRonTsumoSound';
 import {playTileClick} from './Sounds/playTileClickSound';
+import {playScreenshotSound} from './Sounds/System/playTakeScreenshotSound';
 import {playFemaleYakuChantaSound} from './YakuSounds/Female/playFemaleYakuChantaSound';
 import {playFemaleYakuChiitoitsuSound} from './YakuSounds/Female/playFemaleYakuChiitoitsuSound';
 import {playFemaleYakuChinistuSound} from './YakuSounds/Female/playFemaleYakuChinistuSound';
@@ -56,10 +57,11 @@ type SoundFuncTypes = {
     | 'pop'
     | 'popDown'
     | 'popUp'
-    | 'diceThrow';
+    | 'diceThrow'
+    | 'shutter';
 };
 //add male add female from async storage, async storage will be set in setting screen
-const soundType = (type: string) => {
+export const soundType = (type: string) => {
   console.log('soundType:', type);
   if (type === 'chii') {
     playFemaleChiiSound();
@@ -147,6 +149,8 @@ const soundType = (type: string) => {
     playFemaleYakuYakuhaiSound();
   } else if (type === 'diceThrow') {
     playDiceThrowSound();
+  } else if (type === 'shutter') {
+    playScreenshotSound();
   }
 };
 
