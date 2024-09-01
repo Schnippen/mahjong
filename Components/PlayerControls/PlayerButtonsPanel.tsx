@@ -399,12 +399,12 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
             }}
           />
         ) : null}
-        <Button
+        {/*     <Button
           title={'testFunction()'}
           onPress={() => {
             testFunction();
           }}
-        />
+        /> */}
         <NextTurn />
       </View>
     </View>

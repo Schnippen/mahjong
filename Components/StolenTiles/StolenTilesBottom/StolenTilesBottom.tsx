@@ -26,7 +26,7 @@ export const StolenTilesPlayerLEFT = ({data}: {data: TstolenTiles}) => {
       style={{
         backgroundColor: 'brown',
         width: 150,
-        height: 80,
+        height: 115,
         flexDirection: 'row',
         alignItems: 'flex-end',
         justifyContent: 'center',
@@ -54,7 +54,7 @@ export const StolenTilesPlayerRIGHT = ({data}: {data: TstolenTiles}) => {
       style={{
         backgroundColor: 'brown',
         width: 150,
-        height: 80,
+        height: 115,
         flexDirection: 'row',
         alignItems: 'flex-end',
         justifyContent: 'center',
@@ -79,9 +79,9 @@ export const StolenTilesPlayerFRONT = ({data}: {data: TstolenTiles}) => {
   return (
     <View
       style={{
-        backgroundColor: 'brown',
+        backgroundColor: 'transparent',
         width: 150,
-        height: 80,
+        height: 115,
         flexDirection: 'row',
         alignItems: 'flex-end',
         justifyContent: 'center',
@@ -138,7 +138,7 @@ export const StolenTilesPlayerKANRIGHT = ({data}: {data: TstolenTiles}) => {
       style={{
         backgroundColor: 'brown',
         width: 195,
-        height: 80,
+        height: 115,
         flexDirection: 'row',
         alignItems: 'flex-end',
         justifyContent: 'center',
@@ -167,9 +167,9 @@ export const StolenTilesPlayerKANFRONT = ({data}: {data: TstolenTiles}) => {
   return (
     <View
       style={{
-        backgroundColor: 'brown',
-        width: 195,
-        height: 80,
+        backgroundColor: 'transparent',
+        width: 155,
+        height: 115,
         flexDirection: 'row',
         alignItems: 'flex-end',
         justifyContent: 'center',
@@ -202,7 +202,7 @@ export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
       style={{
         backgroundColor: 'brown',
         width: 181,
-        height: 80,
+        height: 115,
         flexDirection: 'row',
         alignItems: 'flex-end',
         justifyContent: 'center',
@@ -212,20 +212,19 @@ export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[1].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[2].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICALReversed
-        svg={data.tiles[3].image}
+        svg={data.tiles[0].image}
         tileRatioProp={1.5}
       />
     </View>
   );
 };
 
-
-//TODO check if kans work as intended 
+//TODO check if kans work as intended

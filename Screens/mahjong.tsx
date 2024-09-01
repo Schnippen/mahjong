@@ -265,7 +265,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
               <RiverBottom />
               <View
                 style={{
-                  //backgroundColor: 'blue',
+                  backgroundColor: 'blue',
                   position: 'absolute',
                   top: 280,
                   /* alignItems: 'flex-start', */
@@ -277,7 +277,8 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
                     top: 54,
                     left: 0,
                     width: 920, //TODO changed width from 800 to 920
-                    backgroundColor: 'red',
+                    height: 120,
+                    backgroundColor: 'transparent',
                   }}>
                   <StolenTilesPanelBottom />
                 </View>
