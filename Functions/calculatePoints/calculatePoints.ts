@@ -17,7 +17,9 @@ const calculatePoints = (
   discard: TTileObject[],
   typeOfWin: 'TSUMO' | 'RON',
 ): {points: number; pointsName: pointsNameType; fu: number} => {
-  let prevailingWind: WindTypes = store.getState().gameReducer.prevailingWind;
+  let prevailingWind: WindTypes =
+    store.getState().playersReducer.whoTheWinnerIs.prevailingWind;
+  let honba: number = store.getState().gameReducer.honba;
 
   let fu = calculateFu(
     hand,
@@ -57,7 +59,7 @@ const calculatePoints = (
       pointsName = '';
     }
   }
-
+  points += honba * 100;
   if (typeOfWin === 'TSUMO') {
     if (winnerWind === 'east') {
       points *= 2;

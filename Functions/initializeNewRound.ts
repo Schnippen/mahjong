@@ -15,7 +15,7 @@ export const initializeNewRound = (dispatch: any) => {
   dispatch(START_GAME({phase: 'started'}));
   soundFunc({type: 'diceThrow'});
 
-  //CHANGE WIND? add honba or richii sticks?
+  //add honba or richii sticks?
 
   //console.log("initializeGame:",finishedWall)
   //maybe clean up  assignHandsBasedOnWind state?

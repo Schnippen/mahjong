@@ -50,6 +50,14 @@ export interface PlayersState {
     thirdHand: TTileObject[];
     fourthHand: TTileObject[];
   };
+  whoTheWinnerIs: {
+    playerName: TplayerString;
+    winnersWind: WindTypes;
+    originalEastPlayer: TplayerString;
+    eastRoundCounter: number;
+    prevailingWind: WindTypes;
+    honba: number;
+  };
 }
 
 const initialState: PlayersState = {
@@ -95,6 +103,14 @@ const initialState: PlayersState = {
     secondHand: [],
     thirdHand: [],
     fourthHand: [],
+  },
+  whoTheWinnerIs: {
+    playerName: 'null',
+    winnersWind: 'null',
+    originalEastPlayer: 'null',
+    eastRoundCounter: 0,
+    prevailingWind: 'east',
+    honba: 0,
   },
 };
 //init player1 - base , rest is 0 0 TODO maybe create a reducer?
@@ -281,8 +297,8 @@ export const playersReducer = createSlice({
       }
     },
     setStolenTilesOnBoard: (state, action) => {
-      const {player, tilesArray, name, isOpen,type} = action.payload;
-      const newStolenTiles = {name, tiles: tilesArray, isOpen,type:type};
+      const {player, tilesArray, name, isOpen, type} = action.payload;
+      const newStolenTiles = {name, tiles: tilesArray, isOpen, type: type};
       if (player === 'player1') {
         state.player1.playerHand.melds.push(newStolenTiles);
       } else if (player === 'player2') {
@@ -317,7 +333,10 @@ export const playersReducer = createSlice({
         state.player4.player4Score += val;
       }
     },
-    rotateWindOrder: (state, action) => {
+    rotateWindOrder: state => {
+      const WinnerName = state.whoTheWinnerIs.playerName;
+      const WinnerWind = state.whoTheWinnerIs.winnersWind;
+
       const winds: Array<WindTypes> = ['east', 'south', 'west', 'north'];
       const playersArray = [
         state.player1,
@@ -325,40 +344,146 @@ export const playersReducer = createSlice({
         state.player3,
         state.player4,
       ];
-      // Rotate winds
-      playersArray.forEach(player => {
-        const currentWindIndex = winds.indexOf(player.wind);
-        const newWindIndex = (currentWindIndex + 1) % winds.length;
-        player.wind = winds[newWindIndex];
-      });
+      if (WinnerWind !== 'east') {
+        // rotate wind for each player
+        //https://www.mahjongtime.com/mahjong-japanese-rules-5.html
+        //3.4.9
+        //https://riichi.wiki/Honba
+        playersArray.forEach(player => {
+          const currentWindIndex = winds.indexOf(player.wind);
+          const newWindIndex = (currentWindIndex + 1) % winds.length;
+          player.wind = winds[newWindIndex];
+        });
+        //reset honba
+        state.whoTheWinnerIs.honba = initialState.whoTheWinnerIs.honba;
+      }
+      //https://riichi.wiki/Renchan
+      if (WinnerWind === 'east') {
+        state.whoTheWinnerIs.honba++;
+      }
     },
     resetPlayersReducerToNextRound: state => {
+      //no score change
+      //no hand change
+      //no wind change
       return {
         ...state,
         player1: {
           ...initialState.player1,
           player1Score: state.player1.player1Score,
+          playerHand: state.player1.playerHand,
+          wind: state.player1.wind,
         },
         player2: {
           ...initialState.player2,
           player2Score: state.player2.player2Score,
+          playerHand: state.player2.playerHand,
+          wind: state.player2.wind,
         },
         player3: {
           ...initialState.player3,
           player3Score: state.player3.player3Score,
+          playerHand: state.player3.playerHand,
+          wind: state.player3.wind,
         },
         player4: {
           ...initialState.player4,
           player4Score: state.player4.player4Score,
+          playerHand: state.player4.playerHand,
+          wind: state.player4.wind,
         },
         assignHandsBasedOnWind: {
           ...initialState.assignHandsBasedOnWind,
         },
       };
     },
-    changePrevailingWind: (state, action) => {
-      //state.value += action.payload
-      //this should be in game reducer
+    resetPlayersReducerHandsToNextRound: state => {
+      return {
+        ...state,
+        player1: {
+          ...state.player1,
+          playerHand: {
+            ...state.player1.playerHand,
+            hand: [],
+            melds: [],
+          },
+        },
+        player2: {
+          ...state.player2,
+          playerHand: {
+            ...state.player2.playerHand,
+            hand: [],
+            melds: [],
+          },
+        },
+        player3: {
+          ...state.player3,
+          playerHand: {
+            ...state.player3.playerHand,
+            hand: [],
+            melds: [],
+          },
+        },
+        player4: {
+          ...state.player4,
+          playerHand: {
+            ...state.player4.playerHand,
+            hand: [],
+            melds: [],
+          },
+        },
+      };
+    },
+    changeWhoTheWinnerIs: (state, action) => {
+      const {TypeOfAction, valuePlayerName, valuePlayerWind} = action.payload;
+      if (TypeOfAction === 'update') {
+        state.whoTheWinnerIs.playerName = valuePlayerName;
+        state.whoTheWinnerIs.winnersWind = valuePlayerWind;
+      }
+      if (TypeOfAction === 'reset') {
+        state.whoTheWinnerIs.playerName =
+          initialState.whoTheWinnerIs.playerName;
+        state.whoTheWinnerIs.winnersWind =
+          initialState.whoTheWinnerIs.winnersWind;
+      }
+      if (TypeOfAction === 'updateOriginalEastPlayer') {
+        state.whoTheWinnerIs.originalEastPlayer = valuePlayerName;
+      }
+    },
+    changePrevailingWind: state => {
+      const winds: Array<WindTypes> = ['east', 'south', 'west', 'north'];
+      const playersArray = [
+        state.player1,
+        state.player2,
+        state.player3,
+        state.player4,
+      ];
+      const currentEastPlayer = playersArray.find(
+        player => player.wind === 'east',
+      );
+      if (
+        currentEastPlayer &&
+        currentEastPlayer.name === state.whoTheWinnerIs.originalEastPlayer
+      ) {
+        state.whoTheWinnerIs.eastRoundCounter++;
+        if (state.whoTheWinnerIs.eastRoundCounter === 4) {
+          state.whoTheWinnerIs.prevailingWind = 'south';
+          state.whoTheWinnerIs.eastRoundCounter = 0; // reset counter for South rounds, but what if game takes long up to north?
+        } //TODO there might be error, what if east player was 4 times in a row the same wind?
+
+        /*       2.2 Prevailing wind
+
+When the game begins, east is the Prevailing wind. When the player who started the game as East, becomes East again after all other players have played at least one hand as East, the south round begins, and south is the Prevailing wind. A wind marker should be placed permanently by the player who begins as East, and when this player becomes East again after the first (east) round of the game, the marker is flipped to indicate the new Prevailing wind, south. */
+      }
+    },
+    HONBA_REDUCER: (state, action) => {
+      let {TypeOfAction} = action.payload;
+      if (TypeOfAction === 'increment') {
+        state.whoTheWinnerIs.honba++;
+      }
+      if (TypeOfAction === 'reset') {
+        state.whoTheWinnerIs.honba = initialState.whoTheWinnerIs.honba;
+      }
     },
   },
 });
@@ -376,7 +501,10 @@ export const {
   calculatePoints,
   setStolenTilesOnBoard,
   resetPlayersReducerToNextRound,
+  resetPlayersReducerHandsToNextRound,
+  changeWhoTheWinnerIs,
   changePrevailingWind,
+  HONBA_REDUCER,
 } = playersReducer.actions;
 
 export default playersReducer.reducer;

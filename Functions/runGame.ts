@@ -1,4 +1,8 @@
-import {PlayersState, drawTileFromWallToHand} from '../Store/playersReducer';
+import {
+  HONBA_REDUCER,
+  PlayersState,
+  drawTileFromWallToHand,
+} from '../Store/playersReducer';
 import {TTileObject} from '../Types/types';
 import {checkForQuadruplet} from './checkForQuadruplet';
 
@@ -15,7 +19,7 @@ import {RiverState} from '../Store/riverReducer';
 import {canRiichi} from './isReadyForRiichii/canRichii';
 import {isWinning} from './isWinning/isWinning';
 
-type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind'>;
+type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind' | 'whoTheWinnerIs'>;
 type GamePhase = 'started' | 'ended' | 'none';
 type GameWinds = 'east' | 'south' | 'west' | 'north';
 type TRiver = Omit<RiverState, 'currentDiscard'>;
@@ -322,8 +326,9 @@ export const runGame = (
   //if no tiles check for noten and tempai
   if (tilesAfterHandoutLength === 0) {
     console.info('Game Ended');
-    //TODO
-    //go to  endscreen, check tenpai noten
+
+    //TODO check tenpai noten
+    dispatch(HONBA_REDUCER('increment'));
     navigation.navigate('EndRoundScreen');
     return;
   }

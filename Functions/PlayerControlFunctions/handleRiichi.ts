@@ -1,7 +1,7 @@
 import {calculatePoints, setRiichi} from '../../Store/playersReducer';
 import {setRiichiIndexRiver} from '../../Store/riverReducer';
 import {TTileObject, TplayerString} from '../../Types/types';
-import { soundFunc } from '../playSounds/soundFunc';
+import {soundFunc} from '../playSounds/soundFunc';
 
 //TODO create correct more universal types
 type TPlayerRiver = {riverState: TTileObject[]};
@@ -47,7 +47,7 @@ export const handleRiichi = ({
   //show riichii stick in compass DONE
   //player who used riichii can only discard 14th tile
 
-  //when player is in richii buttons should be disabled
+  //when player is in richii buttons should be disabled-  DONE
   //prevents button to appear while in riichi //TODO do something with Pass button
   //TODO also prevent throwing other tiles
   setIsRichiiActive(true);
@@ -58,5 +58,5 @@ export const handleRiichi = ({
   setDisplayKanButton(false);
   setDisplayRiichiButton(false);
   //Audio
-  soundFunc({type:"riichi"})
+  soundFunc({type: 'riichi'});
 };

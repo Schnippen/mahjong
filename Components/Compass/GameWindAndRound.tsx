@@ -5,7 +5,7 @@ import {RootState} from '../../Store/store';
 
 const GameWindAndRound = () => {
   const prevailingWind = useSelector(
-    (state: RootState) => state.gameReducer.prevailingWind,
+    (state: RootState) => state.playersReducer.whoTheWinnerIs.prevailingWind,
   );
   const round = useSelector((state: RootState) => state.gameReducer.round);
   const displayWindAndRound = prevailingWind.toUpperCase() + ' ' + round;

@@ -32,10 +32,10 @@ interface gameState {
   currentTurnIndex: number;
   currentPlayer: TplayerString;
   gameEnded: boolean;
-  prevailingWind: GameWinds;
   round: number;
   howManyTurnsElapsed: 0;
   turnInterrupted: boolean; //todo make winnig action better type,
+
   winningHand: {
     hand: TTileObject[];
     winningTile: TTileObject[];
@@ -59,9 +59,9 @@ const initialState: gameState = {
   currentPlayer: 'null',
   howManyTurnsElapsed: 0,
   gameEnded: false,
-  prevailingWind: 'east',
   round: 0,
   turnInterrupted: false,
+
   winningHand: {
     hand: [],
     winningTile: [],
@@ -138,9 +138,7 @@ export const gameReducer = createSlice({
       state.currentPlayer = current;
       console.log('REDUX setCurrentPlayer:', state.currentPlayer);
     },
-    changePrevailingWind: (state, action) => {
-      //state.value += action.payload
-    },
+
     setWinningHand: (
       state,
       action: PayloadAction<{
@@ -208,7 +206,6 @@ export const {
   INTERRUPT_TURN,
   CHANGE_ORDER_AFTER_ACTION,
   setCurrentPlayer,
-  changePrevailingWind,
   setWinningHand,
   resetWinningHand,
 } = gameReducer.actions;

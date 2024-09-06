@@ -26,6 +26,10 @@ import {handleTsumo} from '../../Functions/PlayerControlFunctions/handleTsumo';
 import {handleRon} from '../../Functions/PlayerControlFunctions/handleRon';
 import {handleKan} from '../../Functions/PlayerControlFunctions/handleKan';
 import {testFunction} from '../../Functions/isWinning/Yaku/testFuntion';
+import {
+  changeWhoTheWinnerIs,
+  resetPlayersReducerHandsToNextRound,
+} from '../../Store/playersReducer';
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
   let dropLastTile = max;
@@ -144,9 +148,6 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
     (state: RootState) => state.wallReducer.tilesLeftInWall,
   );
 
-  /*   const prevailingWind = useSelector(
-    (state: RootState) => state.gameReducer.prevailingWind,
-  ); */
   //console.log('playerWhoLeftTheTile', playerWhoLeftTheTile);
   const tilesAfterHandoutLength = useSelector((state: RootState) => {
     let result = state.wallReducer.tilesAfterHandout.length;
@@ -352,6 +353,13 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
                 winnerWind: player1.wind,
                 isRichiiActive: isRichiiActive,
               });
+              dispatch(
+                changeWhoTheWinnerIs({
+                  TypeOfAction: 'update',
+                  valuePlayerName: player1.name,
+                  valuePlayerWind: player1.wind,
+                }),
+              );
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
                 setDisplayRonButton(false);
@@ -371,6 +379,13 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
                 winnerWind: player1.wind,
                 isRichiiActive: isRichiiActive,
               });
+              dispatch(
+                changeWhoTheWinnerIs({
+                  TypeOfAction: 'update',
+                  valuePlayerName: player1.name,
+                  valuePlayerWind: player1.wind,
+                }),
+              );
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
                 setDisplayTsumoButton(false);
@@ -399,12 +414,13 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
             }}
           />
         ) : null}
-        {/*     <Button
+        <Button
           title={'testFunction()'}
           onPress={() => {
             testFunction();
+            dispatch(resetPlayersReducerHandsToNextRound()); //TODO REMOVE
           }}
-        /> */}
+        />
         <NextTurn />
       </View>
     </View>

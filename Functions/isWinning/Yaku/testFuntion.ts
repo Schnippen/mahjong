@@ -190,17 +190,17 @@ export let discardExample = [
 ];
 
 export const testFunction = () => {
-  let result = isPinfu({
+  /*   let result = isPinfu({
     hand: handExample,
     discard: discardExample,
     playerMelds: [],
-  });
+  }); */
   console.log(
     'testFunction:',
-    result,
+    /*  result,
     handExample.map(t => t.name),
     discardExample[0].name,
-    handExample.length + discardExample.length,
+    handExample.length + discardExample.length, */
   );
 };
 //https://www.npmjs.com/package/react-native-haptic-feedback

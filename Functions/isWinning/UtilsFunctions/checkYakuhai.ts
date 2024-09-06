@@ -2,7 +2,8 @@ import store from '../../../Store/store';
 import {tileCountsType, WindTypes} from '../../../Types/types';
 
 export function checkYakuhai(tileCounts: tileCountsType): number {
-  let prevailingWind: WindTypes = store.getState().gameReducer.prevailingWind;
+  let prevailingWind: WindTypes =
+    store.getState().playersReducer.whoTheWinnerIs.prevailingWind;
   let player1Wind: WindTypes = store.getState().playersReducer.player1.wind;
   //TODO only works for player1
   const yakuhaiTiles = ['red', 'green', 'white', prevailingWind, player1Wind];

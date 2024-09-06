@@ -1,5 +1,12 @@
 import {resetWinningHand} from '../Store/gameReducer';
-import {resetPlayersReducerToNextRound} from '../Store/playersReducer';
+import {
+  changePrevailingWind,
+  changeWhoTheWinnerIs,
+  HONBA_REDUCER,
+  resetPlayersReducerHandsToNextRound,
+  resetPlayersReducerToNextRound,
+  rotateWindOrder,
+} from '../Store/playersReducer';
 import {resetWallReducer} from '../Store/wallReducer';
 import {initializeNewRound} from './initializeNewRound';
 import {playPopDownSound} from './playSounds/Sounds/playPopDownSound';
@@ -15,18 +22,23 @@ export const resetToNextRound = ({
   //dispatch
   //reset game reducer
   // hands
-  //check who won, change wind accordingly
-  dispatch(resetWinningHand());
-  dispatch(resetWallReducer()); //wallreducer to 0
-  dispatch(resetPlayersReducerToNextRound()); //resets player reducers beside scores
-  //reset player hand
 
-  ///change compass
+  ///change compass i must know who won, chenge wind in playerReducer, the wind in player reducer sends data to compass,
+  //now changing wind
+  dispatch(rotateWindOrder());
+  dispatch(resetWinningHand()); //reset the endRound Screen
+  dispatch(resetWallReducer()); //wallreducer to 0
+  dispatch(resetPlayersReducerToNextRound()); //resets player reducers beside scores, wind and hand
+  //reset player hand
+  dispatch(resetPlayersReducerHandsToNextRound());
 
   //change score
 
   //change prevailingWind
-
+  dispatch(changePrevailingWind()); //TODO there might be bugs
+  //reset who the winner is
+  dispatch(changeWhoTheWinnerIs({TypeOfAction: 'reset'}));
+  dispatch(HONBA_REDUCER({TypeOfAction: 'reset'}));
   navigation.navigate('MahjongScreen');
 
   //init new round
