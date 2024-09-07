@@ -46,7 +46,7 @@ export function isSuukantsu({hand, discard, playerMelds}: isSuukantsuTypes) {
   }
 
   const end = performance.now();
-  console.log(`isSuukantsu() took ${end - start} milliseconds.`);
+  //console.log(`isSuukantsu() took ${end - start} milliseconds.`);
   return {
     result: false,
     typeOfAction: typeOfAction,

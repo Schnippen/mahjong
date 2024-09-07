@@ -4,6 +4,7 @@ import {
   TplayerString,
   TstolenTiles,
   WindTypes,
+  whoTheLoserIsType,
 } from '../Types/types';
 //TODO if i want to make this multiplayer i have to re think how to display player score
 //player:Andy Bob Charlie Dylan
@@ -57,6 +58,7 @@ export interface PlayersState {
     eastRoundCounter: number;
     prevailingWind: WindTypes;
     honba: number;
+    whoTheLoserIs: whoTheLoserIsType[];
   };
 }
 
@@ -111,6 +113,7 @@ const initialState: PlayersState = {
     eastRoundCounter: 0,
     prevailingWind: 'east',
     honba: 0,
+    whoTheLoserIs: [],
   },
 };
 //init player1 - base , rest is 0 0 TODO maybe create a reducer?
@@ -321,7 +324,7 @@ export const playersReducer = createSlice({
         state.player4.isRiichi = val;
       }
     },
-    calculatePoints: (state, action) => {
+    calculateScore: (state, action) => {
       const {player, val} = action.payload;
       if (player === 'player1') {
         state.player1.player1Score += val;
@@ -450,6 +453,51 @@ export const playersReducer = createSlice({
         state.whoTheWinnerIs.originalEastPlayer = valuePlayerName;
       }
     },
+    changeWhoTheLoserIs: (state, action) => {
+      const {TypeOfAction, valuePlayerName, valuePlayerWind} = action.payload;
+
+      if (TypeOfAction === 'updateRON') {
+        const playersArray = [
+          state.player1,
+          state.player2,
+          state.player3,
+          state.player4,
+        ];
+        const loserPlayers = playersArray.filter(
+          p => p.wind === valuePlayerWind,
+        );
+        if (loserPlayers.length > 0) {
+          const loserPlayer = loserPlayers[0]; //wind is unique
+          state.whoTheWinnerIs.whoTheLoserIs = [
+            ...state.whoTheWinnerIs.whoTheLoserIs,
+            {loserName: loserPlayer.name, loserWind: loserPlayer.wind},
+          ];
+        } else {
+          // it is almost impossible
+          console.error(`No player found with wind: ${valuePlayerWind}`);
+        }
+      } else if (TypeOfAction === 'updateTSUMO') {
+        // TSUMO - Multiple losers
+        const playersArray = [
+          state.player1,
+          state.player2,
+          state.player3,
+          state.player4,
+        ];
+        const loserPlayersArray = playersArray.filter(
+          p => p.name !== valuePlayerName,
+        );
+        state.whoTheWinnerIs.whoTheLoserIs = [];
+        loserPlayersArray.forEach(loser => {
+          state.whoTheWinnerIs.whoTheLoserIs.push({
+            loserName: loser.name,
+            loserWind: loser.wind,
+          });
+        });
+      } else if (TypeOfAction === 'reset') {
+        state.whoTheWinnerIs.whoTheLoserIs = [];
+      }
+    },
     changePrevailingWind: state => {
       const winds: Array<WindTypes> = ['east', 'south', 'west', 'north'];
       const playersArray = [
@@ -498,11 +546,12 @@ export const {
   drawTileFromWallToHand,
   rotateWindOrder,
   setRiichi,
-  calculatePoints,
+  calculateScore,
   setStolenTilesOnBoard,
   resetPlayersReducerToNextRound,
   resetPlayersReducerHandsToNextRound,
   changeWhoTheWinnerIs,
+  changeWhoTheLoserIs,
   changePrevailingWind,
   HONBA_REDUCER,
 } = playersReducer.actions;

@@ -1,6 +1,7 @@
 import {resetWinningHand} from '../Store/gameReducer';
 import {
   changePrevailingWind,
+  changeWhoTheLoserIs,
   changeWhoTheWinnerIs,
   HONBA_REDUCER,
   resetPlayersReducerHandsToNextRound,
@@ -23,7 +24,7 @@ export const resetToNextRound = ({
   //reset game reducer
   // hands
 
-  ///change compass i must know who won, chenge wind in playerReducer, the wind in player reducer sends data to compass,
+  ///change compass i must know who won, change wind in playerReducer, the wind in player reducer sends data to compass,
   //now changing wind
   dispatch(rotateWindOrder());
   dispatch(resetWinningHand()); //reset the endRound Screen
@@ -32,12 +33,14 @@ export const resetToNextRound = ({
   //reset player hand
   dispatch(resetPlayersReducerHandsToNextRound());
 
-  //change score
+  //change score, it is done in calculatePoints.ts
 
   //change prevailingWind
   dispatch(changePrevailingWind()); //TODO there might be bugs
   //reset who the winner is
   dispatch(changeWhoTheWinnerIs({TypeOfAction: 'reset'}));
+  //reset who the loser is
+  dispatch(changeWhoTheLoserIs({TypeOfAction: 'reset'}));
   dispatch(HONBA_REDUCER({TypeOfAction: 'reset'}));
   navigation.navigate('MahjongScreen');
 

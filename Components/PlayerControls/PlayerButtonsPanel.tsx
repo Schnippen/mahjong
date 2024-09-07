@@ -27,6 +27,7 @@ import {handleRon} from '../../Functions/PlayerControlFunctions/handleRon';
 import {handleKan} from '../../Functions/PlayerControlFunctions/handleKan';
 import {testFunction} from '../../Functions/isWinning/Yaku/testFuntion';
 import {
+  changeWhoTheLoserIs,
   changeWhoTheWinnerIs,
   resetPlayersReducerHandsToNextRound,
 } from '../../Store/playersReducer';
@@ -359,6 +360,11 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
                   valuePlayerName: player1.name,
                   valuePlayerWind: player1.wind,
                 }),
+                changeWhoTheLoserIs({
+                  TypeOfAction: 'updateRON',
+                  valuePlayerName: latestTurn,
+                  valuePlayerWind: latestTurn,
+                }),
               );
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
@@ -385,7 +391,13 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
                   valuePlayerName: player1.name,
                   valuePlayerWind: player1.wind,
                 }),
+                changeWhoTheLoserIs({
+                  TypeOfAction: 'updateTSUMO',
+                  valuePlayerName: player1.name,
+                  valuePlayerWind: player1.wind,
+                }),
               );
+
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
                 setDisplayTsumoButton(false);

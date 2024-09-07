@@ -1,4 +1,4 @@
-import {calculatePoints, setRiichi} from '../../Store/playersReducer';
+import {calculateScore, setRiichi} from '../../Store/playersReducer';
 import {setRiichiIndexRiver} from '../../Store/riverReducer';
 import {TTileObject, TplayerString} from '../../Types/types';
 import {soundFunc} from '../playSounds/soundFunc';
@@ -34,7 +34,7 @@ export const handleRiichi = ({
   console.log('handleRiichi()', 'riverIndex:', riverIndex);
 
   dispatch(setRiichi({player: player, val: true}));
-  dispatch(calculatePoints({player: player, val: -1000}));
+  dispatch(calculateScore({player: player, val: -1000}));
   //set unique richii index in river, DONE
   dispatch(setRiichiIndexRiver({player: player, index: riverIndex}));
   //richi index will be displayed in river component DONE

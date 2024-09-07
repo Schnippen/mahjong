@@ -126,7 +126,7 @@ export function isWinning({
   isDaisuushii({hand, discard, playerMelds: currentMelds});
   //REMEMBER //TODO if there is Daisuushii do not count Shousuushii
 
-  //Chanta 全帯 • Terminals and Honors Everywhere //CHECKING
+  //Chanta 全帯 • Terminals and Honors Everywhere //Working
   isChanta({hand, discard, playerMelds: currentMelds});
 
   //Junchan 純全帯么 • Terminals Everywhere //WORKING //but check it with checkMelds 2.0 ver //also it can be closed or opened
@@ -145,7 +145,7 @@ export function isWinning({
   isChiitoitsu({hand, discard});
   // add is tenpai with chiitoitsu???
 
-  //Toitoi 対々 • All Triplets //CHECK
+  //Toitoi 対々 • All Triplets //working
   isToiToi({hand, discard, playerMelds: currentMelds});
 
   //San ankou 三暗刻 • Three Concealed Triplets
@@ -156,16 +156,16 @@ export function isWinning({
   //Suuankou 四暗刻 • Four Concealed Triplets yakuman
   //TODO FIX ISSUES https://riichi.wiki/Suuankou
   //he third triplet may not be completed off another player's discard (ron), as the triplet would not be "concealed".
-  //isSuuankou({hand, discard, playerMelds: currentMelds});
+  isSuuankou({hand, discard, playerMelds: currentMelds});
 
   //Sanshoku doukou 三色同刻 • Three Colored Triplets //WORKING //TODO /
   isSanshokuDoukou({hand, discard, playerMelds: currentMelds});
 
   //Sankantsu 三槓子 • Three Quads //TODO //PROBLEM WITH KANS
-  // isSankantsu({hand, discard, playerMelds: currentMelds});
+  isSankantsu({hand, discard, playerMelds: currentMelds});
 
   //Suukantsu 四槓子 • Four Quads yakuman //TODO //PROBLEM WITH KANS
-  //isSuukantsu({hand, discard, playerMelds: currentMelds});
+  isSuukantsu({hand, discard, playerMelds: currentMelds});
 
   //yakus basED ON SUITS
 
@@ -220,6 +220,9 @@ export function isWinning({
     isChiitoitsu,
     isToiToi,
     isSanshokuDoukou,
+    isSuukantsu,
+    isSankantsu,
+    isSuuankou,
     isHonitsu,
     isChinitsu,
     isRyuuiisou,

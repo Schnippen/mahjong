@@ -140,8 +140,9 @@ export const checkYakusInHand = (
     winnerWind,
     discard,
     typeOfWin,
+    dispatch,
   );
-  //calculateRonPoints(totalHan,winnersWind)
+
   //calculate points
   dispatch(
     setWinningHand({

@@ -54,7 +54,7 @@ export function isSuuankou({hand, discard, playerMelds}: isToiToiTypes) {
   }
 
   const end = performance.now();
-  console.log(`isSuuankou() took ${end - start} milliseconds.`);
+  //console.log(`isSuuankou() took ${end - start} milliseconds.`);
 
   if (triplesCount === 4) {
     return {

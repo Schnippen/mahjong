@@ -26,7 +26,7 @@ type GamePhase = 'started' | 'ended' | 'none';
 interface gameState {
   gamePhase: GamePhase;
   currentTurn: GameWinds;
-  latestPlayerTurn: string;
+  latestPlayerTurn: GameWinds;
   gameOrder: ['east', 'south', 'west', 'north'];
   startingTurn: number;
   currentTurnIndex: number;
@@ -52,7 +52,7 @@ interface gameState {
 const initialState: gameState = {
   gamePhase: 'none',
   currentTurn: 'east', //wind of player
-  latestPlayerTurn: 'string', // player which discarded tile
+  latestPlayerTurn: 'east', // player which discarded tile
   gameOrder: ['east', 'south', 'west', 'north'],
   startingTurn: 0,
   currentTurnIndex: 0,
@@ -79,11 +79,6 @@ export const gameReducer = createSlice({
   name: 'gameReducer',
   initialState,
   reducers: {
-    orderOfPlayingTurns: (state, action) => {
-      //state.value += 1
-      //const player = 'player' + (i + 1);
-      //const windIndex = (index + i) % winds.length;
-    },
     START_GAME: (state, action) => {
       let {phase} = action.payload;
       state.gamePhase = phase;
@@ -195,7 +190,6 @@ export const gameReducer = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  orderOfPlayingTurns,
   START_GAME,
   START_TURN,
   SET_LATEST_TURN,
