@@ -46,26 +46,26 @@ export function checkForSequence(
   });
 
   if (possibleSequences.length === 1) {
-    console.info(
+    /* console.info(
       'Sequence:',
       'Discarded',
       'First',
       'Third',
       possibleSequences.map(t => t.map(i => i.name)),
-    );
+    ); */
     //return true;
     result = true;
     return {result, possibleSequences};
   } else if (possibleSequences.length > 1) {
-    console.info(
+    /* console.info(
       'Sequence: OPTIONS',
       possibleSequences.map(t => t.map(i => i.name)),
-    );
+    ); */
     //return true;
     result = true;
     return {result, possibleSequences};
   } else {
-    console.log('Sequence: NO CHII');
+    //console.log('Sequence: NO CHII');
     //return false;
     result = false;
     return {result, possibleSequences};

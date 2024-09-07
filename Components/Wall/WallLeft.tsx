@@ -65,10 +65,10 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
             key={index + 'a'}
             zIndex={1}
           />
-          <Text>
+          {/*        <Text>
             {index + 1}
             {item.isDora}
-          </Text>
+          </Text> */}
         </View>
       );
     } else {
@@ -80,7 +80,7 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
             key={index + 'a'}
             zIndex={1}
           />
-          <Text>{index + 1}</Text>
+          {/* <Text>{index + 1}</Text> */}
         </View>
       );
     }

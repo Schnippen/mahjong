@@ -59,10 +59,10 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
             key={index + 'a'}
             zIndex={1}
           />
-          <Text>
+          {/*           <Text>
             {index}
             {item.isDora}
-          </Text>
+          </Text> */}
         </View>
       );
     } else {
@@ -74,7 +74,7 @@ const WallTop = ({wallWind = ''}: {wallWind?: string}) => {
             key={index + 'a'}
             zIndex={1}
           />
-          <Text>{index}</Text>
+          {/*  <Text>{index}</Text> */}
         </View>
       );
     }

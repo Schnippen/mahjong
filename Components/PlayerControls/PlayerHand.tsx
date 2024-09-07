@@ -10,6 +10,7 @@ import {RootState} from '../../Store/store';
 import TileOnHand from './TileOnHand';
 import {discardTile} from '../../Functions/discardTileFunction';
 import EmptyComponent from '../Wall/EmptyComponent';
+import LinearGradient from 'react-native-linear-gradient';
 
 const PlayerHandComponent = () => {
   const handData = useSelector(
@@ -143,10 +144,14 @@ const PlayerHandComponent = () => {
   //console.log('handData:', handData);
   //TODO REFACTOR
   return (
-    <View
+    <LinearGradient
+      colors={['transparent', '#3b5998', '#192f6a']}
+      start={{x: 0.0, y: 0.25}}
+      end={{x: 0.8, y: 1.0}}
+      locations={[0, 0.4, 0.6]}
       style={{
         flexDirection: 'row',
-        backgroundColor: 'brown',
+        backgroundColor: 'transparent',
         minWidth: 560,
         maxWidth: 600,
         height: 90,
@@ -159,7 +164,7 @@ const PlayerHandComponent = () => {
         data={sortedData}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
-        style={{backgroundColor: 'purple', width: 300, height: 90}}
+        style={{backgroundColor: 'transparent', width: 300, height: 90}} //was background purple for testing purposes
         ListEmptyComponent={<EmptyComponent />}
         extraData={[handData, sortTilesOnHand]}
         getItemLayout={(data, index) => ({
@@ -168,7 +173,7 @@ const PlayerHandComponent = () => {
           index,
         })}
       />
-    </View>
+    </LinearGradient>
   );
 };
 

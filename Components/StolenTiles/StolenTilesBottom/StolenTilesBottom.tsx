@@ -24,7 +24,7 @@ export const StolenTilesPlayerLEFT = ({data}: {data: TstolenTiles}) => {
   return (
     <View
       style={{
-        backgroundColor: 'brown',
+        backgroundColor: 'transparent',
         width: 150,
         height: 115,
         flexDirection: 'row',
@@ -52,7 +52,7 @@ export const StolenTilesPlayerRIGHT = ({data}: {data: TstolenTiles}) => {
   return (
     <View
       style={{
-        backgroundColor: 'brown',
+        backgroundColor: 'transparent',
         width: 150,
         height: 115,
         flexDirection: 'row',
@@ -106,7 +106,7 @@ export const StolenTilesPlayerKANLEFT = ({data}: {data: TstolenTiles}) => {
   return (
     <View
       style={{
-        backgroundColor: 'brown',
+        backgroundColor: 'transparent',
         width: 195,
         height: 80,
         flexDirection: 'row',
@@ -136,7 +136,7 @@ export const StolenTilesPlayerKANRIGHT = ({data}: {data: TstolenTiles}) => {
   return (
     <View
       style={{
-        backgroundColor: 'brown',
+        backgroundColor: 'transparent',
         width: 195,
         height: 115,
         flexDirection: 'row',
@@ -200,7 +200,7 @@ export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
   return (
     <View
       style={{
-        backgroundColor: 'brown',
+        backgroundColor: 'transparent',
         width: 181,
         height: 115,
         flexDirection: 'row',

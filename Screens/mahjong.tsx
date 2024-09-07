@@ -1,8 +1,6 @@
-import {Button, Image, Overlay, Text} from '@rneui/themed';
+import {Button} from '@rneui/themed';
 import React, {useState} from 'react';
-import {ScrollView, View, Dimensions, FlatList, Settings} from 'react-native';
-import {mahjongTilesSVGsArray} from '../Assets/MahjongTiles/MahjongTiles';
-import LinearGradient from 'react-native-linear-gradient';
+import {ScrollView, View, Dimensions} from 'react-native';
 import ButtonSettings from '../Components/Buttons/ButtonSettings';
 import ButtonQuestionmark from '../Components/Buttons/ButtonQuestionmark';
 import SettingsOverlay from '../Components/SettingsOverlay';
@@ -124,7 +122,21 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
 
   return (
     <ScrollView>
-      <Button title="initialize" onPress={() => initialGame(dispatch)}></Button>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          width: '100%',
+        }}>
+        <Button
+          style={{flex: 1, backgroundColor: 'red'}}
+          title="initialize"
+          onPress={() => initialGame(dispatch)}></Button>
+        <Button
+          style={{flex: 1}}
+          title="initialize"
+          onPress={() => initialGame(dispatch)}></Button>
+      </View>
 
       {/* <Button title="nextTurn" onPress={() => nextTurn()}></Button> */}
       <View
@@ -265,7 +277,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
               <RiverBottom />
               <View
                 style={{
-                  backgroundColor: 'blue',
+                  backgroundColor: 'transparent',
                   position: 'absolute',
                   top: 280,
                   /* alignItems: 'flex-start', */
@@ -292,7 +304,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
       </View>
     </ScrollView>
   );
-} //TODO change the left and right tiles in compass with correct width and height
+}
 export default MahjongScreen;
 //https://github.com/software-mansion/react-native-reanimated/issues/2750
 

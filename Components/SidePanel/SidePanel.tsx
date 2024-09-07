@@ -25,7 +25,7 @@ const AutoSort = () => {
     <TouchableOpacity
       activeOpacity={0.5}
       style={{
-        backgroundColor: 'blue',
+        backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
@@ -35,7 +35,7 @@ const AutoSort = () => {
       onPress={() => handleSortToggle()}>
       <Text
         style={{
-          color: sortTilesOnHand ? 'limegreen' : 'white',
+          color: sortTilesOnHand ? 'rgb(233, 195, 170)' : 'white',
           textAlign: 'center',
           fontWeight: 'bold',
           fontSize: 16,

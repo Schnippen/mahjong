@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
-
 import {Button} from '@rneui/themed';
 import {TTileObject} from '../../Types/types';
 import {discardTile} from '../../Functions/discardTileFunction';
@@ -31,6 +30,7 @@ import {
   changeWhoTheWinnerIs,
   resetPlayersReducerHandsToNextRound,
 } from '../../Store/playersReducer';
+import AITurnAutomated from '../../Functions/AI-move/AITurnAutomated';
 const chooseRandomTile = (hand: TTileObject[]) => {
   let max = hand.length - 1;
   let dropLastTile = max;
@@ -47,7 +47,7 @@ const NextTurn = () => {
     (state: RootState) => state.gameReducer.currentTurn,
   );
   const dispatch = useDispatch();
-
+  /* 
   const humanPlayerHand = useSelector(
     (state: RootState) => state.playersReducer.player1.playerHand.hand,
   );
@@ -101,14 +101,9 @@ const NextTurn = () => {
       ? {player: 'player4', hand: playerLeftHand}
       : null;
 
-  if (playerProps === null) return null;
+  if (playerProps === null) return null; */
 
-  return (
-    <Button
-      title={'AITURN'}
-      onPress={() => AITurn(gameTurn, humanPlayerWind, playerProps)}
-    />
-  );
+  return <Button title={'AITURN'} onPress={() => AITurnAutomated(dispatch)} />;
 };
 
 const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
@@ -173,6 +168,15 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
   const [displayTsumoButton, setDisplayTsumoButton] = useState<boolean>(false);
   //console.log('playersButtonPanel-latestTurn:', latestTurn);
 
+  useEffect(() => {
+    //this might be prone to bugs,
+    console.log('AI TEST:', gamePhase, playerWhoLeftTheTile); //i am using player4, beacuse i want player2 to have its turn after player1
+    if (gamePhase === 'started' && playerWhoLeftTheTile !== 'player4') {
+      console.info('AI TURN', playerWhoLeftTheTile);
+      //here timeout with function AITurnAutomated(dispatch)
+      setTimeout(() => AITurnAutomated(dispatch), 1000);
+    }
+  }, [tilesLeftInWall, playerWhoLeftTheTile]); //TODO REMOVE
   useEffect(() => {
     console.log(
       'useEffect: runGame():',
@@ -426,14 +430,14 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
             }}
           />
         ) : null}
-        <Button
+        {/* <Button
           title={'testFunction()'}
           onPress={() => {
             testFunction();
             dispatch(resetPlayersReducerHandsToNextRound()); //TODO REMOVE
           }}
         />
-        <NextTurn />
+        <NextTurn /> */}
       </View>
     </View>
   );

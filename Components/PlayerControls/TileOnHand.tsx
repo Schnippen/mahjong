@@ -1,8 +1,7 @@
-import React, { memo, useEffect, useState } from 'react'
-import { TouchableWithoutFeedback, View } from 'react-native'
-import PlayerTileOnHand from './PlayerTileOnHand'
-import { TTileObject } from '../../Types/types';
-
+import React, {memo, useEffect, useState} from 'react';
+import {TouchableWithoutFeedback, View} from 'react-native';
+import PlayerTileOnHand from './PlayerTileOnHand';
+import {TTileObject} from '../../Types/types';
 
 /* let timer= null;
 const TIMEOUT = 500
@@ -20,9 +19,22 @@ const debounce = (onSingle:() => void, onDouble:() => void) => {
   }
 }; */
 
-const TileOnHand = ({ handlePress, item, index, marginLeft, selected,handDataLastIndex }: { handlePress: (item: TTileObject, tileID: number) => void; item: TTileObject; index: number;  selected: number | null;handDataLastIndex:number,marginLeft:number }) => {
-
-   /*  const [tap, setTap] = useState("...");
+const TileOnHand = ({
+  handlePress,
+  item,
+  index,
+  marginLeft,
+  selected,
+  handDataLastIndex,
+}: {
+  handlePress: (item: TTileObject, tileID: number) => void;
+  item: TTileObject;
+  index: number;
+  selected: number | null;
+  handDataLastIndex: number;
+  marginLeft: number;
+}) => {
+  /*  const [tap, setTap] = useState("...");
 
     useEffect(() => {
       setTimeout(() => {
@@ -36,32 +48,32 @@ const TileOnHand = ({ handlePress, item, index, marginLeft, selected,handDataLas
         };
 
     const onDoubleTap = () => {setTap("double tap"),console.log(`doubleTAP: discard ${item.name}`)}; */
-  
-    const onPress = () => {
-      //debounce(onSingleTap, onDoubleTap);
-      handlePress(item, item.tileID)
-      //console.log("onPress()")
-    };
 
-    return (
-        <TouchableWithoutFeedback
-          onPress={() => onPress()}
-          style={{backgroundColor: 'pink'}}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: 'blue',
-              marginBottom: selected === item.tileID ? 39 * 1 : 0,
-              position: 'relative',
-              height: 39 * 1.3,
-              width: 30 * 1.3,
-              alignSelf: 'center',
-              marginLeft: marginLeft, //isLastItem ? 10 : 0,
-            }}>
-            <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} />
-          </View>
-        </TouchableWithoutFeedback>
-  )
-}
+  const onPress = () => {
+    //debounce(onSingleTap, onDoubleTap);
+    handlePress(item, item.tileID);
+    //console.log("onPress()")
+  };
 
-export default TileOnHand
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => onPress()}
+      style={{backgroundColor: 'pink'}}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'transparent',
+          marginBottom: selected === item.tileID ? 39 * 1 : 0,
+          position: 'relative',
+          height: 39 * 1.3,
+          width: 30 * 1.3,
+          alignSelf: 'center',
+          marginLeft: marginLeft, //isLastItem ? 10 : 0,
+        }}>
+        <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} />
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
+
+export default TileOnHand;

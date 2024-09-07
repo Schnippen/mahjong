@@ -1,4 +1,4 @@
-import {resetWinningHand} from '../Store/gameReducer';
+import {resetWinningHand, START_GAME} from '../Store/gameReducer';
 import {
   changePrevailingWind,
   changeWhoTheLoserIs,
@@ -23,6 +23,7 @@ export const resetToNextRound = ({
   //dispatch
   //reset game reducer
   // hands
+  dispatch(START_GAME({phase: 'ended'})); //TODO i dont know if to keep it
 
   ///change compass i must know who won, change wind in playerReducer, the wind in player reducer sends data to compass,
   //now changing wind
