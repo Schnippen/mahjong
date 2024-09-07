@@ -146,9 +146,16 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
         style={{
           position: 'absolute',
           top: 0,
-          left: globalDiceRollResult === 8 && wallWind === 'north' ? null : 13,
+          left:
+            (globalDiceRollResult === 8 && wallWind === 'north') ||
+            (globalDiceRollResult === 4 && wallWind === 'north')
+              ? null
+              : 13,
           right:
-            globalDiceRollResult === 8 && wallWind === 'north' ? -13 : null,
+            (globalDiceRollResult === 8 && wallWind === 'north') ||
+            (globalDiceRollResult === 4 && wallWind === 'north')
+              ? -13
+              : null,
         }} //Styling problems in "left" property?
         getItemLayout={(data, index) => ({
           length: 39,
