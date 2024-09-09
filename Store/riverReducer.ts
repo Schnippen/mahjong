@@ -96,6 +96,17 @@ export const riverReducer = createSlice({
           break;
       }
     },
+    resetRiverReducer: state => {
+      state.currentDiscard = initialState.currentDiscard;
+      state.player1River.riverState = initialState.player1River.riverState;
+      state.player2River.riverState = initialState.player2River.riverState;
+      state.player3River.riverState = initialState.player3River.riverState;
+      state.player4River.riverState = initialState.player4River.riverState;
+      state.player1River.riichiIndex = initialState.player1River.riichiIndex;
+      state.player2River.riichiIndex = initialState.player2River.riichiIndex;
+      state.player3River.riichiIndex = initialState.player3River.riichiIndex;
+      state.player4River.riichiIndex = initialState.player4River.riichiIndex;
+    },
   },
 });
 
@@ -105,6 +116,7 @@ export const {
   setCurrentDiscardToDefault,
   popFromTheRiver,
   setRiichiIndexRiver,
+  resetRiverReducer,
 } = riverReducer.actions;
 
 export default riverReducer.reducer;

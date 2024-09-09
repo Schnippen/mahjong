@@ -8,6 +8,7 @@ import {
   resetPlayersReducerToNextRound,
   rotateWindOrder,
 } from '../Store/playersReducer';
+import {resetRiverReducer} from '../Store/riverReducer';
 import {resetWallReducer} from '../Store/wallReducer';
 import {initializeNewRound} from './initializeNewRound';
 import {playPopDownSound} from './playSounds/Sounds/playPopDownSound';
@@ -30,6 +31,8 @@ export const resetToNextRound = ({
   dispatch(rotateWindOrder());
   dispatch(resetWinningHand()); //reset the endRound Screen
   dispatch(resetWallReducer()); //wallreducer to 0
+  //reset river
+  dispatch(resetRiverReducer());
   dispatch(resetPlayersReducerToNextRound()); //resets player reducers beside scores, wind and hand
   //reset player hand
   dispatch(resetPlayersReducerHandsToNextRound());
@@ -42,7 +45,7 @@ export const resetToNextRound = ({
   dispatch(changeWhoTheWinnerIs({TypeOfAction: 'reset'}));
   //reset who the loser is
   dispatch(changeWhoTheLoserIs({TypeOfAction: 'reset'}));
-  dispatch(HONBA_REDUCER({TypeOfAction: 'reset'}));
+  dispatch(HONBA_REDUCER({TypeOfAction: 'reset'})); //jesli wygrał east to nie resetuj..... //TODO move to calculate points
   navigation.navigate('MahjongScreen');
 
   //init new round

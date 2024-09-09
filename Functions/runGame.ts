@@ -323,11 +323,7 @@ export const runGame = (
     }
   });
 
-  /* //experiments with automation: //TODO REMOVE
-  if (currentPlayersTurn !== 'player1' || currentPlayersTurn === undefined) {
-    console.info('AUTOMATION');
-  } */
-  //if no tiles check for noten and tempai
+  //if no tiles check for noten and tenpai
   if (tilesAfterHandoutLength === 0) {
     console.info('Game Ended');
 

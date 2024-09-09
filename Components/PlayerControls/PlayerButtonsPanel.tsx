@@ -176,7 +176,7 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
       //here timeout with function AITurnAutomated(dispatch)
       setTimeout(() => AITurnAutomated(dispatch), 1000);
     }
-  }, [tilesLeftInWall, playerWhoLeftTheTile]); //TODO REMOVE
+  }, [tilesLeftInWall, playerWhoLeftTheTile]);
   useEffect(() => {
     console.log(
       'useEffect: runGame():',

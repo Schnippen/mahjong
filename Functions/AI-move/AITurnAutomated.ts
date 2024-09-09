@@ -6,7 +6,6 @@ import store from '../../Store/store';
 const AITurnAutomated = (
   dispatch: any, //TODO dispatch
 ) => {
-  console.warn('AI RUN');
   let gameTurn = store.getState().gameReducer.currentTurn;
   let humanPlayerWind = store.getState().playersReducer.player1.wind;
   let playerRightWind = store.getState().playersReducer.player2.wind;

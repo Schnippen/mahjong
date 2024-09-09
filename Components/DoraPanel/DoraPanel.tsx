@@ -4,6 +4,7 @@ import React from 'react';
 import {FlatList, View} from 'react-native';
 import {mahjongTilesSVGsArray} from '../../Assets/MahjongTiles/MahjongTiles';
 import {CurrentDoras} from './CurrentDoras';
+import LinearGradient from 'react-native-linear-gradient';
 
 const DoraPanel = () => {
   const numberOfPlayers = '4P';
@@ -12,11 +13,15 @@ const DoraPanel = () => {
   const topPanelBackgroundColor = '#3c7fc3';
   const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
   return (
-    <View
+    <LinearGradient
+      colors={[panelBackgroundColor, 'transparent']}
+      useAngle={true}
+      angle={180}
+      angleCenter={{x: 0.5, y: 0.4}}
       style={{
         width: 170,
         height: 110,
-        backgroundColor: panelBackgroundColor,
+        //backgroundColor: panelBackgroundColor,
         alignItems: 'center',
         borderRadius: 8,
         rowGap: 2,
@@ -49,7 +54,7 @@ const DoraPanel = () => {
         <CurrentDoras />
       </View>
       <StickIndicator />
-    </View>
+    </LinearGradient>
   );
 };
 export default DoraPanel;

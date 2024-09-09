@@ -6,6 +6,7 @@ import {setSortTileOnHand} from '../../Store/settingsReducer';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
 import {soundFunc} from '../../Functions/playSounds/soundFunc';
+import LinearGradient from 'react-native-linear-gradient';
 const AutoSort = () => {
   const dispatch = useAppDispatch();
   const sortTilesOnHand = useSelector(
@@ -51,11 +52,15 @@ const SidePanel = () => {
 
   const screenHeight = Dimensions.get('window').height;
   return (
-    <View
+    <LinearGradient
+      colors={[panelBackgroundColor, 'transparent']}
+      useAngle={true}
+      angle={90}
+      angleCenter={{x: 0.4, y: 1}}
       style={{
         height: 200,
         width: 50,
-        backgroundColor: panelBackgroundColor,
+        //backgroundColor: panelBackgroundColor,
         left: 0,
         position: 'absolute',
         flexDirection: 'column',
@@ -64,7 +69,7 @@ const SidePanel = () => {
         borderBottomRightRadius: 8,
       }}>
       <AutoSort />
-    </View>
+    </LinearGradient>
   );
 };
 

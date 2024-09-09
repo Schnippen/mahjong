@@ -7,7 +7,6 @@ import {mahjongTilessArrayWithoutDora} from '../../Assets/MahjongTiles/MahjongTi
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
 import {TTileObject} from '../../Types/types';
-import DeadWall from './DeadWall';
 import EmptyComponent from './EmptyComponent';
 import isNearDeadWallFunction from '../../Functions/isNearDeadWallFunction';
 //wallWind determines the wall state data source
@@ -55,10 +54,10 @@ const WallBottom = ({wallWind = ''}: {wallWind?: string}) => {
             key={index + 'a'}
             zIndex={1}
           />
-          <Text>
+          {/*    <Text>
             {index}
             {item.isDora}
-          </Text>
+          </Text> */}
         </View>
       );
     } else {
@@ -70,7 +69,7 @@ const WallBottom = ({wallWind = ''}: {wallWind?: string}) => {
             key={index + 'a'}
             zIndex={1}
           />
-          <Text>{index}</Text>
+          {/*  <Text>{index}</Text> */}
         </View>
       );
     }
