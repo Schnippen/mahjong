@@ -22,13 +22,11 @@ function isPotentialComplete(tile: TTileObject, discardedTile: TTileObject, visi
     
 
 export function calculateDangerScore( tile: TTileObject, possibleTiles: TTileObject[], visibleTiles: TTileObject[] ): number {
-   // Count the occurrences of each visible tile
+   
     const visibleTileCounts = countTilesByName(visibleTiles); 
-    // You need to pass the counted tile names 
     let dangerScore = 0; 
-    // Check each possible tile to see if discarding the tile would help an opponent complete their hand
      possibleTiles.forEach((possibleTile) => { if (isPotentialComplete(possibleTile, tile, visibleTileCounts))
        { dangerScore += 10; 
-      // Arbitrary value; adjust based on desired penalization 
+      // arbitrary value; 
       } }); 
       return dangerScore; }
