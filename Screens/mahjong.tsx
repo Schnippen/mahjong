@@ -109,7 +109,6 @@ function MahjongScreen({navigation, route}: any) {
   );
 
   //console.log("mahjong currentDiscard:",currentDiscard.map(t=>t.name),)
-  //console.log("TURN INTERRUPTED:",turnInterrupted)
   /* console.log(
     'DICE_ROLL:',
     DICE_ROLL,

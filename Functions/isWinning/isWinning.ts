@@ -282,7 +282,7 @@ export function isWinning({
 
   const end = performance.now();
   console.log(
-    `isWinning() took ${end - start} milliseconds. - ${
+    `isWinning() took  ${
       (end - start) / 1000
     } seconds`,
   );

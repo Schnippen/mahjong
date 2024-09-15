@@ -1,6 +1,6 @@
 import { TTileObject, TstolenTiles } from "../../Types/types"
 import { tilesData as AllTiles } from "../../Data/tilesData";
-
+//https://riichimahjong.net/blog/mahjongai/  good reading
 type getAllPossibleTilesTypes ={
     hand:TTileObject[]
     player1Melds:TstolenTiles[]
@@ -13,7 +13,7 @@ type getAllPossibleTilesTypes ={
     player4RiverState:TTileObject[]
 }
 
-export function getAllPossibleTiles({hand,player1Melds,player2Melds,player3Melds,player4Melds,player1RiverState,
+export function getAllPossibleTilesAIThink({hand,player1Melds,player2Melds,player3Melds,player4Melds,player1RiverState,
     player2RiverState,
     player3RiverState,
     player4RiverState,}:getAllPossibleTilesTypes) {
@@ -42,5 +42,5 @@ export function getAllPossibleTiles({hand,player1Melds,player2Melds,player3Melds
     //let possibleTiles2 = possibleTiles1.filter(tile=>!)
     //console.log("getAllPossibleTiles():", possibleTiles.length,"possibleTiles left" , "melds:", meldTileIDs);
     
-    return possibleTiles;
+    return {possibleTiles};
   }

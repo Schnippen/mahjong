@@ -34,7 +34,7 @@ function Settings({navigation}: {navigation: any}) {
   useFocusEffect(
     React.useCallback(() => {
       console.log('RUN');
-      const fetchSettibgs = async () => {
+      const fetchSettings = async () => {
         try {
           const storedSettings = await getSettings();
           console.log('loadSettings: FOCUS', storedSettings);
@@ -63,7 +63,7 @@ function Settings({navigation}: {navigation: any}) {
           console.info('useFocusEffect async-storage:', e);
         }
       };
-      fetchSettibgs();
+      fetchSettings();
     }, [navigation]),
   );
 

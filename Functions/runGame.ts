@@ -282,7 +282,7 @@ export const runGame = (
         player3RiverState: player3River.riverState,
         player4RiverState: player4River.riverState,
       });
-      console.log('runGame(): Richii,', player.name, result);
+      console.log('runGame(): Richii,', player.name, result,player.name!=="player1"&&result?"AI CAN RICHII!!!!!!!!":null);
       if (currentPlayersTurn === 'player1' && result) {
         //set show richii, richiiIndex from riverReducer
         if (player1River.riichiIndex !== null) {
@@ -299,7 +299,7 @@ export const runGame = (
   playersArray.forEach(player => {
     //run it for all players, and display buttons only for player1
     if (currentPlayersTurn === player.name) {
-      console.log('runGame(): isWinning - yaku ,');
+      //console.log('runGame(): isWinning - yaku ,');
       //check for buttons to be displayed
       isWinning({
         hand: currentHand,
@@ -353,7 +353,7 @@ export const runGame = (
   }
   const end = performance.now();
   console.log(
-    `runGame() took ook ${end - start} milliseconds. - ${
+    `runGame() took ${
       (end - start) / 1000
     } seconds`,
   );

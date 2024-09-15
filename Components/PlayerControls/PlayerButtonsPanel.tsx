@@ -172,10 +172,10 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
     //this might be prone to bugs,
     console.log('AI TEST:', gamePhase, playerWhoLeftTheTile); //i am using player4, beacuse i want player2 to have its turn after player1
     if (gamePhase === 'started' && playerWhoLeftTheTile !== 'player4') {
-      console.info('AI TURN', playerWhoLeftTheTile);
+      //console.info('AI TURN', playerWhoLeftTheTile);
       //here timeout with function AITurnAutomated(dispatch)
-      setTimeout(() => AITurnAutomated(dispatch), 1000);
-    }
+      //setTimeout(() => AITurnAutomated(dispatch), 1000);
+    } //TODO bug with turn interrupted
   }, [tilesLeftInWall, playerWhoLeftTheTile]);
   useEffect(() => {
     console.log(
@@ -430,14 +430,14 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
             }}
           />
         ) : null}
-        {/* <Button
+         <Button
           title={'testFunction()'}
           onPress={() => {
             testFunction();
             dispatch(resetPlayersReducerHandsToNextRound()); //TODO REMOVE
           }}
         />
-        <NextTurn /> */}
+        <NextTurn />
       </View>
     </View>
   );

@@ -21,7 +21,8 @@ const ButtonShape = ({
       titleStyle={{
         fontWeight: 'bold',
         textAlign: 'center',
-        verticalAlign: 'middle',
+        verticalAlign: 'middle', //TODO ADD CUSTOM FONT
+        fontFamily:"SofadiOne"
       }}
       ViewComponent={LinearGradient}
       linearGradientProps={{

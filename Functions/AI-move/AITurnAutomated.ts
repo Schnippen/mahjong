@@ -1,11 +1,13 @@
 import {chooseRandomTile} from './AIChooseRandomTile';
 import {discardTile} from '../discardTileFunction';
 import store from '../../Store/store';
+import { determineBestDiscard } from './AIMove';
 
 //TODO CHANGE it for standard gameReducer
 const AITurnAutomated = (
-  dispatch: any, //TODO dispatch
+  dispatch: any, 
 ) => {
+  //TODO optimize by passing props, not calling state every time
   let gameTurn = store.getState().gameReducer.currentTurn;
   let humanPlayerWind = store.getState().playersReducer.player1.wind;
   let playerRightWind = store.getState().playersReducer.player2.wind;
@@ -32,8 +34,11 @@ const AITurnAutomated = (
   }
   let tileToDiscard = chooseRandomTile(playerProps.hand);
   let playerX = playerProps?.player;
-  console.log('AITurnAutomated', playerProps?.player, tileToDiscard?.name);
-  discardTile(playerX, tileToDiscard, dispatch);
+  let aiIntelligentMove = determineBestDiscard(playerProps.hand)
+  console.log('aiIntelligentMove', playerProps?.player,aiIntelligentMove.name);
+
+ // console.log('AITurnAutomated', playerProps?.player, tileToDiscard?.name);
+  discardTile(playerX, aiIntelligentMove, dispatch);
 };
 
 export default AITurnAutomated;
