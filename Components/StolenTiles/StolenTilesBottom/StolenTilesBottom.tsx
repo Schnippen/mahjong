@@ -36,11 +36,11 @@ export const StolenTilesPlayerLEFT = ({data}: {data: TstolenTiles}) => {
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[0].image}
+        svg={data.tiles[1].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[0].image}
+        svg={data.tiles[2].image}
         tileRatioProp={1.5}
       />
     </View>
@@ -64,11 +64,11 @@ export const StolenTilesPlayerRIGHT = ({data}: {data: TstolenTiles}) => {
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[0].image}
+        svg={data.tiles[1].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerHORIZONTAL
-        svg={data.tiles[0].image}
+        svg={data.tiles[2].image}
         tileRatioProp={1.5}
       />
     </View>
@@ -91,11 +91,11 @@ export const StolenTilesPlayerFRONT = ({data}: {data: TstolenTiles}) => {
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerHORIZONTAL
-        svg={data.tiles[0].image}
+        svg={data.tiles[1].image}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={data.tiles[0].image}
+        svg={data.tiles[2].image}
         tileRatioProp={1.5}
       />
     </View>
@@ -196,7 +196,7 @@ export const StolenTilesPlayerKANFRONT = ({data}: {data: TstolenTiles}) => {
   );
 };
 export const StolenTilesPlayerKANCLOSED = ({data}: {data: TstolenTiles}) => {
-  console.log('STOLEN KAN:', data);
+  console.log('STOLEN KAN:', data.name);
   return (
     <View
       style={{

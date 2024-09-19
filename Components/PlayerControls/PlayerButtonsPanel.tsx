@@ -3,7 +3,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
 import {Button} from '@rneui/themed';
 import {TTileObject} from '../../Types/types';
-import {discardTile} from '../../Functions/discardTileFunction';
 import {
   ButtonCHII,
   ButtonKAN,
@@ -31,79 +30,45 @@ import {
   resetPlayersReducerHandsToNextRound,
 } from '../../Store/playersReducer';
 import AITurnAutomated from '../../Functions/AI-move/AITurnAutomated';
-const chooseRandomTile = (hand: TTileObject[]) => {
-  let max = hand.length - 1;
-  let dropLastTile = max;
-  let dropRandomTile = Math.floor(Math.random() * max);
-  let sixtyPercentChance = Math.floor(Math.random() * 11) <= 6;
-  let result = sixtyPercentChance ? dropLastTile : dropRandomTile;
-  let tileToDiscard = hand[result];
-  //console.log("tileToDiscard:",max, dropLastTile, result, tileToDiscard?.name )
-  return tileToDiscard;
-};
 
 const NextTurn = () => {
   const gameTurn = useSelector(
     (state: RootState) => state.gameReducer.currentTurn,
   );
   const dispatch = useDispatch();
-  /* 
-  const humanPlayerHand = useSelector(
-    (state: RootState) => state.playersReducer.player1.playerHand.hand,
+  const {
+    playersReducer: {player1, player2, player3, player4},
+  } = useSelector((state: RootState) => state);
+  const {
+    riverReducer: {player1River, player2River, player3River, player4River},
+  } = useSelector((state: RootState) => state);
+  return (
+    <Button
+      title={'AITURN'}
+      onPress={() =>
+        AITurnAutomated(
+          dispatch,
+          gameTurn,
+          player1.wind,
+          player2.wind,
+          player3.wind,
+          player4.wind,
+          player2.playerHand.hand,
+          player3.playerHand.hand,
+          player4.playerHand.hand,
+          player1.playerHand.melds,
+          player2.playerHand.melds,
+          player3.playerHand.melds,
+          player4.playerHand.melds,
+          player1River.riverState,
+          player2River.riverState,
+          player3River.riverState,
+          player4River.riverState,
+        )
+      }
+      type="outline"
+    />
   );
-
-  const playerRightHand = useSelector(
-    (state: RootState) => state.playersReducer.player2.playerHand.hand,
-  );
-  const playerTopHand = useSelector(
-    (state: RootState) => state.playersReducer.player3.playerHand.hand,
-  );
-  const playerLeftHand = useSelector(
-    (state: RootState) => state.playersReducer.player4.playerHand.hand,
-  );
-
-  const humanPlayerWind = useSelector(
-    (state: RootState) => state.playersReducer.player1.wind,
-  );
-  const playerRightWind = useSelector(
-    (state: RootState) => state.playersReducer.player2.wind,
-  );
-  const playerTopWind = useSelector(
-    (state: RootState) => state.playersReducer.player3.wind,
-  );
-  const playerLeftWind = useSelector(
-    (state: RootState) => state.playersReducer.player4.wind,
-  );
-
-  const AITurn = (
-    gameTurn: string,
-    humanPlayerWind: string,
-    playerProps: {
-      player: string;
-      hand: TTileObject[];
-    } | null,
-  ) => {
-    if (!playerProps || gameTurn === humanPlayerWind) {
-      return;
-    }
-    let tileToDiscard = chooseRandomTile(playerProps.hand);
-    let playerX = playerProps?.player;
-    console.log('AITURN', playerProps?.player, tileToDiscard?.name);
-    discardTile(playerX, tileToDiscard, dispatch);
-  };
-
-  const playerProps =
-    gameTurn === playerRightWind
-      ? {player: 'player2', hand: playerRightHand}
-      : gameTurn === playerTopWind
-      ? {player: 'player3', hand: playerTopHand}
-      : gameTurn === playerLeftWind
-      ? {player: 'player4', hand: playerLeftHand}
-      : null;
-
-  if (playerProps === null) return null; */
-
-  return <Button title={'AITURN'} onPress={() => AITurnAutomated(dispatch)} />;
 };
 
 const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
@@ -143,7 +108,9 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
   const tilesLeftInWall = useSelector(
     (state: RootState) => state.wallReducer.tilesLeftInWall,
   );
-
+  const turnInterrupted = useSelector(
+    (state: RootState) => state.gameReducer.turnInterrupted,
+  );
   //console.log('playerWhoLeftTheTile', playerWhoLeftTheTile);
   const tilesAfterHandoutLength = useSelector((state: RootState) => {
     let result = state.wallReducer.tilesAfterHandout.length;
@@ -172,9 +139,38 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
     //this might be prone to bugs,
     console.log('AI TEST:', gamePhase, playerWhoLeftTheTile); //i am using player4, beacuse i want player2 to have its turn after player1
     if (gamePhase === 'started' && playerWhoLeftTheTile !== 'player4') {
-      //console.info('AI TURN', playerWhoLeftTheTile);
+      console.info(
+        'USE EFFECT() AI:',
+        playerWhoLeftTheTile,
+        'turnInterrupted:',
+        turnInterrupted,
+      );
       //here timeout with function AITurnAutomated(dispatch)
-      //setTimeout(() => AITurnAutomated(dispatch), 1000);
+      if (turnInterrupted === false) {
+        setTimeout(
+          () =>
+            AITurnAutomated(
+              dispatch,
+              currentGlobalWind,
+              player1.wind,
+              player2.wind,
+              player3.wind,
+              player4.wind,
+              player2.playerHand.hand,
+              player3.playerHand.hand,
+              player4.playerHand.hand,
+              player1.playerHand.melds,
+              player2.playerHand.melds,
+              player3.playerHand.melds,
+              player4.playerHand.melds,
+              player1River.riverState,
+              player2River.riverState,
+              player3River.riverState,
+              player4River.riverState,
+            ),
+          1000,
+        );
+      } //problem with bamboo 2 name.... error
     } //TODO bug with turn interrupted
   }, [tilesLeftInWall, playerWhoLeftTheTile]);
   useEffect(() => {
@@ -430,7 +426,8 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
             }}
           />
         ) : null}
-         <Button
+        <Button
+          type="outline"
           title={'testFunction()'}
           onPress={() => {
             testFunction();

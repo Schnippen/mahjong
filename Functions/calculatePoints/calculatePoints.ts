@@ -1,7 +1,6 @@
-import {calculateScore} from '../../Store/playersReducer';
+import {calculateScore, HONBA_REDUCER} from '../../Store/playersReducer';
 import store from '../../Store/store';
 import {
-  GameWinds,
   pointsNameType,
   TstolenTiles,
   TTileObject,
@@ -19,6 +18,7 @@ const calculatePoints = (
   typeOfWin: 'TSUMO' | 'RON',
   dispatch: any,
 ): {points: number; pointsName: pointsNameType; fu: number} => {
+  //TODO move state as prop, do not get it inside function, optimize it
   let prevailingWind: WindTypes =
     store.getState().playersReducer.whoTheWinnerIs.prevailingWind;
   let honba: number = store.getState().playersReducer.whoTheWinnerIs.honba;
@@ -73,15 +73,19 @@ const calculatePoints = (
     points += honba * 100;
     if (winnerWind === 'east') {
       points *= 2;
+      dispatch(HONBA_REDUCER({TypeOfAction: 'increment'}));
     } else {
       points = Math.ceil((points * 2) / 3); // non-east players pay 1/3 of points each
+      dispatch(HONBA_REDUCER({TypeOfAction: 'reset'}));
     }
   } else if (typeOfWin === 'RON') {
     points += honba * 300;
     if (winnerWind === 'east') {
       points *= 6;
+      dispatch(HONBA_REDUCER({TypeOfAction: 'increment'}));
     } else {
       points *= 4;
+      dispatch(HONBA_REDUCER({TypeOfAction: 'reset'}));
     }
   }
 

@@ -10,7 +10,6 @@ import {RootState} from '../../Store/store';
 import TileOnHand from './TileOnHand';
 import {discardTile} from '../../Functions/discardTileFunction';
 import EmptyComponent from '../Wall/EmptyComponent';
-import LinearGradient from 'react-native-linear-gradient';
 
 const PlayerHandComponent = () => {
   const handData = useSelector(
@@ -144,11 +143,7 @@ const PlayerHandComponent = () => {
   //console.log('handData:', handData);
   //TODO REFACTOR
   return (
-    <LinearGradient
-      colors={['transparent', '#3b5998', '#192f6a']}
-      start={{x: 0.0, y: 0.25}}
-      end={{x: 0.8, y: 1.0}}
-      locations={[0, 0.4, 0.6]}
+    <View
       style={{
         flexDirection: 'row',
         backgroundColor: 'transparent',
@@ -173,7 +168,7 @@ const PlayerHandComponent = () => {
           index,
         })}
       />
-    </LinearGradient>
+    </View>
   );
 };
 

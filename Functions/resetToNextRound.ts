@@ -3,7 +3,6 @@ import {
   changePrevailingWind,
   changeWhoTheLoserIs,
   changeWhoTheWinnerIs,
-  HONBA_REDUCER,
   resetPlayersReducerHandsToNextRound,
   resetPlayersReducerToNextRound,
   rotateWindOrder,
@@ -26,7 +25,7 @@ export const resetToNextRound = ({
   // hands
   dispatch(START_GAME({phase: 'ended'})); //TODO i dont know if to keep it
 
-  ///change compass i must know who won, change wind in playerReducer, the wind in player reducer sends data to compass,
+  ///change compass i must know who won, change wind in playerReducer, the wind in player reducer sends data to compass, - ok, its done
   //now changing wind
   dispatch(rotateWindOrder());
   dispatch(resetWinningHand()); //reset the endRound Screen
@@ -45,7 +44,7 @@ export const resetToNextRound = ({
   dispatch(changeWhoTheWinnerIs({TypeOfAction: 'reset'}));
   //reset who the loser is
   dispatch(changeWhoTheLoserIs({TypeOfAction: 'reset'}));
-  dispatch(HONBA_REDUCER({TypeOfAction: 'reset'})); //jesli wygrał east to nie resetuj..... //TODO move to calculate points
+  //jesli wygrał east to nie resetuj..... //TODO move to calculate points
   navigation.navigate('MahjongScreen');
 
   //init new round

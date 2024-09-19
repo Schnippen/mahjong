@@ -233,7 +233,10 @@ export const runGame = (
 
   //pokazuje z opóźnieniem jednej tury
   console.log(
+    'runGame():',
+    'handLength:',
     currentHand.length,
+    'currentHand:',
     currentHand.map(t => t.name),
     currentDiscard[0]?.name,
     'quad?:',
@@ -282,7 +285,13 @@ export const runGame = (
         player3RiverState: player3River.riverState,
         player4RiverState: player4River.riverState,
       });
-      console.log('runGame(): Richii,', player.name, result,player.name!=="player1"&&result?"AI CAN RICHII!!!!!!!!":null);
+      console.info(
+        'runGame():is Richii?',
+        player.name,
+        'result',
+        result,
+        player.name !== 'player1' && result ? 'AI CAN RIICHI!!!!!!!!' : null,
+      );
       if (currentPlayersTurn === 'player1' && result) {
         //set show richii, richiiIndex from riverReducer
         if (player1River.riichiIndex !== null) {
@@ -290,6 +299,8 @@ export const runGame = (
         } else {
           setDisplayRiichiButton(true);
         }
+      } else if (currentPlayersTurn !== 'player1' && result) {
+        console.warn('AI COULD CLICK ON RICHIII');
       }
     } else {
       //console.log("runGame(): not my turn for Riichi",player.name)
@@ -352,9 +363,5 @@ export const runGame = (
     dispatch(drawTileFromWallToHand({player: nextPlayerX, nextTile: nextTile}));
   }
   const end = performance.now();
-  console.log(
-    `runGame() took ${
-      (end - start) / 1000
-    } seconds`,
-  );
+  console.log(`runGame() took ${(end - start) / 1000} seconds`);
 };

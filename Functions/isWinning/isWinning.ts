@@ -263,6 +263,7 @@ export function isWinning({
       discard,
       playerMelds: currentMelds,
     });
+    console.log('YakuResult', result);
     if (typeof result === 'object' && result.result) {
       if (result.typeOfAction === 'RON') {
         ron = true;
@@ -282,9 +283,13 @@ export function isWinning({
 
   const end = performance.now();
   console.log(
-    `isWinning() took  ${
-      (end - start) / 1000
-    } seconds`,
+    `isWinning() took  ${(end - start) / 1000} seconds`,
+    'Ron:',
+    ron,
+    'Tsumo',
+    tsumo,
+    'currentPlayer:',
+    currentPlayer,
   );
 }
 

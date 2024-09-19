@@ -58,11 +58,11 @@ export const handleKan = ({
     currentDiscard,
     position,
   );
-  /*  console.log(
+  console.log(
     'stealQuadruplet:',
     result,
     kanArray?.map(t => t.name),
-  ); */
+  );
   kanArray?.forEach(tile => {
     dispatch(discardTileFromHand({player: 'player1', tile: tile}));
   });

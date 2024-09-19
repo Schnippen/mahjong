@@ -175,10 +175,9 @@ const playSound = (
 };
 
 export function soundFunc({type}: SoundFuncTypes) {
-  return;
   let soundVolume = store.getState().settingsReducer.settings.volume;
   let voiceGender = store.getState().settingsReducer.settings.voices;
-  console.log('soundFunc test', soundVolume, voiceGender, type);
+  //console.log('soundFunc test', soundVolume, voiceGender, type);
   soundType(type);
   //playFemaleYakuSanshokuDoukouSound(soundVolume)
   /*      if(type==="chii"){

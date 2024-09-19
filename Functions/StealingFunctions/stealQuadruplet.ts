@@ -32,6 +32,10 @@ export function stealQuadruplet(
 
     kanArray.push(...suitTiles);
     kanPosition = 'kanClosed';
+    console.log(
+      'STEAL QUADRUPLET()3:',
+      kanArray.map(t => t.name),
+    );
     return {result: true, kanArray: kanArray, positionKan: kanPosition};
   }
   if (!discardedTileArray || discardedTileArray.length === 0) {
@@ -73,6 +77,10 @@ export function stealQuadruplet(
         console.error('Invalid position');
         return {result: false};
       }
+      console.log(
+        'STEAL QUADRUPLET()1:',
+        kanArray.map(t => t.name),
+      );
       return {result: true, kanArray: kanArray, positionKan: kanPosition};
     }
   } else {
@@ -91,6 +99,10 @@ export function stealQuadruplet(
         console.error('Invalid position');
         return {result: false};
       }
+      console.log(
+        'STEAL QUADRUPLET()2:',
+        kanArray.map(t => t.name),
+      );
       return {result: true, kanArray: kanArray, positionKan: kanPosition};
     }
   }
