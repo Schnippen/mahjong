@@ -408,7 +408,7 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
         {displayChiiButton || displayPonButton || displayKanButton ? (
           <ButtonPASS
             handlePress={() => {
-              console.log('ButtonPASS'),
+              console.log('ButtonPASS',),
                 PassActionFunc({
                   setDisplayChiiButton,
                   setDisplayPonButton,
@@ -422,6 +422,7 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
                   setDisplayRonButton,
                   displayKanButton,
                   displayPonButton,
+                  playerWhoLeftTheTile
                 });
             }}
           />

@@ -18,6 +18,7 @@ import {checkOrStealSequence} from './checkOrStealSequence';
 import {RiverState} from '../Store/riverReducer';
 import {canRiichi} from './isReadyForRiichii/canRichii';
 import {isWinning} from './isWinning/isWinning';
+import { handleRiichi } from './PlayerControlFunctions/handleRiichi';
 
 type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind' | 'whoTheWinnerIs'>;
 type GamePhase = 'started' | 'ended' | 'none';
@@ -181,12 +182,11 @@ export const runGame = (
         player.name === 'player4'
       ) {
         // ai makes turn, do pon or passes turn
-        const passTime = () => {
+        /*const passTime = () => {
           console.log('runGame(): passTime()0.1sec');
           dispatch(INTERRUPT_TURN({val: false}));
           interruptTurn = false;
-        };
-        //setTimeout(passTime,100)
+        };*/ //this was bad solution, resolved it somewhere else
         dispatch(INTERRUPT_TURN({val: false}));
         interruptTurn = false;
       }
@@ -213,19 +213,16 @@ export const runGame = (
         player.name === 'player3' ||
         player.name === 'player4'
       ) {
-        // ai makes turn, do pon or passes turn
-        const passTime = () => {
+/*         const passTime = () => {
           console.log('runGame(): passTime()0.1sec');
           dispatch(INTERRUPT_TURN({val: false}));
           interruptTurn = false;
-        };
-        //setTimeout(passTime,100)
+        }; */ //this was bad solution, resolved it somewhere else
         dispatch(INTERRUPT_TURN({val: false}));
         interruptTurn = false;
       }
       if (player.name === 'player1') {
         console.log('Special display for player1');
-        //display pon and pass panel
         setDisplayKanButton(true);
       }
     }
@@ -300,10 +297,20 @@ export const runGame = (
           setDisplayRiichiButton(true);
         }
       } else if (currentPlayersTurn !== 'player1' && result) {
-        console.warn('AI COULD CLICK ON RICHIII');
+        //This is AI turn
+        const rivers = { player2: player2River, player3: player3River, player4: player4River };
+    const currentRiver = rivers[currentPlayersTurn];
+        console.warn('AI CLICKS RIICHI');
+        if (currentRiver) {
+          handleRiichi({
+            dispatch,
+            player: player.name,
+            river: currentRiver.riverState,
+          });
+        }
       }
     } else {
-      //console.log("runGame(): not my turn for Riichi",player.name)
+      console.log("runGame(): not my turn for Riichi",player.name)
     }
   });
 
@@ -337,7 +344,6 @@ export const runGame = (
   //if no tiles check for noten and tenpai
   if (tilesAfterHandoutLength === 0) {
     console.info('Game Ended');
-
     //TODO check tenpai noten
     dispatch(HONBA_REDUCER('increment'));
     navigation.navigate('EndRoundScreen');
