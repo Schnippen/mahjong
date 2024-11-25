@@ -1,7 +1,7 @@
-import {END_TURN, INTERRUPT_TURN} from '../../Store/gameReducer';
+import {END_TURN, INTERRUPT_COUNTER, INTERRUPT_TURN} from '../../Store/gameReducer';
 import {drawTileFromWallToHand} from '../../Store/playersReducer';
 import {popTileFromtilesAfterHandout} from '../../Store/wallReducer';
-import {TplayerString, TTileObject} from '../../Types/types';
+import { TplayerString,  TTileObject} from '../../Types/types';
 import {soundFunc} from '../playSounds/soundFunc';
 
 //TODO dispatch typescript
@@ -18,8 +18,9 @@ type PassActionFuncParam = {
   setDisplayTsumoButton: React.Dispatch<React.SetStateAction<boolean>>;
   displayKanButton: boolean;
   displayPonButton: boolean;
-  playerWhoLeftTheTile:TplayerString
-};
+  playerWhoLeftTheTile:TplayerString;
+}
+
 //there is a bug whenever pass is pressed i get new tile
 export const PassActionFunc = ({
   setDisplayChiiButton,
@@ -35,6 +36,7 @@ export const PassActionFunc = ({
   displayPonButton,
   displayKanButton,
   playerWhoLeftTheTile,
+
 }: PassActionFuncParam) => {
   //TODO typesctipt
   if (displayChiiButton) {
@@ -45,17 +47,34 @@ export const PassActionFunc = ({
   }
   if (displayPonButton) {
     dispatch(popTileFromtilesAfterHandout());
-    //check for your turn???
-    //if player4 than drawTile, becasue it will be your turn ... //playerWhoLeftTheTile playerWhoLeftTheTile !== 'player4'
+    if(playerWhoLeftTheTile === 'player2'){
+      console.log(`PassActionFunc() PON:-added nextTile to hand of player3`,playerWhoLeftTheTile);
+        dispatch(INTERRUPT_COUNTER({TypeOfAction: "INCREMENT"})) 
+        dispatch(drawTileFromWallToHand({player: 'player3', nextTile: nextTile}));
+  }
+    if(playerWhoLeftTheTile === 'player3'){
+      console.log(`PassActionFunc() PON:-added nextTile to hand of player4`,playerWhoLeftTheTile);
+         dispatch(INTERRUPT_COUNTER({TypeOfAction: "INCREMENT"})) 
+    dispatch(drawTileFromWallToHand({player: 'player4', nextTile: nextTile}));
+  }
     if(playerWhoLeftTheTile === 'player4'){
-      //move to next player //PON and Kan are broken, it adds tile even if it is not your turn
-      console.log('PassActionFunc() PON:-added nextTile to hand of player1',playerWhoLeftTheTile);
+      console.log(`PassActionFunc() PON:-added nextTile to hand of player1`,playerWhoLeftTheTile);
     dispatch(drawTileFromWallToHand({player: 'player1', nextTile: nextTile}));
   }
   }
   if (displayKanButton) {
-    //move to next player
     dispatch(popTileFromtilesAfterHandout());
+    if(playerWhoLeftTheTile === 'player2'){
+      console.log(`PassActionFunc() PON:-added nextTile to hand of player3`,playerWhoLeftTheTile);
+      
+        dispatch(INTERRUPT_COUNTER({TypeOfAction: "INCREMENT"})) 
+        dispatch(drawTileFromWallToHand({player: 'player3', nextTile: nextTile}));
+  }
+    if(playerWhoLeftTheTile === 'player3'){
+      console.log(`PassActionFunc() PON:-added nextTile to hand of player4`,playerWhoLeftTheTile);
+         dispatch(INTERRUPT_COUNTER({TypeOfAction: "INCREMENT"})) 
+    dispatch(drawTileFromWallToHand({player: 'player4', nextTile: nextTile}));
+  }
     if(playerWhoLeftTheTile === 'player4'){
       console.log('PassActionFunc() KAN:-added nextTile to hand of player1',playerWhoLeftTheTile);
     dispatch(drawTileFromWallToHand({player: 'player1', nextTile: nextTile}));
@@ -63,6 +82,7 @@ export const PassActionFunc = ({
   }
   //AUDIO
   soundFunc({type: 'popDown'});
+  //DISPLAY
   setDisplayPonButton(false);
   setDisplayKanButton(false);
   setDisplayChiiButton(false);
@@ -70,6 +90,7 @@ export const PassActionFunc = ({
   setDisplayRiichiButton(false);
   setDisplayRonButton(false);
   setDisplayTsumoButton(false);
+  //LOGIC
   dispatch(INTERRUPT_TURN({val: false}));
   dispatch(END_TURN());
 };

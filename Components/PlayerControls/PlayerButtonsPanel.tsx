@@ -111,7 +111,6 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
   const turnInterrupted = useSelector(
     (state: RootState) => state.gameReducer.turnInterrupted,
   );
-  //console.log('playerWhoLeftTheTile', playerWhoLeftTheTile);
   const tilesAfterHandoutLength = useSelector((state: RootState) => {
     let result = state.wallReducer.tilesAfterHandout.length;
     return result;
@@ -122,7 +121,9 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
   const {
     playersReducer: {player1, player2, player3, player4},
   } = useSelector((state: RootState) => state);
-
+  const INTERRUPER_COUNTER= useSelector(
+    (state: RootState) => state.gameReducer.interrputCounter,
+  );
   const [displayChiiButton, setDisplayChiiButton] = useState<boolean>(false);
   const [displayPonButton, setDisplayPonButton] = useState<boolean>(false);
   const [displayKanButton, setDisplayKanButton] = useState<boolean>(false);
@@ -168,11 +169,11 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
               player3River.riverState,
               player4River.riverState,
             ),
-          1000,
+          750,
         );
       } //problem with bamboo 2 name.... error
     } //TODO bug with turn interrupted
-  }, [tilesLeftInWall, playerWhoLeftTheTile]);
+  }, [tilesLeftInWall, playerWhoLeftTheTile,INTERRUPER_COUNTER]);
   useEffect(() => {
     console.log(
       'useEffect: runGame():',
@@ -422,7 +423,7 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
                   setDisplayRonButton,
                   displayKanButton,
                   displayPonButton,
-                  playerWhoLeftTheTile
+                  playerWhoLeftTheTile,
                 });
             }}
           />

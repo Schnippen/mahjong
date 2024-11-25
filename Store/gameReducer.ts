@@ -35,7 +35,7 @@ interface gameState {
   round: number;
   howManyTurnsElapsed: 0;
   turnInterrupted: boolean; //todo make winnig action better type,
-
+  interrputCounter:number,
   winningHand: {
     hand: TTileObject[];
     winningTile: TTileObject[];
@@ -61,7 +61,7 @@ const initialState: gameState = {
   gameEnded: false,
   round: 0,
   turnInterrupted: false,
-
+  interrputCounter:0,
   winningHand: {
     hand: [],
     winningTile: [],
@@ -133,7 +133,16 @@ export const gameReducer = createSlice({
       state.currentPlayer = current;
       console.log('REDUX setCurrentPlayer:', state.currentPlayer);
     },
-
+    INTERRUPT_COUNTER:(state,action)=>{
+      let {TypeOfAction}=action.payload
+      if(TypeOfAction==="INCREMENT"){
+        state.interrputCounter++
+      }
+      if(TypeOfAction==="RESET"){
+        state.interrputCounter=0
+      }
+      console.log('REDUX INTERRUPT_COUNTER:', state.interrputCounter);
+    },
     setWinningHand: (
       state,
       action: PayloadAction<{
@@ -202,6 +211,7 @@ export const {
   setCurrentPlayer,
   setWinningHand,
   resetWinningHand,
+  INTERRUPT_COUNTER,
 } = gameReducer.actions;
 
 export default gameReducer.reducer;
