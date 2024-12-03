@@ -26,6 +26,8 @@ const TileOnHand = ({
   marginLeft,
   selected,
   handDataLastIndex,
+  helperNumber,
+  isHelperNumberActive
 }: {
   handlePress: (item: TTileObject, tileID: number) => void;
   item: TTileObject;
@@ -33,6 +35,8 @@ const TileOnHand = ({
   selected: number | null;
   handDataLastIndex: number;
   marginLeft: number;
+  helperNumber?:string
+  isHelperNumberActive?:boolean
 }) => {
   /*  const [tap, setTap] = useState("...");
 
@@ -70,7 +74,7 @@ const TileOnHand = ({
           alignSelf: 'center',
           marginLeft: marginLeft, //isLastItem ? 10 : 0,
         }}>
-        <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} />
+        <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} numeralHelper={helperNumber} isHelperNumberActive={isHelperNumberActive}/>
       </View>
     </TouchableWithoutFeedback>
   );

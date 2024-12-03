@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, TouchableWithoutFeedback, View} from 'react-native';
-import {mahjongTilesSVGsArray} from '../../Assets/MahjongTiles/MahjongTiles';
-//import PlayerTileOnHand from './PlayerTileOnHand';
+import {FlatList, View} from 'react-native';
 import {TTileObject} from '../../Types/types';
-import {tilesData} from '../../Data/tilesData';
 import {customSort} from '../../Functions/sortTilesOnHand';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
@@ -47,6 +44,9 @@ const PlayerHandComponent = () => {
 
   const currentDiscard = useSelector(
     (state: RootState) => state.riverReducer.currentDiscard,
+  );
+  const isHelperNumberActive = useSelector(
+    (state: RootState) => state.settingsReducer.settings.numerals,
   );
   //const isItFirstTurn = turnsElapsed === 0 && handData.length !== 14;
   //const handDataLastIndex = handData.length - 1
@@ -128,6 +128,7 @@ const PlayerHandComponent = () => {
       : 0;
     //console.log(index === handData.length - 1);
     //console.log("render")
+    let helperNumber:string = isHelperNumberActive ? item.helperNumber : '';
     return (
       <TileOnHand
         handlePress={handlePress}
@@ -136,6 +137,8 @@ const PlayerHandComponent = () => {
         selected={selected}
         handDataLastIndex={handDataLastIndex}
         marginLeft={marginLeft}
+        helperNumber={helperNumber}
+        isHelperNumberActive={isHelperNumberActive}
       />
     );
   };
@@ -161,7 +164,7 @@ const PlayerHandComponent = () => {
         keyExtractor={(item, index) => index.toString()}
         style={{backgroundColor: 'transparent', width: 300, height: 90}} //was background purple for testing purposes
         ListEmptyComponent={<EmptyComponent />}
-        extraData={[handData, sortTilesOnHand]}
+        extraData={[handData, sortTilesOnHand,isHelperNumberActive]}
         getItemLayout={(data, index) => ({
           length: 39 * 1.3,
           offset: 39 * 1.3 * index,

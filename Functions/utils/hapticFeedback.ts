@@ -1,35 +1,48 @@
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../Store/store';
+import store, { RootState } from '../../Store/store';
 
 const options = {
-    enableVibrateFallback: true,
+    enableVibrateFallback: false,
     ignoreAndroidSystemSettings: false,
   };
-
-  const triggerHapticFeedback = (type:string) => {
-    const vibrationsEnabled = useSelector((state:RootState) => state.settingsReducer.sortTilesOnHand);
+  //this aproach does not work ;c 
+ /*  const triggerHapticFeedback = (type:string) => {
+    const vibrationsEnabled = useSelector((state:RootState) => state.settingsReducer.settings.vibrations);
+    console.log("vibrations enabled?:",vibrationsEnabled)
     if (vibrationsEnabled) {
       ReactNativeHapticFeedback.trigger(type, options);
     }
-  };
-  
+  }; */
+  //const vibrationsEnabled = useSelector((state:RootState) => state.settingsReducer.settings.vibrations);
+  const state = store.getState(); // Access the Redux state
+  const vibrationsEnabled = state.settingsReducer.settings.vibrations;
   export const handleImpactLight = () => {
-    triggerHapticFeedback('impactLight');
+    //console.log('haptic button');
+    if(vibrationsEnabled){
+      ReactNativeHapticFeedback.trigger("impactLight", options);
+      }else null
   };
   
   export const handleImpactMedium = () => {
-    triggerHapticFeedback('impactMedium');
+    //console.log('haptic button');
+    if(vibrationsEnabled){
+ReactNativeHapticFeedback.trigger("impactMedium", options);
+}else null
   };
   
   export const handleImpactHeavy = () => {
-    console.log('haptic button');
-    triggerHapticFeedback('impactHeavy');
+    //console.log('haptic button');
+    if(vibrationsEnabled){
+      ReactNativeHapticFeedback.trigger("impactHeavy", options);
+      }else null
   };
   
   export const handleNotificationSuccess = () => {
-    console.log('haptic button');
-    triggerHapticFeedback('notificationSuccess');
+    //console.log('haptic button');
+    if(vibrationsEnabled){
+      ReactNativeHapticFeedback.trigger("notificationSuccess", options);
+      }else null
   };
 
   //TODO add Haptics

@@ -1,12 +1,16 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {SvgXml} from 'react-native-svg';
 const PlayersTileOnHand = ({
   svg,
   tileRatioProp = 3,
+  numeralHelper='',
+  isHelperNumberActive=false
 }: {
   svg: string;
   tileRatioProp: number;
+  numeralHelper?:string 
+  isHelperNumberActive?:boolean
 }) => {
   const tileRatio = tileRatioProp;
   const tileWidth = +(30 * tileRatio).toFixed(2); // default 30 x 3
@@ -17,8 +21,11 @@ const PlayersTileOnHand = ({
   const tileSecondLayer = +(tileHeight + tileDepth * 0.695).toFixed(2); // 69.5% of tile depth added to tile height
   const tileBottomLayer = +(tileHeight + tileDepth).toFixed(2);
   const tileBorderRadiusHandPlayerPerspective = 8;
+  const helper = numeralHelper?numeralHelper:''
   //ramka 5 px - szare 13   = 18 +1 = 19+2=21
-  //sare ma padding 1 z lewej i prawej, kontur ma grubość 2 //TODO create perspective that is scalable
+  //sare ma padding 1 z lewej i prawej, kontur ma grubość 2 
+  //TODO create perspective that is scalable 
+  //console.log("NUMERAL HELPER:",numeralHelper)
   return (
     <View
       style={{
@@ -53,6 +60,10 @@ const PlayersTileOnHand = ({
             xml={svg}
             style={{borderRadius: tileBorderRadiusHandPlayerPerspective}}
           />
+          <Text style={{position:'absolute',color: isHelperNumberActive ? 'black' : 'transparent'
+          ,top:0,right:0,
+            
+          }}>{helper}</Text>
         </View>
       </View>
     </View>

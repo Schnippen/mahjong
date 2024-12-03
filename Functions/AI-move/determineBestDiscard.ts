@@ -93,7 +93,7 @@ export const determineBestDiscard = (
       bestScore = discardScore;
       bestDiscard = tile;
     }
-    console.log(
+  /*   console.log(
       'AI MOVE BEST SCORE: ',
       'shantendAfterDiscard:',
       shantenAfterDiscard,
@@ -105,7 +105,7 @@ export const determineBestDiscard = (
       discardScore,
       tile.name,
       shantenAfterDiscard === 0 ? 'isTenpai' : null,
-    );
+    ); */
   });
   let randomTileToDiscard = chooseRandomTile(hand);
 

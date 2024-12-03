@@ -62,7 +62,7 @@ export const runGame = (
     currentPlayersTurn = 'player4';
   } else console.info('runGame(): none of the players');
   console.log(
-    'runGame():',
+    'runGame(): currentPlayersTurn:',
     currentPlayersTurn,
     'currentDiscard:',
     currentDiscard[0]?.name,
@@ -122,7 +122,7 @@ export const runGame = (
   let checkT = checkForTriplet(currentHand, currentDiscard);
   let parameterHandThatHaveSequenceCheck = handThatHaveSequenceCheck();
   let checkS;
-  //there is a bug with chii, if player passes the chii option, there is no change of current turn
+  
   if (currentPlayersTurn === 'player4') {
     //it will show displays
     console.log(
@@ -291,6 +291,7 @@ export const runGame = (
       );
       if (currentPlayersTurn === 'player1' && result) {
         //set show richii, richiiIndex from riverReducer
+        //TODO riichi should be shown only when it's players turn, be sure that player can discard only tiles that allows him to od riichi not to avoid tenpai
         if (player1River.riichiIndex !== null) {
           setDisplayRiichiButton(false);
         } else {
@@ -300,7 +301,7 @@ export const runGame = (
         //This is AI turn
         const rivers = { player2: player2River, player3: player3River, player4: player4River };
     const currentRiver = rivers[currentPlayersTurn];
-        console.warn('AI CLICKS RIICHI');
+        console.warn('AI CLICKS RIICHI'); //when ai player is riichi it will relentlessly try to go for next riichi, it should be disabled, allowing for only one riichi per round, be sure that AI player only discard 14th tile
         if (currentRiver) {
           handleRiichi({
             dispatch,
@@ -310,7 +311,7 @@ export const runGame = (
         }
       }
     } else {
-      console.log("runGame(): not my turn for Riichi",player.name)
+      //console.log("runGame(): not my turn for Riichi",player.name)
     }
   });
 

@@ -48,7 +48,7 @@ export const settingsReducer = createSlice({
     toggleVibrations:(state,action)=>{
       let val:boolean = action.payload
       state.settings.vibrations=val
-      //console.log("REDUX - TOGGLE VIBRATIONS",state.settings.vibrations)
+      console.log("REDUX - TOGGLE VIBRATIONS",state.settings.vibrations)
     },
     toggleNumerals:(state,action)=>{
       let val:boolean = action.payload

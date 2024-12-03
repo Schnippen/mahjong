@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {Dimensions} from 'react-native';
 import {useAppDispatch} from '../../Store/hooks';
-import {setSortTileOnHand} from '../../Store/settingsReducer';
+import {setSortTileOnHand, toggleNumerals} from '../../Store/settingsReducer';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
 import {soundFunc} from '../../Functions/playSounds/soundFunc';
@@ -46,6 +46,45 @@ const AutoSort = () => {
     </TouchableOpacity>
   );
 };
+const ShowNumerals=()=>{
+  const dispatch = useAppDispatch();
+  const showNumerals = useSelector(
+    (state: RootState) => state.settingsReducer.settings.numerals,
+  );
+  const handleShowNumerals = () => {
+    dispatch(toggleNumerals(!showNumerals));
+    if (showNumerals === true) {
+      soundFunc({type: 'popUp'});
+    }
+    if (showNumerals === false) {
+      soundFunc({type: 'pop'});
+    }
+  };
+
+  return (
+    <TouchableOpacity
+      activeOpacity={0.5}
+      style={{
+        backgroundColor: 'transparent',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        flex: 1 / 5,
+        borderTopRightRadius: 8,
+      }}
+      onPress={() => handleShowNumerals()}>
+      <Text
+        style={{
+          color: showNumerals ? 'rgb(233, 195, 170)' : 'white',
+          textAlign: 'center',
+          fontWeight: 'bold',
+          fontSize: 16,
+        }}>
+        N
+      </Text>
+    </TouchableOpacity>
+  );
+}
 const SidePanel = () => {
   const topPanelBackgroundColor = '#3c7fc3';
   const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
@@ -69,6 +108,7 @@ const SidePanel = () => {
         borderBottomRightRadius: 8,
       }}>
       <AutoSort />
+      <ShowNumerals/>
     </LinearGradient>
   );
 };

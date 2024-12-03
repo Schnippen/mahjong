@@ -62,7 +62,7 @@ type SoundFuncTypes = {
 };
 //add male add female from async storage, async storage will be set in setting screen
 export const soundType = (type: string) => {
-  console.log('soundType:', type);
+  //console.log('soundType:', type);
   if (type === 'chii') {
     playFemaleChiiSound();
   } else if (type === 'pon') {

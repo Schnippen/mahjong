@@ -10,8 +10,8 @@ const tileClickSound = new Sound('tileclick.mp3', Sound.MAIN_BUNDLE, (error) => 
     return;
   }
   // if loaded successfully
-  console.log("tileClickSound loaded: duration in seconds: " + tileClickSound.getDuration() +
-    " number of channels: " + tileClickSound.getNumberOfChannels());
+ /*  console.log("tileClickSound loaded: duration in seconds: " + tileClickSound.getDuration() +
+    " number of channels: " + tileClickSound.getNumberOfChannels()); */
 });
 
 // Define the play function inside a component to use hooks
@@ -23,19 +23,19 @@ export const playTileClick = () => {
         return;
       }
       // if loaded successfully
-      console.log("tileClickSound loaded: duration in seconds: " + tileClickSound.getDuration() +
-        " number of channels: " + tileClickSound.getNumberOfChannels());
+  /*     console.log("tileClickSound loaded: duration in seconds: " + tileClickSound.getDuration() +
+        " number of channels: " + tileClickSound.getNumberOfChannels()); */
     });
   
     setTimeout(() => {
       let volume = store.getState().settingsReducer.settings.volume
       tileClickSound.setVolume(volume);
       tileClickSound.play(success => {
-        if (success) {
+ /*        if (success) {
           console.log('successfully finished playing tileClickSound');
         } else {
           console.log('playback failed due to audio decoding errors');
-        }
+        } */
       });
     }, 5);
   }, 5);

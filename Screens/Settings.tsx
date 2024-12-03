@@ -10,8 +10,10 @@ import {
   toggleSounds,
   toggleVibrations,
 } from '../Store/settingsReducer';
-import {useFocusEffect, useIsFocused} from '@react-navigation/native';
-
+import {useFocusEffect} from '@react-navigation/native';
+import { soundFunc } from '../Functions/playSounds/soundFunc';
+import { handleImpactHeavy, handleImpactLight, handleImpactMedium } from '../Functions/utils/hapticFeedback';
+//TODO fix this, boolean is not switching fast enough 
 function Settings({navigation}: {navigation: any}) {
   const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
   const [volumeState, setVolumeState] = useState(0);
@@ -29,6 +31,9 @@ function Settings({navigation}: {navigation: any}) {
 
   const goToHomeScreen = () => {
     navigation.navigate('StartGameScreen');
+    soundFunc({type: 'pop'});
+    handleImpactLight()
+
   };
   //let isFocused = useIsFocused()
   useFocusEffect(
@@ -73,6 +78,7 @@ function Settings({navigation}: {navigation: any}) {
       //true
       await updateSetting('sound', true);
       dispatch(toggleSounds(true));
+      soundFunc({type: 'popUp'});
     } else if (value === 1) {
       //false
       await updateSetting('sound', false);
@@ -86,10 +92,13 @@ function Settings({navigation}: {navigation: any}) {
       //true
       await updateSetting('vibrations', true);
       dispatch(toggleVibrations(true));
+      handleImpactMedium()
+      soundFunc({type: 'popUp'});
     } else if (value === 1) {
       //false
       await updateSetting('vibrations', false);
       dispatch(toggleVibrations(false));
+      soundFunc({type: 'pop'});
     }
   };
   const handleSelectedVoiceType = async (value: number) => {
@@ -99,16 +108,19 @@ function Settings({navigation}: {navigation: any}) {
       console.log('VALUE:', value);
       await updateSetting('voices', 'OFF');
       dispatch(setVoiceType('OFF'));
+      handleImpactLight()
     } else if (value === 1) {
       //MALE
       console.log('VALUE:', value);
       await updateSetting('voices', 'MALE');
       dispatch(setVoiceType('MALE'));
+      handleImpactLight()
     } else if (value === 2) {
       //FEMALE
       console.log('VALUE:', value);
       await updateSetting('voices', 'FEMALE');
       dispatch(setVoiceType('FEMALE'));
+      handleImpactLight()
     }
   };
 
@@ -118,6 +130,7 @@ function Settings({navigation}: {navigation: any}) {
     //console.log("Volume:",value/10)
     await updateSetting('volume', val);
     dispatch(setVolume(val));
+    handleImpactLight()
   };
 
   const handleNumerals = async (value: number) => {
@@ -126,10 +139,12 @@ function Settings({navigation}: {navigation: any}) {
       //true
       await updateSetting('numerals', true);
       dispatch(toggleNumerals(true));
+      soundFunc({type: 'popUp'});
     } else if (value === 1) {
       //false
       await updateSetting('numerals', false);
       dispatch(toggleNumerals(false));
+      soundFunc({type: 'pop'});
     }
   };
 
@@ -154,6 +169,9 @@ function Settings({navigation}: {navigation: any}) {
     dispatch(toggleVibrations(true));
     dispatch(setVoiceType('FEMALE'));
     dispatch(setVolume(10));
+    handleImpactHeavy()
+    soundFunc({type: 'pop'});
+
   };
 
   const ButtonGoBack = () => {

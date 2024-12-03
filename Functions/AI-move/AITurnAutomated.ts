@@ -1,6 +1,5 @@
 import {chooseRandomTile} from './AIChooseRandomTile';
 import {discardTile} from '../discardTileFunction';
-import store from '../../Store/store';
 import {determineBestDiscard} from './determineBestDiscard';
 import {
   GameWinds,
