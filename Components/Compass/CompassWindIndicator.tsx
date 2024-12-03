@@ -22,7 +22,7 @@ const CompassWindIndicator = ({
       : currentWindDisplay === 'west'
       ? 2
       : 3;
-  let defaultWindBackground = 'beige';
+  let defaultWindBackground = '#e9ebe8';
   let currentWindBackground =
     currentWindDisplay === 'east' ? '#bc2f38' : defaultWindBackground;
   //console.log(currentWindDisplayIndex, currentWindDisplay);
