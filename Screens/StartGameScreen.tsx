@@ -1,5 +1,5 @@
-import React from 'react';
-import {Button, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {boardColor} from '../Data/colors';
 
 function StartGameScreen({navigation}: {navigation: any}) {
@@ -8,14 +8,6 @@ function StartGameScreen({navigation}: {navigation: any}) {
   };
   const goToGameScreen = () => {
     navigation.navigate('MahjongScreen');
-  };
-
-  const GameTitle = () => {
-    return (
-      <View style={{backgroundColor: 'yellow'}}>
-        <Text>Riichi Mahjong</Text>
-      </View>
-    );
   };
 
   const ButtonStartScreen = ({
@@ -43,11 +35,34 @@ function StartGameScreen({navigation}: {navigation: any}) {
       </TouchableOpacity>
     );
   };
-  const ButtonContainer = () => {
+  const GameTitle = () => {
+    const [dimensions, setDimensions] = useState({width: 0, height: 0});
+
+    const onLayout = (event: any) => {
+      const {width, height} = event.nativeEvent.layout;
+      setDimensions({width, height});
+    };
+
     return (
       <View
         style={{
           flex: 1,
+          backgroundColor: 'transparent',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        onLayout={onLayout}>
+        <Text style={{fontSize: dimensions.height / 2, fontWeight: 'bold'}}>
+          Riichi Mahjong
+        </Text>
+      </View>
+    );
+  };
+  const ButtonContainer = () => {
+    return (
+      <View
+        style={{
+          flex: 2,
           backgroundColor: 'transparent',
           justifyContent: 'center',
           alignItems: 'center',
@@ -72,6 +87,7 @@ function StartGameScreen({navigation}: {navigation: any}) {
 
   return (
     <View style={{flex: 1, backgroundColor: boardColor}}>
+      <StatusBar hidden={true} />
       <GameTitle />
       <ButtonContainer />
     </View>

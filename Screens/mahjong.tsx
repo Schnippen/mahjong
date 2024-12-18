@@ -1,6 +1,13 @@
 import {Button} from '@rneui/themed';
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View, Dimensions, BackHandler, Alert} from 'react-native';
+import {
+  ScrollView,
+  View,
+  Dimensions,
+  BackHandler,
+  Alert,
+  StatusBar,
+} from 'react-native';
 import ButtonSettings from '../Components/Buttons/ButtonSettings';
 import ButtonQuestionmark from '../Components/Buttons/ButtonQuestionmark';
 import SettingsOverlay from '../Components/SettingsOverlay';
@@ -145,6 +152,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
 
   return (
     <ScrollView>
+      <StatusBar hidden={true} />
       <View
         style={{
           flexDirection: 'row',

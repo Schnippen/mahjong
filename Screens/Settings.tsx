@@ -1,6 +1,13 @@
-import {Button, ButtonGroup, Divider, Slider} from '@rneui/themed';
+import {ButtonGroup, Divider, Slider} from '@rneui/themed';
 import React, {useState} from 'react';
-import {ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {getSettings, resetSettings, updateSetting} from '../Store/asyncStorage';
 import {useAppDispatch} from '../Store/hooks';
 import {
@@ -26,6 +33,13 @@ function Settings({navigation}: {navigation: any}) {
   const [soundState, setSoundState] = useState(0);
   const [vibrationsState, setVibrationsState] = useState(0);
   const [numeralsActive, setNumeralsActive] = useState(0);
+  const [dimensions, setDimensions] = useState({width: 0, height: 0});
+
+  const onLayout = (event: any) => {
+    const {width, height} = event.nativeEvent.layout;
+    setDimensions({width, height});
+  };
+  let containerWidth = dimensions.width / 1.1;
   const dispatch = useAppDispatch();
   //TODO
   const loadSettings = async () => {
@@ -184,8 +198,7 @@ function Settings({navigation}: {navigation: any}) {
           style={{
             height: 40,
             width: 40,
-            backgroundColor: 'rgba(243, 251, 254, 0.3)',
-
+            backgroundColor: '#56a2c4',
             alignItems: 'center',
             borderRadius: 25,
             justifyContent: 'center',
@@ -197,12 +210,65 @@ function Settings({navigation}: {navigation: any}) {
               borderRadius: 25,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: '#f3fbfe',
+              backgroundColor: '#e9ebe8',
             }}>
             <Text style={{color: 'black'}}>{'X'}</Text>
           </View>
         </View>
       </TouchableWithoutFeedback>
+    );
+  };
+  const SliderContainer = () => {
+    return (
+      <View style={{alignItems: 'center'}}>
+        <View
+          style={{
+            padding: 20,
+
+            justifyContent: 'center',
+            alignItems: 'stretch',
+            width: containerWidth,
+          }}>
+          <Slider
+            value={volumeState}
+            onValueChange={handleVolume}
+            maximumValue={10}
+            minimumValue={0}
+            //maximumTrackTintColor
+            //minimumTrackTintColor
+            step={1}
+            allowTouchTrack
+            trackStyle={{height: 10, backgroundColor: '  '}}
+            thumbStyle={{height: 50, width: 50, backgroundColor: 'transparent'}}
+            minimumTrackTintColor="#bdbbc0"
+            maximumTrackTintColor="#e9ebe8"
+            //animationType='spring'
+            //animateTransitions= //TODO
+            thumbProps={{
+              children: (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: 50,
+                    width: 50,
+                    backgroundColor: '#56a2c4',
+                    borderRadius: 8,
+                  }}>
+                  <Text
+                    style={{
+                      color: '#fbd54e',
+                      fontSize: 20,
+                      fontWeight: 'bold',
+                    }}>
+                    {volumeState}
+                  </Text>
+                </View>
+              ),
+            }}
+          />
+        </View>
+      </View>
     );
   };
 
@@ -213,143 +279,153 @@ function Settings({navigation}: {navigation: any}) {
         width: '100%',
         height: '100%',
         padding: 8,
-      }}>
+      }}
+      onLayout={onLayout}>
+      <StatusBar hidden={true} />
       <View
         style={{
-          flexDirection: 'row',
           alignItems: 'center',
-          height: 100,
+          height: 80,
           flex: 1,
+          paddingTop: 4,
         }}>
-        <View style={{flex: 3, height: 100, justifyContent: 'center'}}>
-          <Text style={{fontSize: 48, fontWeight: 'bold'}}>Settings:</Text>
-        </View>
+        <Text style={{fontSize: 48, fontWeight: 'bold'}}>Settings</Text>
         <View
           style={{
             justifyContent: 'center',
-            alignItems: 'flex-end',
+            alignItems: 'center',
             flex: 1,
-            height: 100,
-            paddingRight: 40,
+            height: 80,
+            width: 100,
+
+            position: 'absolute',
+            right: 0,
           }}>
           <ButtonGoBack />
         </View>
       </View>
-
-      <Button
-        title="setItem"
-        onPress={() => {
-          null;
-        }}
-      />
-      <Button title="getItem" onPress={() => loadSettings()} />
       <Divider
         style={{width: '80%', margin: 10}}
         width={2}
         inset={true}
         orientation="horizontal"
       />
-
-      <ButtonGroup
-        buttons={['Sound ON', 'Sound OFF']}
-        selectedIndex={soundState}
-        onPress={value => {
-          handleSound(value);
-        }}
-        containerStyle={{marginBottom: 20}}
-      />
-      <ButtonGroup
-        buttons={['Vibrations ON', 'Vibrations OFF']}
-        selectedIndex={vibrationsState}
-        onPress={value => {
-          handleVibrations(value);
-        }}
-        containerStyle={{marginBottom: 20}}
-      />
-      <ButtonGroup
-        buttons={['OFF', 'MALE', 'FEMALE']}
-        selectedIndex={selectedVoiceType}
-        onPress={value => {
-          handleSelectedVoiceType(value);
-        }}
-        containerStyle={{marginBottom: 20}}
-      />
-      <Divider
-        style={{width: '80%', margin: 10}}
-        width={2}
-        inset={true}
-        orientation="horizontal"
-      />
-      <View>
-        <Text style={{fontSize: 28, fontWeight: 'bold'}}>Set Volume:</Text>
-      </View>
-      <View
-        style={{
-          padding: 20,
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'stretch',
-        }}>
-        <Slider
-          value={volumeState}
-          onValueChange={handleVolume}
-          maximumValue={10}
-          minimumValue={0}
-          //maximumTrackTintColor
-          //minimumTrackTintColor
-          step={1}
-          allowTouchTrack
-          trackStyle={{height: 10, backgroundColor: '  '}}
-          thumbStyle={{height: 50, width: 50, backgroundColor: 'transparent'}}
-          //animationType='spring'
-          //animateTransitions= //TODO
-          thumbProps={{
-            children: (
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 50,
-                  width: 50,
-                  backgroundColor: '#0d2d54',
-                  borderRadius: 8,
-                }}>
-                <Text
-                  style={{color: '#fbd54e', fontSize: 20, fontWeight: 'bold'}}>
-                  {volumeState}
-                </Text>
-              </View>
-            ),
+      <View style={{alignItems: 'center'}}>
+        <ButtonGroup
+          buttons={['Sound ON', 'Sound OFF']}
+          selectedIndex={soundState}
+          onPress={value => {
+            handleSound(value);
           }}
+          containerStyle={{
+            marginBottom: 20,
+            backgroundColor: '#e9ebe8',
+            width: containerWidth,
+          }}
+          selectedButtonStyle={{backgroundColor: '#56a2c4'}}
         />
       </View>
+
+      <View style={{alignItems: 'center'}}>
+        <ButtonGroup
+          buttons={['Vibrations ON', 'Vibrations OFF']}
+          selectedIndex={vibrationsState}
+          onPress={value => {
+            handleVibrations(value);
+          }}
+          containerStyle={{
+            marginBottom: 20,
+            backgroundColor: '#e9ebe8',
+            width: containerWidth,
+          }}
+          selectedButtonStyle={{backgroundColor: '#56a2c4'}}
+        />
+      </View>
+
+      <View style={{alignItems: 'center'}}>
+        <ButtonGroup
+          buttons={['OFF', 'MALE', 'FEMALE']}
+          selectedIndex={selectedVoiceType}
+          onPress={value => {
+            handleSelectedVoiceType(value);
+          }}
+          containerStyle={{
+            marginBottom: 20,
+            backgroundColor: '#e9ebe8',
+            width: containerWidth,
+          }}
+          selectedButtonStyle={{backgroundColor: '#56a2c4'}}
+        />
+      </View>
+
       <Divider
         style={{width: '80%', margin: 10}}
         width={2}
         inset={true}
         orientation="horizontal"
       />
-      <ButtonGroup
-        buttons={['Numerals ON', 'Numerals OFF']}
-        selectedIndex={numeralsActive}
-        onPress={value => {
-          handleNumerals(value);
-        }}
-        containerStyle={{marginBottom: 20}}
-      />
+      <View style={{flex: 1, alignItems: 'center'}}>
+        <Text style={{fontSize: 28, fontWeight: 'bold'}}>Set Volume</Text>
+      </View>
+      <View style={{alignItems: 'center'}}>
+        <SliderContainer />
+      </View>
       <Divider
         style={{width: '80%', margin: 10}}
         width={2}
         inset={true}
         orientation="horizontal"
       />
-      <Button
-        title={'Reset to default'}
-        onPress={() => handleResetToDefault()}
+      <View style={{alignItems: 'center'}}>
+        <ButtonGroup
+          buttons={['Numerals ON', 'Numerals OFF']}
+          selectedIndex={numeralsActive}
+          onPress={value => {
+            handleNumerals(value);
+          }}
+          containerStyle={{
+            marginBottom: 20,
+            backgroundColor: '#e9ebe8',
+            width: containerWidth,
+          }}
+          selectedButtonStyle={{backgroundColor: '#56a2c4'}}
+        />
+      </View>
+
+      <Divider
+        style={{width: '80%', margin: 10}}
+        width={2}
+        inset={true}
+        orientation="horizontal"
       />
+      <View style={{alignItems: 'center'}}>
+        <TouchableOpacity
+          style={{
+            height: 45,
+            backgroundColor: '#56a2c4',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 10,
+            width: containerWidth,
+          }}
+          activeOpacity={0.9}
+          onPress={() => handleResetToDefault()}>
+          <Text>Reset to default</Text>
+        </TouchableOpacity>
+      </View>
+
       <View style={{marginBottom: 40}} />
     </ScrollView>
   );
 }
 
 export default Settings;
+
+//Debug template buttons
+/*       <Button
+        title="setItem"
+        onPress={() => {
+          null;
+        }}
+      />
+      <Button title="getItem" onPress={() => loadSettings()} /> */
