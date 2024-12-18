@@ -283,7 +283,7 @@ export function isWinning({
 
   const end = performance.now();
   console.log(
-    `isWinning() took  ${(end - start) / 1000} seconds`,
+    `isWinning() took  ${((end - start) / 1000).toFixed(3)} seconds`,
     'Ron:',
     ron,
     'Tsumo',

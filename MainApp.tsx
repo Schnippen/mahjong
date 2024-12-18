@@ -1,10 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-//import {RootState} from './Store/store';
+import React, {useEffect} from 'react';
 import MahjongScreen from './Screens/mahjong';
-import {BottomTabBar} from '@react-navigation/bottom-tabs';
 import Settings from './Screens/Settings';
 import EndRoundScreen from './Screens/EndRoundScreen';
 import useUpdateSettings from './Functions/utils/updateSettingsHook';
@@ -29,7 +26,7 @@ function MainApp() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="MahjongScreen"
+        initialRouteName="StartGameScreen"
         screenOptions={{orientation: 'landscape', headerShown: false}}>
         <Stack.Screen name="MahjongScreen" component={MahjongScreen} />
         {/* <Stack.Screen name="EndGameScreen" component={EndGameScreen} /> */}

@@ -1,6 +1,6 @@
 import {Button} from '@rneui/themed';
-import React, {useState} from 'react';
-import {ScrollView, View, Dimensions} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, View, Dimensions, BackHandler, Alert} from 'react-native';
 import ButtonSettings from '../Components/Buttons/ButtonSettings';
 import ButtonQuestionmark from '../Components/Buttons/ButtonQuestionmark';
 import SettingsOverlay from '../Components/SettingsOverlay';
@@ -24,6 +24,7 @@ import StolenTilesPanelTop from '../Components/StolenTiles/StolenTilesTop/Stolen
 import StolenTilesRight from '../Components/StolenTiles/StolenTilesRight/StolenTilesPanelRight';
 import StolenTilesPanelLeft from '../Components/StolenTiles/StolenTilesLeft/StolenTilesPanelLeft';
 import {boardColor} from '../Data/colors';
+import {useIsFocused} from '@react-navigation/native';
 //tiles
 //winning conditions
 //tile component
@@ -69,9 +70,13 @@ const screenHeight = Dimensions.get('window').height;
 //TODO oficjalna skala z perspektywą???
 function MahjongScreen({navigation, route}: any) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isSelectionModeEnabled, setIsSelectionModeEnabled] =
+    useState<boolean>(false);
+
   const toggleOverlay = () => {
     setIsVisible(!isVisible);
   };
+  //MenuPanel is not in use due to technical reasons
   const MenuPanel = ({navigation}: {navigation: any}) => {
     return (
       <View
@@ -88,13 +93,7 @@ function MahjongScreen({navigation, route}: any) {
     );
   };
   const dispatch = useDispatch();
-  /*  console.log(
-    'tilesAfterHandout:',
-    tilesAfterHandout.length,
-    'MainPlayerCurrentHand:',
-    MainPlayerCurrentHand.length,
-  ); */
-  //winds of players
+
   const playerBottomMainPlayerWind = useSelector(
     (state: RootState) => state.playersReducer.player1.wind,
   );
@@ -118,6 +117,31 @@ function MahjongScreen({navigation, route}: any) {
   /* console.info("playerRight:",playerRightHand.length, playerRightHand.map(t=>t.name))
 console.info("playerTop:",playerTopHand.length,playerTopHand.map(t=>t.name))
 console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.name)) */
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    const backAction = () => {
+      if (isFocused) {
+        Alert.alert('Confirmation', 'Are you sure to reset your Game?', [
+          {text: 'Cancel', onPress: () => null},
+          {
+            text: 'OK',
+            onPress: () => {
+              navigation.goBack();
+              //handleReset();
+              //TODO
+            },
+          },
+        ]);
+        return true;
+      }
+      return false;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  }, [isFocused]);
 
   return (
     <ScrollView>

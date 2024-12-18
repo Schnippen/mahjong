@@ -93,7 +93,7 @@ export const determineBestDiscard = (
       bestScore = discardScore;
       bestDiscard = tile;
     }
-  /*   console.log(
+    /*   console.log(
       'AI MOVE BEST SCORE: ',
       'shantendAfterDiscard:',
       shantenAfterDiscard,
@@ -120,7 +120,7 @@ export const determineBestDiscard = (
     bestDiscard !== null
       ? bestDiscard?.name
       : `RandomTile:${randomTileToDiscard.name}`,
-    `AIMove() took- ${(end - start) / 1000} seconds`,
+    `AIMove() took- ${((end - start) / 1000).toFixed(3)} seconds`,
   );
   return bestDiscard || randomTileToDiscard; //hand[0] //this is fallback, better use
 };

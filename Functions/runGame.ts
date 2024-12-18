@@ -18,7 +18,7 @@ import {checkOrStealSequence} from './checkOrStealSequence';
 import {RiverState} from '../Store/riverReducer';
 import {canRiichi} from './isReadyForRiichii/canRichii';
 import {isWinning} from './isWinning/isWinning';
-import { handleRiichi } from './PlayerControlFunctions/handleRiichi';
+import {handleRiichi} from './PlayerControlFunctions/handleRiichi';
 
 type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind' | 'whoTheWinnerIs'>;
 type GamePhase = 'started' | 'ended' | 'none';
@@ -122,7 +122,7 @@ export const runGame = (
   let checkT = checkForTriplet(currentHand, currentDiscard);
   let parameterHandThatHaveSequenceCheck = handThatHaveSequenceCheck();
   let checkS;
-  
+
   if (currentPlayersTurn === 'player4') {
     //it will show displays
     console.log(
@@ -213,7 +213,7 @@ export const runGame = (
         player.name === 'player3' ||
         player.name === 'player4'
       ) {
-/*         const passTime = () => {
+        /*         const passTime = () => {
           console.log('runGame(): passTime()0.1sec');
           dispatch(INTERRUPT_TURN({val: false}));
           interruptTurn = false;
@@ -299,8 +299,12 @@ export const runGame = (
         }
       } else if (currentPlayersTurn !== 'player1' && result) {
         //This is AI turn
-        const rivers = { player2: player2River, player3: player3River, player4: player4River };
-    const currentRiver = rivers[currentPlayersTurn];
+        const rivers = {
+          player2: player2River,
+          player3: player3River,
+          player4: player4River,
+        };
+        const currentRiver = rivers[currentPlayersTurn];
         console.warn('AI CLICKS RIICHI'); //when ai player is riichi it will relentlessly try to go for next riichi, it should be disabled, allowing for only one riichi per round, be sure that AI player only discard 14th tile
         if (currentRiver) {
           handleRiichi({
@@ -370,5 +374,5 @@ export const runGame = (
     dispatch(drawTileFromWallToHand({player: nextPlayerX, nextTile: nextTile}));
   }
   const end = performance.now();
-  console.log(`runGame() took ${(end - start) / 1000} seconds`);
+  console.log(`runGame() took ${((end - start) / 1000).toFixed(3)} seconds`);
 };
