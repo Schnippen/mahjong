@@ -5,6 +5,8 @@ import {ButtonGoBack} from '../Components/Buttons/ButtonGoBack';
 
 function RulesScreen({navigation, route}: any) {
   //https://reactnavigation.org/docs/tab-view/
+  //https://snack.expo.dev/@satya164/react-native-tab-view-lazy-load
+  //https://snack.expo.dev/@satya164/react-native-tab-view-custom-tabbar
   return (
     <ScrollView
       style={{

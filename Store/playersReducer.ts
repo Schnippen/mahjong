@@ -365,6 +365,9 @@ export const playersReducer = createSlice({
         state.whoTheWinnerIs.honba++;
       }
     },
+    resetPlayersReducer_TOTAL_RESET: state => {
+      return {...initialState};
+    },
     resetPlayersReducerToNextRound: state => {
       //no score change
       //no hand change
@@ -548,6 +551,7 @@ export const {
   setRiichi,
   calculateScore,
   setStolenTilesOnBoard,
+  resetPlayersReducer_TOTAL_RESET,
   resetPlayersReducerToNextRound,
   resetPlayersReducerHandsToNextRound,
   changeWhoTheWinnerIs,

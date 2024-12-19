@@ -19,7 +19,8 @@ export const resetToNextRound = ({
   dispatch: any;
   navigation: any;
 }) => {
-  playPopDownSound();
+  //TODO CHANGE THE FUNCTION of play sound
+  //playPopDownSound();
   //dispatch
   //reset game reducer
   // hands
