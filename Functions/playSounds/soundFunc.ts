@@ -1,5 +1,5 @@
 import store, {RootState} from '../../Store/store';
-import {VoicesTypes} from '../../Types/types';
+import {SoundFuncTypes, VoicesTypes} from '../../Types/types';
 import {playFemaleChiiSound} from './CallSounds/Female/playFemaleChiiSound';
 import {playFemaleKanSound} from './CallSounds/Female/playFemaleKanSound';
 import {playFemalePonSound} from './CallSounds/Female/playFemalePonSound';
@@ -42,24 +42,6 @@ import {playFemaleYakuToitoiSound} from './YakuSounds/Female/playFemaleYakuToito
 import {playFemaleYakuTsuuiisouSound} from './YakuSounds/Female/playFemaleYakuTsuuiisouSound';
 import {playFemaleYakuYakuhaiSound} from './YakuSounds/Female/playFemaleYakuYakuhaiSound';
 
-type SoundFuncTypes = {
-  type:
-    | 'chii'
-    | 'pon'
-    | 'kan'
-    | 'riichi'
-    | 'ron'
-    | 'tsumo'
-    | 'meldSound'
-    | 'rontsumoSound'
-    | 'touchSound'
-    | 'tileClickSound'
-    | 'pop'
-    | 'popDown'
-    | 'popUp'
-    | 'diceThrow'
-    | 'shutter';
-};
 //add male add female from async storage, async storage will be set in setting screen
 export const soundType = (type: string) => {
   //console.log('soundType:', type);
@@ -151,6 +133,8 @@ export const soundType = (type: string) => {
     playDiceThrowSound();
   } else if (type === 'shutter') {
     playScreenshotSound();
+  } else {
+    return null;
   }
 };
 

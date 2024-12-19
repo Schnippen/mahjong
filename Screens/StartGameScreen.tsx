@@ -1,22 +1,30 @@
 import React, {useState} from 'react';
 import {StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {boardColor} from '../Data/colors';
+import {soundFunc} from '../Functions/playSounds/soundFunc';
+import {ScreenList, SoundFuncTypes} from '../Types/types';
 
 function StartGameScreen({navigation}: {navigation: any}) {
-  const goToSettingScreen = () => {
-    navigation.navigate('SettingsScreen');
-  };
-  const goToGameScreen = () => {
-    navigation.navigate('MahjongScreen');
+  const goToScreen = (screen: ScreenList) => {
+    navigation.navigate(screen);
   };
 
   const ButtonStartScreen = ({
     text,
     navigationFunction,
+    soundType = {type: ''},
   }: {
     text: string;
     navigationFunction: () => void;
+    soundType?: SoundFuncTypes;
   }) => {
+    const handlePress = () => {
+      if (soundType) {
+        soundFunc(soundType); // Call soundFunc with the correct structure
+      }
+      navigationFunction();
+    };
+
     return (
       <TouchableOpacity
         style={{
@@ -30,19 +38,17 @@ function StartGameScreen({navigation}: {navigation: any}) {
           borderColor: '#56a2c4',
         }}
         activeOpacity={0.9}
-        onPress={navigationFunction}>
+        onPress={handlePress}>
         <Text style={{color: 'black'}}>{text}</Text>
       </TouchableOpacity>
     );
   };
   const GameTitle = () => {
     const [dimensions, setDimensions] = useState({width: 0, height: 0});
-
     const onLayout = (event: any) => {
       const {width, height} = event.nativeEvent.layout;
       setDimensions({width, height});
     };
-
     return (
       <View
         style={{
@@ -69,22 +75,25 @@ function StartGameScreen({navigation}: {navigation: any}) {
         }}>
         <ButtonStartScreen
           text="Start Game"
-          navigationFunction={goToGameScreen}
+          navigationFunction={() => goToScreen('MahjongScreen')}
+          soundType={{type: 'rontsumoSound'}}
         />
         <View style={{height: 20}} />
         <ButtonStartScreen
           text="Settings"
-          navigationFunction={goToSettingScreen}
+          navigationFunction={() => goToScreen('SettingsScreen')}
+          soundType={{type: 'popUp'}}
         />
         <View style={{height: 20}} />
         <ButtonStartScreen
           text="Rules"
-          navigationFunction={goToSettingScreen}
+          navigationFunction={() => goToScreen('RulesScreen')}
+          soundType={{type: 'popUp'}}
         />
       </View>
     );
   };
-
+  //Initiate game from 1-2 seconds after clicking, or maybe use dice sound intead of ronTsumoSound
   return (
     <View style={{flex: 1, backgroundColor: boardColor}}>
       <StatusBar hidden={true} />

@@ -5,7 +5,6 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import {getSettings, resetSettings, updateSetting} from '../Store/asyncStorage';
@@ -25,6 +24,7 @@ import {
   handleImpactMedium,
 } from '../Functions/utils/hapticFeedback';
 import {boardColor} from '../Data/colors';
+import {ButtonGoBack} from '../Components/Buttons/ButtonGoBack';
 //TODO fix this, boolean is not switching fast enough
 function Settings({navigation}: {navigation: any}) {
   const panelBackgroundColor = boardColor;
@@ -48,11 +48,6 @@ function Settings({navigation}: {navigation: any}) {
     //set all the haptics, volumes etc....
   };
 
-  const goToHomeScreen = () => {
-    navigation.navigate('StartGameScreen');
-    soundFunc({type: 'pop'});
-    handleImpactLight();
-  };
   //let isFocused = useIsFocused()
   useFocusEffect(
     React.useCallback(() => {
@@ -191,33 +186,6 @@ function Settings({navigation}: {navigation: any}) {
     soundFunc({type: 'pop'});
   };
 
-  const ButtonGoBack = () => {
-    return (
-      <TouchableWithoutFeedback onPress={() => goToHomeScreen()}>
-        <View
-          style={{
-            height: 40,
-            width: 40,
-            backgroundColor: '#56a2c4',
-            alignItems: 'center',
-            borderRadius: 25,
-            justifyContent: 'center',
-          }}>
-          <View
-            style={{
-              height: 35,
-              width: 35,
-              borderRadius: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#e9ebe8',
-            }}>
-            <Text style={{color: 'black'}}>{'X'}</Text>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  };
   const SliderContainer = () => {
     return (
       <View style={{alignItems: 'center'}}>
@@ -301,7 +269,7 @@ function Settings({navigation}: {navigation: any}) {
             position: 'absolute',
             right: 0,
           }}>
-          <ButtonGoBack />
+          <ButtonGoBack navigation={navigation} />
         </View>
       </View>
       <Divider

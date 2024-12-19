@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import ButtonSettings from '../Components/Buttons/ButtonSettings';
 import ButtonQuestionmark from '../Components/Buttons/ButtonQuestionmark';
-import SettingsOverlay from '../Components/SettingsOverlay';
 import RiverBottom from '../Components/River/RiverBottom';
 import {RiverRight} from '../Components/River/RiverRight';
 import {RiverLeft} from '../Components/River/RiverLeft';
@@ -31,7 +30,13 @@ import StolenTilesPanelTop from '../Components/StolenTiles/StolenTilesTop/Stolen
 import StolenTilesRight from '../Components/StolenTiles/StolenTilesRight/StolenTilesPanelRight';
 import StolenTilesPanelLeft from '../Components/StolenTiles/StolenTilesLeft/StolenTilesPanelLeft';
 import {boardColor} from '../Data/colors';
-import {useIsFocused} from '@react-navigation/native';
+import {CommonActions, useIsFocused} from '@react-navigation/native';
+import {soundFunc} from '../Functions/playSounds/soundFunc';
+import {
+  handleImpactLight,
+  handleImpactMedium,
+} from '../Functions/utils/hapticFeedback';
+
 //tiles
 //winning conditions
 //tile component
@@ -124,18 +129,34 @@ function MahjongScreen({navigation, route}: any) {
   /* console.info("playerRight:",playerRightHand.length, playerRightHand.map(t=>t.name))
 console.info("playerTop:",playerTopHand.length,playerTopHand.map(t=>t.name))
 console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.name)) */
+  //Handle going to previuous Screen
   const isFocused = useIsFocused();
   useEffect(() => {
     const backAction = () => {
       if (isFocused) {
         Alert.alert('Confirmation', 'Are you sure to reset your Game?', [
-          {text: 'Cancel', onPress: () => null},
+          {
+            text: 'Cancel',
+            onPress: () => {
+              null;
+              soundFunc({type: 'popUp'});
+              handleImpactLight();
+            },
+          },
           {
             text: 'OK',
             onPress: () => {
-              navigation.goBack();
-              //handleReset();
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{name: 'StartGameScreen'}],
+                }),
+              );
               //TODO
+              //handleReset();
+              //also reset navigation stack!
+              soundFunc({type: 'popDown'});
+              handleImpactMedium();
             },
           },
         ]);

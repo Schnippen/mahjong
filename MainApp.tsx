@@ -10,6 +10,7 @@ import {
   hasAndroidPermission,
   savePicture,
 } from './Functions/utils/cameraRollPermission';
+import RulesScreen from './Screens/RulesScreen';
 
 function MainApp() {
   const Stack = createNativeStackNavigator();
@@ -26,7 +27,7 @@ function MainApp() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SettingsScreen"
+        initialRouteName="StartGameScreen"
         screenOptions={{orientation: 'landscape', headerShown: false}}>
         <Stack.Screen name="MahjongScreen" component={MahjongScreen} />
         {/* <Stack.Screen name="EndGameScreen" component={EndGameScreen} /> */}
@@ -34,6 +35,7 @@ function MainApp() {
         <Stack.Screen name="EndRoundScreen" component={EndRoundScreen} />
         <RootStack.Group screenOptions={{presentation: 'modal'}}>
           <Stack.Screen name="SettingsScreen" component={Settings} />
+          <Stack.Screen name="RulesScreen" component={RulesScreen} />
         </RootStack.Group>
       </Stack.Navigator>
     </NavigationContainer>
