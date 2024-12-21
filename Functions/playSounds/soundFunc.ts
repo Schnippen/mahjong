@@ -45,6 +45,10 @@ import {playFemaleYakuYakuhaiSound} from './YakuSounds/Female/playFemaleYakuYaku
 //add male add female from async storage, async storage will be set in setting screen
 export const soundType = (type: string) => {
   //console.log('soundType:', type);
+  let volume = store.getState().settingsReducer.settings.volume
+  let isSoundOn = store.getState().settingsReducer.settings.sound
+  //this check ensures the sound not to be played when sound is off in settings screen
+  if(isSoundOn){
   if (type === 'chii') {
     playFemaleChiiSound();
   } else if (type === 'pon') {
@@ -135,7 +139,7 @@ export const soundType = (type: string) => {
     playScreenshotSound();
   } else {
     return null;
-  }
+  }}
 };
 
 const playSound = (
@@ -163,102 +167,7 @@ export function soundFunc({type}: SoundFuncTypes) {
   let voiceGender = store.getState().settingsReducer.settings.voices;
   //console.log('soundFunc test', soundVolume, voiceGender, type);
   soundType(type);
-  //playFemaleYakuSanshokuDoukouSound(soundVolume)
-  /*      if(type==="chii"){
-        playFemaleChiiSound()
-    }
-    else if (type==="pon"){
-        playFemalePonSound()
-    }else if (type==="kan"){
-        playFemaleKanSound(soundVolume)
-    }else if (type==="riichi"){
-        playFemaleRiichiSound(soundVolume)
-    }else if (type==="ron"){
-        playFemaleRonSound(soundVolume)
-    }else if (type==="tsumo"){
-        playFemaleTsumoSound(soundVolume)
-    }else if(type==="rontsumoSound"){
-        playRonTsumoActiveSound(soundVolume)
-    }else if(type==='touchSound'){
-        playTouchSound()
-    }else if(type==='tileClickSound'){
-        playTileClick(soundVolume)
-    }else if(type==='pop'){
-        playPopSound(soundVolume)
-    }else if(type==='popUp'){
-        playPopUpSound(soundVolume)
-    }else if(type==='popDown'){
-        playPopDownSound()
-    }
-    else if(type==='diceThrow'){
-        playdicetrowSound()
-    }else if(type==="meldSound"){
-        playMeldActionSound(soundVolume)
-    }else if(type==="chanta"){
-        playFemaleYakuChantaSound(soundVolume)
-    }else if (type==="chinistu"){
-        playFemaleYakuChinistuSound(soundVolume)
-    }else if (type==="chiitoitsu"){
-        playFemaleYakuChiitoitsuSound(soundVolume)
-    }else if(type==="chinroutou"){
-        playFemaleYakuChinroutouSound(soundVolume)
-    }else if(type ==="chuurenpoutou"){
-        playFemaleYakuChuurenPoutouSound(soundVolume)
-    }else if(type==="daisangen"){
-        playFemaleYakuDaisangenSound(soundVolume)
-    }else if(type==="daisuushii"){
-        playFemaleYakuDaisuushiiSound(soundVolume)
-    }else if(type ==='honitsu'){
-        playFemaleYakuHonitsuSound(soundVolume)
-    }else if(type==="honrotou"){
-        playFemaleYakuChinroutouSound(soundVolume)
-    }else if(type==="iipeikou"){
-        playFemaleYakuIipeikouSound(soundVolume)
-    }else if(type==="ittsuu"){
-        playFemaleYakuIttsuuSound(soundVolume)
-    }else if(type==="junchan"){
-        playFemaleYakuJunchanSound(soundVolume)
-    }else if(type==="kokushimusou"){
-        playFemaleYakuKokushiMusouSound(soundVolume)
-    }else if(type==="pinfu"){
-        playFemaleYakuPinfuSound(soundVolume)
-    }else if(type==="ryanpeikou"){
-        playFemaleYakuRyanpeikouSound(soundVolume)
-    }else if(type==="ryuuiisou"){
-        playFemaleYakuRyuuiisouSound(soundVolume)
-    }
-    else if(type==="sanankou"){
-        playFemaleYakuSanankouSound(soundVolume)
-    }
-    else if(type==="sankantsu"){
-        playFemaleYakuSankantsuSound(soundVolume)
-    }else if(type==="sanshokudoukou"){
-        playFemaleYakuSanshokuDoukouSound(soundVolume)
-    }else if(type==="sanshokudoujun"){
-        playFemaleYakuSanshokuDoujunSound(soundVolume)
-    }else if(type==="shousangen"){
-        playFemaleYakuShousangenSound(soundVolume)
-    }else if(type==="shousuushii"){
-        playFemaleYakuShousuushiiSound(soundVolume)
-    }else if(type==="shousuushii"){
-        playFemaleYakuShousuushiiSound(soundVolume)
-    }else if(type==="suuankou"){
-        playFemaleYakuSuuankouSound(soundVolume)
-    }else if(type==="suukantsu"){
-        playFemaleYakuSuukantsuSound(soundVolume)
-    }
-    else if(type==="tanyao"){
-        playFemaleYakuTanyaoSound(soundVolume)
-    }
-    else if(type==="toitoi"){
-        playFemaleYakuToitoiSound(soundVolume)
-    }
-    else if(type==="tsuuiisou"){
-        playFemaleYakuTsuuiisouSound(soundVolume)
-    }
-    else if(type==="yakuhai"){
-        playFemaleYakuYakuhaiSound(soundVolume)
-    }  */
+
 }
 
 function playTouchSound() {
@@ -403,3 +312,99 @@ function playTouchSound() {
                   playMaleSound(type);
                 }
               } */
+  //playFemaleYakuSanshokuDoukouSound(soundVolume)
+  /*      if(type==="chii"){
+        playFemaleChiiSound()
+    }
+    else if (type==="pon"){
+        playFemalePonSound()
+    }else if (type==="kan"){
+        playFemaleKanSound(soundVolume)
+    }else if (type==="riichi"){
+        playFemaleRiichiSound(soundVolume)
+    }else if (type==="ron"){
+        playFemaleRonSound(soundVolume)
+    }else if (type==="tsumo"){
+        playFemaleTsumoSound(soundVolume)
+    }else if(type==="rontsumoSound"){
+        playRonTsumoActiveSound(soundVolume)
+    }else if(type==='touchSound'){
+        playTouchSound()
+    }else if(type==='tileClickSound'){
+        playTileClick(soundVolume)
+    }else if(type==='pop'){
+        playPopSound(soundVolume)
+    }else if(type==='popUp'){
+        playPopUpSound(soundVolume)
+    }else if(type==='popDown'){
+        playPopDownSound()
+    }
+    else if(type==='diceThrow'){
+        playdicetrowSound()
+    }else if(type==="meldSound"){
+        playMeldActionSound(soundVolume)
+    }else if(type==="chanta"){
+        playFemaleYakuChantaSound(soundVolume)
+    }else if (type==="chinistu"){
+        playFemaleYakuChinistuSound(soundVolume)
+    }else if (type==="chiitoitsu"){
+        playFemaleYakuChiitoitsuSound(soundVolume)
+    }else if(type==="chinroutou"){
+        playFemaleYakuChinroutouSound(soundVolume)
+    }else if(type ==="chuurenpoutou"){
+        playFemaleYakuChuurenPoutouSound(soundVolume)
+    }else if(type==="daisangen"){
+        playFemaleYakuDaisangenSound(soundVolume)
+    }else if(type==="daisuushii"){
+        playFemaleYakuDaisuushiiSound(soundVolume)
+    }else if(type ==='honitsu'){
+        playFemaleYakuHonitsuSound(soundVolume)
+    }else if(type==="honrotou"){
+        playFemaleYakuChinroutouSound(soundVolume)
+    }else if(type==="iipeikou"){
+        playFemaleYakuIipeikouSound(soundVolume)
+    }else if(type==="ittsuu"){
+        playFemaleYakuIttsuuSound(soundVolume)
+    }else if(type==="junchan"){
+        playFemaleYakuJunchanSound(soundVolume)
+    }else if(type==="kokushimusou"){
+        playFemaleYakuKokushiMusouSound(soundVolume)
+    }else if(type==="pinfu"){
+        playFemaleYakuPinfuSound(soundVolume)
+    }else if(type==="ryanpeikou"){
+        playFemaleYakuRyanpeikouSound(soundVolume)
+    }else if(type==="ryuuiisou"){
+        playFemaleYakuRyuuiisouSound(soundVolume)
+    }
+    else if(type==="sanankou"){
+        playFemaleYakuSanankouSound(soundVolume)
+    }
+    else if(type==="sankantsu"){
+        playFemaleYakuSankantsuSound(soundVolume)
+    }else if(type==="sanshokudoukou"){
+        playFemaleYakuSanshokuDoukouSound(soundVolume)
+    }else if(type==="sanshokudoujun"){
+        playFemaleYakuSanshokuDoujunSound(soundVolume)
+    }else if(type==="shousangen"){
+        playFemaleYakuShousangenSound(soundVolume)
+    }else if(type==="shousuushii"){
+        playFemaleYakuShousuushiiSound(soundVolume)
+    }else if(type==="shousuushii"){
+        playFemaleYakuShousuushiiSound(soundVolume)
+    }else if(type==="suuankou"){
+        playFemaleYakuSuuankouSound(soundVolume)
+    }else if(type==="suukantsu"){
+        playFemaleYakuSuukantsuSound(soundVolume)
+    }
+    else if(type==="tanyao"){
+        playFemaleYakuTanyaoSound(soundVolume)
+    }
+    else if(type==="toitoi"){
+        playFemaleYakuToitoiSound(soundVolume)
+    }
+    else if(type==="tsuuiisou"){
+        playFemaleYakuTsuuiisouSound(soundVolume)
+    }
+    else if(type==="yakuhai"){
+        playFemaleYakuYakuhaiSound(soundVolume)
+    }  */

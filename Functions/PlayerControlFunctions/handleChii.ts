@@ -2,7 +2,7 @@ import {
   CHANGE_ORDER_AFTER_ACTION,
   INTERRUPT_TURN,
 } from '../../Store/gameReducer';
-import {setStolenTilesOnBoard} from '../../Store/playersReducer';
+import {discardTileFromHand, setStolenTilesOnBoard} from '../../Store/playersReducer';
 import {popFromTheRiver} from '../../Store/riverReducer';
 import {TTileObject, TplayerString, WindTypes} from '../../Types/types';
 import {checkOrStealSequence} from '../checkOrStealSequence';
@@ -21,7 +21,7 @@ type HandleChiiParams = {
   dispatch: any; //TODO typescript
   playerWind: WindTypes;
 };
-//TODO refactor for AI use
+//TODO refactor for AI use, probably too complicated and resource heavy for JS React native
 export const handleChii = ({
   handData,
   currentDiscard,
@@ -44,13 +44,18 @@ export const handleChii = ({
   }
   if (checkS.result && checkS.possibleSequences.length === 1) {
     checkS.possibleSequences;
-    console.log(
+    //TODO keep an eye on that
+   /*  console.log(
       'handleChii():',
       'length:',
       checkS.possibleSequences.length,
       checkS.possibleSequences.map(i => i.map(t => t.name)),
-    );
+    ); */
     let data = checkS.possibleSequences.flat();
+    //removing stolen tiles from player's hand
+       data?.forEach(tile => {
+        dispatch(discardTileFromHand({player: 'player1', tile: tile}));
+      });
     dispatch(
       setStolenTilesOnBoard({
         player: 'player1',
@@ -71,10 +76,11 @@ export const handleChii = ({
     soundFunc({type: 'chii'});
   }
   if (checkS.result && checkS.possibleSequences.length > 1) {
-    console.log(
+        //TODO keep an eye on that
+   /*  console.log(
       'handleStealSequence',
       checkS.possibleSequences.map(i => i.map(t => t.name)),
-    );
+    ); */
     setChiiPanelState(checkS.possibleSequences);
     setChiiPanelDisplayed(true);
     //stopDisplayingButtonsIfChiiIsPresent();

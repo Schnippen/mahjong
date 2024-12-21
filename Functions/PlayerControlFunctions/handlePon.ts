@@ -7,8 +7,8 @@ import {
   setStolenTilesOnBoard,
 } from '../../Store/playersReducer';
 import {popFromTheRiver} from '../../Store/riverReducer';
-import {TTileObject, TplayerString, WindTypes} from '../../Types/types';
-import {positionType, stealTriplet} from '../StealingFunctions/stealTriplet';
+import {TTileObject, TplayerString, WindTypes, positionType} from '../../Types/types';
+import {stealTriplet} from '../StealingFunctions/stealTriplet';
 import { soundFunc } from '../playSounds/soundFunc';
 
 type HandlePonParam = {
@@ -39,7 +39,7 @@ export const handlePon = ({
 }: HandlePonParam) => {
   const start = performance.now();
   let positionOfPlayerWhoLeftTheTile = (
-    playerWhoLeftTheTile: string,
+    playerWhoLeftTheTile: TplayerString,
   ): positionType => {
     if (playerWhoLeftTheTile === 'player1') {
       return 'bottom';
@@ -56,14 +56,15 @@ export const handlePon = ({
   const position: positionType =
     positionOfPlayerWhoLeftTheTile(playerWhoLeftTheTile);
   let {result, ponArray} = stealTriplet(handData, currentDiscard, position);
-  console.log(
+  //TODO keep an eye on that
+/*   console.log(
     'stealTriplet:',
     result,
     ponArray?.map(t => t.name),
     'playerPos:',
     position,
-  );
-  //TODO make it usable for Ai
+  ); */
+  //TODO make it usable for Ai, probably too resource heavy for js
   ponArray?.forEach(tile => {
     dispatch(discardTileFromHand({player: 'player1', tile: tile}));
   });

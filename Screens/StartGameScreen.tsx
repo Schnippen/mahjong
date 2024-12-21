@@ -3,7 +3,7 @@ import {StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {boardColor} from '../Data/colors';
 import {soundFunc} from '../Functions/playSounds/soundFunc';
 import {ScreenList, SoundFuncTypes} from '../Types/types';
-
+//https://www.1001fonts.com/asian-fonts.html
 function StartGameScreen({navigation,route}: {navigation: any,route:any}) {
   const goToScreen = (screen: ScreenList,params?:object) => {
     navigation.navigate(screen,params);

@@ -176,11 +176,9 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
 useEffect(()=>{
   //ROUTE: {"key": "MahjongScreen-3J4Py3oFunDa8eguFjvZK", "name": "MahjongScreen", "params": {"gameInitializer": "start"}, "path": undefined}
   if (!hasInitializedGame.current && route.params?.gameInitializer === "start") {
-    // Post updated, do something with `route.params.post`
-    // For example, send the post to the server
     hasInitializedGame.current = true;
     setTimeout(() => {
-    initializeGame(dispatch)
+    //initializeGame(dispatch)
     },1000); }
   console.log("USE EFFECT ROUTE:",route.params.gameInitializer,"hasInitializedGame?:",hasInitializedGame)
 },[route.params?.gameInitializer])

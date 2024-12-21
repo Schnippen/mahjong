@@ -47,7 +47,7 @@ function Settings({navigation}: {navigation: any}) {
     console.log('loadSettings:', storedSettings);
     //set all the haptics, volumes etc....
   };
-
+  //TODO when you change sound from true to false you have to restrt app somehow, it does not update 
   //let isFocused = useIsFocused()
   useFocusEffect(
     React.useCallback(() => {
