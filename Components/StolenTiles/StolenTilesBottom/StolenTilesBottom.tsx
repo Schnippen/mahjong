@@ -21,8 +21,10 @@ let placeHolder = `<svg width="100" height="100">
 export const StolenTilesPlayerLEFT = ({data}: {data: TstolenTiles}) => {
   //const shit = mahjongTilesSVGsArray
   //console.log("stolenTIlesBottom:",data)
-  let image = data.tiles[0].image?data.tiles[0].image:placeHolder
-
+  let image1 = data.tiles[0].image?data.tiles[0].image:placeHolder
+  let image2 = data.tiles[1].image?data.tiles[1].image:placeHolder
+  let image3 = data.tiles[2].image?data.tiles[2].image:placeHolder
+  //there is chii and pon possible
   return (
     <View
       style={{
@@ -34,15 +36,15 @@ export const StolenTilesPlayerLEFT = ({data}: {data: TstolenTiles}) => {
         justifyContent: 'center',
       }}>
       <StolenTileComponentPlayerHORIZONTAL
-        svg={image}
+        svg={image1}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={image}
+        svg={image2}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={image}
+        svg={image3}
         tileRatioProp={1.5}
       />
     </View>
@@ -51,8 +53,10 @@ export const StolenTilesPlayerLEFT = ({data}: {data: TstolenTiles}) => {
 
 export const StolenTilesPlayerRIGHT = ({data}: {data: TstolenTiles}) => {
   //const shit = mahjongTilesSVGsArray  
-  let image = data.tiles[0].image?data.tiles[0].image:placeHolder
-
+  let image1 = data.tiles[0].image?data.tiles[0].image:placeHolder
+  let image2 = data.tiles[1].image?data.tiles[1].image:placeHolder
+  let image3 = data.tiles[2].image?data.tiles[2].image:placeHolder
+  //there is chii and pon possible
   return (
     <View
       style={{
@@ -64,15 +68,15 @@ export const StolenTilesPlayerRIGHT = ({data}: {data: TstolenTiles}) => {
         justifyContent: 'center',
       }}>
       <StolenTileComponentPlayerVERTICAL
-        svg={image}
+        svg={image3}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerVERTICAL
-        svg={image}
+        svg={image2}
         tileRatioProp={1.5}
       />
       <StolenTileComponentPlayerHORIZONTAL
-        svg={image}
+        svg={image1}
         tileRatioProp={1.5}
       />
     </View>
@@ -81,7 +85,7 @@ export const StolenTilesPlayerRIGHT = ({data}: {data: TstolenTiles}) => {
 
 export const StolenTilesPlayerFRONT = ({data}: {data: TstolenTiles}) => {
   let image = data.tiles[0].image?data.tiles[0].image:placeHolder
-
+  //only pon is possible so all three tiles are the same
   return (
     <View
       style={{
