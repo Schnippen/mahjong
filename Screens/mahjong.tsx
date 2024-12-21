@@ -1,5 +1,5 @@
 import {Button} from '@rneui/themed';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -15,7 +15,7 @@ import {RiverRight} from '../Components/River/RiverRight';
 import {RiverLeft} from '../Components/River/RiverLeft';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../Store/store';
-import {initialGame} from '../Functions/initializeGame';
+import { initializeGame} from '../Functions/initializeGame';
 import WallBottom from '../Components/Wall/WallBottom';
 import WallRight from '../Components/Wall/WallRight';
 import WallLeft from '../Components/Wall/WallLeft';
@@ -36,6 +36,7 @@ import {
   handleImpactLight,
   handleImpactMedium,
 } from '../Functions/utils/hapticFeedback';
+import { resetToStartScreen } from '../Functions/resetToStartScreen';
 
 //tiles
 //winning conditions
@@ -84,7 +85,7 @@ function MahjongScreen({navigation, route}: any) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isSelectionModeEnabled, setIsSelectionModeEnabled] =
     useState<boolean>(false);
-
+  
   const toggleOverlay = () => {
     setIsVisible(!isVisible);
   };
@@ -146,17 +147,15 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           {
             text: 'OK',
             onPress: () => {
+              soundFunc({type: 'popDown'});
+              handleImpactMedium();
+              resetToStartScreen(dispatch)
               navigation.dispatch(
                 CommonActions.reset({
                   index: 0,
                   routes: [{name: 'StartGameScreen'}],
                 }),
               );
-              //TODO
-              //handleReset();
-              //also reset navigation stack!
-              soundFunc({type: 'popDown'});
-              handleImpactMedium();
             },
           },
         ]);
@@ -171,6 +170,21 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
     return () => backHandler.remove();
   }, [isFocused]);
 
+  //TODO init game only once when navigation params change
+  const hasInitializedGame = useRef(false);
+  console.log("ROUTE:",route)
+useEffect(()=>{
+  //ROUTE: {"key": "MahjongScreen-3J4Py3oFunDa8eguFjvZK", "name": "MahjongScreen", "params": {"gameInitializer": "start"}, "path": undefined}
+  if (!hasInitializedGame.current && route.params?.gameInitializer === "start") {
+    // Post updated, do something with `route.params.post`
+    // For example, send the post to the server
+    hasInitializedGame.current = true;
+    setTimeout(() => {
+    initializeGame(dispatch)
+    },1000); }
+  console.log("USE EFFECT ROUTE:",route.params.gameInitializer,"hasInitializedGame?:",hasInitializedGame)
+},[route.params?.gameInitializer])
+
   return (
     <ScrollView>
       <StatusBar hidden={true} />
@@ -179,15 +193,18 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           flexDirection: 'row',
           justifyContent: 'center',
           width: '100%',
+          position:"absolute",
+          top:0,
+          zIndex:99999
         }}>
         <Button
           style={{flex: 1, backgroundColor: 'red'}}
           title="initialize"
-          onPress={() => initialGame(dispatch)}></Button>
+          onPress={() => initializeGame(dispatch)}></Button>
         <Button
           style={{flex: 1}}
-          title="initialize"
-          onPress={() => initialGame(dispatch)}></Button>
+          title="RESET"
+          onPress={() => resetToStartScreen(dispatch)}></Button>
       </View>
 
       {/* <Button title="nextTurn" onPress={() => nextTurn()}></Button> */}
@@ -202,7 +219,6 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           position: 'relative',
         }}>
         {/* <MenuPanel navigation={navigation} /> */}
-        {/* <DoraPanel /> */}
         <DoraPanel />
         <SidePanel />
         <View

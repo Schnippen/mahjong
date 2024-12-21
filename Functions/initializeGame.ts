@@ -6,7 +6,7 @@ import {soundFunc} from './playSounds/soundFunc';
 import {shuffledTilesForGameStart} from './shuffledTilesForGameStart';
 import WallCalculation from './wallCalculation';
 
-export const initialGame = (dispatch: any) => {
+export const initializeGame = (dispatch: any) => {
   const finishedWall: TTileObject[] = shuffledTilesForGameStart();
   WallCalculation(dispatch, finishedWall);
   firstShuffledOfWindsForGameStart(dispatch);

@@ -199,8 +199,8 @@ export const wallReducer = createSlice({
       modifyProperty(state.wallSouthState, doras[uncoveredNumber].tileID, true);
       modifyProperty(state.wallWestState, doras[uncoveredNumber].tileID, true);
     },
-    resetWallReducer: state => {
-      (state.tilesLeft = 136),
+    resetWallReducer_TOTAL_RESET: state => {
+     /*  (state.tilesLeft = 136),
         (state.tilesLeftInWall = 0),
         (state.currentDiceRoll = 0),
         (state.wallTilesArray = []),
@@ -212,8 +212,9 @@ export const wallReducer = createSlice({
         (state.deadWall = []),
         (state.dorasFromDeadWall = []),
         (state.uncoveredCount = 1),
-        (state.startTakingFromWallXState = 'string'),
+        (state.startTakingFromWallXState = 'string'), */
         console.log('REDUX RESETED WALL REDUCER');
+        return {...initialState};
     },
   },
 });
@@ -231,7 +232,7 @@ export const {
   popTileFromtilesAfterHandout,
   popTileFromTheWall,
   setUncoverNextDora,
-  resetWallReducer,
+  resetWallReducer_TOTAL_RESET,
   setUraDorasFromDeadWall,
 } = wallReducer.actions;
 

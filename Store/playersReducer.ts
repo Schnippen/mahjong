@@ -366,6 +366,8 @@ export const playersReducer = createSlice({
       }
     },
     resetPlayersReducer_TOTAL_RESET: state => {
+      console.log("resetPlayersReducer_TOTAL_RESET - RESET")
+      //BUG NO DORA RESET!!!!! they are in wall reducer ;-/ 
       return {...initialState};
     },
     resetPlayersReducerToNextRound: state => {

@@ -4,11 +4,11 @@ import {boardColor} from '../Data/colors';
 import {soundFunc} from '../Functions/playSounds/soundFunc';
 import {ScreenList, SoundFuncTypes} from '../Types/types';
 
-function StartGameScreen({navigation}: {navigation: any}) {
-  const goToScreen = (screen: ScreenList) => {
-    navigation.navigate(screen);
+function StartGameScreen({navigation,route}: {navigation: any,route:any}) {
+  const goToScreen = (screen: ScreenList,params?:object) => {
+    navigation.navigate(screen,params);
   };
-
+  let startGameParams={gameInitializer:'start'}
   const ButtonStartScreen = ({
     text,
     navigationFunction,
@@ -24,7 +24,7 @@ function StartGameScreen({navigation}: {navigation: any}) {
       }
       navigationFunction();
     };
-
+    console.log("START GAME SCREEN ROUTE:",route)
     return (
       <TouchableOpacity
         style={{
@@ -75,8 +75,8 @@ function StartGameScreen({navigation}: {navigation: any}) {
         }}>
         <ButtonStartScreen
           text="Start Game"
-          navigationFunction={() => goToScreen('MahjongScreen')}
-          soundType={{type: 'rontsumoSound'}}
+          navigationFunction={() => {goToScreen('MahjongScreen',startGameParams);}}
+          //soundType={{type: 'pop'}}
         />
         <View style={{height: 20}} />
         <ButtonStartScreen

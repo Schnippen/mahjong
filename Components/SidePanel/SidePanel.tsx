@@ -30,7 +30,7 @@ const AutoSort = () => {
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        flex: 1 / 5,
+        flex: 1 ,
         borderTopRightRadius: 8,
       }}
       onPress={() => handleSortToggle()}>
@@ -69,7 +69,7 @@ const ShowNumerals=()=>{
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        flex: 1 / 5,
+        flex: 1 ,
         borderTopRightRadius: 8,
       }}
       onPress={() => handleShowNumerals()}>
@@ -97,10 +97,11 @@ const SidePanel = () => {
       angle={90}
       angleCenter={{x: 0.4, y: 1}}
       style={{
-        height: 200,
+        height: 130,
         width: 50,
         //backgroundColor: panelBackgroundColor,
         left: 0,
+        top:130,
         position: 'absolute',
         flexDirection: 'column',
         alignItems: 'center',

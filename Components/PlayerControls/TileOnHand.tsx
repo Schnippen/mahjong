@@ -52,10 +52,11 @@ const TileOnHand = ({
         };
 
     const onDoubleTap = () => {setTap("double tap"),console.log(`doubleTAP: discard ${item.name}`)}; */
-
+  //TODO check this error?
   const onPress = () => {
     //debounce(onSingleTap, onDoubleTap);
-    handlePress(item, item.tileID);
+    if(item&&item?.tileID){
+    handlePress(item, item.tileID);}else {console.error("TILEONHAND.tsx onPress Error")}
     //console.log("onPress()")
   };
 
@@ -67,7 +68,7 @@ const TileOnHand = ({
         style={{
           flex: 1,
           backgroundColor: 'transparent',
-          marginBottom: selected === item.tileID ? 39 * 1 : 0,
+          marginBottom: selected === item?.tileID ? 39 * 1 : 0,//item.tileID ? 39 * 1 : 0
           position: 'relative',
           height: 39 * 1.3,
           width: 30 * 1.3,

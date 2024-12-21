@@ -17,7 +17,7 @@ const DoraPanel = () => {
       colors={[panelBackgroundColor, 'transparent']}
       useAngle={true}
       angle={180}
-      angleCenter={{x: 0.5, y: 0.4}}
+      angleCenter={{x: 0.5, y: 1.4}}
       style={{
         width: 170,
         height: 110,

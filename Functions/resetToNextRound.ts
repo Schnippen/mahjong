@@ -8,7 +8,7 @@ import {
   rotateWindOrder,
 } from '../Store/playersReducer';
 import {resetRiverReducer} from '../Store/riverReducer';
-import {resetWallReducer} from '../Store/wallReducer';
+import {resetWallReducer_TOTAL_RESET} from '../Store/wallReducer';
 import {initializeNewRound} from './initializeNewRound';
 import {playPopDownSound} from './playSounds/Sounds/playPopDownSound';
 
@@ -30,7 +30,7 @@ export const resetToNextRound = ({
   //now changing wind
   dispatch(rotateWindOrder());
   dispatch(resetWinningHand()); //reset the endRound Screen
-  dispatch(resetWallReducer()); //wallreducer to 0
+  dispatch(resetWallReducer_TOTAL_RESET()); //wallreducer to 0
   //reset river
   dispatch(resetRiverReducer());
   dispatch(resetPlayersReducerToNextRound()); //resets player reducers beside scores, wind and hand
