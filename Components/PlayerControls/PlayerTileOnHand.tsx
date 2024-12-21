@@ -61,7 +61,7 @@ const PlayersTileOnHand = ({
             style={{borderRadius: tileBorderRadiusHandPlayerPerspective}}
           />
           <Text style={{position:'absolute',color: isHelperNumberActive ? 'black' : 'transparent'
-          ,top:0,right:0,
+          ,top:0,right:0,fontFamily:"TheLastShuriken"
             
           }}>{helper}</Text>
         </View>

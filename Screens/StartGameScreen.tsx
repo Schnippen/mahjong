@@ -39,7 +39,7 @@ function StartGameScreen({navigation,route}: {navigation: any,route:any}) {
         }}
         activeOpacity={0.9}
         onPress={handlePress}>
-        <Text style={{color: 'black'}}>{text}</Text>
+        <Text style={{color: 'black',fontFamily:"TheLastShuriken"}}>{text}</Text>
       </TouchableOpacity>
     );
   };
@@ -58,7 +58,7 @@ function StartGameScreen({navigation,route}: {navigation: any,route:any}) {
           alignItems: 'center',
         }}
         onLayout={onLayout}>
-        <Text style={{fontSize: dimensions.height / 2, fontWeight: 'bold'}}>
+        <Text style={{fontSize: dimensions.height / 2,fontFamily:"TheLastShuriken"}}>
           Riichi Mahjong
         </Text>
       </View>

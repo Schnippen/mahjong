@@ -50,6 +50,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>SofadiOne.ttf</string>
+		<string>TheLastShuriken.ttf</string>
 	</array>
 </dict>
 </plist>
