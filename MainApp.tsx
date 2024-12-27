@@ -23,15 +23,23 @@ function MainApp() {
     hasAndroidPermission();
   }, []);
   const RootStack = createNativeStackNavigator();
- //TODO add typescript to params and initialParams
+  //TODO add typescript to params and initialParams
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="StartGameScreen"
+        initialRouteName="MahjongScreen"
         screenOptions={{orientation: 'landscape', headerShown: false}}>
-        <Stack.Screen name="MahjongScreen" component={MahjongScreen} initialParams={{gameInitializer:"none"}} />
+        <Stack.Screen
+          name="MahjongScreen"
+          component={MahjongScreen}
+          initialParams={{gameInitializer: 'none'}}
+        />
         {/* <Stack.Screen name="EndGameScreen" component={EndGameScreen} /> */}
-        <Stack.Screen name="StartGameScreen" component={StartGameScreen} initialParams={{gameInitializer:"none"}}/>
+        <Stack.Screen
+          name="StartGameScreen"
+          component={StartGameScreen}
+          initialParams={{gameInitializer: 'none'}}
+        />
         <Stack.Screen name="EndRoundScreen" component={EndRoundScreen} />
         <RootStack.Group screenOptions={{presentation: 'modal'}}>
           <Stack.Screen name="SettingsScreen" component={Settings} />

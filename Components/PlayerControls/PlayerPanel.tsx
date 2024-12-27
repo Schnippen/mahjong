@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Dimensions, View} from 'react-native';
 import PlayerHandComponent from './PlayerHand';
 import PlayerButtonsPanel from './PlayerButtonsPanel';
 
 const PlayerPanel = ({navigation}: {navigation: any}) => {
   const screenWidth = Dimensions.get('window').width;
+
   return (
     <View
       style={{

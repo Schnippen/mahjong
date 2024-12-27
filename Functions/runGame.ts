@@ -3,7 +3,12 @@ import {
   PlayersState,
   drawTileFromWallToHand,
 } from '../Store/playersReducer';
-import {TTileObject} from '../Types/types';
+import {
+  GameWinds,
+  IsTenpaiResult,
+  TplayerString,
+  TTileObject,
+} from '../Types/types';
 import {checkForQuadruplet} from './checkForQuadruplet';
 
 import {checkForTriplet} from './checkForTriplet';
@@ -22,7 +27,6 @@ import {handleRiichi} from './PlayerControlFunctions/handleRiichi';
 
 type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind' | 'whoTheWinnerIs'>;
 type GamePhase = 'started' | 'ended' | 'none';
-type GameWinds = 'east' | 'south' | 'west' | 'north';
 type TRiver = Omit<RiverState, 'currentDiscard'>;
 export const runGame = (
   {player1, player2, player3, player4}: TPlayers,
@@ -46,12 +50,12 @@ export const runGame = (
   //ustalamy czyja jest tura
   let currentPlayersTurn = '';
   let currentHand = [];
-  let nextWind: string = '';
-  let nextPlayerX: string = '';
+  let nextWind: GameWinds = 'null';
+  let nextPlayerX: TplayerString = 'null';
   console.log('runGame() - currentGlobalWind:', currentGlobalWind);
   let playersArray = [player1, player2, player3, player4];
   let interruptTurn: boolean = false;
-
+  let player1Hand = player1.playerHand.hand;
   if (player1.wind === currentGlobalWind) {
     currentPlayersTurn = 'player1';
   } else if (player2.wind === currentGlobalWind) {
@@ -268,7 +272,13 @@ export const runGame = (
     console.log('runGame(): not adding new tile');
   } */
   //winning conditions should be checked after discarding or drawing tile, so the seperate
-  //use effect is needed
+
+  //is useEffect needed?
+  //RIICHI LOGIC
+  //'nextWind&nextPlayerX:',
+  //nextWind=east etc, nextPlayerX=platerstring;
+  //TODO CRITICAL ERROR, must take into account nextTile!!!
+  console.info('RUNGAME.ts:', currentPlayersTurn, 'nextTile:', nextTile.name);
   playersArray.forEach(player => {
     if (currentPlayersTurn === player.name) {
       let result = canRiichi({
@@ -281,15 +291,46 @@ export const runGame = (
         player2RiverState: player2River.riverState,
         player3RiverState: player3River.riverState,
         player4RiverState: player4River.riverState,
+        nextTile,
       });
       console.info(
         'runGame():is Richii?',
         player.name,
-        'result',
-        result,
-        player.name !== 'player1' && result ? 'AI CAN RIICHI!!!!!!!!' : null,
+        'Result is:',
+        result.result,
+        'AI Riichi?:',
+        player.name !== 'player1' && result.result
+          ? 'AI CAN RIICHI!!!!!!!!'
+          : null,
       );
-      if (currentPlayersTurn === 'player1' && result) {
+      let resultIfPlayer1IsInRiichi;
+      if (nextPlayerX === 'player1') {
+        resultIfPlayer1IsInRiichi = canRiichi({
+          hand: player1Hand,
+          player1Melds: player1.playerHand.melds,
+          player2Melds: player2.playerHand.melds,
+          player3Melds: player3.playerHand.melds,
+          player4Melds: player4.playerHand.melds,
+          player1RiverState: player1River.riverState,
+          player2RiverState: player2River.riverState,
+          player3RiverState: player3River.riverState,
+          player4RiverState: player4River.riverState,
+          nextTile,
+        });
+      }
+      console.info(
+        nextWind,
+        nextPlayerX,
+        `RUN CAUSED BY nextPlayer Riichi:${
+          nextPlayerX === 'player1'
+        }, so result is:${resultIfPlayer1IsInRiichi?.result}`,
+      );
+      if (
+        (currentPlayersTurn === 'player1' && result) ||
+        (nextPlayerX === 'player1' &&
+          !interruptTurn &&
+          resultIfPlayer1IsInRiichi?.result) //from debug knowledge
+      ) {
         //set show richii, richiiIndex from riverReducer
         //TODO riichi should be shown only when it's players turn, be sure that player can discard only tiles that allows him to od riichi not to avoid tenpai
         if (player1River.riichiIndex !== null) {
@@ -316,6 +357,7 @@ export const runGame = (
       }
     } else {
       //console.log("runGame(): not my turn for Riichi",player.name)
+      //setDisplayRiichiButton(false);
     }
   });
 

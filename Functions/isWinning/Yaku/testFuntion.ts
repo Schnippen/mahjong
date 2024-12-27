@@ -20,7 +20,9 @@ import {isShousangen} from './isShousangen';
 import {isShousuushii} from './isShousuushii';
 import {isTanyao} from './isTanyao';
 import {isTsuuiisou} from './isTsuuiisou';
-
+import {tilesData} from '../../../Data/tilesData';
+import {tilesData2} from '../../../Data/tilesData2';
+import {DEBUG_HAND} from '../../../Store/playersReducer';
 type testFunctionTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
@@ -189,18 +191,35 @@ export let discardExample = [
   },
 ];
 
-export const testFunction = () => {
-  /*   let result = isPinfu({
+let debugHand1 = handExample;
+export let debugHand2 = [
+  tilesData2[82],
+  tilesData2[83],
+  tilesData2[84],
+  tilesData[67],
+  tilesData[68],
+  tilesData[69],
+  tilesData[2],
+  tilesData[3],
+  tilesData[4],
+  tilesData[6],
+  tilesData[15],
+  tilesData[7],
+  tilesData[8],
+]; //pinfu tenpai
+export const testFunction = (dispatch: any) => {
+  console.log(
+    'TEST_FUNCTION:',
+    debugHand2.map(i => i.japaneseName),
+  );
+};
+//https://www.npmjs.com/package/react-native-haptic-feedback
+/*  result,
+    handExample.map(t => t.name),
+    discardExample[0].name,
+    handExample.length + discardExample.length, */
+/*   let result = isPinfu({
     hand: handExample,
     discard: discardExample,
     playerMelds: [],
   }); */
-  console.log(
-    'testFunction:',
-    /*  result,
-    handExample.map(t => t.name),
-    discardExample[0].name,
-    handExample.length + discardExample.length, */
-  );
-};
-//https://www.npmjs.com/package/react-native-haptic-feedback

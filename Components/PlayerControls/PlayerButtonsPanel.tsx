@@ -27,7 +27,6 @@ import {testFunction} from '../../Functions/isWinning/Yaku/testFuntion';
 import {
   changeWhoTheLoserIs,
   changeWhoTheWinnerIs,
-  resetPlayersReducerHandsToNextRound,
 } from '../../Store/playersReducer';
 import AITurnAutomated from '../../Functions/AI-move/AITurnAutomated';
 
@@ -121,9 +120,10 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
   const {
     playersReducer: {player1, player2, player3, player4},
   } = useSelector((state: RootState) => state);
-  const INTERRUPER_COUNTER= useSelector(
+  const INTERRUPER_COUNTER = useSelector(
     (state: RootState) => state.gameReducer.interrputCounter,
   );
+
   const [displayChiiButton, setDisplayChiiButton] = useState<boolean>(false);
   const [displayPonButton, setDisplayPonButton] = useState<boolean>(false);
   const [displayKanButton, setDisplayKanButton] = useState<boolean>(false);
@@ -173,16 +173,19 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
         );
       } //problem with bamboo 2 name.... error
     } //TODO bug with turn interrupted
-  }, [tilesLeftInWall, playerWhoLeftTheTile,INTERRUPER_COUNTER]);
+  }, [tilesLeftInWall, playerWhoLeftTheTile, INTERRUPER_COUNTER]);
   useEffect(() => {
-    console.log(
+    console.info(
       'useEffect: runGame():',
       'latestTurn:',
       latestTurn,
       'currentTurn:',
       currentGlobalWind,
+      'howManyTurnsElapsed:',
       howManyTurnsElapsed,
+      'currentGlobalWind:',
       currentGlobalWind,
+      'isRichiiActive:',
       isRichiiActive,
     );
     runGame(
@@ -409,7 +412,7 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
         {displayChiiButton || displayPonButton || displayKanButton ? (
           <ButtonPASS
             handlePress={() => {
-              console.log('ButtonPASS',),
+              console.log('ButtonPASS'),
                 PassActionFunc({
                   setDisplayChiiButton,
                   setDisplayPonButton,
@@ -424,6 +427,16 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
                   displayKanButton,
                   displayPonButton,
                   playerWhoLeftTheTile,
+                  player1Hand: player1.playerHand.hand,
+                  player1Melds: player1.playerHand.melds,
+                  player2Melds: player2.playerHand.melds,
+                  player3Melds: player3.playerHand.melds,
+                  player4Melds: player4.playerHand.melds,
+                  player1RiverState: player1River.riverState,
+                  player2RiverState: player2River.riverState,
+                  player3RiverState: player3River.riverState,
+                  player4RiverState: player4River.riverState,
+                  player1RiichiIndex: player1River.riichiIndex,
                 });
             }}
           />
@@ -432,8 +445,7 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
           type="outline"
           title={'testFunction()'}
           onPress={() => {
-            testFunction();
-            dispatch(resetPlayersReducerHandsToNextRound()); //TODO REMOVE
+            testFunction(dispatch);
           }}
         />
         <NextTurn />

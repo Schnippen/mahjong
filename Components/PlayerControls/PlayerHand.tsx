@@ -48,6 +48,9 @@ const PlayerHandComponent = () => {
   const isHelperNumberActive = useSelector(
     (state: RootState) => state.settingsReducer.settings.numerals,
   );
+  const isRiichiActive = useSelector(
+    (state: RootState) => state.playersReducer.player1.isRiichi,
+  );
   //const isItFirstTurn = turnsElapsed === 0 && handData.length !== 14;
   //const handDataLastIndex = handData.length - 1
   //let nextTile = nextTileState[nextTileState.length-1]
@@ -97,20 +100,33 @@ const PlayerHandComponent = () => {
     turnsElapsed,
     isItFirstTurn,
   ); */
-
+  let lastAddedTileToHandID = handData
+    ? handData[handData.length - 1]?.tileID
+    : null; //this might be prone to error, also it can be performance intensive
   const handlePress = (tile: TTileObject, tileID: number) => {
     if (selected === tileID) {
       setSelected(null);
       console.log(
         gameTurn === playersWind
-          ? `It's your turn - turn Interrupted:${turnInterrupted} - ${tileID}`
+          ? `It's your turn - turn Interrupted:${turnInterrupted} - ${tileID} - length:${handData.length}, handDataLastIndex:${lastAddedTileToHandID}`
           : `It's NOT your turn - turn Interrupted:${turnInterrupted} - ${tileID}`,
       );
       if (gameTurn === playersWind && !turnInterrupted) {
-        //&&!turnInterrupted
         //TODO add if isRichii, cannot discard = > automatic discarding of the last index??? check for win
-        //if(!isRichii){ discardTile('player1', tile, dispatch);}
-        discardTile('player1', tile, dispatch);
+        // When Riichi is active, I cannot remove the one unwanted tile to maintain 13 tiles in hand.
+        // To resolve this, I can perform a check: if the hand length is 14, I can drop the current discard tile.
+        // However, I need to determine which tiles are allowed to be discarded while preserving Riichi.
+        if (!isRiichiActive) {
+          discardTile('player1', tile, dispatch);
+        }
+        /* else if(possible riichi discards, riichi must be activated to perform discards){ //
+        //TODO in tenpai, possible Riichi discards, i dont know now how to fix this problem it is 2:57 am. 
+        }
+        else if(isRiichiActive&&selected===lastAddedTileToHandID){
+        discardTile('player1', tile, dispatch);//run when player is in riichi
+        } */
+        //TODO automated discard !isRichiiActive pop array.at(-1)
+        //discardTile('player1', tile, dispatch);
         //console.log("discardTile")
       }
     } else {
@@ -128,7 +144,7 @@ const PlayerHandComponent = () => {
       : 0;
     //console.log(index === handData.length - 1);
     //console.log("render")
-    let helperNumber:string = isHelperNumberActive ? item.helperNumber : '';
+    let helperNumber: string = isHelperNumberActive ? item.helperNumber : '';
     return (
       <TileOnHand
         handlePress={handlePress}
@@ -164,7 +180,7 @@ const PlayerHandComponent = () => {
         keyExtractor={(item, index) => index.toString()}
         style={{backgroundColor: 'transparent', width: 300, height: 90}} //was background purple for testing purposes
         ListEmptyComponent={<EmptyComponent />}
-        extraData={[handData, sortTilesOnHand,isHelperNumberActive]}
+        extraData={[handData, sortTilesOnHand, isHelperNumberActive]}
         getItemLayout={(data, index) => ({
           length: 39 * 1.3,
           offset: 39 * 1.3 * index,
