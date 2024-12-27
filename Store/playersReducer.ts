@@ -366,8 +366,8 @@ export const playersReducer = createSlice({
       }
     },
     resetPlayersReducer_TOTAL_RESET: state => {
-      console.log("resetPlayersReducer_TOTAL_RESET - RESET")
-      //BUG NO DORA RESET!!!!! they are in wall reducer ;-/ 
+      console.log('resetPlayersReducer_TOTAL_RESET - RESET');
+      //BUG NO DORA RESET!!!!! they are in wall reducer ;-/
       return {...initialState};
     },
     resetPlayersReducerToNextRound: state => {
@@ -538,6 +538,24 @@ When the game begins, east is the Prevailing wind. When the player who started t
         state.whoTheWinnerIs.honba = initialState.whoTheWinnerIs.honba;
       }
     },
+    DEBUG_HAND: (state, action) => {
+      let begginingHand = state.player1.playerHand.hand;
+      if (begginingHand.length === 14) {
+        console.warn('I AM SPECIAL DEBUG HAND');
+      } else {
+        state.player1.playerHand.hand = initialState.player1.playerHand.hand;
+        let handForDebugging = action.payload;
+        state.player1.playerHand.hand = [...handForDebugging];
+      }
+      console.log('REDUX DEBUG_HAND');
+      //ok se here we have some problems:
+      //-i can't do riichi on my turn, but can o foe's turn
+      //-if this is first turn in a game i can't make richii
+      //so there is problem probably in rungame.ts,...yes rungame checks riichi for previous player, not the current one... FIX
+      //there is a bug in which riichi button is active while ai turn is up
+      //there is a bug when chii is possible the riichi button is active when in tenpai
+      //sometimes ai makes first turn even if the wall and hand is not fully rendered
+    },
   },
 });
 
@@ -560,6 +578,7 @@ export const {
   changeWhoTheLoserIs,
   changePrevailingWind,
   HONBA_REDUCER,
+  DEBUG_HAND,
 } = playersReducer.actions;
 
 export default playersReducer.reducer;
