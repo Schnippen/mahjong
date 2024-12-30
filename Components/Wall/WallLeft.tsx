@@ -156,7 +156,8 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
             (globalDiceRollResult === 7 && wallWind === 'west') ||
             (globalDiceRollResult === 11 && wallWind === 'west') ||
             (globalDiceRollResult === 12 && wallWind === 'north') ||
-            (globalDiceRollResult === 9 && wallWind === 'east')
+            (globalDiceRollResult === 9 && wallWind === 'east') ||
+            (globalDiceRollResult === 10 && wallWind === 'south')
               ? null
               : 13,
           right:
@@ -169,7 +170,8 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
             (globalDiceRollResult === 7 && wallWind === 'west') ||
             (globalDiceRollResult === 11 && wallWind === 'west') ||
             (globalDiceRollResult === 12 && wallWind === 'north') ||
-            (globalDiceRollResult === 9 && wallWind === 'east')
+            (globalDiceRollResult === 9 && wallWind === 'east') ||
+            (globalDiceRollResult === 10 && wallWind === 'south')
               ? -13
               : null,
         }} //Styling problems in "left" property?
