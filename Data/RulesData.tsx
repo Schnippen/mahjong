@@ -1,63 +1,47 @@
-import { Divider } from "@rneui/themed"
-import React from "react"
-import { Text, ScrollView } from "react-native"
+import React from 'react';
 //TODO make it good
-export const RulesOverView = "Riichi mahjong is a Japanese variant of the ancient Chinese game of mahjong. It is a tabletop game that is played by four players, with each player having a hand which they must try and complete to win points from the other players. It shares similarities with Rummikub, and card games such as gin rummy and poker."
-export const RulesTheTiles = `Riichi mahjong is played with 34 different tiles, of which there are four of each type, to make up 136 tiles used in total. The majority of the tiles consist of the numbers 1 to 9 in three "suits", which are:`
-export const RulesFlowers = `Riichi mahjong does not use the flower or season tiles found in Chinese sets, nor the joker tiles used in American Mah Jongg. As an optional rule, riichi mahjong can also be played with one five from each suit being replaced with a red five tile.`
-export const RulesTheHand = `Players are dealt 13 tiles each. At the start of their turn, each player will draw a tile from the wall, or claim the discard from another player, which will temporarily give them 14 tiles. At this point, if they have a complete hand of four groups and one pair (3+3+3+3+2=14), and have a valid yaku (explained below), they can declare they have won. If the player doesn’t have a finished hand, they must discard and will go back to 13 tiles.`
-export const RulesKan = `As a kan uses up four tiles instead of the usual three for sets, to form part of a winning hand it needs to be declared, and the player receives an extra tile from the dead wall to make up for the extra tile inside the set (otherwise the player will have one too few tiles to make four sets plus one pair). A closed kan is declared by showing all four tiles, and then flipping over a tile at either end. Closed kans do not have to be called as soon as they are formed in the hand – a player can choose when to declare them, though they must be declared before the player can win.`
-const RulesPlayingFirstParagraph=`At the start of the game all tiles are shuffled and placed in rows (called “walls”) face-down on the table (see Setting Up below, if playing with physical tiles). Once starting hands have been dealt, the dealer takes a tile from the end of the wall. He then either wins from this tile, or discards a tile of their choosing, placing the discarded tile in front of them. Discards are placed in rows in front of each player, in chronological order, and typically in rows six tiles long.`
-const RulesPlayingSecondParagraph=`When a player discards a tile, other players may call it if they wish to use it to complete a set. A tile can only be picked up if it is the final tile in a complete set, which must be displayed face up to the side of the player’s remaining hand. Once a set is called (melded), it no longer forms an active part of the players hand and the tiles that form that meld may not be discarded or swapped. If the tile is not called, then play goes anti-clockwise, and the player to the dealer’s right then picks up a tile from the end of the wall, and will then either discard or complete their hand to win. If the tile is called, the turn switches to the player who called, and play resumes from their position, skipping any players who would otherwise have had a turn.`
-const RulesPlayingThirdParagraph=`Play continues until either a player wins, or all tiles in the wall are dealt (except for the dead wall – the last 14 tiles in the wall), in which case the hand is drawn. If the dealer wins, or is in tenpai (one tile away from winning – a 14th tile will complete their hand) in the case of a draw, then they retain their dealership, else dealership passes to the player on their right. The first round is East round, and once all players have been dealer once (i.e. the dealer is the person who started the game as dealer initially) the game becomes South round. Typically a game will consist of an East and a South round.`
-export const FirstComponent = () => {
-  return (<ScrollView>
-    <Text>Basics</Text>
-    <Text>{RulesOverView}</Text>
-    <Divider />
-    <Text>The Tiles</Text>
-    <Text>{RulesTheTiles}</Text>
-    <Text>Souzu (aka Sou, Bamboo, Sticks):</Text>
-    {/* Flatlist with sou */}
-    <Text>(Note that the 1 Sou is represented with a bird, usually a peacock or owl, rather than a single stick)</Text>
-    <Divider />
-    <Text>Pinzu (aka Pin, Circles, Dots):</Text>
-    {/* Flatlist with pin */}
-    <Divider />
-    <Text>Manzu (aka Man, Characters, Cracks):</Text>
-    {/* Flatlist with man */}
-    <Text>(The numbers are represented with the Chinese/Japanese number characters)</Text>
-    <Divider />
-    <Text>Winds:</Text>
-    {/* Flatlist with man */}
-    <Text>(East, South, West, North respectively)</Text>
-    <Divider />
-    <Text>Dragons:</Text>
-    {/* Flatlist with man */}
-    <Text>(Green, Red, White respectively)</Text>
-    <Divider />
-    <Text>{RulesFlowers}</Text>
-    <Divider />
-    <Text>The Hand</Text>
-    <Text>{RulesTheHand}</Text>
-    <Text>SPACE SPACE</Text>
-    <Text>The core aim of a player while playing mahjong is to create a winning hand by forming sets. There are three types of set:</Text>
-    <Divider />
-    <Text>Sequence (Shuntsu)</Text>
-    <Text>This is the easiest set to form, and consist of a run of three consecutive tiles of the same suit, for example:</Text>
-    {/* Flatlist with man */}
-    <Text>A sequence cannot wrap around the ends of a suit, cannot be made of tiles from different suits and cannot be made from honour tiles, so the following are not valid sequences:</Text>
-    {/* Flatlist with man */}
-    <Divider />
-    <Text>Triplet (Koutsu)</Text>
-    <Text>A triplet consists of three of the same tile, eg:</Text>
-    {/* Flatlist with trips */}
-    <Divider />
-    <Text>Kan (Kantsu)</Text>
-    <Text>A kan is four of the same tile, eg:</Text>
-    {/* Flatlist with kan */}
-    <Text>{RulesKan}</Text>
-    <Divider />
-  </ScrollView>
-  )
-}
+export const RulesOverview =
+  'Riichi Mahjong is a Japanese variant of the Chinese game of Mahjong.\n' +
+  'Four players compete to complete a winning hand and score points from others.\n' +
+  'It shares similarities with Rummikub, gin rummy, and poker.';
+
+export const RulesTheTiles =
+  'The game uses 34 different tiles, each with four copies, totaling 136 tiles.\n' +
+  'Tiles are grouped into three suits with numbers 1 to 9:\ncharacters, circles, and bamboo.';
+
+export const RulesFlowers =
+  'Riichi Mahjong does not use flower, season, or joker tiles like in other variants.';
+
+export const RulesTheHand =
+  'Players start with 13 tiles and draw one each turn, forming 14 tiles temporarily.\n' +
+  'A winning hand consists of four sets and a pair (3+3+3+3+2=14) with a valid yaku.\n' +
+  'If incomplete, discard one tile to return to 13 tiles.';
+
+export const RulesKan =
+  'A kan uses four tiles and must be declared to form part of a winning hand.\n' +
+  'After declaring, draw a replacement tile from the dead wall.\n' +
+  'Closed kans can be declared at any time before winning.';
+
+export const RulesPlayingFirstParagraph = `The game starts with tiles shuffled into face-down walls. Players take turns drawing a tile, then discarding one, placing it in rows in front of them. Discards are arranged in order, typically six per row.`;
+
+export const RulesPlayingSecondParagraph = `Players may call a discarded tile to complete a set, which must be shown face-up and cannot be changed later. If no one calls the tile, play continues anti-clockwise, with the next player drawing from the wall.`;
+
+export const RulesPlayingThirdParagraph = `The hand ends when a player wins or the wall is empty (except the dead wall). If the dealer wins or is one tile from winning in a draw, they keep the dealership; otherwise, it passes to the right. The game progresses from East round to South round.`;
+
+export const RulesCallingTilesFirst = `Players can call discarded tiles to complete a set or their hand. The types of calls are:`;
+
+export const RulesCallChii = `Chii: Used to complete a sequence, only from the player to your left.`;
+export const RulesCallPon = `Pon: Used to complete a triplet, callable from any player.`;
+export const RulesCallKan = `Kan: Used to complete a kan, callable from any player or with four identical tiles in hand.`;
+export const RulesCallRon = `Ron: Called when a discarded tile completes your winning hand.`;
+export const RulesCallTsumo = `Tsumo: Called when you draw the winning tile yourself from the wall.`;
+
+export const RulesCallingTilesSecond = `After a set is called, tiles are placed face-up to the right of the player who called them. The called tile is rotated sideways to show who discarded it. For example, in a 567 sou sequence, if the 6 sou is sideways, it means the player to the left discarded it.`;
+
+const RulesWinningFirst = `A winning hand has 14 tiles, usually four sets and a pair, and must include a yaku (a special condition). Yaku increase hand value and add strategy.`;
+
+const RulesWinningSecond = `Each yaku adds han, doubling hand value. Some add multiple han. Players win by calling ron (from a discard) or tsumo (drawing their own tile).`;
+
+const RulesRiichi = `Riichi is declared when a player has a closed hand and is one tile away from winning. Players bet 1000 points and play without altering their hand. Riichi adds yaku and enables reverse dora but limits flexibility.`;
+
+const RulesDora = `Dora tiles, shown in the dead wall, add han to a winning hand but don’t count as yaku. Red fives are also dora. Kans can reveal extra dora indicators, and riichi allows for hidden ura-dora.`;

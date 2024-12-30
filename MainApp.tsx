@@ -27,7 +27,7 @@ function MainApp() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="RulesScreen"
+        initialRouteName="StartGameScreen"
         screenOptions={{orientation: 'landscape', headerShown: false}}>
         <Stack.Screen
           name="MahjongScreen"

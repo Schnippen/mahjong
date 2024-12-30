@@ -1,70 +1,59 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {ScrollView, StatusBar, Text, View} from 'react-native';
 import {ButtonGoBack} from '../Components/Buttons/ButtonGoBack';
-import { Tab, TabView } from '@rneui/themed';
-import { FirstComponent } from '../Data/RulesData';
-
-
-const SecondComponent=()=>{return(<View></View>)}
-
-const ThirdComponent=()=>{return(<View></View>)}
+import {Tab, TabView} from '@rneui/themed';
+import {
+  FirstComponent,
+  SecondComponent,
+  ThirdComponent,
+} from '../Components/RulesComponents/RulesComponents';
+import {boardColor, MahjongTileColor} from '../Data/colors';
 
 function RulesScreen({navigation, route}: any) {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(1);
   //https://reactnavigation.org/docs/tab-view/
   //https://snack.expo.dev/@satya164/react-native-tab-view-lazy-load
   //https://snack.expo.dev/@satya164/react-native-tab-view-custom-tabbar
   //https://mahjong.guide/a-beginners-guide-to-riichi-mahjong/
-  //TODO add back button in top right weapons
+  //TODO add back button in top right position absolute
+  //RulesScreen is too performance heavy, it must be split up using reactnavigation tab view, not rneui
   return (
     <>
-    <StatusBar hidden={true} />
-    <Tab
-    value={index}
-    onChange={(e) => setIndex(e)}
-    indicatorStyle={{
-      backgroundColor: 'white',
-      height: 3,
-    }}
-    variant="primary"
-  >
-    <Tab.Item
-      title="Basics"
-      titleStyle={{ fontSize: 12 }}
-    />
-    <Tab.Item
-      title="Playing"
-      titleStyle={{ fontSize: 12 }}
-    />
-    <Tab.Item
-      title="Yaku & Han"
-      titleStyle={{ fontSize: 12 }}
-    />
-    <Tab.Item
-      title="Scoring"
-      titleStyle={{ fontSize: 12 }}
-    />
-  </Tab>
-   <TabView value={index} onChange={setIndex} animationType="timing">
-   <TabView.Item style={{ backgroundColor: 'red', width: '100%' }}>
-     <FirstComponent/>
-   </TabView.Item>
-   <TabView.Item style={{ backgroundColor: 'blue', width: '100%' }}>
-   <SecondComponent/>
-   </TabView.Item>
-   <TabView.Item style={{ backgroundColor: 'green', width: '100%' }}>
-   <ThirdComponent/>
-   </TabView.Item>
-   <TabView.Item style={{ backgroundColor: 'green', width: '100%' }}>
-    <Text>TEXT</Text>
-   </TabView.Item>
- </TabView>
- </>
+      <StatusBar hidden={true} />
+      <Tab
+        value={index}
+        onChange={e => setIndex(e)}
+        indicatorStyle={{
+          backgroundColor: '#e9ebe8', //'#56a2c4'
+          height: 3,
+        }}
+        variant="primary">
+        <Tab.Item title="Basics" titleStyle={{fontSize: 12}} />
+        <Tab.Item title="Playing" titleStyle={{fontSize: 12}} />
+        <Tab.Item title="Yaku & Han" titleStyle={{fontSize: 12}} />
+        <Tab.Item title="Scoring" titleStyle={{fontSize: 12}} />
+      </Tab>
+      <TabView value={index} onChange={setIndex} animationType="timing">
+        <TabView.Item style={{backgroundColor: boardColor, width: '100%'}}>
+          <FirstComponent />
+        </TabView.Item>
+        <TabView.Item style={{backgroundColor: boardColor, width: '100%'}}>
+          <SecondComponent />
+        </TabView.Item>
+        <TabView.Item style={{backgroundColor: 'green', width: '100%'}}>
+          <ThirdComponent />
+        </TabView.Item>
+        <TabView.Item style={{backgroundColor: 'green', width: '100%'}}>
+          <Text>TEXT</Text>
+        </TabView.Item>
+      </TabView>
+    </>
   );
 }
 
 export default RulesScreen;
-{/* <ScrollView
+{
+  /* <ScrollView
 style={{
   backgroundColor: boardColor,
   width: '100%',
@@ -93,4 +82,5 @@ style={{
     <ButtonGoBack navigation={navigation} />
   </View>
 </View>
-</ScrollView> */}
+</ScrollView> */
+}
