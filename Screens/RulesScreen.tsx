@@ -8,15 +8,43 @@ import {
   ThirdComponent,
 } from '../Components/RulesComponents/RulesComponents';
 import {boardColor, MahjongTileColor} from '../Data/colors';
+import {TabView, SceneMap} from 'react-native-tab-view';
 
 function RulesScreen({navigation, route}: any) {
   const [index, setIndex] = useState(1);
   //https://reactnavigation.org/docs/tab-view/
   //https://snack.expo.dev/@satya164/react-native-tab-view-lazy-load
   //https://snack.expo.dev/@satya164/react-native-tab-view-custom-tabbar
+  //use lazy loading
+  //https://snack.expo.dev/@satya164/react-native-tab-view-lazy-load
   //https://mahjong.guide/a-beginners-guide-to-riichi-mahjong/
   //TODO add back button in top right position absolute
   //RulesScreen is too performance heavy, it must be split up using reactnavigation tab view, not rneui
+
+  /* const renderScene = SceneMap({
+  first: FirstRoute,
+  second: SecondRoute,
+});
+
+const routes = [
+  {key: 'first', title: 'First'},
+  {key: 'second', title: 'Second'},
+];
+
+export default function TabViewExample() {
+  const layout = useWindowDimensions();
+  const [index, setIndex] = React.useState(0);
+
+  return (
+    <TabView
+      navigationState={{index, routes}}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{width: layout.width}}
+    />
+  );
+}
+ */
   return (
     <>
       <StatusBar hidden={true} />

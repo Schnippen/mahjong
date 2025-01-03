@@ -7,8 +7,15 @@ import {RootState} from '../../Store/store';
 import TileOnHand from './TileOnHand';
 import {discardTile} from '../../Functions/discardTileFunction';
 import EmptyComponent from '../Wall/EmptyComponent';
+import {seTemporaryDiscardableTiles} from '../../Store/playersReducer';
 
-const PlayerHandComponent = () => {
+const PlayerHandComponent = ({
+  displayRiichiButton,
+  setDisplayRiichiButton,
+}: {
+  displayRiichiButton: boolean;
+  setDisplayRiichiButton: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const handData = useSelector(
     (state: RootState) => state.playersReducer.player1.playerHand.hand,
   );
@@ -50,6 +57,10 @@ const PlayerHandComponent = () => {
   );
   const isRiichiActive = useSelector(
     (state: RootState) => state.playersReducer.player1.isRiichi,
+  );
+  const temporaryTiles = useSelector(
+    (state: RootState) =>
+      state.playersReducer.player1.temporaryDiscardableTiles,
   );
   //const isItFirstTurn = turnsElapsed === 0 && handData.length !== 14;
   //const handDataLastIndex = handData.length - 1
@@ -103,22 +114,58 @@ const PlayerHandComponent = () => {
   let lastAddedTileToHandID = handData
     ? handData[handData.length - 1]?.tileID
     : null; //this might be prone to error, also it can be performance intensive
+  let temporaryTilesArray = temporaryTiles.map(t => t.name);
   const handlePress = (tile: TTileObject, tileID: number) => {
+    console.log(
+      'HANDLE PRESS:',
+      isRiichiActive,
+      tileID,
+      tile.name,
+      'Temp:',
+      temporaryTiles.map(t => t.name),
+    );
     if (selected === tileID) {
       setSelected(null);
       console.log(
         gameTurn === playersWind
-          ? `It's your turn - turn Interrupted:${turnInterrupted} - ${tileID} - length:${handData.length}, handDataLastIndex:${lastAddedTileToHandID}`
+          ? `It's your turn - turn Interrupted:${turnInterrupted} - ${tileID}& ${tile.name} - length:${handData.length}, handDataLastIndex:${lastAddedTileToHandID}`
           : `It's NOT your turn - turn Interrupted:${turnInterrupted} - ${tileID}`,
       );
       if (gameTurn === playersWind && !turnInterrupted) {
+        console.log(
+          'PLAYER HAND CONDITIONAL:',
+          tileID,
+          'gameTurn===Pwinnd:',
+          gameTurn === playersWind,
+          'turnInterrupted:',
+          turnInterrupted,
+          'so it RUNS',
+          tile.name,
+        );
         //TODO add if isRichii, cannot discard = > automatic discarding of the last index??? check for win
         // When Riichi is active, I cannot remove the one unwanted tile to maintain 13 tiles in hand.
         // To resolve this, I can perform a check: if the hand length is 14, I can drop the current discard tile.
         // However, I need to determine which tiles are allowed to be discarded while preserving Riichi.
-        if (!isRiichiActive) {
+        //temporaryTiles
+        if (isRiichiActive && temporaryTilesArray.includes(tile.name)) {
+          console.log('TAK DZIAŁAM DEKLARACJA RIICHI DISCARD');
           discardTile('player1', tile, dispatch);
         }
+        if (!isRiichiActive) {
+          //NORMAL DISCARD, when Riichi button is displayed, ergo passing riichi opputunity
+          setDisplayRiichiButton(false);
+          console.log('TAK DZIAŁAM NORMALLL');
+          discardTile('player1', tile, dispatch);
+          //setDisplayRiichiFalse
+          //dispatch reset temporary tiles
+          dispatch(
+            seTemporaryDiscardableTiles({
+              TypeOfAction: 'reset',
+              temporaryTiles: [],
+              player: 'player1',
+            }),
+          );
+        } //teraz pracuje nad tym, że riichi jest aktywne i muszę odrzucić klocki które się do tego nadają, czyli niekoniecznie ostatni
         /* else if(possible riichi discards, riichi must be activated to perform discards){ //
         //TODO in tenpai, possible Riichi discards, i dont know now how to fix this problem it is 2:57 am. 
         }
@@ -131,6 +178,14 @@ const PlayerHandComponent = () => {
       }
     } else {
       setSelected(tileID);
+      //selected a different one from the previous one was chosen
+      console.log(
+        'PLAYERHAND ELSE:',
+        tileID,
+        'isRiichiActive:',
+        isRiichiActive,
+        tile.name,
+      );
     }
     //console.log(selected);
   };

@@ -2,6 +2,7 @@ import {
   HONBA_REDUCER,
   PlayersState,
   drawTileFromWallToHand,
+  seTemporaryDiscardableTiles,
 } from '../Store/playersReducer';
 import {
   GameWinds,
@@ -293,18 +294,32 @@ export const runGame = (
         player4RiverState: player4River.riverState,
         nextTile,
       });
-      console.info(
-        'runGame():is Richii?',
-        player.name,
-        'Result is:',
-        result.result,
-        'AI Riichi?:',
-        player.name !== 'player1' && result.result
-          ? 'AI CAN RIICHI!!!!!!!!'
-          : null,
+      dispatch(
+        //add player1 player2 etc
+        seTemporaryDiscardableTiles({
+          TypeOfAction: 'set',
+          temporaryTiles: [...result.discardableTiles],
+          player: currentPlayersTurn, //player1
+        }),
       );
-      let resultIfPlayer1IsInRiichi;
+      if (result.result) {
+        console.info(
+          'runGame():is Richii?',
+          player.name,
+          'Result is:',
+          result.result,
+          'AI Riichi?:',
+          player.name !== 'player1' && result.result
+            ? 'AI CAN RIICHI!!!!!!!!'
+            : null,
+        );
+      }
+      let resultIfPlayer1IsInRiichi: IsTenpaiResult = {
+        result: false,
+        discardableTiles: new Set(),
+      };
       if (nextPlayerX === 'player1') {
+        console.log('NextPlayer1 - runGame()-Riichi-OK');
         resultIfPlayer1IsInRiichi = canRiichi({
           hand: player1Hand,
           player1Melds: player1.playerHand.melds,
@@ -333,12 +348,31 @@ export const runGame = (
       ) {
         //set show richii, richiiIndex from riverReducer
         //TODO riichi should be shown only when it's players turn, be sure that player can discard only tiles that allows him to od riichi not to avoid tenpai
+        //dispatch data to temporary memory holder
+        /*         if (resultIfPlayer1IsInRiichi?.result) {
+          dispatch(
+            //add player1 player2 etc
+            seTemporaryDiscardableTiles({
+              TypeOfAction: 'set',
+              temporaryTiles: [...resultIfPlayer1IsInRiichi.discardableTiles],
+              player: currentPlayersTurn, //player1
+            }),
+          );
+        } */
+
         if (player1River.riichiIndex !== null) {
+          dispatch(
+            seTemporaryDiscardableTiles({
+              TypeOfAction: 'reset',
+              temporaryTiles: [],
+            }),
+          );
           setDisplayRiichiButton(false);
         } else {
+          //make sure to reset after discarded riichi tile...
           setDisplayRiichiButton(true);
         }
-      } else if (currentPlayersTurn !== 'player1' && result) {
+      } else if (currentPlayersTurn !== 'player1' && result.result) {
         //This is AI turn
         const rivers = {
           player2: player2River,
@@ -346,13 +380,23 @@ export const runGame = (
           player4: player4River,
         };
         const currentRiver = rivers[currentPlayersTurn];
-        console.warn('AI CLICKS RIICHI'); //when ai player is riichi it will relentlessly try to go for next riichi, it should be disabled, allowing for only one riichi per round, be sure that AI player only discard 14th tile
+        console.info('AI CLICKS RIICHI');
+        if (result?.result) {
+          dispatch(
+            //add player1 player2 etc
+            seTemporaryDiscardableTiles({
+              TypeOfAction: 'set',
+              temporaryTiles: [...resultIfPlayer1IsInRiichi.discardableTiles],
+              player: currentPlayersTurn, //player1
+            }),
+          );
+        } //when ai player is in tenpai, it will relentlessly try to go for next riichi. This riichi button should be disabled, allowing for only one riichi per round, be sure that AI player only discard 14th tile
         if (currentRiver) {
           handleRiichi({
             dispatch,
             player: player.name,
             river: currentRiver.riverState,
-          });
+          }); //i must add SPECIFIC discard for ai riichi
         }
       }
     } else {

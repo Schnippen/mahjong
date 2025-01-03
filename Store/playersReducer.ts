@@ -17,6 +17,7 @@ export interface PlayersState {
     player1ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
     isRiichi: boolean;
+    temporaryDiscardableTiles: TTileObject[];
   };
   player2: {
     player2Score: number;
@@ -26,6 +27,7 @@ export interface PlayersState {
     player2ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
     isRiichi: boolean;
+    temporaryDiscardableTiles: TTileObject[];
   };
   player3: {
     player3Score: number;
@@ -35,6 +37,7 @@ export interface PlayersState {
     player3ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
     isRiichi: boolean;
+    temporaryDiscardableTiles: TTileObject[];
   };
   player4: {
     player4Score: number;
@@ -44,6 +47,7 @@ export interface PlayersState {
     player4ScoreDifference: number;
     playerHand: {hand: TTileObject[]; melds: TstolenTiles[]};
     isRiichi: boolean;
+    temporaryDiscardableTiles: TTileObject[];
   };
   assignHandsBasedOnWind: {
     firstHand: TTileObject[];
@@ -72,6 +76,7 @@ const initialState: PlayersState = {
     player1ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
     isRiichi: false,
+    temporaryDiscardableTiles: [],
   },
   player2: {
     player2Score: 25000,
@@ -81,6 +86,7 @@ const initialState: PlayersState = {
     player2ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
     isRiichi: false,
+    temporaryDiscardableTiles: [],
   },
   player3: {
     player3Score: 25000,
@@ -90,6 +96,7 @@ const initialState: PlayersState = {
     player3ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
     isRiichi: false,
+    temporaryDiscardableTiles: [],
   },
   player4: {
     player4Score: 25000,
@@ -99,6 +106,7 @@ const initialState: PlayersState = {
     player4ScoreDifference: 0,
     playerHand: {hand: [], melds: []},
     isRiichi: false,
+    temporaryDiscardableTiles: [],
   },
   assignHandsBasedOnWind: {
     firstHand: [],
@@ -403,7 +411,7 @@ export const playersReducer = createSlice({
         assignHandsBasedOnWind: {
           ...initialState.assignHandsBasedOnWind,
         },
-      };
+      }; //TODO reset temporary tiles
     },
     resetPlayersReducerHandsToNextRound: state => {
       return {
@@ -525,9 +533,34 @@ export const playersReducer = createSlice({
         } //TODO there might be error, what if east player was 4 times in a row the same wind?
 
         /*       2.2 Prevailing wind
-
 When the game begins, east is the Prevailing wind. When the player who started the game as East, becomes East again after all other players have played at least one hand as East, the south round begins, and south is the Prevailing wind. A wind marker should be placed permanently by the player who begins as East, and when this player becomes East again after the first (east) round of the game, the marker is flipped to indicate the new Prevailing wind, south. */
       }
+    },
+    seTemporaryDiscardableTiles: (state, action) => {
+      //this one is used after declaring riichi, select the tile that will not brake the game
+      const {TypeOfAction, temporaryTiles, player} = action.payload;
+      //
+      if (TypeOfAction === 'reset') {
+        state.player1.temporaryDiscardableTiles =
+          initialState.player1.temporaryDiscardableTiles;
+      }
+      if (TypeOfAction === 'set') {
+        if (player === 'player1') {
+          state.player1.temporaryDiscardableTiles = [...temporaryTiles];
+        } else if (player === 'player2') {
+          state.player2.temporaryDiscardableTiles = [...temporaryTiles];
+        } else if (player === 'player3') {
+          state.player3.temporaryDiscardableTiles = [...temporaryTiles];
+        } else if (player === 'player4') {
+          state.player4.temporaryDiscardableTiles = [...temporaryTiles];
+        } else {
+          null;
+        } //TODO i can make it more refined
+      }
+      console.log(
+        'REDUX!: seTemporaryDiscardableTiles:',
+        state.player1.temporaryDiscardableTiles.map(t => t.name),
+      );
     },
     HONBA_REDUCER: (state, action) => {
       let {TypeOfAction} = action.payload;
@@ -577,6 +610,7 @@ export const {
   changeWhoTheWinnerIs,
   changeWhoTheLoserIs,
   changePrevailingWind,
+  seTemporaryDiscardableTiles,
   HONBA_REDUCER,
   DEBUG_HAND,
 } = playersReducer.actions;

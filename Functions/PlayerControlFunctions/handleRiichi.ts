@@ -52,9 +52,9 @@ export const handleRiichi = ({
 
   //when player is in richii buttons should be disabled-  DONE
   //prevents button to appear while in riichi - DONE?
-  //also prevent throwing other tiles DONE 
-  
-  if(player==="player1"){
+  //also prevent throwing other tiles NOT_DONE
+
+  if (player === 'player1') {
     setIsRichiiActive?.(true); //this is for player1, boolean allows to only discard new tile from the wall
     setChiiPanelDisplayed?.(false);
     setDisplayChiiButton?.(false);
@@ -62,7 +62,7 @@ export const handleRiichi = ({
     setDisplayKanButton?.(false);
     setDisplayRiichiButton?.(false);
   }
-/*   setIsRichiiActive(true); //this is for player1, boolean allows to only discard new tile from the wall
+  /*   setIsRichiiActive(true); //this is for player1, boolean allows to only discard new tile from the wall
   setChiiPanelDisplayed(false);
   setDisplayChiiButton(false);
   setDisplayPonButton(false);

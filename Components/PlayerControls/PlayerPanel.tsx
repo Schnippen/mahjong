@@ -5,7 +5,8 @@ import PlayerButtonsPanel from './PlayerButtonsPanel';
 
 const PlayerPanel = ({navigation}: {navigation: any}) => {
   const screenWidth = Dimensions.get('window').width;
-
+  const [displayRiichiButton, setDisplayRiichiButton] =
+    useState<boolean>(false);
   return (
     <View
       style={{
@@ -16,8 +17,15 @@ const PlayerPanel = ({navigation}: {navigation: any}) => {
         //backgroundColor: 'pink',
         position: 'relative',
       }}>
-      <PlayerButtonsPanel navigation={navigation} />
-      <PlayerHandComponent />
+      <PlayerButtonsPanel
+        navigation={navigation}
+        displayRiichiButton={displayRiichiButton}
+        setDisplayRiichiButton={setDisplayRiichiButton}
+      />
+      <PlayerHandComponent
+        displayRiichiButton={displayRiichiButton}
+        setDisplayRiichiButton={setDisplayRiichiButton}
+      />
     </View>
   );
 };

@@ -38,6 +38,10 @@ export function canRiichi({
     player4RiverState,
     nextTile,
   });
-  console.log(`canRiichi.ts -canRiichi()- result:${result}`); //add which tile is necessary to discard
+  console.log(
+    `canRiichi.ts -canRiichi()- result:${result.result},${[
+      ...result.discardableTiles,
+    ].map(t => t.name)}`,
+  ); //add which tile is necessary to discard
   return result;
 }

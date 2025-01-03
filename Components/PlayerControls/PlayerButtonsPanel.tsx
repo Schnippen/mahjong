@@ -70,7 +70,15 @@ const NextTurn = () => {
   );
 };
 
-const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
+const PlayerButtonsPanel = ({
+  navigation,
+  displayRiichiButton,
+  setDisplayRiichiButton,
+}: {
+  navigation: any;
+  displayRiichiButton: boolean;
+  setDisplayRiichiButton: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const dispatch = useDispatch();
 
   const latestTurn = useSelector(
@@ -127,8 +135,8 @@ const PlayerButtonsPanel = ({navigation}: {navigation: any}) => {
   const [displayChiiButton, setDisplayChiiButton] = useState<boolean>(false);
   const [displayPonButton, setDisplayPonButton] = useState<boolean>(false);
   const [displayKanButton, setDisplayKanButton] = useState<boolean>(false);
-  const [displayRiichiButton, setDisplayRiichiButton] =
-    useState<boolean>(false);
+  /*   const [displayRiichiButton, setDisplayRiichiButton] =
+    useState<boolean>(false); */
   const [isRichiiActive, setIsRichiiActive] = useState<boolean>(false);
   const [chiiPanelDisplayed, setChiiPanelDisplayed] = useState<boolean>(false);
   const [chiiPanelState, setChiiPanelState] = useState<TTileObject[][]>([]);

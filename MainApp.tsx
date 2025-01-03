@@ -16,7 +16,7 @@ function MainApp() {
   const Stack = createNativeStackNavigator();
   /*   const dispatch = useDispatch(); */
   const updateSettings = useUpdateSettings();
-
+  //TODO IMPORTANT!!!!!!!!!! when store is refreshed with ctrl+R, all the sounds are "preloaded" with number of channels: -1 :c
   useEffect(() => {
     console.info('first useEffect()');
     updateSettings();
@@ -27,7 +27,7 @@ function MainApp() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="StartGameScreen"
+        initialRouteName="MahjongScreen"
         screenOptions={{orientation: 'landscape', headerShown: false}}>
         <Stack.Screen
           name="MahjongScreen"

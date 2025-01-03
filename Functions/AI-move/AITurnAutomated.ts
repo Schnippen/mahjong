@@ -73,6 +73,7 @@ const AITurnAutomated = (
   );
 
   // console.log('AITurnAutomated', playerProps?.player, tileToDiscard?.name);
+  //TODO when is tenpai and riichi make smart move from canRiichi funciton with tile to discard!
   discardTile(playerX, aiIntelligentMove, dispatch);
 };
 

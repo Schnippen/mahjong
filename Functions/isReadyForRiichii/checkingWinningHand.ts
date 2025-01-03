@@ -4,11 +4,12 @@ import {countTilesByName} from './countTilesByName';
 
 export function checkWinningHand(hand: TTileObject[]): boolean {
   if (hand.length !== 14) {
-    console.warn(
+    //TODO there might be problems here in the future, can't think about it in the mome IMPORTANT
+    /* console.info(
       `checkWinningHand(): Invalid hand length. Hand: ${hand
         .map(t => t.name)
         .join(', ')} (${hand.length} tiles).`,
-    );
+    ); */
     return false;
   }
   //if (hand.length !== 14) return false;
