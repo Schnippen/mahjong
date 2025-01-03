@@ -1,7 +1,13 @@
 import React, {useState} from 'react';
-import {ScrollView, StatusBar, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StatusBar,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import {ButtonGoBack} from '../Components/Buttons/ButtonGoBack';
-import {Tab, TabView} from '@rneui/themed';
+//import {Tab, TabView} from '@rneui/themed';
 import {
   FirstComponent,
   SecondComponent,
@@ -11,7 +17,9 @@ import {boardColor, MahjongTileColor} from '../Data/colors';
 import {TabView, SceneMap} from 'react-native-tab-view';
 
 function RulesScreen({navigation, route}: any) {
-  const [index, setIndex] = useState(1);
+  const layout = useWindowDimensions();
+  const [index, setIndex] = React.useState(0);
+  //const [index, setIndex] = useState(1);
   //https://reactnavigation.org/docs/tab-view/
   //https://snack.expo.dev/@satya164/react-native-tab-view-lazy-load
   //https://snack.expo.dev/@satya164/react-native-tab-view-custom-tabbar
@@ -21,34 +29,37 @@ function RulesScreen({navigation, route}: any) {
   //TODO add back button in top right position absolute
   //RulesScreen is too performance heavy, it must be split up using reactnavigation tab view, not rneui
 
-  /* const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-});
+  /*   TabView is a controlled component, which means the index needs to be updated via the onIndexChange callback.
+   */
+  /*   ScrollView can lead to performance problems since it doesn't virtualize content and renders everything at once. */
 
-const routes = [
-  {key: 'first', title: 'First'},
-  {key: 'second', title: 'Second'},
-];
+  const renderScene = SceneMap({
+    first: FirstComponent,
+    second: SecondComponent,
+  });
 
-export default function TabViewExample() {
-  const layout = useWindowDimensions();
-  const [index, setIndex] = React.useState(0);
+  const routes = [
+    {key: 'first', title: 'First'},
+    {key: 'second', title: 'Second'},
+  ];
 
-  return (
-    <TabView
-      navigationState={{index, routes}}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{width: layout.width}}
-    />
-  );
-}
- */
   return (
     <>
       <StatusBar hidden={true} />
-      <Tab
+      <TabView
+        navigationState={{index, routes}}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{width: layout.width}}
+        lazy={true}
+      />
+    </>
+  );
+}
+
+export default RulesScreen;
+{
+  /*  <Tab
         value={index}
         onChange={e => setIndex(e)}
         indicatorStyle={{
@@ -74,13 +85,7 @@ export default function TabViewExample() {
         <TabView.Item style={{backgroundColor: 'green', width: '100%'}}>
           <Text>TEXT</Text>
         </TabView.Item>
-      </TabView>
-    </>
-  );
-}
-
-export default RulesScreen;
-{
+      </TabView> */
   /* <ScrollView
 style={{
   backgroundColor: boardColor,

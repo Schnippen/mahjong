@@ -15,7 +15,7 @@ import {RiverRight} from '../Components/River/RiverRight';
 import {RiverLeft} from '../Components/River/RiverLeft';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../Store/store';
-import { initializeGame} from '../Functions/initializeGame';
+import {initializeGame} from '../Functions/initializeGame';
 import WallBottom from '../Components/Wall/WallBottom';
 import WallRight from '../Components/Wall/WallRight';
 import WallLeft from '../Components/Wall/WallLeft';
@@ -36,7 +36,7 @@ import {
   handleImpactLight,
   handleImpactMedium,
 } from '../Functions/utils/hapticFeedback';
-import { resetToStartScreen } from '../Functions/resetToStartScreen';
+import {resetToStartScreen} from '../Functions/resetToStartScreen';
 
 //tiles
 //winning conditions
@@ -85,7 +85,7 @@ function MahjongScreen({navigation, route}: any) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isSelectionModeEnabled, setIsSelectionModeEnabled] =
     useState<boolean>(false);
-  
+
   const toggleOverlay = () => {
     setIsVisible(!isVisible);
   };
@@ -149,7 +149,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
             onPress: () => {
               soundFunc({type: 'popDown'});
               handleImpactMedium();
-              resetToStartScreen(dispatch)
+              resetToStartScreen(dispatch);
               navigation.dispatch(
                 CommonActions.reset({
                   index: 0,
@@ -172,17 +172,27 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
 
   //TODO init game only once when navigation params change
   const hasInitializedGame = useRef(false);
-  console.log("ROUTE:",route)
-useEffect(()=>{
-  //ROUTE: {"key": "MahjongScreen-3J4Py3oFunDa8eguFjvZK", "name": "MahjongScreen", "params": {"gameInitializer": "start"}, "path": undefined}
-  if (!hasInitializedGame.current && route.params?.gameInitializer === "start") {
-    hasInitializedGame.current = true;
-    setTimeout(() => {
-    //initializeGame(dispatch)
-    },1000); }
-  console.log("USE EFFECT ROUTE:",route.params.gameInitializer,"hasInitializedGame?:",hasInitializedGame)
-},[route.params?.gameInitializer])
-
+  console.log('ROUTE:', route);
+  useEffect(() => {
+    //ROUTE: {"key": "MahjongScreen-3J4Py3oFunDa8eguFjvZK", "name": "MahjongScreen", "params": {"gameInitializer": "start"}, "path": undefined}
+    if (
+      !hasInitializedGame.current &&
+      route.params?.gameInitializer === 'start'
+    ) {
+      hasInitializedGame.current = true;
+      setTimeout(() => {
+        //initializeGame(dispatch)
+      }, 1000);
+    }
+    console.log(
+      'USE EFFECT ROUTE:',
+      route.params.gameInitializer,
+      'hasInitializedGame?:',
+      hasInitializedGame,
+    );
+  }, [route.params?.gameInitializer]);
+  ///TOOD there is an issue with performence whenever YOU use flatlist in scrollView,
+  //Final verison will only have view -> flatlist
   return (
     <ScrollView>
       <StatusBar hidden={true} />
@@ -191,9 +201,9 @@ useEffect(()=>{
           flexDirection: 'row',
           justifyContent: 'center',
           width: '100%',
-          position:"absolute",
-          top:0,
-          zIndex:99999
+          position: 'absolute',
+          top: 0,
+          zIndex: 99999,
         }}>
         <Button
           style={{flex: 1, backgroundColor: 'red'}}
