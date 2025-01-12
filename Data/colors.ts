@@ -8,4 +8,4 @@ export const GoldTextColor = '#fbd54e';
 
 export const MahjongTileColor = '#e9ebe8';
 const colorSecondLayer = '#bdbbc0';
-const colorFaceLayer = '#56a2c4';
+export const colorFaceLayer = '#56A2C4';

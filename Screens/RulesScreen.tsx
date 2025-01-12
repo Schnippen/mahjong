@@ -1,17 +1,12 @@
 import React, {useState} from 'react';
-import {
-  ScrollView,
-  StatusBar,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import {StatusBar, useWindowDimensions} from 'react-native';
 import {ButtonGoBack} from '../Components/Buttons/ButtonGoBack';
 //import {Tab, TabView} from '@rneui/themed';
 import {
-  FirstComponent,
-  SecondComponent,
-  ThirdComponent,
+  RulesScreenFirstComponent,
+  RulesScreenFourthComponent,
+  RulesScreenSecondComponent,
+  RulesScreenThirdComponent,
 } from '../Components/RulesComponents/RulesComponents';
 import {boardColor, MahjongTileColor} from '../Data/colors';
 import {TabView, SceneMap} from 'react-native-tab-view';
@@ -28,19 +23,23 @@ function RulesScreen({navigation, route}: any) {
   //https://mahjong.guide/a-beginners-guide-to-riichi-mahjong/
   //TODO add back button in top right position absolute
   //RulesScreen is too performance heavy, it must be split up using reactnavigation tab view, not rneui
-
+  //https://fbflipper.com/docs/getting-started/react-native/
   /*   TabView is a controlled component, which means the index needs to be updated via the onIndexChange callback.
    */
   /*   ScrollView can lead to performance problems since it doesn't virtualize content and renders everything at once. */
-
+  //https://reactnavigation.org/docs/tab-view/#tabbar
   const renderScene = SceneMap({
-    first: FirstComponent,
-    second: SecondComponent,
+    first: RulesScreenFirstComponent,
+    second: RulesScreenSecondComponent,
+    third: RulesScreenThirdComponent,
+    fourth: RulesScreenFourthComponent,
   });
 
   const routes = [
-    {key: 'first', title: 'First'},
-    {key: 'second', title: 'Second'},
+    {key: 'first', title: 'Basics'},
+    {key: 'second', title: 'Playing'},
+    {key: 'third', title: 'Yaku & Han'},
+    {key: 'fourth', title: 'Scoring'},
   ];
 
   return (
@@ -52,6 +51,7 @@ function RulesScreen({navigation, route}: any) {
         onIndexChange={setIndex}
         initialLayout={{width: layout.width}}
         lazy={true}
+        // lazy={({ route }) => route.name === 'Example'}
       />
     </>
   );
