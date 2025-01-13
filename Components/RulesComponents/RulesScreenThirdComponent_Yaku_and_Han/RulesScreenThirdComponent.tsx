@@ -7,11 +7,19 @@ import {
   RulesScreenNoYaku,
   RulesScreenRyuukyoku,
   RulesScreenYakuman,
-} from './RulesScrenYakus';
+} from './RulesScreenYakus';
 import {ButtonGroup} from '@rneui/themed';
 import {View} from 'react-native';
 import {boardColor, MahjongTileColor} from '../../../Data/colors';
-
+const componentsArray = [
+  <RulesScreenNoYaku />,
+  <RulesScreen1Han />,
+  <RulesScreen2Han />,
+  <RulesScreen36Han />,
+  <RulesScreenYakuman />,
+  <RulesScreenDoubleYakuman />,
+  <RulesScreenRyuukyoku />,
+];
 export const RulesScreenThirdComponent = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [dimensions, setDimensions] = useState({width: 0, height: 0});
@@ -49,21 +57,7 @@ export const RulesScreenThirdComponent = () => {
         textStyle={{fontFamily: 'TheLastShuriken'}}
         selectedButtonStyle={{backgroundColor: '#56A2C4'}}
       />
-      {selectedIndex === 0 ? (
-        <RulesScreenNoYaku />
-      ) : selectedIndex === 1 ? (
-        <RulesScreen1Han />
-      ) : selectedIndex === 2 ? (
-        <RulesScreen2Han />
-      ) : selectedIndex === 3 ? (
-        <RulesScreen36Han />
-      ) : selectedIndex === 4 ? (
-        <RulesScreenYakuman />
-      ) : selectedIndex === 5 ? (
-        <RulesScreenDoubleYakuman />
-      ) : selectedIndex === 6 ? (
-        <RulesScreenRyuukyoku />
-      ) : null}
+      {componentsArray[selectedIndex]}
     </View>
   );
 };
