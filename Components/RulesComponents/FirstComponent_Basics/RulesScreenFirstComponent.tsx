@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
-import {boardColor, MahjongTileColor} from '../../Data/colors';
+import {boardColor, MahjongTileColor} from '../../../Data/colors';
 import {View} from 'react-native';
 import {ButtonGroup} from '@rneui/themed';
+import {RulesScreenBasics} from './RulesScreenBasics';
+import {RulesScreenFirstComponentTheTiles} from './RulesScreenFirstComponentTheTiles';
+import {RulesScreenTheHandGroup} from './RulesScreenTheHandGroup';
 
 export const RulesScreenFirstComponent = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);

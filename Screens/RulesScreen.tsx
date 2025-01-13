@@ -1,15 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StatusBar, useWindowDimensions} from 'react-native';
 import {ButtonGoBack} from '../Components/Buttons/ButtonGoBack';
 //import {Tab, TabView} from '@rneui/themed';
-import {
-  RulesScreenFirstComponent,
-  RulesScreenFourthComponent,
-  RulesScreenSecondComponent,
-  RulesScreenThirdComponent,
-} from '../Components/RulesComponents/RulesComponents';
-import {boardColor, MahjongTileColor} from '../Data/colors';
-import {TabView, SceneMap} from 'react-native-tab-view';
+import {boardColor, colorFaceLayer, MahjongTileColor} from '../Data/colors';
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import {RulesScreenFourthComponent} from '../Components/RulesComponents/RulesScreenFourthComponent_Scoring/RulesScreenFourthComponent';
+import {RulesScreenThirdComponent} from '../Components/RulesComponents/RulesScreenThirdComponent_Yaku_and_Han/RulesScreenThirdComponent';
+import {RulesScreenSecondComponent} from '../Components/RulesComponents/RulesScreenSecondComponent_Playing/RulesScreenSecondComponent';
+import {RulesScreenFirstComponent} from '../Components/RulesComponents/FirstComponent_Basics/RulesScreenFirstComponent';
 
 function RulesScreen({navigation, route}: any) {
   const layout = useWindowDimensions();
@@ -41,7 +39,14 @@ function RulesScreen({navigation, route}: any) {
     {key: 'third', title: 'Yaku & Han'},
     {key: 'fourth', title: 'Scoring'},
   ];
-
+  const renderTabBar = (props: any) => (
+    <TabBar
+      {...props}
+      indicatorStyle={{backgroundColor: '#C47956'}}
+      style={{backgroundColor: colorFaceLayer}}
+      bounces={true}
+    />
+  );
   return (
     <>
       <StatusBar hidden={true} />
@@ -52,68 +57,11 @@ function RulesScreen({navigation, route}: any) {
         initialLayout={{width: layout.width}}
         lazy={true}
         // lazy={({ route }) => route.name === 'Example'}
+        renderTabBar={renderTabBar}
+        style={{backgroundColor: boardColor}} // when scroling horizontally, there is sometimes white background?!
       />
     </>
   );
 }
 
 export default RulesScreen;
-{
-  /*  <Tab
-        value={index}
-        onChange={e => setIndex(e)}
-        indicatorStyle={{
-          backgroundColor: '#e9ebe8', //'#56a2c4'
-          height: 3,
-        }}
-        variant="primary">
-        <Tab.Item title="Basics" titleStyle={{fontSize: 12}} />
-        <Tab.Item title="Playing" titleStyle={{fontSize: 12}} />
-        <Tab.Item title="Yaku & Han" titleStyle={{fontSize: 12}} />
-        <Tab.Item title="Scoring" titleStyle={{fontSize: 12}} />
-      </Tab>
-      <TabView value={index} onChange={setIndex} animationType="timing">
-        <TabView.Item style={{backgroundColor: boardColor, width: '100%'}}>
-          <FirstComponent />
-        </TabView.Item>
-        <TabView.Item style={{backgroundColor: boardColor, width: '100%'}}>
-          <SecondComponent />
-        </TabView.Item>
-        <TabView.Item style={{backgroundColor: 'green', width: '100%'}}>
-          <ThirdComponent />
-        </TabView.Item>
-        <TabView.Item style={{backgroundColor: 'green', width: '100%'}}>
-          <Text>TEXT</Text>
-        </TabView.Item>
-      </TabView> */
-  /* <ScrollView
-style={{
-  backgroundColor: boardColor,
-  width: '100%',
-  height: '100%',
-  padding: 8,
-}}>
-<StatusBar hidden={true} />
-<View
-  style={{
-    alignItems: 'center',
-    height: 80,
-    flex: 1,
-    paddingTop: 4,
-  }}>
-  <Text style={{fontSize: 48, fontWeight: 'bold'}}>Rules</Text>
-  <View
-    style={{
-      justifyContent: 'center',
-      alignItems: 'center',
-      flex: 1,
-      height: 80,
-      width: 100,
-      position: 'absolute',
-      right: 0,
-    }}>
-    <ButtonGoBack navigation={navigation} />
-  </View>
-</View>
-</ScrollView> */
-}
