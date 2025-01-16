@@ -11,23 +11,35 @@ import {
 import {ButtonGroup} from '@rneui/themed';
 import {View} from 'react-native';
 import {boardColor, MahjongTileColor} from '../../../Data/colors';
-const componentsArray = [
-  <RulesScreenNoYaku />,
-  <RulesScreen1Han />,
-  <RulesScreen2Han />,
-  <RulesScreen36Han />,
-  <RulesScreenYakuman />,
-  <RulesScreenDoubleYakuman />,
-  <RulesScreenRyuukyoku />,
-];
+import {ScreenList} from '../../../Types/types';
+import {useNavigation} from '@react-navigation/native';
+//  const navigation = useNavigation();
+
+// let startGameParams={gameInitializer:'start'}
+//navigationFunction={() => {goToScreen('MahjongScreen',startGameParams);}}
+export type TypeGoToScreen = {screen: ScreenList; params?: object};
+
 export const RulesScreenThirdComponent = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [dimensions, setDimensions] = useState({width: 0, height: 0});
   //TODO optimize else if to array
+  //TODO go back nie działa tak jak należy, cofa do startscreen a nie do rules screen
   const onLayout = (event: any) => {
     const {width, height} = event.nativeEvent.layout;
     setDimensions({width, height});
   };
+  const navigation = useNavigation();
+
+  const componentsArray = [
+    <RulesScreenNoYaku />,
+    <RulesScreen1Han navigation={navigation} />,
+    <RulesScreen2Han navigation={navigation} />,
+    <RulesScreen36Han navigation={navigation} />,
+    <RulesScreenYakuman navigation={navigation} />,
+    <RulesScreenDoubleYakuman navigation={navigation} />,
+    <RulesScreenRyuukyoku />,
+  ];
+
   return (
     <View
       style={{backgroundColor: boardColor, flexDirection: 'row', flex: 1}}

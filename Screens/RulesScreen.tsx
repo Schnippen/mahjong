@@ -1,6 +1,5 @@
 import React from 'react';
 import {StatusBar, useWindowDimensions} from 'react-native';
-import {ButtonGoBack} from '../Components/Buttons/ButtonGoBack';
 //import {Tab, TabView} from '@rneui/themed';
 import {boardColor, colorFaceLayer, MahjongTileColor} from '../Data/colors';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';

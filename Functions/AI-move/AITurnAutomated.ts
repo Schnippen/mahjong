@@ -8,8 +8,9 @@ import {
   WindTypes,
 } from '../../Types/types';
 
-//TODO CHANGE it for standard gameReducer
-const AITurnAutomated = (
+//TODO CHANGE it for standard gameReducer add it as native modules, because it is resource heavy https://www.youtube.com/watch?v=mL1LFMK_myY
+//https://github.com/mathvaillant/Android-Native-Modules-in-React-Native/blob/final-version/android/app/src/main/java/com/nativemodulesreactnativev0/MainApplication.kt
+const AITurnAutomated = async (
   dispatch: any,
   gameTurn: GameWinds,
   humanPlayerWind: WindTypes,
@@ -55,7 +56,18 @@ const AITurnAutomated = (
   }
   let tileToDiscard = chooseRandomTile(playerProps.hand);
   let playerX = playerProps?.player;
-  let aiIntelligentMove = determineBestDiscard(
+  /* let aiIntelligentMove = determineBestDiscard(
+    playerProps.hand,
+    player1Melds,
+    player2Melds,
+    player3Melds,
+    player4Melds,
+    player1RiverState,
+    player2RiverState,
+    player3RiverState,
+    player4RiverState,
+  ); */
+  let aiIntelligentMove: TTileObject = await determineBestDiscard(
     playerProps.hand,
     player1Melds,
     player2Melds,
@@ -66,6 +78,7 @@ const AITurnAutomated = (
     player3RiverState,
     player4RiverState,
   );
+
   console.log(
     'AIMOVE aiIntelligentMove:',
     playerProps?.player,

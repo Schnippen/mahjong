@@ -11,6 +11,7 @@ import {
   savePicture,
 } from './Functions/utils/cameraRollPermission';
 import RulesScreen from './Screens/RulesScreen';
+import RulesScreenYakuExample from './Screens/RulesScreenYakuExample';
 
 function MainApp() {
   const Stack = createNativeStackNavigator();
@@ -23,11 +24,18 @@ function MainApp() {
     hasAndroidPermission();
   }, []);
   const RootStack = createNativeStackNavigator();
+
+  //TODO
+  /* export type RootStackParamList = {
+  RulesScreenYakuExample: {name: string; data: string};
+  OtherScreen: undefined; // Example for other screens
+}; */
   //TODO add typescript to params and initialParams
+
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="RulesScreen"
+        initialRouteName="StartGameScreen"
         screenOptions={{orientation: 'landscape', headerShown: false}}>
         <Stack.Screen
           name="MahjongScreen"
@@ -44,6 +52,10 @@ function MainApp() {
         <RootStack.Group screenOptions={{presentation: 'modal'}}>
           <Stack.Screen name="SettingsScreen" component={Settings} />
           <Stack.Screen name="RulesScreen" component={RulesScreen} />
+          <Stack.Screen
+            name="RulesScreenYakuExample"
+            component={RulesScreenYakuExample}
+          />
         </RootStack.Group>
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,5 +1,4 @@
 import {TTileObject} from '../../../Types/types';
-import {getAllPossibleTilesAIThink} from '../getAllPossibleTilesAIThink';
 import calculateShanten from './calculateShanten';
 
 export function calculateEfficiency(

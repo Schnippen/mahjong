@@ -2,6 +2,11 @@ import {ButtonGroup} from '@rneui/themed';
 import React, {useState} from 'react';
 import {View} from 'react-native';
 import {MahjongTileColor} from '../../../Data/colors';
+import {
+  TheNumberedTiles,
+  TheHonorTiles,
+  TheDragonsTiles,
+} from './RulesScreenFirstTheTiles';
 
 export const RulesScreenFirstComponentTheTiles = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);

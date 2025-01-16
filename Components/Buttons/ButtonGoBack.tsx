@@ -2,14 +2,16 @@ import React from 'react';
 import {Text, TouchableWithoutFeedback, View} from 'react-native';
 import {handleImpactLight} from '../../Functions/utils/hapticFeedback';
 import {soundFunc} from '../../Functions/playSounds/soundFunc';
+import {useNavigation} from '@react-navigation/native';
 
-export const ButtonGoBack = ({navigation}: {navigation: any}) => {
+export const ButtonGoBack = () => {
+  const navigation = useNavigation();
   const goToHomeScreen = () => {
-    navigation.navigate('StartGameScreen');
+    navigation.goBack();
     soundFunc({type: 'pop'});
     handleImpactLight();
   };
-
+  //TODO add navigation usenavigation
   return (
     <TouchableWithoutFeedback onPress={() => goToHomeScreen()}>
       <View
