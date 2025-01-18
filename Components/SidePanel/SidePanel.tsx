@@ -30,7 +30,7 @@ const AutoSort = () => {
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        flex: 1 ,
+        flex: 1,
         borderTopRightRadius: 8,
       }}
       onPress={() => handleSortToggle()}>
@@ -41,12 +41,12 @@ const AutoSort = () => {
           fontWeight: 'bold',
           fontSize: 16,
         }}>
-        A
+        S
       </Text>
     </TouchableOpacity>
   );
 };
-const ShowNumerals=()=>{
+const ShowNumerals = () => {
   const dispatch = useAppDispatch();
   const showNumerals = useSelector(
     (state: RootState) => state.settingsReducer.settings.numerals,
@@ -69,7 +69,7 @@ const ShowNumerals=()=>{
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        flex: 1 ,
+        flex: 1,
         borderTopRightRadius: 8,
       }}
       onPress={() => handleShowNumerals()}>
@@ -84,7 +84,7 @@ const ShowNumerals=()=>{
       </Text>
     </TouchableOpacity>
   );
-}
+};
 const SidePanel = () => {
   const topPanelBackgroundColor = '#3c7fc3';
   const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
@@ -101,7 +101,7 @@ const SidePanel = () => {
         width: 50,
         //backgroundColor: panelBackgroundColor,
         left: 0,
-        top:130,
+        top: 130,
         position: 'absolute',
         flexDirection: 'column',
         alignItems: 'center',
@@ -109,7 +109,7 @@ const SidePanel = () => {
         borderBottomRightRadius: 8,
       }}>
       <AutoSort />
-      <ShowNumerals/>
+      <ShowNumerals />
     </LinearGradient>
   );
 };

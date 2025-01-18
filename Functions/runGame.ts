@@ -2,7 +2,7 @@ import {
   HONBA_REDUCER,
   PlayersState,
   drawTileFromWallToHand,
-  seTemporaryDiscardableTiles,
+  setTemporaryDiscardableTiles,
 } from '../Store/playersReducer';
 import {
   GameWinds,
@@ -294,11 +294,15 @@ export const runGame = (
         player4RiverState: player4River.riverState,
         nextTile,
       });
+      console.log(
+        'runGame.ts 1------ ----- TEMO:',
+        [...result.discardableTiles].map(t => t.name),
+      );
       dispatch(
         //add player1 player2 etc
-        seTemporaryDiscardableTiles({
+        setTemporaryDiscardableTiles({
           TypeOfAction: 'set',
-          temporaryTiles: [...result.discardableTiles],
+          temporaryTiles: Array.from(result.discardableTiles),
           player: currentPlayersTurn, //player1
         }),
       );
@@ -340,6 +344,11 @@ export const runGame = (
           nextPlayerX === 'player1'
         }, so result is:${resultIfPlayer1IsInRiichi?.result}`,
       );
+      //here is an edge case if there is CHII and player1 can do riichi in next turn, there is no temp tiles...
+      console.log(
+        'runGame.ts 2------ ----- TEMP:',
+        [...resultIfPlayer1IsInRiichi.discardableTiles].map(t => t.name),
+      );
       if (
         (currentPlayersTurn === 'player1' && result) ||
         (nextPlayerX === 'player1' &&
@@ -349,20 +358,29 @@ export const runGame = (
         //set show richii, richiiIndex from riverReducer
         //TODO riichi should be shown only when it's players turn, be sure that player can discard only tiles that allows him to od riichi not to avoid tenpai
         //dispatch data to temporary memory holder
-        /*         if (resultIfPlayer1IsInRiichi?.result) {
+        if (resultIfPlayer1IsInRiichi?.result) {
+          console.log(
+            'runGame.ts 3 ------ ----- TEMP:',
+            Array.from(resultIfPlayer1IsInRiichi.discardableTiles).map(
+              t => t.name,
+            ),
+          );
+
           dispatch(
             //add player1 player2 etc
-            seTemporaryDiscardableTiles({
+            setTemporaryDiscardableTiles({
               TypeOfAction: 'set',
-              temporaryTiles: [...resultIfPlayer1IsInRiichi.discardableTiles],
-              player: currentPlayersTurn, //player1
+              temporaryTiles: Array.from(
+                resultIfPlayer1IsInRiichi.discardableTiles,
+              ),
+              player: 'player1', //player1
             }),
           );
-        } */
+        }
 
         if (player1River.riichiIndex !== null) {
           dispatch(
-            seTemporaryDiscardableTiles({
+            setTemporaryDiscardableTiles({
               TypeOfAction: 'reset',
               temporaryTiles: [],
             }),
@@ -384,7 +402,7 @@ export const runGame = (
         if (result?.result) {
           dispatch(
             //add player1 player2 etc
-            seTemporaryDiscardableTiles({
+            setTemporaryDiscardableTiles({
               TypeOfAction: 'set',
               temporaryTiles: [...resultIfPlayer1IsInRiichi.discardableTiles],
               player: currentPlayersTurn, //player1

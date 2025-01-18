@@ -536,16 +536,25 @@ export const playersReducer = createSlice({
 When the game begins, east is the Prevailing wind. When the player who started the game as East, becomes East again after all other players have played at least one hand as East, the south round begins, and south is the Prevailing wind. A wind marker should be placed permanently by the player who begins as East, and when this player becomes East again after the first (east) round of the game, the marker is flipped to indicate the new Prevailing wind, south. */
       }
     },
-    seTemporaryDiscardableTiles: (state, action) => {
+    setTemporaryDiscardableTiles: (state, action) => {
       //this one is used after declaring riichi, select the tile that will not brake the game
       const {TypeOfAction, temporaryTiles, player} = action.payload;
+      console.log(
+        'REDUX!: seTemporaryDiscardableTiles: --------------RUNS',
+        'type_of_action:',
+        TypeOfAction,
+        temporaryTiles.map(t => t.name),
+        player,
+      );
       //
       if (TypeOfAction === 'reset') {
         state.player1.temporaryDiscardableTiles =
           initialState.player1.temporaryDiscardableTiles;
+        //TODO fill the rest players
       }
       if (TypeOfAction === 'set') {
         if (player === 'player1') {
+          console.log('redux - temporaryTiles p1 run');
           state.player1.temporaryDiscardableTiles = [...temporaryTiles];
         } else if (player === 'player2') {
           state.player2.temporaryDiscardableTiles = [...temporaryTiles];
@@ -558,7 +567,7 @@ When the game begins, east is the Prevailing wind. When the player who started t
         } //TODO i can make it more refined
       }
       console.log(
-        'REDUX!: seTemporaryDiscardableTiles:',
+        'REDUX!: seTemporaryDiscardableTiles koniec:',
         state.player1.temporaryDiscardableTiles.map(t => t.name),
       );
     },
@@ -610,7 +619,7 @@ export const {
   changeWhoTheWinnerIs,
   changeWhoTheLoserIs,
   changePrevailingWind,
-  seTemporaryDiscardableTiles,
+  setTemporaryDiscardableTiles,
   HONBA_REDUCER,
   DEBUG_HAND,
 } = playersReducer.actions;

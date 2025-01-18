@@ -7,7 +7,7 @@ import {RootState} from '../../Store/store';
 import TileOnHand from './TileOnHand';
 import {discardTile} from '../../Functions/discardTileFunction';
 import EmptyComponent from '../Wall/EmptyComponent';
-import {seTemporaryDiscardableTiles} from '../../Store/playersReducer';
+import {setTemporaryDiscardableTiles} from '../../Store/playersReducer';
 
 const PlayerHandComponent = ({
   displayRiichiButton,
@@ -111,15 +111,20 @@ const PlayerHandComponent = ({
     turnsElapsed,
     isItFirstTurn,
   ); */
-  let lastAddedTileToHandID = handData
-    ? handData[handData.length - 1]?.tileID
-    : null; //this might be prone to error, also it can be performance intensive
+  let lastAddedTileToHandID = handData[handData.length - 1]?.tileID; //this might be prone to error,
+  let lastTileToDiscard = handData.find(
+    tile => tile.tileID === lastAddedTileToHandID,
+  ); //this needs a fallback probably ;/
+  //also it can be minimally be performance intensive
   let temporaryTilesArray = temporaryTiles.map(t => t.name);
   const handlePress = (tile: TTileObject, tileID: number) => {
     console.log(
       'HANDLE PRESS:',
+      'isRiichiActive:',
       isRiichiActive,
+      'pressed tileID:',
       tileID,
+      'and',
       tile.name,
       'Temp:',
       temporaryTiles.map(t => t.name),
@@ -139,8 +144,11 @@ const PlayerHandComponent = ({
           gameTurn === playersWind,
           'turnInterrupted:',
           turnInterrupted,
-          'so it RUNS',
+          'so it RUNS!!!!',
+          'tile:',
           tile.name,
+          'temp:',
+          temporaryTilesArray.map(i => i),
         );
         //TODO add if isRichii, cannot discard = > automatic discarding of the last index??? check for win
         // When Riichi is active, I cannot remove the one unwanted tile to maintain 13 tiles in hand.
@@ -148,7 +156,7 @@ const PlayerHandComponent = ({
         // However, I need to determine which tiles are allowed to be discarded while preserving Riichi.
         //temporaryTiles
         if (isRiichiActive && temporaryTilesArray.includes(tile.name)) {
-          console.log('TAK DZIAŁAM DEKLARACJA RIICHI DISCARD');
+          console.log('TAK DZIAŁAM - DEKLARACJA RIICHI DISCARD');
           discardTile('player1', tile, dispatch);
         }
         if (!isRiichiActive) {
@@ -159,15 +167,26 @@ const PlayerHandComponent = ({
           //setDisplayRiichiFalse
           //dispatch reset temporary tiles
           dispatch(
-            seTemporaryDiscardableTiles({
+            setTemporaryDiscardableTiles({
               TypeOfAction: 'reset',
               temporaryTiles: [],
               player: 'player1',
             }),
           );
         } //teraz pracuje nad tym, że riichi jest aktywne i muszę odrzucić klocki które się do tego nadają, czyli niekoniecznie ostatni
-        /* else if(possible riichi discards, riichi must be activated to perform discards){ //
-        //TODO in tenpai, possible Riichi discards, i dont know now how to fix this problem it is 2:57 am. 
+        /* else if(possible riichi discards, riichi must be activated to perform discards)*/
+        if (isRiichiActive && selected === lastAddedTileToHandID) {
+          //i am in riichi, drop only newest tiles
+          console.log(
+            'jest riichi i wyrzucam ostatni klocek:',
+            lastAddedTileToHandID,
+          );
+          lastTileToDiscard
+            ? discardTile('player1', lastTileToDiscard, dispatch)
+            : console.warn('ERROR lastTileToDiscard in PlayerHand');
+          //TODO new bug, when player1 is in riichi, thre is pass button displayed...
+          //TODO add automatic discard
+        } /*
         }
         else if(isRiichiActive&&selected===lastAddedTileToHandID){
         discardTile('player1', tile, dispatch);//run when player is in riichi
@@ -186,6 +205,16 @@ const PlayerHandComponent = ({
         isRiichiActive,
         tile.name,
       );
+      /*       if (isRiichiActive && selected === lastAddedTileToHandID) {
+        console.log(
+          'jest riichi i wyrzucam ostatni klocek:',
+          lastAddedTileToHandID,
+        );
+        lastTileToDiscard
+          ? discardTile('player1', lastTileToDiscard, dispatch)
+          : console.warn('ERROR lastTileToDiscard in PlayerHand');
+        //discardTile('player1', lastTileToDiscard, dispatch);
+      } */
     }
     //console.log(selected);
   };

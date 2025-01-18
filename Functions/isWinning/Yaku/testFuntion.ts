@@ -210,7 +210,7 @@ export let debugHand2 = [
 export const testFunction = (dispatch: any) => {
   console.log(
     'TEST_FUNCTION:',
-    debugHand2.map(i => i.japaneseName),
+    debugHand2.map(i => i.tileID),
   );
 };
 //https://www.npmjs.com/package/react-native-haptic-feedback
