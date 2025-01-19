@@ -1,10 +1,9 @@
 import React from 'react';
 import {resetToNextRound} from '../../Functions/resetToNextRound';
-import {View} from 'react-native';
-import {Button} from '@rneui/themed';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {captureScrenshot} from '../../Functions/utils/captureScreenshot';
 import {soundType} from '../../Functions/playSounds/soundFunc';
-//TODO style the buttons
+
 const ButtonContainers = ({
   dispatch,
   navigation,
@@ -15,52 +14,46 @@ const ButtonContainers = ({
   return (
     <View
       style={{
-        backgroundColor: 'transparent',
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
         flex: 1,
       }}>
-      <Button
-        title="[◉°]"
-        buttonStyle={{
-          borderColor: 'rgba(78, 116, 289, 1)',
-          borderRadius: 8,
+      <TouchableOpacity
+        style={{
+          height: 40,
+          width: 75,
+          backgroundColor: '#e9ebe8',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 10,
+          borderWidth: 3,
+          borderColor: '#56a2c4',
         }}
-        type="outline"
-        raised
-        titleStyle={{color: 'rgba(78, 116, 289, 1)'}}
-        containerStyle={{
-          width: 50,
-          /*         marginHorizontal: 50,
-        marginVertical: 10, */
-          borderRadius: 8,
-        }}
+        activeOpacity={0.9}
         onPress={() => {
-          console.log('SCRENSHOT Pressed'),
-            /*    hasAndroidPermission()
-        savePicture() */
-            captureScrenshot();
+          console.log('SCRENSHOT Pressed'), captureScrenshot();
           soundType('shutter'); //TODO check if this is working
+        }}>
+        <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>
+          {`[◉°]`}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          height: 40,
+          width: 150,
+          backgroundColor: '#e9ebe8',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 10,
+          borderWidth: 3,
+          borderColor: '#56a2c4',
         }}
-      />
-      <Button
-        title="OK"
-        buttonStyle={{
-          borderColor: 'rgba(78, 116, 289, 1)',
-          borderRadius: 8,
-        }}
-        type="outline"
-        raised
-        titleStyle={{color: 'rgba(78, 116, 289, 1)'}}
-        containerStyle={{
-          width: 80,
-          /*         marginHorizontal: 50,
-        marginVertical: 10, */
-          borderRadius: 8,
-        }}
-        onPress={() => resetToNextRound({dispatch, navigation})}
-      />
+        activeOpacity={0.9}
+        onPress={() => resetToNextRound({dispatch, navigation})}>
+        <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>OK</Text>
+      </TouchableOpacity>
     </View>
   );
 };

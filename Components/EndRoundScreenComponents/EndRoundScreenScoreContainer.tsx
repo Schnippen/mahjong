@@ -19,7 +19,12 @@ const ScoreContainer = () => {
           justifyContent: 'center',
           backgroundColor: 'transparent',
         }}>
-        <Text style={{color: '#fbd54e', fontSize: 42, fontWeight: 'bold'}}>
+        <Text
+          style={{
+            color: '#fbd54e',
+            fontSize: 42,
+            fontFamily: 'TheLastShuriken',
+          }}>
           {pointsName}
         </Text>
       </View>

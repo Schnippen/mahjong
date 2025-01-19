@@ -191,10 +191,10 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
       hasInitializedGame,
     );
   }, [route.params?.gameInitializer]);
-  ///TOOD there is an issue with performence whenever YOU use flatlist in scrollView,
-  //Final verison will only have view -> flatlist
+
+  //Final verison only have view -> for flatlist performance
   return (
-    <ScrollView>
+    <View style={{flex: 1}}>
       <StatusBar hidden={true} />
       <View
         style={{
@@ -232,7 +232,6 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
         <View
           style={{
             marginTop: -75,
-            backgroundColor: boardColor,
             transform: [{rotateX: '45deg'}, {rotateZ: '0deg'}, {scale: 1}],
           }}>
           <View
@@ -378,7 +377,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           <PlayerPanel navigation={navigation} />
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 export default MahjongScreen;

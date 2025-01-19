@@ -16,7 +16,7 @@ export const WinningHand = () => {
   const {winningAction} = useAppSelector(
     (state: RootState) => state.gameReducer.winningHand,
   );
-  let data = winningTile[0] === null ? exampleData2[0] : winningTile[0];
+  let data = winningTile[0] !== null ? winningTile[0] : exampleData2[0];
   console.log('WINNING TILE', data);
   //const screenWidth = Dimensions.get('screen').width;
 
@@ -79,7 +79,12 @@ export const WinningHand = () => {
             justifyContent: 'center',
             height: 36,
           }}>
-          <Text style={{fontWeight: 'bold', fontSize: 26, color: '#fbd54e'}}>
+          <Text
+            style={{
+              fontFamily: 'TheLastShuriken',
+              fontSize: 26,
+              color: '#fbd54e',
+            }}>
             {winningAction}
           </Text>
         </View>

@@ -38,8 +38,8 @@ const AutoSort = () => {
         style={{
           color: sortTilesOnHand ? 'rgb(233, 195, 170)' : 'white',
           textAlign: 'center',
-          fontWeight: 'bold',
           fontSize: 16,
+          fontFamily: 'TheLastShuriken',
         }}>
         S
       </Text>
@@ -77,7 +77,7 @@ const ShowNumerals = () => {
         style={{
           color: showNumerals ? 'rgb(233, 195, 170)' : 'white',
           textAlign: 'center',
-          fontWeight: 'bold',
+          fontFamily: 'TheLastShuriken',
           fontSize: 16,
         }}>
         N

@@ -449,7 +449,7 @@ export const runGame = (
         setDisplayRonButton,
         setDisplayTsumoButton,
       });
-
+      //probably needs the same treatment as riichi with nextXplayer
       //make it manage all players
       //canWin()?
       // show ron
@@ -465,7 +465,7 @@ export const runGame = (
     console.info('Game Ended');
     //TODO check tenpai noten
     dispatch(HONBA_REDUCER('increment'));
-    navigation.navigate('EndRoundScreen');
+    navigation.navigate('EndRoundScreen'); //but there are no winners
     return;
   }
 

@@ -1,8 +1,7 @@
 import {Text} from '@rneui/themed';
 import {StickIndicator} from './StickIndicator';
 import React from 'react';
-import {FlatList, View} from 'react-native';
-import {mahjongTilesSVGsArray} from '../../Assets/MahjongTiles/MahjongTiles';
+import {View} from 'react-native';
 import {CurrentDoras} from './CurrentDoras';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -40,7 +39,9 @@ const DoraPanel = () => {
           borderTopRightRadius: 8,
           borderTopLeftRadius: 8,
         }}>
-        <Text adjustsFontSizeToFit={true}>
+        <Text
+          adjustsFontSizeToFit={true}
+          style={{fontFamily: 'TheLastShuriken'}}>
           {numberOfPlayers + ' · ' + gameType}
         </Text>
       </View>

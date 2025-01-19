@@ -17,19 +17,19 @@ const ButtonShape = ({
     <Button
       onPress={handlePress} // Pass handlePress directly
       radius={'md'}
-      buttonStyle={{height: 35, width: 110}}
+      buttonStyle={{height: 40, width: 110}}
       titleStyle={{
-        fontWeight: 'bold',
-        textAlign: 'center',
-        verticalAlign: 'middle', //TODO ADD CUSTOM FONT
-        fontFamily:"SofadiOne"
+        fontFamily: 'TheLastShuriken',
+        textAlignVertical: 'center',
       }}
+      activeOpacity={0.8}
       ViewComponent={LinearGradient}
       linearGradientProps={{
         colors: [firstColor, secondColor],
         start: {x: 0, y: 0.5},
         end: {x: 1, y: 0.5},
       }}
+      raised={true}
       title={text}
     />
   );

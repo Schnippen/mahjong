@@ -29,14 +29,14 @@ export const Score = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{fontWeight: 'bold', fontSize: 24}}>
+        <Text style={{fontFamily: 'TheLastShuriken', fontSize: 24}}>
           {displayWinningFu + ' '}
         </Text>
-        <Text style={{fontWeight: 'bold'}}>Fu </Text>
+        <Text style={{fontFamily: 'TheLastShuriken'}}>Fu </Text>
         <Text style={{fontSize: 24, fontWeight: 'bold'}}>
           {displayTotalHan + ' '}
         </Text>
-        <Text style={{fontWeight: 'bold'}}>Han </Text>
+        <Text style={{fontFamily: 'TheLastShuriken'}}>Han </Text>
       </View>
       <View
         style={{
@@ -50,11 +50,18 @@ export const Score = () => {
           style={{
             fontSize: 30,
             textAlignVertical: 'center',
-            fontWeight: 'bold',
+            fontFamily: 'TheLastShuriken',
           }}>
           {displayWinningPoints + ' '}
         </Text>
-        <Text style={{fontSize: 18, textAlignVertical: 'center'}}>PTS</Text>
+        <Text
+          style={{
+            fontSize: 18,
+            textAlignVertical: 'center',
+            fontFamily: 'TheLastShuriken',
+          }}>
+          PTS
+        </Text>
       </View>
     </View>
   );

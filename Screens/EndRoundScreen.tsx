@@ -13,8 +13,9 @@ import EndRoundScreenUraDoras from '../Components/EndRoundScreenComponents/EndRo
 import {soundType} from '../Functions/playSounds/soundFunc';
 import YakuList from '../Components/EndRoundScreenComponents/YakuList';
 import ButtonContainers from '../Components/EndRoundScreenComponents/ButtonContainers';
+import {boardColor} from '../Data/colors';
 
-//TODO love this
+//love this
 /* onLayout={(event) => {
   const {x, y, width, height} = event.nativeEvent.layout;
   console.log(x,y,width,height)
@@ -33,7 +34,7 @@ function EndRoundScreen({navigation}: {navigation: any}) {
     <View
       style={{
         flex: 1,
-        backgroundColor: 'green',
+        backgroundColor: boardColor,
         justifyContent: 'center',
         alignItems: 'center',
       }}>
