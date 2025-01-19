@@ -116,109 +116,68 @@ const PlayerHandComponent = ({
     tile => tile.tileID === lastAddedTileToHandID,
   ); //this needs a fallback probably ;/
   //also it can be minimally be performance intensive
+  //get better variable names
+  //make it clean
   let temporaryTilesArray = temporaryTiles.map(t => t.name);
-  const handlePress = (tile: TTileObject, tileID: number) => {
+  const handleTileDiscard = (tile: TTileObject, tileID: number): void => {
     console.log(
-      'HANDLE PRESS:',
-      'isRiichiActive:',
-      isRiichiActive,
-      'pressed tileID:',
-      tileID,
-      'and',
+      'handleTileDiscard(): Player discard logic triggered for tile:',
       tile.name,
-      'Temp:',
-      temporaryTiles.map(t => t.name),
     );
+
+    if (isRiichiActive && temporaryTilesArray.includes(tile.name)) {
+      console.log(
+        'Riichi active, discarding a valid tile for declaration from temporary tiles.',
+      );
+      discardTile('player1', tile, dispatch);
+      return;
+    }
+
+    if (!isRiichiActive) {
+      setDisplayRiichiButton(false);
+      console.log('NORMAL discard:', tile.name, 'ID:', tileID);
+      discardTile('player1', tile, dispatch);
+      if (displayRiichiButton) {
+        //missing riichi opportunity
+        console.log(
+          'PASSING Riichi opportunity, setDisplayRiichiButton(false) = PASSED',
+        );
+        setDisplayRiichiButton(false);
+      }
+      dispatch(
+        setTemporaryDiscardableTiles({
+          TypeOfAction: 'reset',
+          temporaryTiles: [],
+          player: 'player1',
+        }),
+      );
+      return;
+    }
+
+    if (isRiichiActive && selected === lastAddedTileToHandID) {
+      //i am in riichi, drop only newest tiles
+      console.log(
+        'Riichi active, discarding the last added tile:',
+        lastAddedTileToHandID,
+      );
+      lastTileToDiscard
+        ? discardTile('player1', lastTileToDiscard, dispatch)
+        : console.warn('Error: Last tile to discard not found.');
+    }
+  };
+
+  const handlePress = (tile: TTileObject, tileID: number): void => {
+    console.log('Tile pressed:', tile.name, 'ID:', tileID);
     if (selected === tileID) {
       setSelected(null);
-      console.log(
-        gameTurn === playersWind
-          ? `It's your turn - turn Interrupted:${turnInterrupted} - ${tileID}& ${tile.name} - length:${handData.length}, handDataLastIndex:${lastAddedTileToHandID}`
-          : `It's NOT your turn - turn Interrupted:${turnInterrupted} - ${tileID}`,
-      );
+      //Deselected tile
       if (gameTurn === playersWind && !turnInterrupted) {
-        console.log(
-          'PLAYER HAND CONDITIONAL:',
-          tileID,
-          'gameTurn===Pwinnd:',
-          gameTurn === playersWind,
-          'turnInterrupted:',
-          turnInterrupted,
-          'so it RUNS!!!!',
-          'tile:',
-          tile.name,
-          'temp:',
-          temporaryTilesArray.map(i => i),
-        );
-        //TODO add if isRichii, cannot discard = > automatic discarding of the last index??? check for win
-        // When Riichi is active, I cannot remove the one unwanted tile to maintain 13 tiles in hand.
-        // To resolve this, I can perform a check: if the hand length is 14, I can drop the current discard tile.
-        // However, I need to determine which tiles are allowed to be discarded while preserving Riichi.
-        //temporaryTiles
-        if (isRiichiActive && temporaryTilesArray.includes(tile.name)) {
-          console.log('TAK DZIAŁAM - DEKLARACJA RIICHI DISCARD');
-          discardTile('player1', tile, dispatch);
-        }
-        if (!isRiichiActive) {
-          //NORMAL DISCARD, when Riichi button is displayed, ergo passing riichi opputunity
-          setDisplayRiichiButton(false);
-          console.log('TAK DZIAŁAM NORMALLL');
-          discardTile('player1', tile, dispatch);
-          //setDisplayRiichiFalse
-          //dispatch reset temporary tiles
-          dispatch(
-            setTemporaryDiscardableTiles({
-              TypeOfAction: 'reset',
-              temporaryTiles: [],
-              player: 'player1',
-            }),
-          );
-        } //teraz pracuje nad tym, że riichi jest aktywne i muszę odrzucić klocki które się do tego nadają, czyli niekoniecznie ostatni
-        /* else if(possible riichi discards, riichi must be activated to perform discards)*/
-        if (isRiichiActive && selected === lastAddedTileToHandID) {
-          //i am in riichi, drop only newest tiles
-          console.log(
-            'jest riichi i wyrzucam ostatni klocek:',
-            lastAddedTileToHandID,
-          );
-          lastTileToDiscard
-            ? discardTile('player1', lastTileToDiscard, dispatch)
-            : console.warn('ERROR lastTileToDiscard in PlayerHand');
-          //TODO new bug, when player1 is in riichi, thre is pass button displayed...
-          //TODO add automatic discard
-        } /*
-        }
-        else if(isRiichiActive&&selected===lastAddedTileToHandID){
-        discardTile('player1', tile, dispatch);//run when player is in riichi
-        } */
-        //TODO automated discard !isRichiiActive pop array.at(-1)
-        //discardTile('player1', tile, dispatch);
-        //console.log("discardTile")
+        handleTileDiscard(tile, tileID);
       }
     } else {
       setSelected(tileID);
-      //selected a different one from the previous one was chosen
-      console.log(
-        'PLAYERHAND ELSE:',
-        tileID,
-        'isRiichiActive:',
-        isRiichiActive,
-        tile.name,
-      );
-      /*       if (isRiichiActive && selected === lastAddedTileToHandID) {
-        console.log(
-          'jest riichi i wyrzucam ostatni klocek:',
-          lastAddedTileToHandID,
-        );
-        lastTileToDiscard
-          ? discardTile('player1', lastTileToDiscard, dispatch)
-          : console.warn('ERROR lastTileToDiscard in PlayerHand');
-        //discardTile('player1', lastTileToDiscard, dispatch);
-      } */
     }
-    //console.log(selected);
   };
-
   const renderItem = ({item, index}: {item: TTileObject; index: number}) => {
     const isLastItem = index === handDataLastIndex;
     const marginLeft = isItFirstTurn

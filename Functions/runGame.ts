@@ -240,6 +240,7 @@ export const runGame = (
     currentHand.length,
     'currentHand:',
     currentHand.map(t => t.name),
+    'currentDiscard:',
     currentDiscard[0]?.name,
     'quad?:',
     checkQ,
@@ -247,7 +248,7 @@ export const runGame = (
     checkT,
     'currentGlobalWind',
     currentGlobalWind,
-    'currentPlayerTurn:',
+    '-currentPlayerTurn:',
     currentPlayersTurn,
     'nextWind&nextPlayerX:',
     nextWind,
@@ -260,8 +261,6 @@ export const runGame = (
   );
 
   //Rest for each on everyTurn
-
-  let currentPlayers = 'player that has east as a wind makes first move,';
 
   // as a new instance runGame() again?
 
@@ -297,6 +296,11 @@ export const runGame = (
       console.log(
         'runGame.ts 1------ ----- TEMO:',
         [...result.discardableTiles].map(t => t.name),
+        '---currentPlayer',
+        currentPlayersTurn,
+        'nextWind&nextPlayerX:',
+        nextWind,
+        nextPlayerX,
       );
       dispatch(
         //add player1 player2 etc
@@ -379,6 +383,7 @@ export const runGame = (
         }
 
         if (player1River.riichiIndex !== null) {
+          //console.warn('runGame.ts: player1River.riichiIndex !== null');
           dispatch(
             setTemporaryDiscardableTiles({
               TypeOfAction: 'reset',
@@ -387,8 +392,13 @@ export const runGame = (
           );
           setDisplayRiichiButton(false);
         } else {
+          /* console.warn('runGame.ts: player1River.riichiIndex === null',currentPlayersTurn,); */
+          if (currentPlayersTurn === 'player1') {
+            setDisplayRiichiButton(false); // new knowledge from debug: if riichi is possible, and player1 is passing riichi declaration by not pressing RIICHI button, the display were true ...
+          } else {
+            setDisplayRiichiButton(true);
+          }
           //make sure to reset after discarded riichi tile...
-          setDisplayRiichiButton(true);
         }
       } else if (currentPlayersTurn !== 'player1' && result.result) {
         //This is AI turn
