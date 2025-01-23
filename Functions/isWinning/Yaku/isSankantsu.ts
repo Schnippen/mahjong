@@ -7,22 +7,27 @@ type isSankantsuTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isSankantsu({hand, discard, playerMelds}: isSankantsuTypes) {
+export function isSankantsu({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isSankantsuTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
   let yakuName = 'Sankantsu';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
-
   const tileCounts = countTilesByName(handToCheck);
   if (checkSankantsu(tileCounts)) {
     for (let tileName in tileCounts) {
@@ -35,6 +40,7 @@ export function isSankantsu({hand, discard, playerMelds}: isSankantsuTypes) {
             typeOfAction: typeOfAction,
             han: 2,
             yakuName: yakuName,
+            winningTile,
           };
         }
       }
@@ -48,6 +54,7 @@ export function isSankantsu({hand, discard, playerMelds}: isSankantsuTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
 }
 //TODO https://riichi.wiki/Sankantsu

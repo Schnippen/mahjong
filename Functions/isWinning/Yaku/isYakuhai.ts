@@ -7,22 +7,28 @@ type isYakuhaiTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isYakuhai({hand, discard, playerMelds}: isYakuhaiTypes) {
+export function isYakuhai({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isYakuhaiTypes) {
   const start = performance.now();
-  let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
+
   let yakuName = 'Yakuhai';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+  let handToCheck: TTileObject[] = [];
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
-
   const tileCounts = countTilesByName(handToCheck);
   if (checkYakuhai(tileCounts) > 0) {
     let numberOfYakuhai = checkYakuhai(tileCounts);
@@ -33,9 +39,10 @@ export function isYakuhai({hand, discard, playerMelds}: isYakuhaiTypes) {
         if (checkMelds(newCounts) === 4) {
           return {
             result: true,
-            typeOfAction: typeOfAction,
+            typeOfAction,
             han: numberOfYakuhai,
             yakuName: yakuName,
+            winningTile,
           };
         }
       }
@@ -46,8 +53,9 @@ export function isYakuhai({hand, discard, playerMelds}: isYakuhaiTypes) {
   //console.log(`isYakuhai() took ${end - start} milliseconds.`);
   return {
     result: false,
-    typeOfAction: typeOfAction,
+    typeOfAction,
     han: 0,
-    yakuName: yakuName,
+    yakuName,
+    winningTile,
   };
 }

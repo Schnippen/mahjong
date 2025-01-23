@@ -12,22 +12,23 @@ type isToiToiTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
+export function isToiToi({hand, discard, playerMelds, Process}: isToiToiTypes) {
   const start = performance.now();
 
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   let yakuName = 'ToiToi';
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
-    handToCheck = [...hand, ...discard, ...meldedTiles]; //TODO check it
-    typeOfAction = 'RON';
+    handToCheck = [...hand, ...discard, ...meldedTiles];
   }
 
   //this yaku can be done on opened hand
@@ -43,7 +44,6 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
     }
   } */
   if (checkToiToiTriplets(tileCounts)) {
-    //return { result: true, typeOfAction: typeOfAction }; //there is problem with melds
     for (let tileName in tileCounts) {
       if (tileCounts[tileName] >= 2) {
         const newCounts = {...tileCounts};
@@ -54,6 +54,7 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
             typeOfAction: typeOfAction,
             han: 2,
             yakuName: yakuName,
+            winningTile,
           };
         }
       }
@@ -78,6 +79,7 @@ export function isToiToi({hand, discard, playerMelds}: isToiToiTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
   //}
 }

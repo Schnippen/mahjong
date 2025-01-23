@@ -74,13 +74,13 @@ export function isTenpai({
           a.name.localeCompare(b.name),
         );
         //TODO remove this console.info, too much clutter
-        console.info(
+        /*     console.info(
           `isTenpai(): Tenpai possible! After discarding: ${
             tileThatNeedsToBeDiscarded.name
           }, Possible draw: ${
             waitingForPossibleWinningTile.name
           }, Winning hand: ${sortedSimulatedHand.map(t => t.name).join(', ')}`,
-        );
+        ); */
 
         // add tile to the list
         discardableTiles.add(tileThatNeedsToBeDiscarded);
@@ -88,13 +88,13 @@ export function isTenpai({
     }
   }
   if (discardableTiles.size > 0) {
-    console.info(
+    /*   console.info(
       `isTenpai(): Valid discardable tile names: ${[
         ...discardableTiles.values(),
       ]
         .map(tile => tile.name)
         .join(', ')}`,
-    ); //TODO
+    ); //TODO */
     return {result: true, discardableTiles: discardableTiles};
     //return true;
   }

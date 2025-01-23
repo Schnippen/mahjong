@@ -1,40 +1,40 @@
-import {
-  TTileObject,
-  TstolenTiles,
-  TypeOfAction,
-  tileCountsType,
-} from '../../../Types/types';
+import {TstolenTiles, TTileObject, TypeOfAction} from '../../../Types/types';
+import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkTanyaoMelds} from '../UtilsFunctions/checkTanyaoMelds';
 
-type isTanyaoTypes = {
+type isRiichiTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
-  Process?: 'ron' | 'tsumo';
+  Process: 'ron' | 'tsumo';
 };
 
-export function isTanyao({hand, discard, playerMelds, Process}: isTanyaoTypes) {
-  const start = performance.now();
+export function isRiichi({hand, discard, playerMelds, Process}: isRiichiTypes) {
+  let handToCheck: TTileObject[] = hand.concat(discard);
   const typeOfAction: TypeOfAction =
     Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
   let winningTile: TTileObject = discard[0];
-
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
-  let yakuName = 'Tanyao';
-  let handToCheck: TTileObject[] = [];
-  if (meldedTiles.length === 0) {
-    handToCheck = hand.concat(discard);
-  } else {
-    handToCheck = [...hand, ...discard, ...meldedTiles];
-  }
-  const tileCounts = countTilesByName(handToCheck);
+  let yakuName = 'Riichi';
 
+  if (handToCheck.length !== 14 || meldedTiles.length > 0) {
+    //riichi cannot have melds
+
+    return {
+      result: false,
+      typeOfAction,
+      yakuName,
+      han: 0,
+      winningTile,
+    };
+  }
+
+  const tileCounts = countTilesByName(handToCheck);
   for (let tileName in tileCounts) {
     if (tileCounts[tileName] >= 2) {
       const newCounts = {...tileCounts};
       newCounts[tileName] -= 2;
-      if (checkTanyaoMelds(newCounts) === 4) {
+      if (checkMelds(newCounts) === 4) {
         return {
           result: true,
           typeOfAction,
@@ -45,9 +45,6 @@ export function isTanyao({hand, discard, playerMelds, Process}: isTanyaoTypes) {
       }
     }
   }
-
-  const end = performance.now();
-  //console.log(`isTanyao() took ${end - start} milliseconds.`);
   return {
     result: false,
     typeOfAction,

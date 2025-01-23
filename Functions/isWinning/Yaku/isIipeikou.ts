@@ -7,38 +7,35 @@ type isIipekouTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isIipeikou({hand, discard, playerMelds}: isIipekouTypes) {
+export function isIipeikou({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isIipekouTypes) {
   const start = performance.now();
-  let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  let handToCheck: TTileObject[] = hand.concat(discard);
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
   let yakuName = 'Honrotou';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+  let winningTile: TTileObject = discard[0];
   if (meldedTiles.length > 0) {
-    typeOfAction = '';
-    return {result: false, typeOfAction: typeOfAction};
-  }
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
-  } else {
-    handToCheck = [...hand, ...discard]; //is closed only
-    typeOfAction = 'RON';
+    //is closed only
+    return {
+      result: false,
+      typeOfAction,
+      han: 0,
+      yakuName,
+      winningTile,
+    };
   }
 
   const tileCounts = countTilesByName(handToCheck);
 
-  /*     for (let tileName in tileCounts) {
-      if (tileCounts[tileName] >= 2) {
-        const newCounts = { ...tileCounts };
-        newCounts[tileName] -= 2;
-        if (checkIipeikou(newCounts)) {
-          return true;
-        }
-      }
-    } */
-  // threre might be bug
   if (checkIipeikou(tileCounts)) {
     for (let tileName in tileCounts) {
       if (tileCounts[tileName] >= 2) {
@@ -47,9 +44,10 @@ export function isIipeikou({hand, discard, playerMelds}: isIipekouTypes) {
         if (checkMelds(newCounts) === 4) {
           return {
             result: true,
-            typeOfAction: typeOfAction,
+            typeOfAction,
             han: 1,
-            yakuName: yakuName,
+            yakuName,
+            winningTile,
           };
         }
       }
@@ -64,8 +62,9 @@ export function isIipeikou({hand, discard, playerMelds}: isIipekouTypes) {
   //console.log(`isIipekou() took ${end - start} milliseconds.`);
   return {
     result: false,
-    typeOfAction: typeOfAction,
+    typeOfAction,
     han: 0,
-    yakuName: yakuName,
+    yakuName,
+    winningTile,
   };
 }

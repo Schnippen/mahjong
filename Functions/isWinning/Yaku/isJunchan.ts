@@ -11,27 +11,29 @@ type isJunchanTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isJunchan({hand, discard, playerMelds}: isJunchanTypes) {
+export function isJunchan({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isJunchanTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
-
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   let han: number;
   let yakuName = 'Junchan';
   if (meldedTiles.length === 0) {
     han = 3;
+    handToCheck = hand.concat(discard);
   } else {
     han = 2;
-  }
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
-  } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
 
   const tileCounts = countTilesByName(handToCheck);
@@ -46,6 +48,7 @@ export function isJunchan({hand, discard, playerMelds}: isJunchanTypes) {
           typeOfAction: typeOfAction,
           han: han,
           yakuName: yakuName,
+          winningTile,
         };
       }
     }
@@ -58,5 +61,6 @@ export function isJunchan({hand, discard, playerMelds}: isJunchanTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
 }

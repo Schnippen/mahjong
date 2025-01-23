@@ -8,22 +8,28 @@ type isTsuuiisouTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isTsuuiisou({hand, discard, playerMelds}: isTsuuiisouTypes) {
+export function isTsuuiisou({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isTsuuiisouTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
   let yakuName = 'Tsuuiisou';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
-
   const tileCounts = countTilesByName(handToCheck);
 
   // checking if there is an Ittsuu in the hand
@@ -38,6 +44,7 @@ export function isTsuuiisou({hand, discard, playerMelds}: isTsuuiisouTypes) {
             typeOfAction: typeOfAction,
             han: 13,
             yakuName: yakuName,
+            winningTile,
           };
         }
       }
@@ -51,5 +58,6 @@ export function isTsuuiisou({hand, discard, playerMelds}: isTsuuiisouTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
 }

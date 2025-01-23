@@ -6,13 +6,20 @@ type isChinitsuTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isChinitsu({hand, discard, playerMelds}: isChinitsuTypes) {
+export function isChinitsu({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isChinitsuTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
-
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
 
   let han: number;
@@ -23,12 +30,10 @@ export function isChinitsu({hand, discard, playerMelds}: isChinitsuTypes) {
     han = 5;
   }
 
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
 
   const tileCounts = countTilesByName(handToCheck);
@@ -43,6 +48,7 @@ export function isChinitsu({hand, discard, playerMelds}: isChinitsuTypes) {
           typeOfAction: typeOfAction,
           han: han,
           yakuName: yakuName,
+          winningTile,
         };
       }
     }
@@ -55,5 +61,6 @@ export function isChinitsu({hand, discard, playerMelds}: isChinitsuTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
 }

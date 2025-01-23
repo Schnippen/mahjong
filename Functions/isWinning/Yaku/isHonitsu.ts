@@ -12,12 +12,20 @@ type isHonitsuTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isHonitsu({hand, discard, playerMelds}: isHonitsuTypes) {
+export function isHonitsu({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isHonitsuTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
 
@@ -29,12 +37,10 @@ export function isHonitsu({hand, discard, playerMelds}: isHonitsuTypes) {
     han = 2;
   }
 
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
 
   const tileCounts = countTilesByName(handToCheck);
@@ -50,6 +56,7 @@ export function isHonitsu({hand, discard, playerMelds}: isHonitsuTypes) {
             typeOfAction: typeOfAction,
             han: han,
             yakuName: yakuName,
+            winningTile,
           };
         }
       }
@@ -63,5 +70,6 @@ export function isHonitsu({hand, discard, playerMelds}: isHonitsuTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
 }

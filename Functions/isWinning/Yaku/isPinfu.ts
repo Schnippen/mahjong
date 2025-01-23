@@ -6,35 +6,26 @@ type isPinfuTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isPinfu({hand, discard, playerMelds}: isPinfuTypes) {
+export function isPinfu({hand, discard, playerMelds, Process}: isPinfuTypes) {
   const start = performance.now();
-  let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
-  let winningTile: TTileObject;
+  let handToCheck: TTileObject[] = hand.concat(discard);
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   let yakuName = 'Pinfu';
+
   if (meldedTiles.length > 0) {
-    typeOfAction = '';
     return {
       result: false,
       typeOfAction: typeOfAction,
       han: 0,
       yakuName: yakuName,
+      winningTile,
     };
-  }
-
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
-    winningTile = hand[hand.length - 1];
-    // console.log('PINFU LAST TILE TSUMO:', hand[hand.length - 1]);
-  } else {
-    handToCheck = [...hand, discard[0]];
-    typeOfAction = 'RON';
-    winningTile = discard[0];
-    //console.log('PINFU LAST TILE RON:', discard);
   }
 
   const tileCounts = countTilesByName(handToCheck);
@@ -51,5 +42,6 @@ export function isPinfu({hand, discard, playerMelds}: isPinfuTypes) {
     typeOfAction: typeOfAction,
     han: pinfuResult ? 1 : 0,
     yakuName: yakuName,
+    winningTile,
   };
 }

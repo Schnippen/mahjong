@@ -7,22 +7,28 @@ type isHonrotouTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isHonrotou({hand, discard, playerMelds}: isHonrotouTypes) {
+export function isHonrotou({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isHonrotouTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
   let yakuName = 'Honrotou';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
-
   const tileCounts = countTilesByName(handToCheck);
 
   if (checkHonroutou(tileCounts)) {
@@ -37,6 +43,7 @@ export function isHonrotou({hand, discard, playerMelds}: isHonrotouTypes) {
             typeOfAction: typeOfAction,
             han: 2,
             yakuName: yakuName,
+            winningTile,
           };
         }
       }
@@ -50,5 +57,6 @@ export function isHonrotou({hand, discard, playerMelds}: isHonrotouTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
 }

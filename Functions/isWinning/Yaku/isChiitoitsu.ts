@@ -1,21 +1,38 @@
-import {TTileObject, TypeOfAction} from '../../../Types/types';
+import {TstolenTiles, TTileObject, TypeOfAction} from '../../../Types/types';
 import {checkMelds} from '../../isReadyForRiichii/checkMelds';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
 
-type isChiitoitsuTypes = {hand: TTileObject[]; discard: TTileObject[]};
+type isChiitoitsuTypes = {
+  hand: TTileObject[];
+  discard: TTileObject[];
+  playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
+};
 
-export function isChiitoitsu({hand, discard}: isChiitoitsuTypes) {
+export function isChiitoitsu({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isChiitoitsuTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
   let yakuName = 'Chiitoitsu';
+  let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
 
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+  if (meldedTiles.length > 0) {
+    return {
+      result: false,
+      typeOfAction: typeOfAction,
+      han: 0,
+      yakuName: yakuName,
+      winningTile,
+    };
   } else {
-    handToCheck = [...hand, ...discard]; //TODO check it
-    typeOfAction = 'RON';
+    handToCheck = hand.concat(discard);
   }
 
   //must be closed hand
@@ -35,6 +52,7 @@ export function isChiitoitsu({hand, discard}: isChiitoitsuTypes) {
       typeOfAction: typeOfAction,
       han: 2,
       yakuName: yakuName,
+      winningTile,
     };
     // In Chiitoitsu, 6 pairs means waiting for the 7th pair
   } else {
@@ -43,6 +61,7 @@ export function isChiitoitsu({hand, discard}: isChiitoitsuTypes) {
       typeOfAction: typeOfAction,
       han: 0,
       yakuName: yakuName,
+      winningTile,
     };
   }
 }

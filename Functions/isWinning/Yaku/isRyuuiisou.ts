@@ -7,6 +7,7 @@ type isRyuuiisouTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
 export function isRyuuiisou({hand, discard, playerMelds}: isRyuuiisouTypes) {
@@ -14,13 +15,13 @@ export function isRyuuiisou({hand, discard, playerMelds}: isRyuuiisouTypes) {
   let handToCheck: TTileObject[] = [];
   let typeOfAction: TypeOfAction = '';
   let yakuName = 'Ryuuiisou';
+  let winningTile: TTileObject = discard[0];
+
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
 
   const tileCounts = countTilesByName(handToCheck);
@@ -35,6 +36,7 @@ export function isRyuuiisou({hand, discard, playerMelds}: isRyuuiisouTypes) {
             typeOfAction: typeOfAction,
             han: 13,
             yakuName: yakuName,
+            winningTile,
           };
         }
       }
@@ -48,5 +50,6 @@ export function isRyuuiisou({hand, discard, playerMelds}: isRyuuiisouTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
 }

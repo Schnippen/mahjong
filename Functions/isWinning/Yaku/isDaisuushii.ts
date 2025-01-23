@@ -7,20 +7,27 @@ type isDaisuushiiTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
+export function isDaisuushii({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isDaisuushiiTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
   let yakuName = 'Daisuushii';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
 
   const tileCounts = countTilesByName(handToCheck);
@@ -37,6 +44,7 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
             typeOfAction: typeOfAction,
             han: 13,
             yakuName: yakuName,
+            winningTile,
           };
         }
       }
@@ -50,5 +58,6 @@ export function isDaisuushii({hand, discard, playerMelds}: isDaisuushiiTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
 }

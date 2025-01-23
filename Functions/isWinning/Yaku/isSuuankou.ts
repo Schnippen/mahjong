@@ -6,28 +6,36 @@ type isToiToiTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isSuuankou({hand, discard, playerMelds}: isToiToiTypes) {
+export function isSuuankou({
+  hand,
+  discard,
+  playerMelds,
+  Process,
+}: isToiToiTypes) {
   const start = performance.now();
 
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
 
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   let yakuName = 'Suuankou';
   // Suuankou requires a closed hand
-  if (meldedTiles.length > 0) {
-    typeOfAction = '';
-    return {result: false, typeOfAction: typeOfAction};
-  }
-
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
+  if (meldedTiles.length === 0) {
+    handToCheck = hand.concat(discard);
   } else {
-    handToCheck = [...hand, ...discard];
-    typeOfAction = 'RON';
+    handToCheck = [...hand, ...discard, ...meldedTiles];
+    return {
+      result: false,
+      typeOfAction: typeOfAction,
+      han: 0,
+      yakuName: yakuName,
+      winningTile,
+    };
   }
   const tileCounts = countTilesByName(handToCheck);
 
@@ -41,6 +49,7 @@ export function isSuuankou({hand, discard, playerMelds}: isToiToiTypes) {
           typeOfAction: typeOfAction,
           han: 13,
           yakuName: yakuName,
+          winningTile,
         };
       }
     }
@@ -62,6 +71,7 @@ export function isSuuankou({hand, discard, playerMelds}: isToiToiTypes) {
       typeOfAction: typeOfAction,
       han: 13,
       yakuName: yakuName,
+      winningTile,
     };
   } else {
     return {

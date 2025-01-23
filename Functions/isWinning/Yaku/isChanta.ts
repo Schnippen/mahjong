@@ -11,30 +11,25 @@ type isChantaTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isChanta({hand, discard, playerMelds}: isChantaTypes) {
+export function isChanta({hand, discard, playerMelds, Process}: isChantaTypes) {
   const start = performance.now();
   let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
+  let winningTile: TTileObject = discard[0];
   let han: number;
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   let yakuName = 'Chanta';
   if (meldedTiles.length === 0) {
     han = 2;
+    handToCheck = hand.concat(discard);
   } else {
     han = 1;
-  }
-
-  //TODO check if tsumo variant is correct
-  if (hand.length === 14) {
-    handToCheck = [...hand, ...meldedTiles];
-    typeOfAction = 'TSUMO';
-  } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
-
   const tileCounts = countTilesByName(handToCheck);
   /*  if (checkChanta(tileCounts)) {
     for (let tileName in tileCounts) {
@@ -54,6 +49,7 @@ export function isChanta({hand, discard, playerMelds}: isChantaTypes) {
       typeOfAction: typeOfAction,
       han: han,
       yakuName: yakuName,
+      winningTile,
     };
   }
   /*   for (let tileName in tileCounts) {
@@ -73,5 +69,6 @@ export function isChanta({hand, discard, playerMelds}: isChantaTypes) {
     typeOfAction: typeOfAction,
     han: 0,
     yakuName: yakuName,
+    winningTile,
   };
 }

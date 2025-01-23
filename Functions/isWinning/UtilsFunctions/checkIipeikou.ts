@@ -1,9 +1,9 @@
-import { tileCountsType } from '../../../Types/types';
+import {tileCountsType} from '../../../Types/types';
 
 export function checkIipeikou(tileCounts: tileCountsType): boolean {
-  let sequenceCounts: { [key: string]: number } = {};
+  let sequenceCounts: {[key: string]: number} = {};
 
-  let tempTileCounts = { ...tileCounts };
+  let tempTileCounts = {...tileCounts};
 
   for (let tileName in tileCounts) {
     const [type, value] = tileName.split(/(\d+)/).filter(Boolean);
@@ -17,7 +17,9 @@ export function checkIipeikou(tileCounts: tileCountsType): boolean {
       tempTileCounts[`${type}${intValue + 1}`] > 0 &&
       tempTileCounts[`${type}${intValue + 2}`] > 0
     ) {
-      const sequence = `${tileName}-${type}${intValue + 1}-${type}${intValue + 2}`;
+      const sequence = `${tileName}-${type}${intValue + 1}-${type}${
+        intValue + 2
+      }`;
       sequenceCounts[sequence] = (sequenceCounts[sequence] || 0) + 1;
 
       tempTileCounts[tileName]--;
@@ -26,8 +28,8 @@ export function checkIipeikou(tileCounts: tileCountsType): boolean {
     }
   }
 
-  console.log(sequenceCounts);
-  
+  //console.log(sequenceCounts);
+
   for (let sequence in sequenceCounts) {
     if (sequenceCounts[sequence] >= 2) {
       return true;

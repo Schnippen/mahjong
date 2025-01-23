@@ -7,26 +7,26 @@ type isIttsuuTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
 };
 
-export function isIttsuu({hand, discard, playerMelds}: isIttsuuTypes) {
+export function isIttsuu({hand, discard, playerMelds, Process}: isIttsuuTypes) {
   const start = performance.now();
-  let handToCheck: TTileObject[] = [];
-  let typeOfAction: TypeOfAction = '';
+
+  const typeOfAction: TypeOfAction =
+    Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
   let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   let han: number;
   let yakuName = 'Ittsuu';
+  let handToCheck: TTileObject[] = [];
+  let winningTile: TTileObject = discard[0];
+
   if (meldedTiles.length === 0) {
     han = 2;
+    handToCheck = hand.concat(discard);
   } else {
     han = 1;
-  }
-  if (hand.length === 14) {
-    handToCheck = hand;
-    typeOfAction = 'TSUMO';
-  } else {
     handToCheck = [...hand, ...discard, ...meldedTiles];
-    typeOfAction = 'RON';
   }
 
   const tileCounts = countTilesByName(handToCheck);
@@ -40,9 +40,10 @@ export function isIttsuu({hand, discard, playerMelds}: isIttsuuTypes) {
         if (checkMelds(newCounts) === 4) {
           return {
             result: true,
-            typeOfAction: typeOfAction,
+            typeOfAction,
             han: han,
-            yakuName: yakuName,
+            yakuName,
+            winningTile,
           };
         }
       }
@@ -53,8 +54,9 @@ export function isIttsuu({hand, discard, playerMelds}: isIttsuuTypes) {
   //console.log(`isIttsuu() took ${end - start} milliseconds.`);
   return {
     result: false,
-    typeOfAction: typeOfAction,
+    typeOfAction,
     han: 0,
-    yakuName: yakuName,
+    yakuName,
+    winningTile,
   };
 }
