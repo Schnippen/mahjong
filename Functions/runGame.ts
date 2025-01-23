@@ -327,7 +327,7 @@ export const runGame = (
         discardableTiles: new Set(),
       };
       if (nextPlayerX === 'player1') {
-        console.log('NextPlayer1 - runGame()-Riichi-OK');
+        // console.log('NextPlayer1 - runGame()-Riichi-OK');
         resultIfPlayer1IsInRiichi = canRiichi({
           hand: player1Hand,
           player1Melds: player1.playerHand.melds,
@@ -343,6 +343,7 @@ export const runGame = (
       }
       console.info(
         nextWind,
+        'nextPlayerX:',
         nextPlayerX,
         `RUN CAUSED BY nextPlayer Riichi:${
           nextPlayerX === 'player1'
@@ -415,7 +416,7 @@ export const runGame = (
             setTemporaryDiscardableTiles({
               TypeOfAction: 'set',
               temporaryTiles: [...resultIfPlayer1IsInRiichi.discardableTiles],
-              player: currentPlayersTurn, //player1
+              player: currentPlayersTurn, //player
             }),
           );
         } //when ai player is in tenpai, it will relentlessly try to go for next riichi. This riichi button should be disabled, allowing for only one riichi per round, be sure that AI player only discard 14th tile
@@ -424,7 +425,7 @@ export const runGame = (
             dispatch,
             player: player.name,
             river: currentRiver.riverState,
-          }); //i must add SPECIFIC discard for ai riichi
+          }); //i must add SPECIFIC discard for AI riichi
         }
       }
     } else {
@@ -435,29 +436,53 @@ export const runGame = (
 
   playersArray.forEach(player => {
     //run it for all players, and display buttons only for player1
-    if (currentPlayersTurn === player.name) {
-      //console.log('runGame(): isWinning - yaku ,');
-      //check for buttons to be displayed
-      isWinning({
-        hand: currentHand,
-        player1Melds: player1.playerHand.melds,
-        player2Melds: player2.playerHand.melds,
-        player3Melds: player3.playerHand.melds,
-        player4Melds: player4.playerHand.melds,
-        discard: currentDiscard,
-        currentPlayer: currentPlayersTurn,
-        setDisplayRonButton,
-        setDisplayTsumoButton,
-      });
-      //probably needs the same treatment as riichi with nextXplayer
-      //make it manage all players
-      //canWin()?
-      // show ron
-      //show tsumo
-      //show noYaku
-      //isYaku
-      // go to summary screen, calculate winningHand
-    }
+    //if (currentPlayersTurn === player.name) {
+    console.log(
+      `+++++++++runGame(): isWinning: currentPlayer:`,
+      currentPlayersTurn,
+      currentPlayersTurn === player.name,
+      'currentDiscard:',
+      currentDiscard[0].name,
+      'nextTile:',
+      nextTile.name,
+      'player:',
+      player.name,
+    );
+    //console.log('runGame(): isWinning - yaku ,');
+    //check for buttons to be displayed
+
+    isWinning({
+      //hand: currentHand,
+      player1Hand: player1.playerHand.hand,
+      player2Hand: player2.playerHand.hand,
+      player3Hand: player3.playerHand.hand,
+      player4Hand: player4.playerHand.hand,
+      player1Melds: player1.playerHand.melds,
+      player2Melds: player2.playerHand.melds,
+      player3Melds: player3.playerHand.melds,
+      player4Melds: player4.playerHand.melds,
+      discard: currentDiscard,
+      playerName: player.name,
+      setDisplayRonButton,
+      setDisplayTsumoButton,
+      nextTile: nextTile,
+      dispatch: dispatch,
+      currentPlayer: currentPlayersTurn,
+      nextPlayerX: nextPlayerX,
+      riichiIndexPlayer1: player1River.riichiIndex,
+      riichiIndexPlayer2: player1River.riichiIndex,
+      riichiIndexPlayer3: player1River.riichiIndex,
+      riichiIndexPlayer4: player1River.riichiIndex,
+    });
+    //probably needs the same treatment as riichi with nextXplayer
+    //make it manage all players
+    //canWin()?
+    // show ron
+    //show tsumo
+    //show noYaku
+    //isYaku
+    // go to summary screen, calculate winningHand
+    //}
   });
 
   //if no tiles check for noten and tenpai
@@ -477,6 +502,8 @@ export const runGame = (
     console.log(
       'runGame():nextTile:',
       nextTile ? nextTile?.name : 'no Next Tile',
+      'currentDiscard:',
+      currentDiscard[0].name,
     );
 
     if (currentHand.length >= 14) {

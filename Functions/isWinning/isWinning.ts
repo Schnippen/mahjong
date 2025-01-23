@@ -1,4 +1,10 @@
-import {TTileObject, TstolenTiles, YakuType} from '../../Types/types';
+import {INTERRUPT_TURN} from '../../Store/gameReducer';
+import {
+  TTileObject,
+  TplayerString,
+  TstolenTiles,
+  YakuType,
+} from '../../Types/types';
 import {isChanta} from './Yaku/isChanta';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
 import {isChinitsu} from './Yaku/isChinitsu';
@@ -13,6 +19,7 @@ import {isIttsuu} from './Yaku/isIttsuu';
 import {isJunchan} from './Yaku/isJunchan';
 import {isKokushiMusou} from './Yaku/isKokushiMusou';
 import {isPinfu} from './Yaku/isPinfu';
+import {isRiichi} from './Yaku/isRiichi';
 import {isRyanpeikou} from './Yaku/isRyanpeikou';
 import {isRyuuiisou} from './Yaku/isRyuuiisou';
 import {isSanankou} from './Yaku/isSanankou';
@@ -30,38 +37,72 @@ import {isYakuhai} from './Yaku/isYakuhai';
 
 //type isWinningTypes closed hand and opened hand
 type isWinningTypes = {
-  hand: TTileObject[];
+  //hand: TTileObject[];
+  player1Hand: TTileObject[];
+  player2Hand: TTileObject[];
+  player3Hand: TTileObject[];
+  player4Hand: TTileObject[];
   player1Melds: TstolenTiles[];
   player2Melds: TstolenTiles[];
   player3Melds: TstolenTiles[];
   player4Melds: TstolenTiles[];
   discard: TTileObject[];
-  currentPlayer: 'player1' | 'player2' | 'player3' | 'player4';
+  playerName: TplayerString;
   setDisplayRonButton: React.Dispatch<React.SetStateAction<boolean>>;
   setDisplayTsumoButton: React.Dispatch<React.SetStateAction<boolean>>;
+  nextTile: TTileObject;
+  dispatch: any; //TODO redux
+  currentPlayer: TplayerString;
+  nextPlayerX: TplayerString;
+  riichiIndexPlayer1: number | null;
+  riichiIndexPlayer2: number | null;
+  riichiIndexPlayer3: number | null;
+  riichiIndexPlayer4: number | null;
 };
 
 export function isWinning({
-  hand,
+  //hand,
+  player1Hand,
+  player2Hand,
+  player3Hand,
+  player4Hand,
   player1Melds,
   player2Melds,
   player3Melds,
   player4Melds,
   discard,
-  currentPlayer,
+  playerName,
   setDisplayRonButton,
   setDisplayTsumoButton,
+  nextTile,
+  dispatch,
+  currentPlayer,
+  nextPlayerX,
+  riichiIndexPlayer1,
+  riichiIndexPlayer2,
+  riichiIndexPlayer3,
+  riichiIndexPlayer4,
 }: isWinningTypes) {
   const start = performance.now();
+  let hand: TTileObject[] = [];
   let currentMelds: TstolenTiles[] = [];
-  if (currentPlayer === 'player1') {
+  let playerRiichiIndex: number | null = null;
+  if (playerName === 'player1') {
     currentMelds = player1Melds;
-  } else if (currentPlayer === 'player2') {
+    hand = player1Hand;
+    playerRiichiIndex = riichiIndexPlayer1;
+  } else if (playerName === 'player2') {
     currentMelds = player2Melds;
-  } else if (currentPlayer === 'player3') {
+    hand = player2Hand;
+    playerRiichiIndex = riichiIndexPlayer2;
+  } else if (playerName === 'player3') {
     currentMelds = player3Melds;
-  } else if (currentPlayer === 'player4') {
+    hand = player3Hand;
+    playerRiichiIndex = riichiIndexPlayer3;
+  } else if (playerName === 'player4') {
     currentMelds = player4Melds;
+    hand = player4Hand;
+    playerRiichiIndex = riichiIndexPlayer4;
   }
 
   //opened hand win condition
@@ -77,7 +118,7 @@ export function isWinning({
   //Ittsuu pure straight //WORKING
   isIttsuu({hand, discard, playerMelds: currentMelds});
 
-  //Pinfu //TODO closed //working??
+  //Pinfu //TODO closed //working
   isPinfu({hand, discard, playerMelds: currentMelds});
 
   //Ryanpeikou Two Pure Double Sequences //closed  //WORKING
@@ -88,10 +129,11 @@ export function isWinning({
 
   //other yakus:
 
-  //Riichi //TODO
+  //Riichi //DONE checkWinningHand.ts
 
   //Daburu Riichi //TODO //have sounds for that
 
+  //TODO? :
   //Ippatsu //have sound for that
   //Menzen tsumo //have sound for that
   //Haitei raoyue //have sound for that
@@ -101,7 +143,7 @@ export function isWinning({
   //Tenhou  yakuman //have sound for that
   //Chiihou yakuman //have sound for that
   //renhou //have sound for that
-
+  // ----------
   //yakus based on terminals / honors
 
   //Tanyao 2-8 //WORKING
@@ -167,7 +209,7 @@ export function isWinning({
   //Suukantsu 四槓子 • Four Quads yakuman //TODO //PROBLEM WITH KANS
   isSuukantsu({hand, discard, playerMelds: currentMelds});
 
-  //yakus basED ON SUITS
+  //yakus based on suits
 
   //Hon itsu 混 色 • Half Flush //WORKING
   isHonitsu({hand, discard, playerMelds: currentMelds});
@@ -186,11 +228,11 @@ export function isWinning({
 
   /*      if (result && typeOfAction === 'RON') {
         //if player1 show buttons
-        if (currentPlayer === 'player1') {
+        if (playerName === 'player1') {
           setDisplayRonButton(true);
         }
       } else if (result && typeOfAction === 'TSUMO') {
-        if (currentPlayer === 'player1') {
+        if (playerName === 'player1') {
           setDisplayTsumoButton(true);
         }
       } else {
@@ -235,61 +277,167 @@ export function isWinning({
 
   //TODO make it more elegant, finish yakus
 
-  //this function is now in handleRon, handleTsumo
-  /* let totalHanRon = 0;
-  let totalHanTsumo = 0;
-  let listOfYakusInHand: YakuType[] = [];
-  for (const check of yakuChecks) {
-    const result = check({hand, discard, playerMelds: currentMelds});
-    if (typeof result === 'object' && result.result) {
-      if (result.typeOfAction === 'RON') {
-        totalHanRon += result.han || 0;
-        listOfYakusInHand.push({han:result.han, yakuName:result.yakuName});
-      } else if (result.typeOfAction === 'TSUMO') {
-        totalHanTsumo += result.han || 0;
-        listOfYakusInHand.push({han:result.han, yakuName:result.yakuName});
-      }
-    }
-  } */
-
   //this for loop checks if tsumo or ron is valid
+  //RON Process for Check Yakus
   type YakuResult = {
     result: boolean;
     typeOfAction: 'TSUMO' | 'RON' | '';
   };
-  for (const check of yakuChecks) {
-    const result: YakuResult | boolean = check({
+  //jesli obecna tura nie jest player.name to wtedy sprawdzaj ron
+  //nextplayerX!==playerName
+  if (nextPlayerX !== playerName) {
+    console.log(
+      `|||||||| Current Player: ${currentPlayer} is ${playerName}. Checking for RON.`,
+    );
+
+    for (const check of yakuChecks) {
+      /*  const result: YakuResult | boolean = check({
       hand,
       discard,
       playerMelds: currentMelds,
-    });
-    //console.log('YakuResult', result);
-    if (typeof result === 'object' && result.result) {
-      if (result.typeOfAction === 'RON') {
-        ron = true;
-      } else if (result.typeOfAction === 'TSUMO') {
-        tsumo = true;
+    }); */
+      const result = isRiichi({
+        hand,
+        discard,
+        playerMelds: currentMelds,
+        Process: 'ron',
+      });
+      //console.log('YakuResult', result);
+      //console.log('RON:', discard[0].name);
+      if (typeof result === 'object' && result.result) {
+        if (result.typeOfAction === 'RON') {
+          ron;
+        }
       }
     }
   }
-
-  if (ron && currentPlayer === 'player1') {
-    setDisplayRonButton(true);
+  //TSUMO Process for Check Yaku
+  if (nextPlayerX === playerName) {
+    console.log(
+      `%%%%%%% Current Player: ${currentPlayer} is ${playerName}. Checking for TSUMO.`,
+    );
+    for (const check of yakuChecks) {
+      let discard = [nextTile];
+      const result: YakuResult | boolean = check({
+        hand,
+        discard,
+        playerMelds: currentMelds,
+        //Process:"tsumo"
+      });
+      /*   const result = isRiichi({
+        
+        hand,
+        discard,
+        playerMelds: currentMelds,
+        Process: 'tsumo',
+      }); */
+      if (typeof result === 'object' && result.result) {
+        if (result.typeOfAction === 'TSUMO') {
+          tsumo = true;
+        }
+      }
+    }
+  }
+  //RON Process for Riichi Yaku
+  if (nextPlayerX !== playerName) {
+    if (playerRiichiIndex !== null) {
+      //check if this whole function works
+      const riichiResult = isRiichi({
+        hand,
+        discard,
+        playerMelds: currentMelds,
+        Process: 'ron',
+      });
+      console.log('CHECKING FOR RON RIIIICHIIII !!!!!!!!!!!!!!!!!!!!');
+      if (
+        typeof riichiResult === 'object' &&
+        riichiResult.result &&
+        riichiResult.typeOfAction === 'RON'
+      ) {
+        ron = true;
+      }
+    } else {
+      console.log(
+        `Player ${playerName} is not in Riichi. Skipping isRiichi check.`,
+      );
+    }
+  }
+  //TSUMO Process for Riichi Yaku
+  if (nextPlayerX === playerName) {
+    if (playerRiichiIndex !== null) {
+      //checking in if player declared RIICHI, there might be problem with tsumo?
+      //check if this whole function works
+      const discard = [nextTile];
+      const riichiResult = isRiichi({
+        hand,
+        discard,
+        playerMelds: currentMelds,
+        Process: 'tsumo',
+      });
+      console.log('CHECKING FOR TSUMO RIIIICHIIII ###########');
+      if (
+        typeof riichiResult === 'object' &&
+        riichiResult.result &&
+        riichiResult.typeOfAction === 'TSUMO'
+      ) {
+        tsumo = true;
+      }
+    } else {
+      console.log(
+        `Player ${playerName} is not in Riichi. Skipping isRiichi check.`,
+      );
+    }
   }
 
-  if (tsumo && currentPlayer === 'player1') {
-    setDisplayTsumoButton(true);
+  console.log(
+    '~~~:',
+    playerName,
+    'ron:',
+    ron,
+    'tsumo:',
+    tsumo,
+    'cM:',
+    currentMelds.map(i => i),
+    'cH:',
+    hand.map(t => t.name),
+    playerName === 'player1',
+    'cD:',
+    discard[0].name,
+    'nT:',
+    [nextTile][0].name,
+  );
+  //kinda works - tsumo doesn't work
+  //ron works as intended
+  if (ron && playerName === 'player1') {
+    dispatch(INTERRUPT_TURN({val: true}));
+    setDisplayRonButton(true); //turn should be interrupted
   }
 
+  if (tsumo && playerName === 'player1') {
+    dispatch(INTERRUPT_TURN({val: true}));
+    setDisplayTsumoButton(true); //turn should be interrupted
+  }
+  //TODO add code for AI...
   const end = performance.now();
+  if (ron || tsumo) {
+    console.info(
+      `isWinning() took  ${((end - start) / 1000).toFixed(3)} seconds`,
+      'Ron:',
+      ron,
+      'Tsumo',
+      tsumo,
+      'playerName:',
+      playerName,
+    );
+  }
   console.log(
     `isWinning() took  ${((end - start) / 1000).toFixed(3)} seconds`,
     'Ron:',
     ron,
     'Tsumo',
     tsumo,
-    'currentPlayer:',
-    currentPlayer,
+    'playerName:',
+    playerName,
   );
 }
 
