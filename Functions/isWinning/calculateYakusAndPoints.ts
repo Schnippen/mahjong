@@ -1,11 +1,14 @@
 import {setWinningHand} from '../../Store/gameReducer';
 import {
-  TTileObject,
   TstolenTiles,
+  TTileObject,
   WindTypes,
+  YakuCheckFunction,
   YakuType,
 } from '../../Types/types';
+import calculatePoints from '../calculatePoints/calculatePoints';
 import {countTilesByName} from '../isReadyForRiichii/countTilesByName';
+import checkDorasAndUraDoras from './checkDorasAndUraDoras';
 import {isChanta} from './Yaku/isChanta';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
 import {isChinitsu} from './Yaku/isChinitsu';
@@ -20,24 +23,33 @@ import {isIttsuu} from './Yaku/isIttsuu';
 import {isJunchan} from './Yaku/isJunchan';
 import {isKokushiMusou} from './Yaku/isKokushiMusou';
 import {isPinfu} from './Yaku/isPinfu';
+import {isRiichi} from './Yaku/isRiichi';
 import {isRyanpeikou} from './Yaku/isRyanpeikou';
 import {isRyuuiisou} from './Yaku/isRyuuiisou';
+import {isSanankou} from './Yaku/isSanankou';
+import {isSankantsu} from './Yaku/isSankantsu';
 import {isSanshokuDoujun} from './Yaku/isSanshokuDoujun';
 import {isSanshokuDoukou} from './Yaku/isSanshokuDoukou';
 import {isShousangen} from './Yaku/isShousangen';
 import {isShousuushii} from './Yaku/isShousuushii';
+import {isSuuankou} from './Yaku/isSuuankou';
+import {isSuukantsu} from './Yaku/isSuukantsu';
 import {isTanyao} from './Yaku/isTanyao';
 import {isToiToi} from './Yaku/isToiToi';
 import {isTsuuiisou} from './Yaku/isTsuuiisou';
 import {isYakuhai} from './Yaku/isYakuhai';
-import calculatePoints from '../calculatePoints/calculatePoints';
-import checkDorasAndUraDoras from './checkDorasAndUraDoras';
-import {isSanankou} from './Yaku/isSanankou';
-import {isSankantsu} from './Yaku/isSankantsu';
-import {isSuuankou} from './Yaku/isSuuankou';
-import {isSuukantsu} from './Yaku/isSuukantsu';
 
-const yakuChecks = [
+type calculateYakusAndPointsTypes = {
+  winningAction: 'ron' | 'tsumo';
+  winningTile: TTileObject[];
+  winningHand: TTileObject[];
+  winningMelds: TstolenTiles[];
+  playerRiichiIndex: number | null;
+  dispatch: any; //TODO typescript
+  playerWind: WindTypes;
+  winnerWind: WindTypes;
+};
+const yakuChecks: YakuCheckFunction[] = [
   isPinfu,
   isIipeikou,
   isIttsuu,
@@ -67,25 +79,36 @@ const yakuChecks = [
   isKokushiMusou,
   isSanankou,
 ];
-
-export const checkYakusInHand = (
-  hand: TTileObject[],
-  discard: TTileObject[],
-  currentMelds: TstolenTiles[],
-  dispatch: any,
-  winnerWind: WindTypes,
-  isRichiiActive: boolean,
-): {totalHan: number; listOfYakusInHand: YakuType[]} => {
+//isRiichi
+//add RiichiIndex
+export const calculateYakusAndPoints = ({
+  winningAction,
+  winningTile,
+  winningHand,
+  winningMelds,
+  playerRiichiIndex,
+  dispatch,
+  playerWind,
+  winnerWind,
+}: calculateYakusAndPointsTypes) => {
+  const start = performance.now();
+  let listOfYakusInHand: YakuType[] = [];
+  let discard = winningTile;
+  let hand = winningHand;
+  let meldedTiles: TTileObject[];
+  let handForCalculation = [];
   let totalHanRon = 0;
   let totalHanTsumo = 0;
-  let listOfYakusInHand: YakuType[] = [];
-  let winningHand: TTileObject[] = [];
-  let winningTile: TTileObject[] = [];
-  let winningAction = '';
   let totalHan: number = 0;
-
+  //let processAction: 'ron' | 'tsumo' = winningAction.toLowerCase();
+  //check all the yaku possibilities on hand
   for (const check of yakuChecks) {
-    const result = check({hand, discard, playerMelds: currentMelds});
+    const result = check({
+      hand,
+      discard,
+      playerMelds: winningMelds,
+      Process: winningAction,
+    });
     if (typeof result === 'object' && result.result) {
       if (result.typeOfAction === 'RON') {
         totalHanRon += result.han || 0;
@@ -96,8 +119,25 @@ export const checkYakusInHand = (
       }
     }
   }
+  //Riichi calculation logic
+  if (playerRiichiIndex !== null) {
+    const result = isRiichi({
+      hand,
+      discard,
+      playerMelds: winningMelds,
+      Process: winningAction,
+    });
+    if (result.typeOfAction === 'RON') {
+      totalHanRon += result.han || 0;
+      listOfYakusInHand.push({han: result.han, yakuName: result.yakuName});
+    } else if (result.typeOfAction === 'TSUMO') {
+      totalHanTsumo += result.han || 0;
+      listOfYakusInHand.push({han: result.han, yakuName: result.yakuName});
+    }
+  }
 
-  const meldedTiles = currentMelds.flatMap(meld => meld.tiles);
+  //if there are Kans, just limit amount of them to 3 tiles
+  meldedTiles = winningMelds.flatMap(meld => meld.tiles);
   const tileCounts = countTilesByName(meldedTiles);
   let limitedMeldedTiles: TTileObject[] = [];
 
@@ -110,15 +150,15 @@ export const checkYakusInHand = (
       }
     }
   }
-  //TODO this propably needs to be re-done, it is better to filter won tile
-  winningHand = [...hand, ...limitedMeldedTiles];
-
+  //this will be in WinningHandComponent.tsx
+  let handReadyForRender = [...winningHand, ...limitedMeldedTiles];
   totalHan = totalHanRon === 0 ? totalHanTsumo : totalHanRon;
-  let typeOfWin: 'TSUMO' | 'RON' = totalHanRon === 0 ? 'TSUMO' : 'RON'; //add  to setwinning hand
-  //CHECK FOR DORAS AND URA DORAS
+  let typeOfWin: 'TSUMO' | 'RON' = totalHanRon === 0 ? 'TSUMO' : 'RON';
+  let isRichiiActive = playerRiichiIndex !== null;
+  //calculating doras
   let {doraHan, doraName, uraDoraHan, uraDoraName} = checkDorasAndUraDoras(
     hand,
-    currentMelds,
+    winningMelds,
     discard,
     isRichiiActive,
   );
@@ -129,8 +169,10 @@ export const checkYakusInHand = (
     uraDoraHan,
     uraDoraName,
   );
+
   totalHan = totalHan + doraHan;
   totalHan = totalHan + uraDoraHan;
+  //listOfYakusInHand.push(doraName) TODO correct typescript
   if (doraName != '') {
     listOfYakusInHand.push({han: doraHan, yakuName: doraName});
     console.log('Counting Doras:', doraHan, doraName);
@@ -139,19 +181,25 @@ export const checkYakusInHand = (
     listOfYakusInHand.push({han: uraDoraHan, yakuName: uraDoraName});
     console.log('Counting UraDoras:', uraDoraHan, uraDoraName);
   }
-
+  //winnerWind: player1.wind, because now only player1 can press ron or tsumo
   let {points, pointsName, fu} = calculatePoints(
     totalHan,
-    winnerWind,
+    playerWind,
     hand,
-    currentMelds,
+    winningMelds,
     winnerWind,
     discard,
     typeOfWin,
     dispatch,
   );
 
-  //calculate points
+  const end = performance.now();
+  console.info(
+    `calculateYakusAndPoints() took  ${((end - start) / 1000).toFixed(
+      3,
+    )} seconds`,
+  );
+  //set redux gameReducer . but where to reset it? ;/
   dispatch(
     setWinningHand({
       hand: winningHand,
@@ -166,5 +214,5 @@ export const checkYakusInHand = (
       isRichiiActive: isRichiiActive,
     }),
   );
-  return {totalHan, listOfYakusInHand};
+  //return {totalHan, listOfYakusInHand};
 };

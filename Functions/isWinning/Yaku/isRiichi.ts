@@ -6,7 +6,7 @@ type isRiichiTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
   playerMelds: TstolenTiles[];
-  Process: 'ron' | 'tsumo';
+  Process?: 'ron' | 'tsumo';
 };
 
 export function isRiichi({hand, discard, playerMelds, Process}: isRiichiTypes) {

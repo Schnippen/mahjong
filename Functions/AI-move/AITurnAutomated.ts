@@ -29,16 +29,7 @@ const AITurnAutomated = async (
   player3RiverState: TTileObject[],
   player4RiverState: TTileObject[],
 ) => {
-  //TODO optimize by passing props, not calling state every time
-  /*  let gameTurn = store.getState().gameReducer.currentTurn;
-  let humanPlayerWind = store.getState().playersReducer.player1.wind;
-  let playerRightWind = store.getState().playersReducer.player2.wind;
-  let playerTopWind = store.getState().playersReducer.player3.wind;
-  let playerLeftWind = store.getState().playersReducer.player4.wind;
-
-  let playerRightHand = store.getState().playersReducer.player2.playerHand.hand;
-  let playerTopHand = store.getState().playersReducer.player3.playerHand.hand;
-  let playerLeftHand = store.getState().playersReducer.player4.playerHand.hand; */
+  //done: optimized by passing props, not calling state every time
 
   const playerProps =
     gameTurn === playerRightWind
@@ -54,20 +45,10 @@ const AITurnAutomated = async (
   if (!playerProps || gameTurn === humanPlayerWind) {
     return;
   }
-  let tileToDiscard = chooseRandomTile(playerProps.hand);
+  //let tileToDiscard = chooseRandomTile(playerProps.hand);
   let playerX = playerProps?.player;
-  /* let aiIntelligentMove = determineBestDiscard(
-    playerProps.hand,
-    player1Melds,
-    player2Melds,
-    player3Melds,
-    player4Melds,
-    player1RiverState,
-    player2RiverState,
-    player3RiverState,
-    player4RiverState,
-  ); */
-  let aiIntelligentMove: TTileObject = await determineBestDiscard(
+
+  let aiIntelligentMove: TTileObject = determineBestDiscard(
     playerProps.hand,
     player1Melds,
     player2Melds,
@@ -87,7 +68,9 @@ const AITurnAutomated = async (
 
   // console.log('AITurnAutomated', playerProps?.player, tileToDiscard?.name);
   //TODO when is tenpai and riichi make smart move from canRiichi funciton with tile to discard!
+
   discardTile(playerX, aiIntelligentMove, dispatch);
+  return;
 };
 
 export default AITurnAutomated;

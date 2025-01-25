@@ -76,9 +76,9 @@ export function isToiToi({hand, discard, playerMelds, Process}: isToiToiTypes) {
   } else { */
   return {
     result: false,
-    typeOfAction: typeOfAction,
+    typeOfAction,
     han: 0,
-    yakuName: yakuName,
+    yakuName,
     winningTile,
   };
   //}

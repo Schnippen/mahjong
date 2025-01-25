@@ -473,14 +473,16 @@ export const runGame = (
       riichiIndexPlayer2: player1River.riichiIndex,
       riichiIndexPlayer3: player1River.riichiIndex,
       riichiIndexPlayer4: player1River.riichiIndex,
+      player1Wind: player1.wind,
+      player2Wind: player2.wind,
+      player3Wind: player3.wind,
+      player4Wind: player4.wind,
     });
-    //probably needs the same treatment as riichi with nextXplayer
-    //make it manage all players
-    //canWin()?
-    // show ron
-    //show tsumo
-    //show noYaku
-    //isYaku
+    //probably needs the same treatment as riichi with nextXplayer done
+    //make it manage all players TODO
+    // show ron done
+    //show tsumo done
+
     // go to summary screen, calculate winningHand
     //}
   });

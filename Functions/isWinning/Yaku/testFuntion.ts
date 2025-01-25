@@ -23,6 +23,7 @@ import {isTsuuiisou} from './isTsuuiisou';
 import {tilesData} from '../../../Data/tilesData';
 import {tilesData2} from '../../../Data/tilesData2';
 import {DEBUG_HAND} from '../../../Store/playersReducer';
+import {checkWinningHand} from '../../isReadyForRiichii/checkingWinningHand';
 type testFunctionTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
@@ -206,12 +207,14 @@ export let debugHand2 = [
   tilesData[15],
   tilesData[7],
   tilesData[8],
-]; //pinfu tenpai
+]; //pinfu tenpai //debugHand2.map(i => i.tileID),
+/*   debugHand2.concat(tilesData[6]).map(t => t.name),
+    tilesData[6].name,
+    checkWinningHand(winningDebugHand), */
+let winningDebugHand = debugHand2.concat(tilesData[6]);
+
 export const testFunction = (dispatch: any) => {
-  console.log(
-    'TEST_FUNCTION:',
-    debugHand2.map(i => i.tileID),
-  );
+  console.log('TEST_FUNCTION:');
 };
 //https://www.npmjs.com/package/react-native-haptic-feedback
 /*  result,

@@ -124,7 +124,6 @@ const initialState: PlayersState = {
     whoTheLoserIs: [],
   },
 };
-//init player1 - base , rest is 0 0 TODO maybe create a reducer?
 const player1ScoreDifference = (initialState.player1.player1ScoreDifference =
   initialState.player1.player1Score);
 const player2ScoreDifference =
@@ -375,7 +374,7 @@ export const playersReducer = createSlice({
     },
     resetPlayersReducer_TOTAL_RESET: state => {
       console.log('resetPlayersReducer_TOTAL_RESET - RESET');
-      //BUG NO DORA RESET!!!!! they are in wall reducer ;-/
+      //REMEMBER =  NO DORA RESET!!!!! they are in wall reducer ;-/
       return {...initialState};
     },
     resetPlayersReducerToNextRound: state => {
@@ -539,13 +538,13 @@ When the game begins, east is the Prevailing wind. When the player who started t
     setTemporaryDiscardableTiles: (state, action) => {
       //this one is used after declaring riichi, select the tile that will not brake the game
       const {TypeOfAction, temporaryTiles, player} = action.payload;
-      console.log(
+      /*    console.log(
         'REDUX!: seTemporaryDiscardableTiles: --------------RUNS',
         'type_of_action:',
         TypeOfAction,
         temporaryTiles.map(t => t.name),
         player,
-      );
+      ); */
       //
       if (TypeOfAction === 'reset') {
         state.player1.temporaryDiscardableTiles =
@@ -554,7 +553,7 @@ When the game begins, east is the Prevailing wind. When the player who started t
       }
       if (TypeOfAction === 'set') {
         if (player === 'player1') {
-          console.log('redux - temporaryTiles p1 run');
+          console.log('REDUX - temporaryTiles p1 run');
           state.player1.temporaryDiscardableTiles = [...temporaryTiles];
         } else if (player === 'player2') {
           state.player2.temporaryDiscardableTiles = [...temporaryTiles];
@@ -566,10 +565,10 @@ When the game begins, east is the Prevailing wind. When the player who started t
           null;
         } //TODO i can make it more refined
       }
-      console.log(
+      /* console.log(
         'REDUX!: seTemporaryDiscardableTiles koniec:',
         state.player1.temporaryDiscardableTiles.map(t => t.name),
-      );
+      ); */
     },
     HONBA_REDUCER: (state, action) => {
       let {TypeOfAction} = action.payload;

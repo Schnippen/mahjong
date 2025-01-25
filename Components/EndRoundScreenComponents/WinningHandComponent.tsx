@@ -8,7 +8,6 @@ import {WinningHandTile} from './WinningHandTile';
 import {Dimensions} from 'react-native';
 export const WinningHand = () => {
   // winning hand state
-  const exampleData = tilesData.slice(12, 25);
   const exampleData2 = tilesData.slice(25, 26);
   const {hand: winningHand, winningTile} = useAppSelector(
     (state: RootState) => state.gameReducer.winningHand,
@@ -82,7 +81,7 @@ export const WinningHand = () => {
           <Text
             style={{
               fontFamily: 'TheLastShuriken',
-              fontSize: 26,
+              fontSize: 20,
               color: '#fbd54e',
             }}>
             {winningAction}
@@ -100,7 +99,7 @@ export const WinningHand = () => {
             borderRadius: 8,
           }}
         />
-        <WinningHandTile item={exampleData2[0]} index={14} />
+        <WinningHandTile item={data} index={14} />
       </View>
     </View>
   );

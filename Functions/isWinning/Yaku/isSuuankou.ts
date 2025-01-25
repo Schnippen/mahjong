@@ -79,6 +79,7 @@ export function isSuuankou({
       typeOfAction: typeOfAction,
       han: 0,
       yakuName: yakuName,
+      winningTile,
     };
   }
 }

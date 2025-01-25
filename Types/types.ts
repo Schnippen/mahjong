@@ -54,7 +54,19 @@ export type kanPositionTypes =
   | 'kanFront'
   | 'kanRight';
 export type GameWinds = 'east' | 'south' | 'west' | 'north' | 'null';
-
+export type YakuCheckType = {
+  result: boolean;
+  typeOfAction: TypeOfAction;
+  han: number;
+  yakuName: string;
+  winningTile: TTileObject;
+};
+export type YakuCheckFunction = (args: {
+  hand: TTileObject[];
+  discard: TTileObject[];
+  playerMelds: TstolenTiles[];
+  Process?: 'ron' | 'tsumo';
+}) => YakuCheckType;
 export type pointsNameType =
   | 'Mangan'
   | 'Haneman'
@@ -138,4 +150,4 @@ export type ScreenList =
   SettingsScreen: undefined;
   RulesScreen: undefined;
   RulesScreenYakuExample: {name: string; data: TTileObject[]};
-  };
+  };*/

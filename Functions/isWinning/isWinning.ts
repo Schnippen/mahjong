@@ -3,8 +3,12 @@ import {
   TTileObject,
   TplayerString,
   TstolenTiles,
+  TypeOfAction,
+  WindTypes,
+  YakuCheckFunction,
   YakuType,
 } from '../../Types/types';
+import {calculateYakusAndPoints} from './calculateYakusAndPoints';
 import {isChanta} from './Yaku/isChanta';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
 import {isChinitsu} from './Yaku/isChinitsu';
@@ -58,6 +62,10 @@ type isWinningTypes = {
   riichiIndexPlayer2: number | null;
   riichiIndexPlayer3: number | null;
   riichiIndexPlayer4: number | null;
+  player1Wind: WindTypes;
+  player2Wind: WindTypes;
+  player3Wind: WindTypes;
+  player4Wind: WindTypes;
 };
 
 export function isWinning({
@@ -82,27 +90,36 @@ export function isWinning({
   riichiIndexPlayer2,
   riichiIndexPlayer3,
   riichiIndexPlayer4,
+  player1Wind,
+  player2Wind,
+  player3Wind,
+  player4Wind,
 }: isWinningTypes) {
   const start = performance.now();
   let hand: TTileObject[] = [];
   let currentMelds: TstolenTiles[] = [];
   let playerRiichiIndex: number | null = null;
+  let playerWind: WindTypes = 'null';
   if (playerName === 'player1') {
     currentMelds = player1Melds;
     hand = player1Hand;
     playerRiichiIndex = riichiIndexPlayer1;
+    playerWind = player1Wind;
   } else if (playerName === 'player2') {
     currentMelds = player2Melds;
     hand = player2Hand;
     playerRiichiIndex = riichiIndexPlayer2;
+    playerWind = player2Wind;
   } else if (playerName === 'player3') {
     currentMelds = player3Melds;
     hand = player3Hand;
     playerRiichiIndex = riichiIndexPlayer3;
+    playerWind = player3Wind;
   } else if (playerName === 'player4') {
     currentMelds = player4Melds;
     hand = player4Hand;
     playerRiichiIndex = riichiIndexPlayer4;
+    playerWind = player4Wind;
   }
 
   //opened hand win condition
@@ -184,7 +201,7 @@ export function isWinning({
   isTsuuiisou({hand, discard, playerMelds: currentMelds});
 
   //yakus based on PAIRS / triplets / quads
-  isChiitoitsu({hand, discard});
+  isChiitoitsu({hand, discard, playerMelds: currentMelds});
   // add is tenpai with chiitoitsu???
 
   //Toitoi 対々 • All Triplets //working
@@ -193,7 +210,7 @@ export function isWinning({
   //San ankou 三暗刻 • Three Concealed Triplets
   //TODO FIX ISSUES https://riichi.wiki/Sanankou
   //he third triplet may not be completed off another player's discard (ron), as the triplet would not be "concealed".
-  //isSanankou({hand, discard, playerMelds: currentMelds});
+  isSanankou({hand, discard, playerMelds: currentMelds});
 
   //Suuankou 四暗刻 • Four Concealed Triplets yakuman
   //TODO FIX ISSUES https://riichi.wiki/Suuankou
@@ -242,7 +259,7 @@ export function isWinning({
   //array of functions
 
   //TODO check if all yakus are in this array
-  const yakuChecks = [
+  const yakuChecks: YakuCheckFunction[] = [
     isPinfu,
     isIipeikou,
     isIttsuu,
@@ -270,6 +287,7 @@ export function isWinning({
     isRyuuiisou,
     isChuurenPoutou,
     isKokushiMusou,
+    isSanankou,
   ];
 
   let ron = false;
@@ -291,12 +309,7 @@ export function isWinning({
     );
 
     for (const check of yakuChecks) {
-      /*  const result: YakuResult | boolean = check({
-      hand,
-      discard,
-      playerMelds: currentMelds,
-    }); */
-      const result = isRiichi({
+      const result: YakuResult = check({
         hand,
         discard,
         playerMelds: currentMelds,
@@ -318,19 +331,12 @@ export function isWinning({
     );
     for (const check of yakuChecks) {
       let discard = [nextTile];
-      const result: YakuResult | boolean = check({
-        hand,
-        discard,
-        playerMelds: currentMelds,
-        //Process:"tsumo"
-      });
-      /*   const result = isRiichi({
-        
+      const result: YakuResult = check({
         hand,
         discard,
         playerMelds: currentMelds,
         Process: 'tsumo',
-      }); */
+      });
       if (typeof result === 'object' && result.result) {
         if (result.typeOfAction === 'TSUMO') {
           tsumo = true;
@@ -420,6 +426,24 @@ export function isWinning({
   //TODO add code for AI...
   const end = performance.now();
   if (ron || tsumo) {
+    //IF RON OR TSUMO UPDATE WINNING HAND??????
+    //calculate points and yakus HERE!?
+    let winningAction: 'ron' | 'tsumo' = ron ? 'ron' : 'tsumo';
+    let winningTile: TTileObject[] =
+      winningAction === 'ron' ? discard : [nextTile];
+    let winningHand: TTileObject[] = hand;
+    let winningMelds: TstolenTiles[] = currentMelds;
+    let winnerWind: WindTypes = playerWind;
+    calculateYakusAndPoints({
+      winningAction,
+      winningTile,
+      winningHand,
+      winningMelds,
+      playerRiichiIndex,
+      dispatch,
+      playerWind,
+      winnerWind,
+    });
     console.info(
       `isWinning() took  ${((end - start) / 1000).toFixed(3)} seconds`,
       'Ron:',

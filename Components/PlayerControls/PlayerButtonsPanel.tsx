@@ -146,7 +146,8 @@ const PlayerButtonsPanel = ({
 
   useEffect(() => {
     //this might be prone to bugs,
-    console.log('AI TEST:', gamePhase, playerWhoLeftTheTile); //i am using player4, beacuse i want player2 to have its turn after player1
+    console.log('AI TEST:', gamePhase, playerWhoLeftTheTile); //i am using player4, beacuse i want player2 to have its turn after player1        let timeoutId;
+    let timeoutId: any;
     if (gamePhase === 'started' && playerWhoLeftTheTile !== 'player4') {
       console.info(
         'USE EFFECT() AI:',
@@ -155,9 +156,12 @@ const PlayerButtonsPanel = ({
         turnInterrupted,
       );
       //here timeout with function AITurnAutomated(dispatch)
+      let delayTime = 750;
+
       if (turnInterrupted === false) {
-        setTimeout(
-          () =>
+        timeoutId = setTimeout(
+          () => {
+            const startPerformance = performance.now();
             AITurnAutomated(
               dispatch,
               currentGlobalWind,
@@ -176,11 +180,30 @@ const PlayerButtonsPanel = ({
               player2River.riverState,
               player3River.riverState,
               player4River.riverState,
-            ),
-          750,
+            );
+            const endPerformance = performance.now();
+            const executionTime = endPerformance - startPerformance;
+            delayTime = executionTime >= 1000 ? executionTime + 250 : 1000;
+            console.log(
+              '******************************* AITurnAutomated TIME:',
+              delayTime / 1000,
+              'seconds',
+              'executionTime:',
+              executionTime / 1000,
+            );
+          },
+          delayTime, //750, // sometimes AITurnAutomated runs longer than 750, maybe add more delay, or variable delay --- Vdelay= AIMove()_time + 250? //EXPERIMENT
+          //move it to native module??? for better performance????
         );
-      } //problem with bamboo 2 name.... error
-    } //TODO bug with turn interrupted
+      }
+    }
+    //avoid memory leaks?
+    return () => {
+      if (timeoutId) {
+        //ok now i have better performance, around 250ms saved
+        clearTimeout(timeoutId);
+      }
+    };
   }, [tilesLeftInWall, playerWhoLeftTheTile, INTERRUPER_COUNTER]);
   useEffect(() => {
     console.info(
@@ -195,6 +218,8 @@ const PlayerButtonsPanel = ({
       currentGlobalWind,
       'isRichiiActive:',
       isRichiiActive,
+      '~~~~~~~~~How many turns elapsed:',
+      howManyTurnsElapsed,
     );
     runGame(
       {player1, player2, player3, player4},
@@ -409,10 +434,9 @@ const PlayerButtonsPanel = ({
                   valuePlayerWind: player1.wind,
                 }),
               );
-
+              setDisplayTsumoButton(false);
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
-                setDisplayTsumoButton(false);
               }, 1500);
             }} //there also can be pass
           />

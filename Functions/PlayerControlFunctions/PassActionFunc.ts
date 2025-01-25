@@ -41,11 +41,14 @@ export const PassActionFunc = ({
   //TODO: Fix issue where the player is in Tenpai, and the turn is interrupted.In this scenario, the Riichi check is not executed. Ensure that after passing an action, a Riichi check is performed. This issue may occur specifically during a Chii action, but to the best of my knowledge, it is an edge case.
   let edgeCase = false;
   if (displayChiiButton) {
-    //move to next player
-    console.log('PassActionFunc() CHII:-added nextTile to hand of player1');
+    //move to next player  //when there is ron or tsumo sometimes this adds a new tile
+    console.log(
+      'PassActionFunc() CHII:-added nextTile to hand of player1, CHII displayChiiButton:',
+      displayChiiButton,
+    ); //TODO there is a bug when thre is ron or tsumo button, and player thorws out tile, there are 2 new tiles added to hand??? there must be chiiActive
     dispatch(popTileFromtilesAfterHandout());
     dispatch(drawTileFromWallToHand({player: 'player1', nextTile: nextTile}));
-    //TODO check for riichi....
+    //checking for riichi in case, when after chii player can perfom riichi declaration
     let checkingIfPlayer1CanRiichiAfterInterruption = canRiichi({
       hand: player1Hand,
       player1Melds: player1Melds,
@@ -61,6 +64,20 @@ export const PassActionFunc = ({
     console.log(
       `PassActionFunc() CHII:checkingIfPlayer1CanRiichiAfterInterruption ${checkingIfPlayer1CanRiichiAfterInterruption}`,
     );
+    /* if (player1RiichiIndex === null){
+        //if player is not in riichi declaration check if it is in tenpai?
+       /*  let checkingIfPlayer1CanRiichiAfterInterruption = canRiichi({
+          hand: player1Hand,
+          player1Melds: player1Melds,
+          player2Melds: player2Melds,
+          player3Melds: player3Melds,
+          player4Melds: player4Melds,
+          player1RiverState: player1RiverState,
+          player2RiverState: player2RiverState,
+          player3RiverState: player3RiverState,
+          player4RiverState: player4RiverState,
+          nextTile,
+        }).result;} */
 
     if (checkingIfPlayer1CanRiichiAfterInterruption) {
       console.log(
@@ -69,6 +86,7 @@ export const PassActionFunc = ({
       if (player1RiichiIndex !== null) {
         console.log(`PassActionFunc() CHII: player1RiichiIndex !== null`);
         //setDisplayRiichiButton(false);
+        //player is in riichi declaration so dont show is in tenpai
         edgeCase = false;
       } else {
         console.log(`PassActionFunc() CHII: ELSE`);
