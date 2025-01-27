@@ -66,6 +66,8 @@ type isWinningTypes = {
   player2Wind: WindTypes;
   player3Wind: WindTypes;
   player4Wind: WindTypes;
+  dorasFromDeadWall: TTileObject[];
+  uraDorasFromDeadWall: TTileObject[];
 };
 
 export function isWinning({
@@ -94,6 +96,8 @@ export function isWinning({
   player2Wind,
   player3Wind,
   player4Wind,
+  dorasFromDeadWall,
+  uraDorasFromDeadWall,
 }: isWinningTypes) {
   const start = performance.now();
   let hand: TTileObject[] = [];
@@ -443,6 +447,8 @@ export function isWinning({
       dispatch,
       playerWind,
       winnerWind,
+      dorasFromDeadWall,
+      uraDorasFromDeadWall,
     });
     console.info(
       `isWinning() took  ${((end - start) / 1000).toFixed(3)} seconds`,

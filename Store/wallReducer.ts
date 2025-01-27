@@ -1,7 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {shuffledTilesForGameStart} from '../Functions/shuffledTilesForGameStart';
 import {TTileObject} from '../Types/types';
-import {act} from 'react-test-renderer';
 
 //gamestate
 //playerstate
@@ -200,7 +199,7 @@ export const wallReducer = createSlice({
       modifyProperty(state.wallWestState, doras[uncoveredNumber].tileID, true);
     },
     resetWallReducer_TOTAL_RESET: state => {
-     /*  (state.tilesLeft = 136),
+      /*  (state.tilesLeft = 136),
         (state.tilesLeftInWall = 0),
         (state.currentDiceRoll = 0),
         (state.wallTilesArray = []),
@@ -213,8 +212,8 @@ export const wallReducer = createSlice({
         (state.dorasFromDeadWall = []),
         (state.uncoveredCount = 1),
         (state.startTakingFromWallXState = 'string'), */
-        console.log('REDUX RESETED WALL REDUCER');
-        return {...initialState};
+      console.log('REDUX RESETED WALL REDUCER');
+      return {...initialState};
     },
   },
 });

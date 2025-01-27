@@ -123,6 +123,9 @@ const PlayerButtonsPanel = ({
     return result;
   });
   const {
+    wallReducer: {dorasFromDeadWall, uraDorasFromDeadWall},
+  } = useSelector((state: RootState) => state);
+  const {
     riverReducer: {player1River, player2River, player3River, player4River},
   } = useSelector((state: RootState) => state);
   const {
@@ -245,6 +248,8 @@ const PlayerButtonsPanel = ({
       setDisplayTsumoButton,
       navigation,
       winningHand,
+      dorasFromDeadWall,
+      uraDorasFromDeadWall,
     );
   }, [currentDiscard]);
 
