@@ -1,7 +1,12 @@
 import {
+  INTERRUPT_TURN,
+  CHANGE_ORDER_AFTER_ACTION,
+} from '../../Store/gameReducer';
+import {
   discardTileFromHand,
   setStolenTilesOnBoard,
 } from '../../Store/playersReducer';
+import {popFromTheRiver} from '../../Store/riverReducer';
 import {setUncoverNextDora} from '../../Store/wallReducer';
 import {positionType, TTileObject} from '../../Types/types';
 import {stealQuadruplet} from '../StealingFunctions/stealQuadruplet';
@@ -77,6 +82,13 @@ export const handleKan = ({
   );
   //uncover next Dora
   dispatch(setUncoverNextDora());
+  //27.01.2025 //there was no logic for throwing out tile after declaration
+  dispatch(popFromTheRiver({player: playerWhoLeftTheTile}));
+  dispatch(INTERRUPT_TURN({val: false}));
+  dispatch(CHANGE_ORDER_AFTER_ACTION({playerWind: playerWind}));
+  //TODO IMPORTANT, https://riichi.wiki/Kan
+  //Otherwise, the last tile from the wall is added to the dead wall, so that the dead wall contains 14 tiles at all times.
+
   setDisplayChiiButton(false);
   setDisplayKanButton(false);
   setDisplayPonButton(false);
@@ -85,5 +97,5 @@ export const handleKan = ({
   //AUDIO
   soundFunc({type: 'kan'});
   const end = performance.now();
-  console.log(`handleKan() took ${end - start} milliseconds.`);
+  console.log(`handleKan() took ${(end - start) / 1000} seconds.`);
 };
