@@ -1,5 +1,5 @@
+import {INTERRUPT_TURN} from '../../Store/gameReducer';
 import {TTileObject, TstolenTiles, WindTypes} from '../../Types/types';
-import {checkYakusInHand} from '../isWinning/calulateYakus';
 import {soundFunc} from '../playSounds/soundFunc';
 
 type handleTsumoTypes = {
@@ -20,4 +20,5 @@ export const handleTsumo = ({
   isRichiiActive,
 }: handleTsumoTypes) => {
   soundFunc({type: 'tsumo'});
+  dispatch(INTERRUPT_TURN({val: true})); //interrupt turn prevent crashing the app during reset to another round
 };

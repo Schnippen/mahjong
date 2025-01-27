@@ -1,18 +1,32 @@
-import store from '../../Store/store';
 import {TTileObject, TstolenTiles} from '../../Types/types';
-
+interface DoraResult {
+  doraHan: number;
+  doraName: string;
+  uraDoraHan: number;
+  uraDoraName: string;
+}
 const checkDorasAndUraDoras = (
   hand: TTileObject[],
   currentMelds: TstolenTiles[],
   discard: TTileObject[],
   isRichiiActive: boolean,
-) => {
+  dorasFromDeadWall: TTileObject[],
+  uraDorasFromDeadWall: TTileObject[],
+): DoraResult => {
   let meldedTiles = currentMelds.flatMap(meld => meld.tiles || []);
   let handToCheck = [...hand, ...discard, ...meldedTiles];
 
-  let doras = store.getState().wallReducer.dorasFromDeadWall || [];
-  let uradoras = store.getState().wallReducer.uraDorasFromDeadWall || [];
-
+  let doras = dorasFromDeadWall || [];
+  let uradoras = uraDorasFromDeadWall || [];
+  console.log(
+    'checkDorasAndUraDoras():',
+    'doras:',
+    doras.map(n => n?.name),
+    'uraDoras:',
+    uradoras.map(n => n?.name),
+    'handToCheck:',
+    handToCheck?.map(n => n?.name),
+  );
   const getCorrectedTileName = (tile: TTileObject) => {
     if (!tile) return '';
 
@@ -45,21 +59,22 @@ const checkDorasAndUraDoras = (
 
   const dorasWithNumberCorrection = doras.map(getCorrectedTileName);
   const uraDorasWithNumberCorrection = uradoras.map(getCorrectedTileName);
-
+  console.log(
+    'dorasWithNumberCorrection',
+    dorasWithNumberCorrection?.map(n => n),
+    'uraDorasWithNumberCorrection:',
+    uraDorasWithNumberCorrection?.map(i => i),
+  );
   let doraHan = 0;
   let uraDoraHan = 0;
   let doraName = '';
   let uraDoraName = '';
 
   handToCheck.forEach(tile => {
-    if (tile && tile.isDora) {
-      let correctedDoraName = ['characters', 'bamboo', 'circles'].includes(
-        tile.type,
-      )
-        ? tile.name
-        : tile.value;
+    if (tile) {
+      let tileName = tile.name;
 
-      if (dorasWithNumberCorrection.find(tile => tile === correctedDoraName)) {
+      if (dorasWithNumberCorrection.includes(tileName)) {
         doraName = 'Dora';
         doraHan++;
       }
@@ -69,23 +84,22 @@ const checkDorasAndUraDoras = (
   if (isRichiiActive && uraDorasWithNumberCorrection.length > 0) {
     uraDoraName = 'UraDora';
     handToCheck.forEach(tile => {
-      if (tile && tile.isDora) {
-        let correctedDoraName = ['characters', 'bamboo', 'circles'].includes(
-          tile.type,
-        )
-          ? tile.name
-          : tile.value;
+      if (tile) {
+        let tileName = tile.name;
 
-        if (
-          uraDorasWithNumberCorrection.find(tile => tile === correctedDoraName)
-        ) {
+        if (uraDorasWithNumberCorrection.includes(tileName)) {
           uraDoraHan++;
         }
       }
     });
   }
   console.log('COUNTING DORAS:', doraHan, doraName, uraDoraHan, uraDoraName);
-  return {doraHan, doraName, uraDoraHan, uraDoraName};
+  return {
+    doraHan,
+    doraName: doraHan > 0 ? doraName : '',
+    uraDoraHan,
+    uraDoraName: uraDoraHan > 0 ? uraDoraName : '',
+  };
 };
 
 export default checkDorasAndUraDoras;

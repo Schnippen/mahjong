@@ -1,5 +1,5 @@
+import {INTERRUPT_TURN} from '../../Store/gameReducer';
 import {TTileObject, TstolenTiles, WindTypes} from '../../Types/types';
-import {checkYakusInHand} from '../isWinning/calulateYakus';
 import {soundFunc} from '../playSounds/soundFunc';
 
 type handleRonTypes = {
@@ -20,4 +20,5 @@ export const handleRon = ({
   isRichiiActive,
 }: handleRonTypes) => {
   soundFunc({type: 'ron'});
+  dispatch(INTERRUPT_TURN({val: true}));
 };
