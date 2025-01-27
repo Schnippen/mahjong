@@ -8,11 +8,12 @@ import {FlatList} from 'react-native';
 import EmptyComponent from '../Wall/EmptyComponent';
 
 export const EndRoundScreenCurentUraDorasList = () => {
-  const currentDoras = tilesData.slice(8, 13);
+  //const currentDoras = tilesData.slice(8, 13);
   //TODO create ura dora selector
-  /*   const currentDoras1 = useSelector(
-    (state: RootState) => state.wallReducer.dorasFromDeadWall,
-  ); */
+  const currentDoras = useSelector(
+    (state: RootState) => state.wallReducer.uraDorasFromDeadWall,
+  );
+  console.log(currentDoras?.map(n => n?.name));
   const uncoveredCount = useSelector(
     (state: RootState) => state.wallReducer.uncoveredCount,
   );
