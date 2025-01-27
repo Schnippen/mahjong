@@ -20,12 +20,4 @@ export const handleRon = ({
   isRichiiActive,
 }: handleRonTypes) => {
   soundFunc({type: 'ron'});
-  checkYakusInHand(
-    hand,
-    discard,
-    currentMelds,
-    dispatch,
-    winnerWind,
-    isRichiiActive,
-  );
 };

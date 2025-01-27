@@ -20,12 +20,4 @@ export const handleTsumo = ({
   isRichiiActive,
 }: handleTsumoTypes) => {
   soundFunc({type: 'tsumo'});
-  checkYakusInHand(
-    hand,
-    discard,
-    currentMelds,
-    dispatch,
-    winnerWind,
-    isRichiiActive,
-  );
 };
