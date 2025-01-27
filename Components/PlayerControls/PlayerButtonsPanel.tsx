@@ -131,7 +131,9 @@ const PlayerButtonsPanel = ({
   const INTERRUPER_COUNTER = useSelector(
     (state: RootState) => state.gameReducer.interrputCounter,
   );
-
+  const {
+    gameReducer: {winningHand},
+  } = useSelector((state: RootState) => state);
   const [displayChiiButton, setDisplayChiiButton] = useState<boolean>(false);
   const [displayPonButton, setDisplayPonButton] = useState<boolean>(false);
   const [displayKanButton, setDisplayKanButton] = useState<boolean>(false);
@@ -242,6 +244,7 @@ const PlayerButtonsPanel = ({
       setDisplayRonButton,
       setDisplayTsumoButton,
       navigation,
+      winningHand,
     );
   }, [currentDiscard]);
 
@@ -406,7 +409,7 @@ const PlayerButtonsPanel = ({
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
                 setDisplayRonButton(false);
-              }, 1500);
+              }, 500);
             }}
           /> //there also can be pass
         ) : null}
@@ -437,7 +440,7 @@ const PlayerButtonsPanel = ({
               setDisplayTsumoButton(false);
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
-              }, 1500);
+              }, 500);
             }} //there also can be pass
           />
         ) : null}

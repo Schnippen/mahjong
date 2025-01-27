@@ -9,13 +9,19 @@ import {
   IsTenpaiResult,
   TplayerString,
   TTileObject,
+  WinningHandType,
 } from '../Types/types';
 import {checkForQuadruplet} from './checkForQuadruplet';
 
 import {checkForTriplet} from './checkForTriplet';
 import {checkForSequence} from './checkForSequence';
 import {tilesData} from '../Data/tilesData';
-import {END_TURN, INTERRUPT_TURN, setCurrentPlayer} from '../Store/gameReducer';
+import {
+  END_TURN,
+  INTERRUPT_TURN,
+  resetWinningHand,
+  setCurrentPlayer,
+} from '../Store/gameReducer';
 import {
   popTileFromTheWall,
   popTileFromtilesAfterHandout,
@@ -45,6 +51,7 @@ export const runGame = (
   setDisplayRonButton: React.Dispatch<React.SetStateAction<boolean>>,
   setDisplayTsumoButton: React.Dispatch<React.SetStateAction<boolean>>,
   navigation: any,
+  winningHand: WinningHandType,
 ) => {
   let mockupData = tilesData.slice(1, 12);
   const start = performance.now();
@@ -486,7 +493,13 @@ export const runGame = (
     // go to summary screen, calculate winningHand
     //}
   });
+  //reset setWinningHand if thereis data
 
+  let resetingWinningHand = winningHand.winningTile.length > 0;
+  if (resetingWinningHand) {
+    console.info('runGame(): RESSETTING WINNING HAND');
+    dispatch(resetWinningHand());
+  }
   //if no tiles check for noten and tenpai
   if (tilesAfterHandoutLength === 0) {
     console.info('Game Ended');

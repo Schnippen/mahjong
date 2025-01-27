@@ -142,7 +142,17 @@ export type ScreenList =
   | 'SettingsScreen'
   | 'RulesScreen'
   | 'RulesScreenYakuExample';
-
+export type WinningHandType = {
+  hand: TTileObject[];
+  winningTile: TTileObject[];
+  yakuList: YakuType[];
+  winningAction: 'TSUMO' | 'RON' | '';
+  points: number;
+  pointsName: pointsNameType;
+  fu: number;
+  totalHan: number;
+  isRichiiActive: boolean;
+};
 /* export type RootStackParamList = {
   MahjongScreen: {gameInitializer: string};
   StartGameScreen: {gameInitializer: string};

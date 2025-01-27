@@ -207,14 +207,34 @@ export let debugHand2 = [
   tilesData[15],
   tilesData[7],
   tilesData[8],
-]; //pinfu tenpai //debugHand2.map(i => i.tileID),
+];
+/* export let debugHand2 = [
+  tilesData[7],
+  tilesData[16],
+  tilesData[84],
+  tilesData[93],
+  tilesData[102],
+  tilesData[36],
+  tilesData[45],
+  tilesData[54],
+  tilesData[120],
+  tilesData[121],
+  tilesData[122],
+  tilesData[6],
+  tilesData[15],
+]; */ //kan-debug
+//pinfu tenpai //debugHand2.map(i => i.tileID),
 /*   debugHand2.concat(tilesData[6]).map(t => t.name),
     tilesData[6].name,
     checkWinningHand(winningDebugHand), */
-let winningDebugHand = debugHand2.concat(tilesData[6]);
+//let winningDebugHand = debugHand2.concat(tilesData[6]);
 
 export const testFunction = (dispatch: any) => {
   console.log('TEST_FUNCTION:');
+  console.log(
+    debugHand2.map(t => t.name),
+    debugHand2.length,
+  );
 };
 //https://www.npmjs.com/package/react-native-haptic-feedback
 /*  result,

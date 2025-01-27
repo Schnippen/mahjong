@@ -4,6 +4,7 @@ import {
   GameWinds,
   TTileObject,
   TplayerString,
+  WinningHandType,
   YakuType,
   pointsNameType,
 } from '../Types/types';
@@ -23,6 +24,7 @@ deck: Represents the remaining tiles in the deck.
 discardPile: Tracks the tiles that have been discarded by players.
 lastDiscard: Stores information about the last tile discarded (e.g., suit, rank, player ID). */
 type GamePhase = 'started' | 'ended' | 'none';
+
 interface gameState {
   gamePhase: GamePhase;
   currentTurn: GameWinds;
@@ -35,18 +37,8 @@ interface gameState {
   round: number;
   howManyTurnsElapsed: 0;
   turnInterrupted: boolean; //todo make winnig action better type,
-  interrputCounter:number,
-  winningHand: {
-    hand: TTileObject[];
-    winningTile: TTileObject[];
-    yakuList: YakuType[];
-    winningAction: 'TSUMO' | 'RON' | '';
-    points: number;
-    pointsName: pointsNameType;
-    fu: number;
-    totalHan: number;
-    isRichiiActive: boolean;
-  };
+  interrputCounter: number;
+  winningHand: WinningHandType;
 }
 
 const initialState: gameState = {
@@ -61,7 +53,7 @@ const initialState: gameState = {
   gameEnded: false,
   round: 0,
   turnInterrupted: false,
-  interrputCounter:0,
+  interrputCounter: 0,
   winningHand: {
     hand: [],
     winningTile: [],
@@ -133,13 +125,13 @@ export const gameReducer = createSlice({
       state.currentPlayer = current;
       console.log('REDUX setCurrentPlayer:', state.currentPlayer);
     },
-    INTERRUPT_COUNTER:(state,action)=>{
-      let {TypeOfAction}=action.payload
-      if(TypeOfAction==="INCREMENT"){
-        state.interrputCounter++
+    INTERRUPT_COUNTER: (state, action) => {
+      let {TypeOfAction} = action.payload;
+      if (TypeOfAction === 'INCREMENT') {
+        state.interrputCounter++;
       }
-      if(TypeOfAction==="RESET"){
-        state.interrputCounter=0
+      if (TypeOfAction === 'RESET') {
+        state.interrputCounter = 0;
       }
       console.log('REDUX INTERRUPT_COUNTER:', state.interrputCounter);
     },

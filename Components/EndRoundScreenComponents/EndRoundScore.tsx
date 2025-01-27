@@ -33,7 +33,7 @@ export const Score = () => {
           {displayWinningFu + ' '}
         </Text>
         <Text style={{fontFamily: 'TheLastShuriken'}}>Fu </Text>
-        <Text style={{fontSize: 24, fontWeight: 'bold'}}>
+        <Text style={{fontSize: 24, fontFamily: 'TheLastShuriken'}}>
           {displayTotalHan + ' '}
         </Text>
         <Text style={{fontFamily: 'TheLastShuriken'}}>Han </Text>

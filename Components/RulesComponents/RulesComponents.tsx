@@ -162,7 +162,7 @@ const ExampleSanshokuDoujun = [
   tilesData.slice(120, 121),
 ].flat();
 const ExampleSankantsu = [
-  tilesData.slice(72, 75),
+  tilesData.slice(75, 76),
   tilesData.slice(75, 76),
   tilesData.slice(75, 76),
   tilesData.slice(75, 76),

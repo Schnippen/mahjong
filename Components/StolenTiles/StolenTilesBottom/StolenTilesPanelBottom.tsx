@@ -22,7 +22,10 @@ const StolenTilesPanelBottom = () => {
 
   const renderItem = ({item}: {item: TstolenTiles}) => {
     let itemName = item.name;
-    console.log(item.tiles.map(t => t.name));
+    console.log(
+      'StolenTilesPanelBottom renderItem:',
+      item.tiles.map(t => t.name),
+    );
     if (itemName === 'left') {
       return <StolenTilesPlayerLEFT data={item} />;
     } else if (itemName === 'right') {

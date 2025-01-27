@@ -208,7 +208,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
       <View style={{marginBottom: 20}} />
     </ScrollView>
   );
-}; //TODO add examples
+};
 export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
   const [dimensionsView, setDimensionsView] = useState({width: 0, height: 0});
   const onLayoutView = (event: any) => {

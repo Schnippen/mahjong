@@ -9,14 +9,30 @@ import {Dimensions} from 'react-native';
 export const WinningHand = () => {
   // winning hand state
   const exampleData2 = tilesData.slice(25, 26);
-  const {hand: winningHand, winningTile} = useAppSelector(
+  /* const {hand: winningHand, winningTile} = useAppSelector(
     (state: RootState) => state.gameReducer.winningHand,
   );
   const {winningAction} = useAppSelector(
     (state: RootState) => state.gameReducer.winningHand,
+  ); */
+  const {
+    gameReducer: {winningHand},
+  } = useAppSelector((state: RootState) => state);
+  //let data = winningTile[0] !== null ? winningTile[0] : exampleData2[0];
+  let winningHandDisplay = winningHand.hand;
+  let winningTile = winningHand.winningTile;
+  let winningAction = winningHand.winningAction;
+  console.log(
+    'endRoundScreen winningHandDisplay:',
+    winningHandDisplay.map(i => i.name),
   );
-  let data = winningTile[0] !== null ? winningTile[0] : exampleData2[0];
-  console.log('WINNING TILE', data);
+  console.log(
+    'endRoundScreen winningHand:',
+    winningTile.map(t => t.name),
+  );
+  console.log('endRoundScreen totalHan:', winningHand.totalHan);
+  console.log('endRoundScreen fu:', winningHand.fu);
+  //console.log('WINNING TILE', data);
   //const screenWidth = Dimensions.get('screen').width;
 
   return (
@@ -43,7 +59,7 @@ export const WinningHand = () => {
         <FlatList
           horizontal={true}
           scrollEnabled={false}
-          data={winningHand} //winning hand
+          data={winningHandDisplay} //winning hand
           renderItem={({item, index}) => (
             <WinningHandTile key={index} item={item} index={index} />
           )}
@@ -99,7 +115,17 @@ export const WinningHand = () => {
             borderRadius: 8,
           }}
         />
-        <WinningHandTile item={data} index={14} />
+        <FlatList
+          horizontal={true}
+          scrollEnabled={false}
+          data={winningTile} //winning hand
+          renderItem={({item, index}) => (
+            <WinningHandTile key={index} item={item} index={index} />
+          )}
+          ListEmptyComponent={<EmptyComponent />}
+          initialNumToRender={13}
+          keyExtractor={(item, index) => item.tileID.toString()}
+        />
       </View>
     </View>
   );

@@ -3,14 +3,10 @@ import {View} from 'react-native';
 import {tilesData} from '../Data/tilesData';
 
 import {WinningHand} from '../Components/EndRoundScreenComponents/WinningHandComponent';
-import {resetToNextRound} from '../Functions/resetToNextRound';
 import {useAppDispatch} from '../Store/hooks';
-import {Button} from '@rneui/themed';
-import {captureScrenshot} from '../Functions/utils/captureScreenshot';
 import ScoreContainer from '../Components/EndRoundScreenComponents/EndRoundScreenScoreContainer';
 import EndRoundScreenDoras from '../Components/EndRoundScreenComponents/EndRoundScreenDoras';
 import EndRoundScreenUraDoras from '../Components/EndRoundScreenComponents/EndRoundScreenUraDoras';
-import {soundType} from '../Functions/playSounds/soundFunc';
 import YakuList from '../Components/EndRoundScreenComponents/YakuList';
 import ButtonContainers from '../Components/EndRoundScreenComponents/ButtonContainers';
 import {boardColor} from '../Data/colors';
