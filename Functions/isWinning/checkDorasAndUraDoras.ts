@@ -17,13 +17,22 @@ const checkDorasAndUraDoras = (
   let handToCheck = [...hand, ...discard, ...meldedTiles];
 
   let doras = dorasFromDeadWall || [];
-  let uradoras = uraDorasFromDeadWall || [];
+  let activeDoras = dorasFromDeadWall.filter(n => n.isDora).length;
+  let uradoras =
+    activeDoras > 0 ? uraDorasFromDeadWall.slice(0, activeDoras) : [];
+
   console.log(
     'checkDorasAndUraDoras():',
     'doras:',
-    doras.map(n => n?.name),
+    doras.map((n, i) => ({
+      name: n?.name,
+      isDora: n?.isDora,
+    })),
     'uraDoras:',
-    uradoras.map(n => n?.name),
+    uradoras.map((n, i) => ({
+      name: n?.name,
+      isDora: n?.isDora,
+    })),
     'handToCheck:',
     handToCheck?.map(n => n?.name),
   );
