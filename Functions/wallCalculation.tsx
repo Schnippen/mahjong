@@ -176,7 +176,7 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     tile.state = 'wall';
   });
   doras = doras.concat(
-    deadWallFragment[3],
+    deadWallFragment[5],
     deadWallFragment[7],
     deadWallFragment[9],
     deadWallFragment[11],
@@ -194,18 +194,21 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
   /*   console.log(
     'INIT DORAS CALCULATION,:',
     'DORA:',
-    doras?.map(n => n?.name),
+    doras?.map((n, i) => ({
+      name: n?.name,
+      index: i,
+    })),
     'URA_DORA:',
     uraDoras?.map((n, i) => ({
       name: n?.name,
-      isDora: n?.isDora,
+      index: i,
     })),
     'deadWallFragment:',
     deadWallFragment?.map((n, i) => ({
       name: n?.name,
       index: i,
-    })),
-  ); */
+    })), 
+  );*/
   /*   tilesReadyForRound = wallWithoutDeadWall.filter((tile: TTileObject) => !handedoutTiles.some((handedoutTile: TTileObject) => handedoutTile.tileID === tile.tileID)); */
   //console.log('calcL:', player1Hand.length);
   dispatch(setDeadWallFragment(deadWallFragment));
