@@ -176,27 +176,30 @@ const WallCalculation = (dispatch: any, shuffledTiles: TTileObject[]) => {
     tile.state = 'wall';
   });
   doras = doras.concat(
-    deadWallFragment[4],
-    deadWallFragment[6],
-    deadWallFragment[8],
-    deadWallFragment[10],
-    deadWallFragment[12],
-  );
-  doras[0].isDora = true;
-
-  uraDoras = uraDoras.concat(
     deadWallFragment[3],
     deadWallFragment[7],
     deadWallFragment[9],
     deadWallFragment[11],
     deadWallFragment[13],
   );
+  doras[0].isDora = true;
+
+  uraDoras = uraDoras.concat(
+    deadWallFragment[4],
+    deadWallFragment[6],
+    deadWallFragment[8],
+    deadWallFragment[10],
+    deadWallFragment[12],
+  );
   /*   console.log(
     'INIT DORAS CALCULATION,:',
     'DORA:',
     doras?.map(n => n?.name),
     'URA_DORA:',
-    uraDoras?.map(n => n?.name),
+    uraDoras?.map((n, i) => ({
+      name: n?.name,
+      isDora: n?.isDora,
+    })),
     'deadWallFragment:',
     deadWallFragment?.map((n, i) => ({
       name: n?.name,
