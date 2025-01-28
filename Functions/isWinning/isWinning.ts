@@ -415,9 +415,9 @@ export function isWinning({
     hand.map(t => t.name),
     playerName === 'player1',
     'cD:',
-    discard[0].name,
+    discard[0]?.name,
     'nT:',
-    [nextTile][0].name,
+    [nextTile][0]?.name,
   );
   //kinda works - tsumo doesn't work
   //ron works as intended

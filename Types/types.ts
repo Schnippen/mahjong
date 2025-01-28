@@ -108,27 +108,6 @@ export type PassActionFuncParam = {
 
 //use enum? NO!
 /* Enums add overhead in runtime as they are compiled into objects. Use unions for lightweight alternatives. Faster (no runtime object) */
-
-export type SoundFuncTypes = {
-  type:
-    | 'chii'
-    | 'pon'
-    | 'kan'
-    | 'riichi'
-    | 'ron'
-    | 'tsumo'
-    | 'meldSound'
-    | 'rontsumoSound'
-    | 'touchSound'
-    | 'tileClickSound'
-    | 'pop'
-    | 'popDown'
-    | 'popUp'
-    | 'diceThrow'
-    | 'shutter'
-    | '';
-};
-
 export type IsTenpaiResult = {
   result: boolean;
   discardableTiles: Set<TTileObject>;
@@ -161,3 +140,13 @@ export type WinningHandType = {
   RulesScreen: undefined;
   RulesScreenYakuExample: {name: string; data: TTileObject[]};
   };*/
+//redux store:
+export type TWhoTheWinnerIs = {
+  playerName: TplayerString;
+  winnersWind: WindTypes;
+  originalEastPlayer: TplayerString;
+  eastRoundCounter: number;
+  prevailingWind: WindTypes;
+  honba: number;
+  whoTheLoserIs: whoTheLoserIsType[];
+};

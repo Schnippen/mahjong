@@ -12,7 +12,9 @@ import {
 } from './Functions/utils/cameraRollPermission';
 import RulesScreen from './Screens/RulesScreen';
 import RulesScreenYakuExample from './Screens/RulesScreenYakuExample';
-
+import {SoundManager} from './Functions/playSounds/soundFunc';
+import {ScoresScreen} from './Screens/ScoresScreen';
+SoundManager.initialize();
 function MainApp() {
   const Stack = createNativeStackNavigator();
   /*   const dispatch = useDispatch(); */
@@ -49,6 +51,7 @@ function MainApp() {
           initialParams={{gameInitializer: 'none'}}
         />
         <Stack.Screen name="EndRoundScreen" component={EndRoundScreen} />
+        <Stack.Screen name="ScoresScreen" component={ScoresScreen} />
         <RootStack.Group screenOptions={{presentation: 'modal'}}>
           <Stack.Screen name="SettingsScreen" component={Settings} />
           <Stack.Screen name="RulesScreen" component={RulesScreen} />

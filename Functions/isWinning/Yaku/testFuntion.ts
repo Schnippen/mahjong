@@ -24,6 +24,8 @@ import {tilesData} from '../../../Data/tilesData';
 import {tilesData2} from '../../../Data/tilesData2';
 import {DEBUG_HAND} from '../../../Store/playersReducer';
 import {checkWinningHand} from '../../isReadyForRiichii/checkingWinningHand';
+import {soundFunc} from '../../playSounds/soundFunc';
+import {START_GAME} from '../../../Store/gameReducer';
 type testFunctionTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
@@ -235,6 +237,7 @@ export const testFunction = (dispatch: any) => {
     debugHand2.map(t => t.name),
     debugHand2.length,
   );
+  dispatch(START_GAME({phase: 'ended'}));
 };
 //https://www.npmjs.com/package/react-native-haptic-feedback
 /*  result,

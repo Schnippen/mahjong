@@ -1,4 +1,8 @@
-import {resetWinningHand, START_GAME} from '../Store/gameReducer';
+import {
+  INTERRUPT_TURN,
+  resetWinningHand,
+  START_GAME,
+} from '../Store/gameReducer';
 import {
   changePrevailingWind,
   changeWhoTheLoserIs,
@@ -10,7 +14,6 @@ import {
 import {resetRiverReducer} from '../Store/riverReducer';
 import {resetWallReducer_TOTAL_RESET} from '../Store/wallReducer';
 import {initializeNewRound} from './initializeNewRound';
-import {playPopDownSound} from './playSounds/Sounds/playPopDownSound';
 
 export const resetToNextRound = ({
   dispatch,
@@ -25,7 +28,7 @@ export const resetToNextRound = ({
   //reset game reducer
   // hands
   dispatch(START_GAME({phase: 'ended'})); //TODO i dont know if to keep it
-
+  dispatch(INTERRUPT_TURN({val: false}));
   ///change compass i must know who won, change wind in playerReducer, the wind in player reducer sends data to compass, - ok, its done
   //now changing wind
   dispatch(rotateWindOrder());

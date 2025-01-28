@@ -1,13 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
   TTileObject,
+  TWhoTheWinnerIs,
   TplayerString,
   TstolenTiles,
   WindTypes,
-  whoTheLoserIsType,
 } from '../Types/types';
 //TODO if i want to make this multiplayer i have to re think how to display player score
 //player:Andy Bob Charlie Dylan
+
 export interface PlayersState {
   player1: {
     player1Score: number;
@@ -55,15 +56,7 @@ export interface PlayersState {
     thirdHand: TTileObject[];
     fourthHand: TTileObject[];
   };
-  whoTheWinnerIs: {
-    playerName: TplayerString;
-    winnersWind: WindTypes;
-    originalEastPlayer: TplayerString;
-    eastRoundCounter: number;
-    prevailingWind: WindTypes;
-    honba: number;
-    whoTheLoserIs: whoTheLoserIsType[];
-  };
+  whoTheWinnerIs: TWhoTheWinnerIs;
 }
 
 const initialState: PlayersState = {

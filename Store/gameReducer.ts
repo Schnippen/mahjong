@@ -72,10 +72,15 @@ export const gameReducer = createSlice({
   initialState,
   reducers: {
     START_GAME: (state, action) => {
+      console.log(
+        'REDUX START_GAME:',
+        state.gamePhase,
+        'action:',
+        action.payload.phase,
+      );
       let {phase} = action.payload;
       state.gamePhase = phase;
     },
-    START_TURN: (state, action) => {},
     SET_LATEST_TURN: state => {
       state.latestPlayerTurn = state.currentTurn;
     },
@@ -192,7 +197,7 @@ export const gameReducer = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   START_GAME,
-  START_TURN,
+
   SET_LATEST_TURN,
   END_TURN,
   /*   CHECK_IF_CHII_IS_ON_LEFT_SIDE,

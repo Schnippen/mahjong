@@ -9,6 +9,7 @@ import {
   IsTenpaiResult,
   TplayerString,
   TTileObject,
+  TWhoTheWinnerIs,
   WinningHandType,
 } from '../Types/types';
 import {checkForQuadruplet} from './checkForQuadruplet';
@@ -31,6 +32,7 @@ import {RiverState} from '../Store/riverReducer';
 import {canRiichi} from './isReadyForRiichii/canRichii';
 import {isWinning} from './isWinning/isWinning';
 import {handleRiichi} from './PlayerControlFunctions/handleRiichi';
+import {thereAreNoTilesLeft} from './utils/thereAreNoTilesLeft';
 
 type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind' | 'whoTheWinnerIs'>;
 type GamePhase = 'started' | 'ended' | 'none';
@@ -52,9 +54,31 @@ export const runGame = (
   setDisplayTsumoButton: React.Dispatch<React.SetStateAction<boolean>>,
   navigation: any,
   winningHand: WinningHandType,
+  dorasFromDeadWall: TTileObject[],
+  uraDorasFromDeadWall: TTileObject[],
+  whoTheWinnerIs: TWhoTheWinnerIs,
 ) => {
   let mockupData = tilesData.slice(1, 12);
   const start = performance.now();
+  let interruptTurn: boolean = false;
+
+  //if game ended prevents from crashing the app
+  let gamePhaseEnded = gamePhase === 'ended';
+  console.log(
+    '////////////////////////////////////:',
+    gamePhase,
+    gamePhaseEnded,
+  );
+  if (gamePhaseEnded) {
+    console.log(
+      'runGame(): ////////////////:',
+      'interruptTurn:',
+      interruptTurn,
+      'gamePhase:',
+      gamePhase,
+    );
+    return;
+  }
   //ustalamy czyja jest tura
   let currentPlayersTurn = '';
   let currentHand = [];
@@ -62,7 +86,6 @@ export const runGame = (
   let nextPlayerX: TplayerString = 'null';
   console.log('runGame() - currentGlobalWind:', currentGlobalWind);
   let playersArray = [player1, player2, player3, player4];
-  let interruptTurn: boolean = false;
   let player1Hand = player1.playerHand.hand;
   if (player1.wind === currentGlobalWind) {
     currentPlayersTurn = 'player1';
@@ -302,7 +325,7 @@ export const runGame = (
       });
       console.log(
         'runGame.ts 1------ ----- TEMO:',
-        [...result.discardableTiles].map(t => t.name),
+        [...result.discardableTiles].map(t => t?.name),
         '---currentPlayer',
         currentPlayersTurn,
         'nextWind&nextPlayerX:',
@@ -374,7 +397,7 @@ export const runGame = (
           console.log(
             'runGame.ts 3 ------ ----- TEMP:',
             Array.from(resultIfPlayer1IsInRiichi.discardableTiles).map(
-              t => t.name,
+              t => t?.name,
             ),
           );
 
@@ -442,6 +465,17 @@ export const runGame = (
   });
 
   playersArray.forEach(player => {
+    //TODO IMPORTANT if on ENDofRoUND screen, make a break, create slice in game reducer
+    if (gamePhaseEnded) {
+      console.log(
+        'runGame(): ////////////////:',
+        'interruptTurn:',
+        interruptTurn,
+        'gamePhase:',
+        gamePhase,
+      );
+      return;
+    }
     //run it for all players, and display buttons only for player1
     //if (currentPlayersTurn === player.name) {
     console.log(
@@ -449,7 +483,7 @@ export const runGame = (
       currentPlayersTurn,
       currentPlayersTurn === player.name,
       'currentDiscard:',
-      currentDiscard[0].name,
+      currentDiscard[0]?.name, //when reseting game there is bug, i have to break the run game function somehow
       'nextTile:',
       nextTile.name,
       'player:',
@@ -484,14 +518,10 @@ export const runGame = (
       player2Wind: player2.wind,
       player3Wind: player3.wind,
       player4Wind: player4.wind,
+      dorasFromDeadWall,
+      uraDorasFromDeadWall,
+      whoTheWinnerIs,
     });
-    //probably needs the same treatment as riichi with nextXplayer done
-    //make it manage all players TODO
-    // show ron done
-    //show tsumo done
-
-    // go to summary screen, calculate winningHand
-    //}
   });
   //reset setWinningHand if thereis data
 
@@ -500,8 +530,12 @@ export const runGame = (
     console.info('runGame(): RESSETTING WINNING HAND');
     dispatch(resetWinningHand());
   }
+  let noTilesRemaining = thereAreNoTilesLeft({
+    tilesAfterHandoutLength,
+    nextTile,
+  });
   //if no tiles check for noten and tenpai
-  if (tilesAfterHandoutLength === 0) {
+  if (noTilesRemaining) {
     console.info('Game Ended');
     //TODO check tenpai noten
     dispatch(HONBA_REDUCER('increment'));
@@ -518,7 +552,7 @@ export const runGame = (
       'runGame():nextTile:',
       nextTile ? nextTile?.name : 'no Next Tile',
       'currentDiscard:',
-      currentDiscard[0].name,
+      currentDiscard[0]?.name,
     );
 
     if (currentHand.length >= 14) {

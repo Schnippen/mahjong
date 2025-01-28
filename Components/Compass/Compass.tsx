@@ -1,39 +1,39 @@
 import {TouchableOpacity, View} from 'react-native';
 import CompassPlayerSide from './CompassPlayerSide';
-import {useSelector,useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
 import React from 'react';
 import CompassTileCounter from './CompassTileCounter';
-import { setShowScoreDifference } from '../../Store/settingsReducer';
+import {setShowScoreDifference} from '../../Store/settingsReducer';
 const Compass = () => {
   //measuring from screenshot as a scale of reference
   const compassBottomPerimeter = 320; //320-200=120
-  const compassSidePerimeter = 320
+  const compassSidePerimeter = 320;
   const compassTilesCounterBottomPerimeter = +(100 * 1.0188).toFixed(2);
   const compassTurnIndicatorBottomPerimeter = 200;
   const backgroundColor = '#5a5a66';
   const backgroundColorSec = '#2f2f39';
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {
     playersReducer: {
-      player1: { wind: playerBottomMainPlayer },
-      player2: { wind: playerRight },
-      player3: { wind: playerTop },
-      player4: { wind: playerLeft }
-    }
+      player1: {wind: playerBottomMainPlayer},
+      player2: {wind: playerRight},
+      player3: {wind: playerTop},
+      player4: {wind: playerLeft},
+    },
   } = useSelector((state: RootState) => state);
   const {
     playersReducer: {
-      player1: { isRiichi: player1IsRiichi },
-      player2: { isRiichi: player2IsRiichi },
-      player3: { isRiichi: player3IsRiichi },
-      player4: { isRiichi: player4IsRiichi }
-    }
+      player1: {isRiichi: player1IsRiichi},
+      player2: {isRiichi: player2IsRiichi},
+      player3: {isRiichi: player3IsRiichi},
+      player4: {isRiichi: player4IsRiichi},
+    },
   } = useSelector((state: RootState) => state);
 
-  const handleChangeScoringDisplaySystem=()=>{
-    dispatch(setShowScoreDifference())
-  }
+  const handleChangeScoringDisplaySystem = () => {
+    dispatch(setShowScoreDifference());
+  };
   return (
     <View
       style={{
@@ -53,8 +53,16 @@ const Compass = () => {
           alignItems: 'center',
           borderRadius: 8,
         }}>
-        <TouchableOpacity style={{width:compassBottomPerimeter, height:compassSidePerimeter,backgroundColor:"transparent",position:"absolute",top:0,zIndex:999}} onPress={()=>handleChangeScoringDisplaySystem()}>
-        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: compassBottomPerimeter,
+            height: compassSidePerimeter,
+            backgroundColor: 'transparent',
+            position: 'absolute',
+            top: 0,
+            zIndex: 999,
+          }}
+          onPress={() => handleChangeScoringDisplaySystem()}></TouchableOpacity>
         <CompassTileCounter
           compassTilesCounterBottomPerimeter={
             compassTilesCounterBottomPerimeter

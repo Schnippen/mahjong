@@ -23,7 +23,7 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
     const timer = setTimeout(() => {
       console.log('yaku-row', soundName);
       setLoading(false);
-      soundFunc({type: soundName});
+      soundFunc({type: soundName}); //TODO fix typescript
       translateX.value = withTiming(0, {
         duration: 500,
         easing: Easing.out(Easing.exp),
@@ -52,11 +52,18 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
   return (
     <Animated.View style={[styles.yakuRow, animatedStyle]}>
       <View style={{flex: 3, justifyContent: 'center', height: 38}}>
-        <Text style={{fontWeight: 'bold', textAlign: 'center'}}>{name}</Text>
+        <Text style={{fontFamily: 'TheLastShuriken', textAlign: 'center'}}>
+          {name}
+        </Text>
       </View>
       <View style={styles.hanContainer}>
-        <Text style={{color: GoldTextColor, fontWeight: 'bold'}}>{han}</Text>
-        <Text style={{color: GoldTextColor, fontWeight: 'bold'}}> HAN</Text>
+        <Text style={{color: GoldTextColor, fontFamily: 'TheLastShuriken'}}>
+          {han}
+        </Text>
+        <Text style={{color: GoldTextColor, fontFamily: 'TheLastShuriken'}}>
+          {' '}
+          HAN
+        </Text>
       </View>
     </Animated.View>
   );

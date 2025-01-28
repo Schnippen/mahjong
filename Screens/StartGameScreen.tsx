@@ -1,30 +1,30 @@
 import React, {useState} from 'react';
 import {StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {boardColor} from '../Data/colors';
-import {soundFunc} from '../Functions/playSounds/soundFunc';
-import {ScreenList, SoundFuncTypes} from '../Types/types';
+import {ScreenList} from '../Types/types';
+import {soundFunc, SoundType} from '../Functions/playSounds/soundFunc';
 //https://www.1001fonts.com/asian-fonts.html
-function StartGameScreen({navigation,route}: {navigation: any,route:any}) {
-  const goToScreen = (screen: ScreenList,params?:object) => {
-    navigation.navigate(screen,params);
+function StartGameScreen({navigation, route}: {navigation: any; route: any}) {
+  const goToScreen = (screen: ScreenList, params?: object) => {
+    navigation.navigate(screen, params);
   };
-  let startGameParams={gameInitializer:'start'}
+  let startGameParams = {gameInitializer: 'start'};
   const ButtonStartScreen = ({
     text,
     navigationFunction,
-    soundType = {type: ''},
+    soundType,
   }: {
     text: string;
     navigationFunction: () => void;
-    soundType?: SoundFuncTypes;
+    soundType: SoundType;
   }) => {
     const handlePress = () => {
       if (soundType) {
-        soundFunc(soundType); // Call soundFunc with the correct structure
+        soundFunc({type: soundType}); // Call soundFunc with the correct structure
       }
       navigationFunction();
     };
-    console.log("START GAME SCREEN ROUTE:",route)
+    console.log('START GAME SCREEN ROUTE:', route);
     return (
       <TouchableOpacity
         style={{
@@ -39,7 +39,9 @@ function StartGameScreen({navigation,route}: {navigation: any,route:any}) {
         }}
         activeOpacity={0.9}
         onPress={handlePress}>
-        <Text style={{color: 'black',fontFamily:"TheLastShuriken"}}>{text}</Text>
+        <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>
+          {text}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -58,7 +60,11 @@ function StartGameScreen({navigation,route}: {navigation: any,route:any}) {
           alignItems: 'center',
         }}
         onLayout={onLayout}>
-        <Text style={{fontSize: dimensions.height / 2,fontFamily:"TheLastShuriken"}}>
+        <Text
+          style={{
+            fontSize: dimensions.height / 2,
+            fontFamily: 'TheLastShuriken',
+          }}>
           Riichi Mahjong
         </Text>
       </View>
@@ -75,20 +81,22 @@ function StartGameScreen({navigation,route}: {navigation: any,route:any}) {
         }}>
         <ButtonStartScreen
           text="Start Game"
-          navigationFunction={() => {goToScreen('MahjongScreen',startGameParams);}}
-          //soundType={{type: 'pop'}}
+          navigationFunction={() => {
+            goToScreen('MahjongScreen', startGameParams);
+          }}
+          soundType="pop"
         />
         <View style={{height: 20}} />
         <ButtonStartScreen
           text="Settings"
           navigationFunction={() => goToScreen('SettingsScreen')}
-          soundType={{type: 'popUp'}}
+          soundType="popUp"
         />
         <View style={{height: 20}} />
         <ButtonStartScreen
           text="Rules"
           navigationFunction={() => goToScreen('RulesScreen')}
-          soundType={{type: 'popUp'}}
+          soundType="popUp"
         />
       </View>
     );
