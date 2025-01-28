@@ -1,7 +1,7 @@
 import {TstolenTiles, TTileObject, WindTypes} from '../../Types/types';
 import {countTilesByName} from '../isReadyForRiichii/countTilesByName';
+import {isPinfu} from '../isWinning/Yaku/isPinfu';
 import {calculateWait} from './calculateWait';
-
 export const calculateFu = (
   hand: TTileObject[],
   currentMelds: TstolenTiles[],
@@ -23,24 +23,28 @@ export const calculateFu = (
 
   const waitType = calculateWait(hand, discard, hand[hand.length - 1]);
 
-  // Winning method adjustments
+  //Winning method adjustments
   if (typeOfWin === 'RON' && isHandClosed) {
-    fu += 10; // Closed ron
-  } else if (typeOfWin === 'TSUMO') {
-    fu += 2; // Tsumo
+    fu += 10; //Closed ron
+  } else if (
+    typeOfWin === 'TSUMO' &&
+    !isPinfu({
+      hand,
+      discard,
+      playerMelds: currentMelds,
+      Process: 'tsumo',
+    }).result
+  ) {
+    //TODO error prone?
+    fu += 2; //Tsumo
   }
 
-  // Waiting form adjustments
-  // Waiting form adjustments
-  if (waitType === 'middle') {
-    fu += 2; // Middle wait
-  } else if (waitType === 'edge') {
-    fu += 2; // Edge wait
-  } else if (waitType === 'pair') {
-    fu += 2; // Pair wait
+  //Waiting form adjustments
+  if (['middle', 'edge', 'pair'].includes(waitType)) {
+    fu += 2;
   }
 
-  // Value pairs adjustments
+  //Value pairs adjustments
   const tileCounts = countTilesByName(handToCheck);
   const valueTiles = ['red', 'green', 'white', prevailingWind, playersWind];
   let valuePairCount = 0;
@@ -50,7 +54,7 @@ export const calculateFu = (
 
     if (valueTiles.includes(type) && tileCounts[tileName] >= 2) {
       valuePairCount++;
-      fu += 2; // Dragon pair or Wind pair
+      fu += 2; //Dragon pair or Wind pair
     }
   }
 
@@ -79,9 +83,9 @@ export const calculateFu = (
       const isTerminal = tileValue === 1 || tileValue === 9;
 
       if (isHonorTile || isTerminal) {
-        fu += multiplier * 2; // Yaochupai
+        fu += multiplier * 2; //Yaochupai https://mahjong.info.pl/japonski/riichi/slowniczek/
       } else {
-        fu += multiplier; // Chunchanpai
+        fu += multiplier; //Chunchanpai
       }
     }
   }

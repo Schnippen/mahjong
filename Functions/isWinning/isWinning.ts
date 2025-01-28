@@ -1,6 +1,7 @@
 import {INTERRUPT_TURN} from '../../Store/gameReducer';
 import {
   TTileObject,
+  TWhoTheWinnerIs,
   TplayerString,
   TstolenTiles,
   TypeOfAction,
@@ -68,6 +69,7 @@ type isWinningTypes = {
   player4Wind: WindTypes;
   dorasFromDeadWall: TTileObject[];
   uraDorasFromDeadWall: TTileObject[];
+  whoTheWinnerIs: TWhoTheWinnerIs;
 };
 
 export function isWinning({
@@ -98,6 +100,7 @@ export function isWinning({
   player4Wind,
   dorasFromDeadWall,
   uraDorasFromDeadWall,
+  whoTheWinnerIs,
 }: isWinningTypes) {
   const start = performance.now();
   let hand: TTileObject[] = [];
@@ -449,6 +452,7 @@ export function isWinning({
       winnerWind,
       dorasFromDeadWall,
       uraDorasFromDeadWall,
+      whoTheWinnerIs,
     });
     console.info(
       `isWinning() took  ${((end - start) / 1000).toFixed(3)} seconds`,

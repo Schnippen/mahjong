@@ -4,6 +4,7 @@ import {
   pointsNameType,
   TstolenTiles,
   TTileObject,
+  TWhoTheWinnerIs,
   WindTypes,
 } from '../../Types/types';
 import {calculateFu} from './calculateFu';
@@ -17,16 +18,19 @@ const calculatePoints = (
   discard: TTileObject[],
   typeOfWin: 'TSUMO' | 'RON',
   dispatch: any,
+  whoTheWinnerIs: TWhoTheWinnerIs,
 ): {points: number; pointsName: pointsNameType; fu: number} => {
-  //TODO move state as prop, do not get it inside function, optimize it
-  let prevailingWind: WindTypes =
-    store.getState().playersReducer.whoTheWinnerIs.prevailingWind;
-  let honba: number = store.getState().playersReducer.whoTheWinnerIs.honba;
-  let whoWon = store.getState().playersReducer.whoTheWinnerIs.playerName;
-  let whoLost = store.getState().playersReducer.whoTheWinnerIs.whoTheLoserIs;
-  let playerWhoLostToRon = whoLost[0]?.loserName;
-  let playerWhoLostToTsumo = whoLost.map(p => p?.loserName);
-  let fu = calculateFu(
+  const {
+    prevailingWind,
+    honba,
+    playerName: whoWon,
+    whoTheLoserIs: whoLost,
+  } = whoTheWinnerIs;
+
+  const playerWhoLostToRon = whoLost[0]?.loserName;
+  const playerWhoLostToTsumo = whoLost.map(p => p?.loserName);
+
+  const fu = calculateFu(
     hand,
     currentMelds,
     typeOfWin,
@@ -35,74 +39,76 @@ const calculatePoints = (
     prevailingWind,
   );
 
-  let points = 0;
+  let basePoints = 0;
   let pointsName: pointsNameType = '';
+  const isDealer = winnerWind === 'east';
 
+  //https://riichi.wiki/Scoring_table
   if (totalHan >= 13) {
-    points = 8000;
     pointsName = 'Yakuman';
+    basePoints = isDealer ? 48000 : 32000;
   } else if (totalHan >= 11) {
-    points = 6000;
     pointsName = 'Sanbaiman';
+    basePoints = isDealer ? 36000 : 24000;
   } else if (totalHan >= 8) {
-    points = 4000;
     pointsName = 'Baiman';
+    basePoints = isDealer ? 24000 : 16000;
   } else if (totalHan >= 6) {
-    points = 3000;
     pointsName = 'Haneman';
+    basePoints = isDealer ? 18000 : 12000;
   } else if (totalHan >= 5) {
-    points = 2000;
     pointsName = 'Mangan';
+    basePoints = isDealer ? 12000 : 8000;
   } else {
-    // Calculate base points
-    points = fu * 2 ** (totalHan + 2);
-
-    if (points >= 2000) {
-      points = 2000;
+    // Calculate non-limit hand
+    basePoints = Math.min(fu * Math.pow(2, totalHan + 2), 2000);
+    if (basePoints >= 2000) {
       pointsName = 'Mangan';
-    } else {
-      pointsName = '';
+      basePoints = isDealer ? 12000 : 8000;
     }
   }
   //points += honba * 100;
 
-  /*  Do sumy dodaje się wartość honba na stole (znaczniki powtórzenia rozdania) Gracz zronowany płaci 300 puntów dodatkowych za każdą honbę W przypadku tsumo każdy gracz płaci 100 punktów za każdą honbę  */
+  /*  Do sumy dodaje się wartość honba na stole (znaczniki powtórzenia rozdania) Gracz zronowany płaci 300 puntów dodatkowych za każdą honbę W przypadku tsumo każdy gracz płaci 100 punktów za każdą honbę 
 
-  /* All nondealer players pay the smaller amount, while the dealer pays the larger amount.  https://riichi.wiki/Scoring_table*/
+   All nondealer players pay the smaller amount, while the dealer pays the larger amount.  https://riichi.wiki/Scoring_table */
+  let finalPoints = basePoints;
+
   if (typeOfWin === 'TSUMO') {
-    points += honba * 100;
     if (winnerWind === 'east') {
-      points *= 2;
+      finalPoints = basePoints + honba * 100;
       dispatch(HONBA_REDUCER({TypeOfAction: 'increment'}));
     } else {
-      points = Math.ceil((points * 2) / 3); // non-east players pay 1/3 of points each
+      finalPoints = Math.ceil(basePoints / 3) + honba * 100;
       dispatch(HONBA_REDUCER({TypeOfAction: 'reset'}));
     }
-  } else if (typeOfWin === 'RON') {
-    points += honba * 300;
+  } else {
+    // RON
     if (winnerWind === 'east') {
-      points *= 6;
+      finalPoints = basePoints + honba * 300;
       dispatch(HONBA_REDUCER({TypeOfAction: 'increment'}));
     } else {
-      points *= 4;
+      finalPoints = basePoints + honba * 300;
       dispatch(HONBA_REDUCER({TypeOfAction: 'reset'}));
     }
   }
 
-  points = Math.ceil(points / 100) * 100;
+  finalPoints = Math.ceil(finalPoints / 100) * 100;
   // change scoring of players
   //add points to the winner
-  dispatch(calculateScore({player: whoWon, val: points}));
-  //subtract points from losers
+  //update scores
+  dispatch(calculateScore({player: whoWon, val: finalPoints}));
+
   if (typeOfWin === 'TSUMO') {
     playerWhoLostToTsumo.forEach(playerName => {
-      dispatch(calculateScore({player: playerName, val: -points}));
+      dispatch(calculateScore({player: playerName, val: -finalPoints}));
     });
-  } else if (typeOfWin === 'RON') {
-    dispatch(calculateScore({player: playerWhoLostToRon, val: -points}));
+  } else {
+    //subtract points from losers
+    dispatch(calculateScore({player: playerWhoLostToRon, val: -finalPoints}));
   }
 
-  return {points, pointsName, fu};
+  return {points: finalPoints, pointsName, fu};
 };
-//return POINTS // POINTS NAME
+
 export default calculatePoints;

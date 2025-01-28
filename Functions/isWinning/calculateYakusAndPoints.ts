@@ -2,6 +2,7 @@ import {setWinningHand} from '../../Store/gameReducer';
 import {
   TstolenTiles,
   TTileObject,
+  TWhoTheWinnerIs,
   WindTypes,
   YakuCheckFunction,
   YakuType,
@@ -48,6 +49,9 @@ type calculateYakusAndPointsTypes = {
   dispatch: any; //TODO typescript
   playerWind: WindTypes;
   winnerWind: WindTypes;
+  dorasFromDeadWall: TTileObject[];
+  uraDorasFromDeadWall: TTileObject[];
+  whoTheWinnerIs: TWhoTheWinnerIs;
 };
 const yakuChecks: YakuCheckFunction[] = [
   isPinfu,
@@ -90,6 +94,9 @@ export const calculateYakusAndPoints = ({
   dispatch,
   playerWind,
   winnerWind,
+  dorasFromDeadWall,
+  uraDorasFromDeadWall,
+  whoTheWinnerIs,
 }: calculateYakusAndPointsTypes) => {
   const start = performance.now();
   let listOfYakusInHand: YakuType[] = [];
@@ -156,16 +163,21 @@ export const calculateYakusAndPoints = ({
   let typeOfWin: 'TSUMO' | 'RON' = totalHanRon === 0 ? 'TSUMO' : 'RON';
   let isRichiiActive = playerRiichiIndex !== null;
   //calculating doras
+  //this does not work!!!
   let {doraHan, doraName, uraDoraHan, uraDoraName} = checkDorasAndUraDoras(
     hand,
     winningMelds,
     discard,
     isRichiiActive,
+    dorasFromDeadWall,
+    uraDorasFromDeadWall,
   );
   console.log(
-    'CALCULATE YAKUS: DORA',
+    'CALCULATE YAKUS: DORAS',
+    '   DoraHan:',
     doraHan,
     doraName,
+    '   UraDoraHan:',
     uraDoraHan,
     uraDoraName,
   );
@@ -191,6 +203,7 @@ export const calculateYakusAndPoints = ({
     discard,
     typeOfWin,
     dispatch,
+    whoTheWinnerIs,
   );
 
   const end = performance.now();
