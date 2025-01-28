@@ -8,8 +8,6 @@ import {
   Alert,
   StatusBar,
 } from 'react-native';
-import ButtonSettings from '../Components/Buttons/ButtonSettings';
-import ButtonQuestionmark from '../Components/Buttons/ButtonQuestionmark';
 import RiverBottom from '../Components/River/RiverBottom';
 import {RiverRight} from '../Components/River/RiverRight';
 import {RiverLeft} from '../Components/River/RiverLeft';
@@ -37,6 +35,7 @@ import {
   handleImpactMedium,
 } from '../Functions/utils/hapticFeedback';
 import {resetToStartScreen} from '../Functions/resetToStartScreen';
+import useBackHandler from '../Functions/utils/useBackHandlerHook';
 
 //tiles
 //winning conditions
@@ -82,29 +81,6 @@ const screenHeight = Dimensions.get('window').height;
 
 //TODO oficjalna skala z perspektywą???
 function MahjongScreen({navigation, route}: any) {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [isSelectionModeEnabled, setIsSelectionModeEnabled] =
-    useState<boolean>(false);
-
-  const toggleOverlay = () => {
-    setIsVisible(!isVisible);
-  };
-  //MenuPanel is not in use due to technical reasons
-  const MenuPanel = ({navigation}: {navigation: any}) => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          backgroundColor: 'pink',
-          justifyContent: 'flex-end',
-          position: 'absolute',
-          right: 0,
-        }}>
-        <ButtonQuestionmark text="Q" />
-        <ButtonSettings navigation={navigation} toggleOverlay={toggleOverlay} />
-      </View>
-    );
-  };
   const dispatch = useDispatch();
 
   const playerBottomMainPlayerWind = useSelector(
@@ -131,44 +107,7 @@ function MahjongScreen({navigation, route}: any) {
 console.info("playerTop:",playerTopHand.length,playerTopHand.map(t=>t.name))
 console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.name)) */
   //Handle going to previuous Screen
-  const isFocused = useIsFocused();
-  useEffect(() => {
-    const backAction = () => {
-      if (isFocused) {
-        Alert.alert('Confirmation', 'Are you sure to reset your Game?', [
-          {
-            text: 'Cancel',
-            onPress: () => {
-              null;
-              soundFunc({type: 'popUp'});
-              handleImpactLight();
-            },
-          },
-          {
-            text: 'OK',
-            onPress: () => {
-              soundFunc({type: 'popDown'});
-              handleImpactMedium();
-              resetToStartScreen(dispatch);
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{name: 'StartGameScreen'}],
-                }),
-              );
-            },
-          },
-        ]);
-        return true;
-      }
-      return false;
-    };
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-    return () => backHandler.remove();
-  }, [isFocused]);
+  useBackHandler(navigation, dispatch);
 
   //TODO init game only once when navigation params change
   const hasInitializedGame = useRef(false);

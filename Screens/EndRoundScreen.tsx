@@ -1,5 +1,5 @@
-import React from 'react';
-import {View} from 'react-native';
+import React, {useEffect} from 'react';
+import {Alert, BackHandler, View} from 'react-native';
 import {tilesData} from '../Data/tilesData';
 
 import {WinningHand} from '../Components/EndRoundScreenComponents/WinningHandComponent';
@@ -10,6 +10,7 @@ import EndRoundScreenUraDoras from '../Components/EndRoundScreenComponents/EndRo
 import YakuList from '../Components/EndRoundScreenComponents/YakuList';
 import ButtonContainers from '../Components/EndRoundScreenComponents/ButtonContainers';
 import {boardColor} from '../Data/colors';
+import useBackHandler from '../Functions/utils/useBackHandlerHook';
 
 //love this
 /* onLayout={(event) => {
@@ -18,13 +19,15 @@ import {boardColor} from '../Data/colors';
 }} */
 
 function EndRoundScreen({navigation}: {navigation: any}) {
+  const dispatch = useAppDispatch();
+
+  useBackHandler(navigation, dispatch);
+
   const topPanelBackgroundColor = '#3c7fc3';
   const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
   const exampleData = tilesData.slice(12, 25);
   const exampleData2 = tilesData.slice(25, 26);
   //props, winning hand of a player, winning tile by tsumo or ron
-
-  const dispatch = useAppDispatch();
 
   return (
     <View

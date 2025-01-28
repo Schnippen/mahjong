@@ -2,7 +2,7 @@ import React from 'react';
 import {resetToNextRound} from '../../Functions/resetToNextRound';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {captureScrenshot} from '../../Functions/utils/captureScreenshot';
-import {soundType} from '../../Functions/playSounds/soundFunc';
+import {soundFunc} from '../../Functions/playSounds/soundFunc';
 
 const ButtonContainers = ({
   dispatch,
@@ -33,7 +33,8 @@ const ButtonContainers = ({
         activeOpacity={0.9}
         onPress={() => {
           console.log('SCRENSHOT Pressed'), captureScrenshot();
-          soundType('shutter'); //TODO check if this is working
+          //TODO check if this is working
+          soundFunc({type: 'shutter'});
         }}>
         <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>
           {`[◉°]`}
