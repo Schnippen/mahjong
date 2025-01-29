@@ -21,7 +21,7 @@ export function checkForQuadruplet(
   playerHand: TTileObject[],
   discardedTileArray: TTileObject[],
 ) {
-  console.log(discardedTileArray[0]?.name);
+  //console.log("checkForQuadruplet",discardedTileArray[0]?.name);
   let isKan = isPlayerHandContainingFourOfAKind(playerHand);
   // console.log('isKan?', isKan);
   if (isKan) {

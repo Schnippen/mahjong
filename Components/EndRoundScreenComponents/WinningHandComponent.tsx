@@ -3,18 +3,9 @@ import {useAppSelector} from '../../Store/hooks';
 import {FlatList, Text, View} from 'react-native';
 import {RootState} from '../../Store/store';
 import EmptyComponent from '../Wall/EmptyComponent';
-import {tilesData} from '../../Data/tilesData';
 import {WinningHandTile} from './WinningHandTile';
-import {Dimensions} from 'react-native';
 export const WinningHand = () => {
   // winning hand state
-  const exampleData2 = tilesData.slice(25, 26);
-  /* const {hand: winningHand, winningTile} = useAppSelector(
-    (state: RootState) => state.gameReducer.winningHand,
-  );
-  const {winningAction} = useAppSelector(
-    (state: RootState) => state.gameReducer.winningHand,
-  ); */
   const {
     gameReducer: {winningHand},
   } = useAppSelector((state: RootState) => state);

@@ -88,13 +88,13 @@ export function isTenpai({
     }
   }
   if (discardableTiles.size > 0) {
-    /*   console.info(
+    /*  console.info(
       `isTenpai(): Valid discardable tile names: ${[
         ...discardableTiles.values(),
       ]
         .map(tile => tile.name)
         .join(', ')}`,
-    ); //TODO */
+    ); */
     return {result: true, discardableTiles: discardableTiles};
     //return true;
   }

@@ -468,6 +468,7 @@ export const playersReducer = createSlice({
           state.player3,
           state.player4,
         ];
+        let paymentMultiplier;
         const loserPlayers = playersArray.filter(
           p => p.wind === valuePlayerWind,
         );
@@ -475,32 +476,49 @@ export const playersReducer = createSlice({
           const loserPlayer = loserPlayers[0]; //wind is unique
           state.whoTheWinnerIs.whoTheLoserIs = [
             ...state.whoTheWinnerIs.whoTheLoserIs,
-            {loserName: loserPlayer.name, loserWind: loserPlayer.wind},
+            {
+              loserName: loserPlayer.name,
+              loserWind: loserPlayer.wind,
+              paymentMultiplier: 1,
+            },
           ];
         } else {
           // it is almost impossible
           console.error(`No player found with wind: ${valuePlayerWind}`);
         }
       } else if (TypeOfAction === 'updateTSUMO') {
-        // TSUMO - Multiple losers
         const playersArray = [
           state.player1,
           state.player2,
           state.player3,
           state.player4,
         ];
+        const winner = playersArray.find(p => p.name === valuePlayerName);
+        const isWinnerDealer = winner?.wind === 'east';
         const loserPlayersArray = playersArray.filter(
           p => p.name !== valuePlayerName,
         );
         state.whoTheWinnerIs.whoTheLoserIs = [];
         loserPlayersArray.forEach(loser => {
+          let paymentMultiplier;
+          if (isWinnerDealer) {
+            //if dealer wins, all pay equally
+            paymentMultiplier = 1 / 3;
+          } else {
+            //if non-dealer wins
+            paymentMultiplier = loser.wind === 'east' ? 1 / 2 : 1 / 4;
+          }
           state.whoTheWinnerIs.whoTheLoserIs.push({
             loserName: loser.name,
             loserWind: loser.wind,
-          });
+            paymentMultiplier,
+          }); //TODO IMPORTANT, count player score
         });
       } else if (TypeOfAction === 'reset') {
-        state.whoTheWinnerIs.whoTheLoserIs = [];
+        state.whoTheWinnerIs.whoTheLoserIs =
+          initialState.whoTheWinnerIs.whoTheLoserIs;
+        state.whoTheWinnerIs.winnersWind =
+          initialState.whoTheWinnerIs.winnersWind;
       }
     },
     changePrevailingWind: state => {
@@ -575,11 +593,14 @@ When the game begins, east is the Prevailing wind. When the player who started t
     DEBUG_HAND: (state, action) => {
       let begginingHand = state.player1.playerHand.hand;
       if (begginingHand.length === 14) {
-        console.warn('I AM SPECIAL DEBUG HAND');
+        console.warn('I AM SPECIAL DEBUG HAND - RESET');
       } else {
         state.player1.playerHand.hand = initialState.player1.playerHand.hand;
         let handForDebugging = action.payload;
         state.player1.playerHand.hand = [...handForDebugging];
+        //player4 DEBUG REMOVE
+        state.player4.playerHand.hand = initialState.player2.playerHand.hand;
+        state.player4.playerHand.hand = [...handForDebugging];
       }
       console.log('REDUX DEBUG_HAND');
       //ok se here we have some problems:

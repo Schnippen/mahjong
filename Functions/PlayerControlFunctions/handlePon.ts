@@ -7,9 +7,14 @@ import {
   setStolenTilesOnBoard,
 } from '../../Store/playersReducer';
 import {popFromTheRiver} from '../../Store/riverReducer';
-import {TTileObject, TplayerString, WindTypes, positionType} from '../../Types/types';
+import {
+  TTileObject,
+  TplayerString,
+  WindTypes,
+  positionType,
+} from '../../Types/types';
 import {stealTriplet} from '../StealingFunctions/stealTriplet';
-import { soundFunc } from '../playSounds/soundFunc';
+import {soundFunc} from '../playSounds/soundFunc';
 
 type HandlePonParam = {
   handData: TTileObject[];
@@ -57,7 +62,7 @@ export const handlePon = ({
     positionOfPlayerWhoLeftTheTile(playerWhoLeftTheTile);
   let {result, ponArray} = stealTriplet(handData, currentDiscard, position);
   //TODO keep an eye on that
-/*   console.log(
+  /*   console.log(
     'stealTriplet:',
     result,
     ponArray?.map(t => t.name),
@@ -86,9 +91,9 @@ export const handlePon = ({
   setChiiPanelDisplayed(false);
   setDisplayRiichiButton(false);
   //AUDIO
-  soundFunc({type:'pon'})
+  soundFunc({type: 'pon'});
   //dispatch(SET_LATEST_TURN());
   //set current turn to the player and he must discard
   const end = performance.now();
-  console.log(`handlePon() took ${end - start} milliseconds.`);
+  console.log(`handlePon() took ${(end - start) / 1000} seconds.`);
 };

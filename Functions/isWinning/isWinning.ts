@@ -1,5 +1,10 @@
-import {INTERRUPT_TURN} from '../../Store/gameReducer';
+import {INTERRUPT_TURN, START_GAME} from '../../Store/gameReducer';
 import {
+  changeWhoTheLoserIs,
+  changeWhoTheWinnerIs,
+} from '../../Store/playersReducer';
+import {
+  GameWinds,
   TTileObject,
   TWhoTheWinnerIs,
   TplayerString,
@@ -9,6 +14,8 @@ import {
   YakuCheckFunction,
   YakuType,
 } from '../../Types/types';
+import {handleAIWin} from '../AI-move/handleAIWin';
+import {soundFunc} from '../playSounds/soundFunc';
 import {calculateYakusAndPoints} from './calculateYakusAndPoints';
 import {isChanta} from './Yaku/isChanta';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
@@ -70,6 +77,8 @@ type isWinningTypes = {
   dorasFromDeadWall: TTileObject[];
   uraDorasFromDeadWall: TTileObject[];
   whoTheWinnerIs: TWhoTheWinnerIs;
+  latestTurn: GameWinds;
+  navigation: any; //TODO add typescript
 };
 
 export function isWinning({
@@ -101,6 +110,8 @@ export function isWinning({
   dorasFromDeadWall,
   uraDorasFromDeadWall,
   whoTheWinnerIs,
+  latestTurn,
+  navigation,
 }: isWinningTypes) {
   const start = performance.now();
   let hand: TTileObject[] = [];
@@ -168,9 +179,9 @@ export function isWinning({
   //Chiihou yakuman //have sound for that
   //renhou //have sound for that
   // ----------
-  //yakus based on terminals / honors
 
-  //Tanyao 2-8 //WORKING
+  //yakus based on terminals / honors
+  //Tanyao 2-8 //TODO need fixing, sometimes when in riichi tanyao counts terminals :/
   isTanyao({hand, discard, playerMelds: currentMelds});
 
   //yakuhai Dragon, Players Seat Wind or Round Wind Triplet. //CHECK
@@ -249,19 +260,6 @@ export function isWinning({
 
   //Kokushi musou 国士無双 • Thirteen Orphans yakuman //WORKING
   isKokushiMusou({hand, discard, playerMelds: currentMelds});
-
-  /*      if (result && typeOfAction === 'RON') {
-        //if player1 show buttons
-        if (playerName === 'player1') {
-          setDisplayRonButton(true);
-        }
-      } else if (result && typeOfAction === 'TSUMO') {
-        if (playerName === 'player1') {
-          setDisplayTsumoButton(true);
-        }
-      } else {
-        return null;
-      } */
 
   //array of functions
 
@@ -354,7 +352,7 @@ export function isWinning({
   //RON Process for Riichi Yaku
   if (nextPlayerX !== playerName) {
     if (playerRiichiIndex !== null) {
-      //check if this whole function works
+      //check if this whole function works - DONE
       const riichiResult = isRiichi({
         hand,
         discard,
@@ -379,7 +377,7 @@ export function isWinning({
   if (nextPlayerX === playerName) {
     if (playerRiichiIndex !== null) {
       //checking in if player declared RIICHI, there might be problem with tsumo?
-      //check if this whole function works
+      //check if this whole function works - DONE
       const discard = [nextTile];
       const riichiResult = isRiichi({
         hand,
@@ -419,7 +417,6 @@ export function isWinning({
     'nT:',
     [nextTile][0]?.name,
   );
-  //kinda works - tsumo doesn't work
   //ron works as intended
   if (ron && playerName === 'player1') {
     dispatch(INTERRUPT_TURN({val: true}));
@@ -430,7 +427,7 @@ export function isWinning({
     dispatch(INTERRUPT_TURN({val: true}));
     setDisplayTsumoButton(true); //turn should be interrupted
   }
-  //TODO add code for AI...
+
   const end = performance.now();
   if (ron || tsumo) {
     //IF RON OR TSUMO UPDATE WINNING HAND??????
@@ -454,6 +451,23 @@ export function isWinning({
       uraDorasFromDeadWall,
       whoTheWinnerIs,
     });
+
+    //AI Win logic, press Ron or Tsumo
+    //TODO test it
+    handleAIWin({
+      ron,
+      tsumo,
+      navigation,
+      dispatch,
+      playerName,
+      winnerWind,
+      latestTurn,
+      player2Wind,
+      player3Wind,
+      player4Wind,
+    });
+
+    const end = performance.now();
     console.info(
       `isWinning() took  ${((end - start) / 1000).toFixed(3)} seconds`,
       'Ron:',

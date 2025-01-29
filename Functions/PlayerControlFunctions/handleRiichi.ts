@@ -35,24 +35,23 @@ export const handleRiichi = ({
 
   dispatch(setRiichi({player: player, val: true}));
   dispatch(calculateScore({player: player, val: -1000}));
-  //set unique richii index in river, DONE
+  //set unique richii index in river,- DONE
   dispatch(setRiichiIndexRiver({player: player, index: riverIndex}));
-  //richi index will be displayed in river component DONE
-  // change RiverState into object with key of river state and richii index DONE
+  //richi index will be displayed in river component- DONE
+  // change RiverState into object with key of river state and richii index -DONE
 
-  //cannot richii if there is less than 4 tiles left
-
-  //player must have at least 1000 points,? check this one out, https://riichi.wiki/Riichi
+  //cannot richii if there is less than 4 tiles left - DONE in runGame()
+  //TODO
   //The player must have at least 1,000 points (unless the player is allowed to go into negative points).
   //There must be at least 4 tiles left in the live wall. In other words, the player must be able to draw at least one more tile in an uninterrupted set of turns.
-  //TODO check if 4 tiles left, maybe do this in runGame.ts
+  //player must have at least 1000 points,? check this one out, https://riichi.wiki/Riichi
 
   //show riichii stick in compass DONE
-  //player who used riichii can only discard 14th tile IN PROGRESS
+  //player who used riichii can only discard 14th tile , DONE for player1
 
-  //when player is in richii buttons should be disabled-  DONE
+  //when player is in richii buttons should be disabled - DONE
   //prevents button to appear while in riichi - DONE?
-  //also prevent throwing other tiles NOT_DONE
+  //also prevent throwing other tiles - DONE for player1
 
   if (player === 'player1') {
     setIsRichiiActive?.(true); //this is for player1, boolean allows to only discard new tile from the wall
@@ -62,12 +61,9 @@ export const handleRiichi = ({
     setDisplayKanButton?.(false);
     setDisplayRiichiButton?.(false);
   }
-  /*   setIsRichiiActive(true); //this is for player1, boolean allows to only discard new tile from the wall
-  setChiiPanelDisplayed(false);
-  setDisplayChiiButton(false);
-  setDisplayPonButton(false);
-  setDisplayKanButton(false);
-  setDisplayRiichiButton(false); */
+  if (player !== 'player1') {
+    console.log('AI handleRichi():', player);
+  }
   //Audio
   soundFunc({type: 'riichi'});
 };

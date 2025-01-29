@@ -78,6 +78,7 @@ export type pointsNameType =
 export type whoTheLoserIsType = {
   loserName: TplayerString;
   loserWind: WindTypes;
+  paymentMultiplier: number;
 } | null;
 
 export type PassActionFuncParam = {

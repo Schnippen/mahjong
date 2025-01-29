@@ -63,6 +63,10 @@ const NextTurn = () => {
           player2River.riverState,
           player3River.riverState,
           player4River.riverState,
+          player1River.riichiIndex,
+          player2River.riichiIndex,
+          player3River.riichiIndex,
+          player4River.riichiIndex,
         )
       }
       type="outline"
@@ -137,6 +141,9 @@ const PlayerButtonsPanel = ({
   const {
     gameReducer: {winningHand},
   } = useSelector((state: RootState) => state);
+  const {
+    playersReducer: {whoTheWinnerIs},
+  } = useSelector((state: RootState) => state);
   const [displayChiiButton, setDisplayChiiButton] = useState<boolean>(false);
   const [displayPonButton, setDisplayPonButton] = useState<boolean>(false);
   const [displayKanButton, setDisplayKanButton] = useState<boolean>(false);
@@ -147,7 +154,6 @@ const PlayerButtonsPanel = ({
   const [chiiPanelState, setChiiPanelState] = useState<TTileObject[][]>([]);
   const [displayRonButton, setDisplayRonButton] = useState<boolean>(false);
   const [displayTsumoButton, setDisplayTsumoButton] = useState<boolean>(false);
-  //console.log('playersButtonPanel-latestTurn:', latestTurn);
 
   useEffect(() => {
     //this might be prone to bugs,
@@ -185,6 +191,10 @@ const PlayerButtonsPanel = ({
               player2River.riverState,
               player3River.riverState,
               player4River.riverState,
+              player1River.riichiIndex,
+              player2River.riichiIndex,
+              player3River.riichiIndex,
+              player4River.riichiIndex,
             );
             const endPerformance = performance.now();
             const executionTime = endPerformance - startPerformance;
@@ -212,7 +222,7 @@ const PlayerButtonsPanel = ({
   }, [tilesLeftInWall, playerWhoLeftTheTile, INTERRUPER_COUNTER]);
   useEffect(() => {
     console.info(
-      'useEffect: runGame():',
+      'useEffect: runGame() NEW:',
       'latestTurn:',
       latestTurn,
       'currentTurn:',
@@ -250,12 +260,15 @@ const PlayerButtonsPanel = ({
       winningHand,
       dorasFromDeadWall,
       uraDorasFromDeadWall,
+      whoTheWinnerIs,
+      latestTurn,
     );
   }, [currentDiscard]);
 
   //AUDIO //SOUND
   useEffect(() => {
     if (displayRonButton || displayTsumoButton) {
+      //console.log('PLAY SOUND: RON - TSUMO');
       soundFunc({type: 'rontsumoSound'});
     } else if (
       displayChiiButton ||
@@ -263,6 +276,7 @@ const PlayerButtonsPanel = ({
       displayKanButton ||
       displayRiichiButton
     ) {
+      //console.log('PLAY SOUND: CHII - PON - KAN - RIICHI');
       soundFunc({type: 'meldSound'});
     } else {
       null;
@@ -408,7 +422,7 @@ const PlayerButtonsPanel = ({
                 changeWhoTheLoserIs({
                   TypeOfAction: 'updateRON',
                   valuePlayerName: latestTurn,
-                  valuePlayerWind: latestTurn,
+                  valuePlayerWind: latestTurn, //wind
                 }),
               );
               setTimeout(() => {

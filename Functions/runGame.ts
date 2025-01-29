@@ -57,6 +57,7 @@ export const runGame = (
   dorasFromDeadWall: TTileObject[],
   uraDorasFromDeadWall: TTileObject[],
   whoTheWinnerIs: TWhoTheWinnerIs,
+  latestTurn: GameWinds,
 ) => {
   let mockupData = tilesData.slice(1, 12);
   const start = performance.now();
@@ -450,12 +451,13 @@ export const runGame = (
             }),
           );
         } //when ai player is in tenpai, it will relentlessly try to go for next riichi. This riichi button should be disabled, allowing for only one riichi per round, be sure that AI player only discard 14th tile
-        if (currentRiver) {
+        if (currentRiver.riichiIndex === null) {
+          //currentRiver.riichiIndex===null
           handleRiichi({
             dispatch,
             player: player.name,
             river: currentRiver.riverState,
-          }); //i must add SPECIFIC discard for AI riichi
+          });
         }
       }
     } else {
@@ -465,7 +467,6 @@ export const runGame = (
   });
 
   playersArray.forEach(player => {
-    //TODO IMPORTANT if on ENDofRoUND screen, make a break, create slice in game reducer
     if (gamePhaseEnded) {
       console.log(
         'runGame(): ////////////////:',
@@ -491,7 +492,7 @@ export const runGame = (
     );
     //console.log('runGame(): isWinning - yaku ,');
     //check for buttons to be displayed
-
+    //handle ron or tsumo for AI so player4, player3,player2.
     isWinning({
       //hand: currentHand,
       player1Hand: player1.playerHand.hand,
@@ -521,6 +522,8 @@ export const runGame = (
       dorasFromDeadWall,
       uraDorasFromDeadWall,
       whoTheWinnerIs,
+      latestTurn,
+      navigation,
     });
   });
   //reset setWinningHand if thereis data

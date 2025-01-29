@@ -122,13 +122,5 @@ export const determineBestDiscard = (
       : `RandomTile:${randomTileToDiscard.name}`,
     `AIMove() took- ${((end - start) / 1000).toFixed(3)} seconds`,
   );
-  return bestDiscard || randomTileToDiscard; //hand[0] //this is fallback, better use
+  return bestDiscard || randomTileToDiscard;
 };
-/* player1Melds: TstolenTiles[],
-player2Melds: TstolenTiles[],
-player3Melds: TstolenTiles[],
-player4Melds: TstolenTiles[],
-player1RiverState: TTileObject[]
-player2RiverState: TTileObject[]
-player3RiverState: TTileObject[]
-player4RiverState: TTileObject[] */
