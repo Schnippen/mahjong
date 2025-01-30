@@ -1,4 +1,4 @@
-import {ButtonGroup, Divider, Slider} from '@rneui/themed';
+import {ButtonGroup, Divider} from '@rneui/themed';
 import React, {useState} from 'react';
 import {
   ScrollView,
@@ -25,6 +25,7 @@ import {
 } from '../Functions/utils/hapticFeedback';
 import {boardColor} from '../Data/colors';
 import {ButtonGoBack} from '../Components/Buttons/ButtonGoBack';
+import {SliderContainer} from '../Components/SettingsComponents/SliderContainer';
 //TODO fix this, boolean is not switching fast enough
 function Settings({navigation}: {navigation: any}) {
   const panelBackgroundColor = boardColor;
@@ -186,60 +187,6 @@ function Settings({navigation}: {navigation: any}) {
     soundFunc({type: 'pop'});
   };
 
-  const SliderContainer = () => {
-    return (
-      <View style={{alignItems: 'center'}}>
-        <View
-          style={{
-            padding: 20,
-
-            justifyContent: 'center',
-            alignItems: 'stretch',
-            width: containerWidth,
-          }}>
-          <Slider
-            value={volumeState}
-            onValueChange={handleVolume}
-            maximumValue={10}
-            minimumValue={0}
-            //maximumTrackTintColor
-            //minimumTrackTintColor
-            step={1}
-            allowTouchTrack
-            trackStyle={{height: 10, backgroundColor: '  '}}
-            thumbStyle={{height: 50, width: 50, backgroundColor: 'transparent'}}
-            minimumTrackTintColor="#bdbbc0"
-            maximumTrackTintColor="#e9ebe8"
-            //animationType='spring'
-            //animateTransitions= //TODO
-            thumbProps={{
-              children: (
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 50,
-                    width: 50,
-                    backgroundColor: '#56a2c4',
-                    borderRadius: 8,
-                  }}>
-                  <Text
-                    style={{
-                      color: '#fbd54e',
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                    }}>
-                    {volumeState}
-                  </Text>
-                </View>
-              ),
-            }}
-          />
-        </View>
-      </View>
-    );
-  };
-
   return (
     <ScrollView
       style={{
@@ -257,7 +204,9 @@ function Settings({navigation}: {navigation: any}) {
           flex: 1,
           paddingTop: 4,
         }}>
-        <Text style={{fontSize: 48, fontWeight: 'bold'}}>Settings</Text>
+        <Text style={{fontSize: 48, fontFamily: 'TheLastShuriken'}}>
+          Settings
+        </Text>
         <View
           style={{
             justifyContent: 'center',
@@ -265,7 +214,6 @@ function Settings({navigation}: {navigation: any}) {
             flex: 1,
             height: 80,
             width: 100,
-
             position: 'absolute',
             right: 0,
           }}>
@@ -290,6 +238,7 @@ function Settings({navigation}: {navigation: any}) {
             backgroundColor: '#e9ebe8',
             width: containerWidth,
           }}
+          textStyle={{color: 'black', fontFamily: 'TheLastShuriken'}}
           selectedButtonStyle={{backgroundColor: '#56a2c4'}}
         />
       </View>
@@ -306,6 +255,7 @@ function Settings({navigation}: {navigation: any}) {
             backgroundColor: '#e9ebe8',
             width: containerWidth,
           }}
+          textStyle={{color: 'black', fontFamily: 'TheLastShuriken'}}
           selectedButtonStyle={{backgroundColor: '#56a2c4'}}
         />
       </View>
@@ -322,6 +272,7 @@ function Settings({navigation}: {navigation: any}) {
             backgroundColor: '#e9ebe8',
             width: containerWidth,
           }}
+          textStyle={{color: 'black', fontFamily: 'TheLastShuriken'}}
           selectedButtonStyle={{backgroundColor: '#56a2c4'}}
         />
       </View>
@@ -333,10 +284,16 @@ function Settings({navigation}: {navigation: any}) {
         orientation="horizontal"
       />
       <View style={{flex: 1, alignItems: 'center'}}>
-        <Text style={{fontSize: 28, fontWeight: 'bold'}}>Set Volume</Text>
+        <Text style={{fontSize: 28, fontFamily: 'TheLastShuriken'}}>
+          Set Volume
+        </Text>
       </View>
       <View style={{alignItems: 'center'}}>
-        <SliderContainer />
+        <SliderContainer
+          volumeState={volumeState}
+          handleVolume={handleVolume}
+          containerWidth={containerWidth}
+        />
       </View>
       <Divider
         style={{width: '80%', margin: 10}}
@@ -356,6 +313,7 @@ function Settings({navigation}: {navigation: any}) {
             backgroundColor: '#e9ebe8',
             width: containerWidth,
           }}
+          textStyle={{color: 'black', fontFamily: 'TheLastShuriken'}}
           selectedButtonStyle={{backgroundColor: '#56a2c4'}}
         />
       </View>
@@ -370,15 +328,19 @@ function Settings({navigation}: {navigation: any}) {
         <TouchableOpacity
           style={{
             height: 45,
-            backgroundColor: '#56a2c4',
+            backgroundColor: '#e9ebe8',
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 10,
             width: containerWidth,
+            borderWidth: 3,
+            borderColor: '#56a2c4',
           }}
           activeOpacity={0.9}
           onPress={() => handleResetToDefault()}>
-          <Text>Reset to default</Text>
+          <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>
+            Reset to default
+          </Text>
         </TouchableOpacity>
       </View>
 
