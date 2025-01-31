@@ -32,7 +32,9 @@ export const ButtonGoBack = () => {
             alignItems: 'center',
             backgroundColor: '#e9ebe8',
           }}>
-          <Text style={{color: 'black'}}>{'X'}</Text>
+          <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>
+            {'X'}
+          </Text>
         </View>
       </View>
     </TouchableWithoutFeedback>

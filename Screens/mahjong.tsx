@@ -28,12 +28,6 @@ import StolenTilesPanelTop from '../Components/StolenTiles/StolenTilesTop/Stolen
 import StolenTilesRight from '../Components/StolenTiles/StolenTilesRight/StolenTilesPanelRight';
 import StolenTilesPanelLeft from '../Components/StolenTiles/StolenTilesLeft/StolenTilesPanelLeft';
 import {boardColor} from '../Data/colors';
-import {CommonActions, useIsFocused} from '@react-navigation/native';
-import {soundFunc} from '../Functions/playSounds/soundFunc';
-import {
-  handleImpactLight,
-  handleImpactMedium,
-} from '../Functions/utils/hapticFeedback';
 import {resetToStartScreen} from '../Functions/resetToStartScreen';
 import useBackHandler from '../Functions/utils/useBackHandlerHook';
 

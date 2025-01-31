@@ -162,7 +162,7 @@ export const calculateYakusAndPoints = ({
   totalHan = totalHanRon === 0 ? totalHanTsumo : totalHanRon;
   let typeOfWin: 'TSUMO' | 'RON' = totalHanRon === 0 ? 'TSUMO' : 'RON';
   let isRichiiActive = playerRiichiIndex !== null;
-  //calculating doras
+  //calculating doras doras!!!!
   //this does not work!!!
   let {doraHan, doraName, uraDoraHan, uraDoraName} = checkDorasAndUraDoras(
     hand,

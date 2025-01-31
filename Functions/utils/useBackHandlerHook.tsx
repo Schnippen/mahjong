@@ -4,7 +4,7 @@ import {useIsFocused, CommonActions} from '@react-navigation/native';
 import {soundFunc} from '../playSounds/soundFunc';
 import {resetToStartScreen} from '../resetToStartScreen';
 import {handleImpactLight, handleImpactMedium} from './hapticFeedback';
-
+//TODO there is a bug, when tiles are on the table, sometimes go back crashes the game name?.[]
 const useBackHandler = (navigation: any, dispatch: any) => {
   const isFocused = useIsFocused();
 

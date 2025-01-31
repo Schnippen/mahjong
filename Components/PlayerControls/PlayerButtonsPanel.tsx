@@ -135,7 +135,7 @@ const PlayerButtonsPanel = ({
   const {
     playersReducer: {player1, player2, player3, player4},
   } = useSelector((state: RootState) => state);
-  const INTERRUPER_COUNTER = useSelector(
+  const INTERRUPTED_COUNTER = useSelector(
     (state: RootState) => state.gameReducer.interrputCounter,
   );
   const {
@@ -219,7 +219,7 @@ const PlayerButtonsPanel = ({
         clearTimeout(timeoutId);
       }
     };
-  }, [tilesLeftInWall, playerWhoLeftTheTile, INTERRUPER_COUNTER]);
+  }, [tilesLeftInWall, playerWhoLeftTheTile, INTERRUPTED_COUNTER]);
   useEffect(() => {
     console.info(
       'useEffect: runGame() NEW:',

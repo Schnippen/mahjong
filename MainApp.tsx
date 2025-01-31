@@ -24,6 +24,7 @@ function MainApp() {
     console.info('first useEffect()');
     updateSettings();
     hasAndroidPermission();
+    //TODO add for iOS
   }, []);
   const RootStack = createNativeStackNavigator();
 
@@ -37,7 +38,7 @@ function MainApp() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="MahjongScreen"
+        initialRouteName="StartGameScreen"
         screenOptions={{orientation: 'landscape', headerShown: false}}>
         <Stack.Screen
           name="MahjongScreen"

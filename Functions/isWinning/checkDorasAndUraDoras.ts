@@ -16,8 +16,10 @@ const checkDorasAndUraDoras = (
   let meldedTiles = currentMelds.flatMap(meld => meld.tiles || []);
   let handToCheck = [...hand, ...discard, ...meldedTiles];
 
-  let doras = dorasFromDeadWall || [];
   let activeDoras = dorasFromDeadWall.filter(n => n.isDora).length;
+  // let doras = dorasFromDeadWall || [];
+  let doras = activeDoras > 0 ? dorasFromDeadWall.slice(0, activeDoras) : [];
+  //TODO check if this works
   let uradoras =
     activeDoras > 0 ? uraDorasFromDeadWall.slice(0, activeDoras) : [];
 

@@ -1,5 +1,4 @@
 import {configureStore} from '@reduxjs/toolkit';
-import counterSlice from './counterSlice';
 import gameReducer from './gameReducer';
 import wallReducer from './wallReducer';
 import playersReducer from './playersReducer';
@@ -8,7 +7,6 @@ import riverReducer from './riverReducer';
 
 const store = configureStore({
   reducer: {
-    counter: counterSlice,
     gameReducer: gameReducer,
     wallReducer: wallReducer,
     playersReducer: playersReducer,

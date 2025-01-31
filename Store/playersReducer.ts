@@ -599,8 +599,8 @@ When the game begins, east is the Prevailing wind. When the player who started t
         let handForDebugging = action.payload;
         state.player1.playerHand.hand = [...handForDebugging];
         //player4 DEBUG REMOVE
-        state.player4.playerHand.hand = initialState.player2.playerHand.hand;
-        state.player4.playerHand.hand = [...handForDebugging];
+        /*  state.player4.playerHand.hand = initialState.player2.playerHand.hand;
+        state.player4.playerHand.hand = [...handForDebugging]; */
       }
       console.log('REDUX DEBUG_HAND');
       //ok se here we have some problems:
