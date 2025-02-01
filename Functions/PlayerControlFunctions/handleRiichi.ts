@@ -31,15 +31,16 @@ export const handleRiichi = ({
 }: handleRiichiTypes) => {
   //TODO make it more universal
   let riverIndex = river.length;
-  console.log(`handleRiichi() of ${player}`, 'riverIndex:', riverIndex);
 
   dispatch(setRiichi({player: player, val: true}));
   dispatch(calculateScore({player: player, val: -1000}));
   //set unique richii index in river,- DONE //TODO ai get riverIndex one turn away from declaration
  if(player!=="player1"){
-  let changedRiverIndexForAI = riverIndex===0? 0 :riverIndex-1
+   let changedRiverIndexForAI = riverIndex===0? 0 :riverIndex-1
+   console.log(`handleRiichi() of ${player}`, 'riverIndex:', changedRiverIndexForAI);
   dispatch(setRiichiIndexRiver({player: player, index: changedRiverIndexForAI}));
  }else if (player==="player1"){
+  console.log(`handleRiichi() of ${player}`, 'riverIndex:', riverIndex);
   dispatch(setRiichiIndexRiver({player: player, index: riverIndex}));
  }
   //dispatch(setRiichiIndexRiver({player: player, index: riverIndex}));
