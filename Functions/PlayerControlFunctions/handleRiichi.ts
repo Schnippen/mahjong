@@ -35,8 +35,14 @@ export const handleRiichi = ({
 
   dispatch(setRiichi({player: player, val: true}));
   dispatch(calculateScore({player: player, val: -1000}));
-  //set unique richii index in river,- DONE
+  //set unique richii index in river,- DONE //TODO ai get riverIndex one turn away from declaration
+ if(player!=="player1"){
+  let changedRiverIndexForAI = riverIndex===0? 0 :riverIndex-1
+  dispatch(setRiichiIndexRiver({player: player, index: changedRiverIndexForAI}));
+ }else if (player==="player1"){
   dispatch(setRiichiIndexRiver({player: player, index: riverIndex}));
+ }
+  //dispatch(setRiichiIndexRiver({player: player, index: riverIndex}));
   //richi index will be displayed in river component- DONE
   // change RiverState into object with key of river state and richii index -DONE
 
