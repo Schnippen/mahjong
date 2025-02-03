@@ -1,8 +1,8 @@
 import React from 'react';
 import {resetToNextRound} from '../../Functions/resetToNextRound';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {captureScrenshot} from '../../Functions/utils/captureScreenshot';
-import {soundFunc} from '../../Functions/playSounds/soundFunc';
+import {ButtonCaptureScreenshot} from '../Buttons/ButtonCaptureScreenshot';
+import {ButtonResetToNextRound} from '../Buttons/ButtonResetToNextRound';
 
 const ButtonContainers = ({
   dispatch,
@@ -19,42 +19,8 @@ const ButtonContainers = ({
         alignItems: 'center',
         flex: 1,
       }}>
-      <TouchableOpacity
-        style={{
-          height: 40,
-          width: 75,
-          backgroundColor: '#e9ebe8',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 10,
-          borderWidth: 3,
-          borderColor: '#56a2c4',
-        }}
-        activeOpacity={0.9}
-        onPress={() => {
-          console.log('SCRENSHOT Pressed'), captureScrenshot();
-          //TODO check if this is working
-          soundFunc({type: 'shutter'});
-        }}>
-        <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>
-          {`[◉°]`}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          height: 40,
-          width: 150,
-          backgroundColor: '#e9ebe8',
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 10,
-          borderWidth: 3,
-          borderColor: '#56a2c4',
-        }}
-        activeOpacity={0.9}
-        onPress={() => resetToNextRound({dispatch, navigation})}>
-        <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>OK</Text>
-      </TouchableOpacity>
+      <ButtonCaptureScreenshot />
+      <ButtonResetToNextRound />
     </View>
   );
 };
