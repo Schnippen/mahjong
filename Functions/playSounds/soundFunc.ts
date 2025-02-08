@@ -52,7 +52,8 @@ export type SoundType =
   | 'tanyao'
   | 'toitoi'
   | 'tsuuiisou'
-  | 'yakuhai';
+  | 'yakuhai'
+  | 'noten';
 
 //Experiment
 const soundFiles = {
@@ -102,6 +103,7 @@ const soundFiles = {
   toitoi: 'toitoi.mp3',
   tsuuiisou: 'tsuuiisou.mp3',
   yakuhai: 'yakuhai.mp3',
+  noten: 'notenakemi.mp3',
 };
 
 //this works, but change wave to mp3

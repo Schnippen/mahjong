@@ -33,6 +33,7 @@ import {canRiichi} from './isReadyForRiichii/canRichii';
 import {isWinning} from './isWinning/isWinning';
 import {handleRiichi} from './PlayerControlFunctions/handleRiichi';
 import {thereAreNoTilesLeft} from './utils/thereAreNoTilesLeft';
+import {soundFunc} from './playSounds/soundFunc';
 
 type TPlayers = Omit<PlayersState, 'assignHandsBasedOnWind' | 'whoTheWinnerIs'>;
 type GamePhase = 'started' | 'ended' | 'none';
@@ -540,6 +541,7 @@ export const runGame = (
   //if no tiles check for noten and tenpai
   if (noTilesRemaining) {
     console.info('Game Ended');
+    soundFunc({type: 'noten'});
     //TODO check tenpai noten
     dispatch(HONBA_REDUCER('increment'));
     navigation.navigate('EndRoundScreen'); //but there are no winners

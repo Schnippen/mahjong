@@ -73,7 +73,7 @@ export type pointsNameType =
   | 'Baiman'
   | 'Sanbaiman'
   | 'Yakuman'
-  | '';
+  | ''; //TODO ADD double yakuman???
 
 export type whoTheLoserIsType = {
   loserName: TplayerString;
@@ -121,7 +121,8 @@ export type ScreenList =
   | 'EndRoundScreen'
   | 'SettingsScreen'
   | 'RulesScreen'
-  | 'RulesScreenYakuExample';
+  | 'RulesScreenYakuExample'
+  | 'ScoresScreen';
 export type WinningHandType = {
   hand: TTileObject[];
   winningTile: TTileObject[];
