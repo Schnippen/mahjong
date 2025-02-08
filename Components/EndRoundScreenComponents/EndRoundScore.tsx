@@ -20,7 +20,7 @@ export const Score = () => {
   const displayTotalHan = totalHan || '';
   const displayWinningFuAnimated = winningFu || 0;
   const displayTotalHanAnimated = totalHan || 0;
-  const displayWinningPointsAnimated = winningPoints || 0;
+  const displayWinningPointsAnimated = winningPoints || 0; //add use effect for animation to start....
   //https://www.npmjs.com/package/react-native-animated-numbers
   return (
     <View style={styles.container}>
@@ -51,7 +51,7 @@ export const Score = () => {
             fontSize: 24,
             fontFamily: 'TheLastShuriken',
           }}
-          animationDuration={4000}
+          animationDuration={5000}
         />
         <Text style={{fontFamily: 'TheLastShuriken'}}>Han </Text>
       </View>
@@ -71,7 +71,7 @@ export const Score = () => {
             textAlignVertical: 'center',
             fontFamily: 'TheLastShuriken',
           }}
-          animationDuration={5000}
+          animationDuration={6000}
         />
         <Text
           style={{

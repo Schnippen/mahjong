@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
-import {Alert, BackHandler, View} from 'react-native';
-import {tilesData} from '../Data/tilesData';
+import React from 'react';
+import {View} from 'react-native';
 
 import {WinningHand} from '../Components/EndRoundScreenComponents/WinningHandComponent';
 import {useAppDispatch} from '../Store/hooks';
@@ -23,12 +22,6 @@ function EndRoundScreen({navigation}: {navigation: any}) {
 
   useBackHandler(navigation, dispatch);
 
-  const topPanelBackgroundColor = '#3c7fc3';
-  const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
-  const exampleData = tilesData.slice(12, 25);
-  const exampleData2 = tilesData.slice(25, 26);
-  //props, winning hand of a player, winning tile by tsumo or ron
-
   return (
     <View
       style={{
@@ -39,7 +32,6 @@ function EndRoundScreen({navigation}: {navigation: any}) {
       }}>
       <View
         style={{
-          backgroundColor: panelBackgroundColor,
           width: '100%',
           height: '100%',
         }}>

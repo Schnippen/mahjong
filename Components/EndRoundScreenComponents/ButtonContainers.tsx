@@ -3,6 +3,7 @@ import {resetToNextRound} from '../../Functions/resetToNextRound';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {ButtonCaptureScreenshot} from '../Buttons/ButtonCaptureScreenshot';
 import {ButtonResetToNextRound} from '../Buttons/ButtonResetToNextRound';
+import {ButtonToScoresScreen} from '../Buttons/ButtonToScoresScreen';
 
 const ButtonContainers = ({
   dispatch,
@@ -20,7 +21,7 @@ const ButtonContainers = ({
         flex: 1,
       }}>
       <ButtonCaptureScreenshot />
-      <ButtonResetToNextRound />
+      <ButtonToScoresScreen />
     </View>
   );
 };

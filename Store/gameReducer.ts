@@ -177,18 +177,8 @@ export const gameReducer = createSlice({
         isRichiiActive: isRichiiActive,
       };
     },
-    resetWinningHand: state => {
-      state.winningHand = {
-        hand: [],
-        winningTile: [],
-        yakuList: [],
-        winningAction: '',
-        points: 0,
-        pointsName: '',
-        fu: 0,
-        totalHan: 0,
-        isRichiiActive: false,
-      };
+    resetWinningHand_TOTAL: state => {
+      state.winningHand = initialState.winningHand;
       console.log('REDUX RESETED WINNING HAND');
     },
   },
@@ -207,7 +197,7 @@ export const {
   CHANGE_ORDER_AFTER_ACTION,
   setCurrentPlayer,
   setWinningHand,
-  resetWinningHand,
+  resetWinningHand_TOTAL,
   INTERRUPT_COUNTER,
 } = gameReducer.actions;
 

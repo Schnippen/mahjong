@@ -4,7 +4,6 @@ import {soundFunc} from '../../Functions/playSounds/soundFunc';
 import {handleImpactLight} from '../../Functions/utils/hapticFeedback';
 import {TTileObject} from '../../Types/types';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const ButtonYakuExample = ({
   screen,

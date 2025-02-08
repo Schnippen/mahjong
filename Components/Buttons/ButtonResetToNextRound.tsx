@@ -7,7 +7,6 @@ import {useNavigation} from '@react-navigation/native';
 export const ButtonResetToNextRound = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  //TODO add to next round, add to score screen
   return (
     <TouchableOpacity
       style={{
