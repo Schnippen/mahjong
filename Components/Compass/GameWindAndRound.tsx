@@ -8,7 +8,7 @@ const GameWindAndRound = () => {
     (state: RootState) => state.playersReducer.whoTheWinnerIs.prevailingWind,
   );
   const round = useSelector((state: RootState) => state.gameReducer.round);
-  const displayWindAndRound = prevailingWind.toUpperCase() + ' ' + round;
+  const displayWindAndRound = prevailingWind.toUpperCase() + ' ' + (round + 1);
   return (
     <Text
       style={{
