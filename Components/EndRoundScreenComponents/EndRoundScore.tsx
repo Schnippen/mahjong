@@ -3,6 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 import {useAppSelector} from '../../Store/hooks';
 import {RootState} from '../../Store/store';
+import AnimatedNumbers from 'react-native-animated-numbers';
 
 export const Score = () => {
   const winningFu = useAppSelector(
@@ -17,7 +18,10 @@ export const Score = () => {
   const displayWinningFu = winningFu || '';
   const displayWinningPoints = winningPoints || '';
   const displayTotalHan = totalHan || '';
-
+  const displayWinningFuAnimated = winningFu || 0;
+  const displayTotalHanAnimated = totalHan || 0;
+  const displayWinningPointsAnimated = winningPoints || 0;
+  //https://www.npmjs.com/package/react-native-animated-numbers
   return (
     <View style={styles.container}>
       <View
@@ -29,13 +33,26 @@ export const Score = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{fontFamily: 'TheLastShuriken', fontSize: 24}}>
-          {displayWinningFu + ' '}
-        </Text>
+        <AnimatedNumbers
+          includeComma={false}
+          animateToNumber={displayWinningFuAnimated}
+          fontStyle={{
+            fontSize: 24,
+            fontFamily: 'TheLastShuriken',
+          }}
+          animationDuration={4000}
+        />
         <Text style={{fontFamily: 'TheLastShuriken'}}>Fu </Text>
-        <Text style={{fontSize: 24, fontFamily: 'TheLastShuriken'}}>
-          {displayTotalHan + ' '}
-        </Text>
+
+        <AnimatedNumbers
+          includeComma={false}
+          animateToNumber={displayTotalHanAnimated}
+          fontStyle={{
+            fontSize: 24,
+            fontFamily: 'TheLastShuriken',
+          }}
+          animationDuration={4000}
+        />
         <Text style={{fontFamily: 'TheLastShuriken'}}>Han </Text>
       </View>
       <View
@@ -46,14 +63,16 @@ export const Score = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text
-          style={{
+        <AnimatedNumbers
+          includeComma={false}
+          animateToNumber={displayWinningPointsAnimated}
+          fontStyle={{
             fontSize: 30,
             textAlignVertical: 'center',
             fontFamily: 'TheLastShuriken',
-          }}>
-          {displayWinningPoints + ' '}
-        </Text>
+          }}
+          animationDuration={5000}
+        />
         <Text
           style={{
             fontSize: 18,
@@ -77,3 +96,23 @@ const styles = StyleSheet.create({
 });
 
 export default Score;
+{
+  /*       <Text style={{fontFamily: 'TheLastShuriken', fontSize: 24}}>
+          {displayWinningFu + ' '}
+        </Text> */
+}
+{
+  /*         <Text style={{fontSize: 24, fontFamily: 'TheLastShuriken'}}>
+          {displayTotalHan + ' '}
+        </Text> */
+}
+{
+  /*  <Text
+          style={{
+            fontSize: 30,
+            textAlignVertical: 'center',
+            fontFamily: 'TheLastShuriken',
+          }}>
+          {displayWinningPoints + ' '}
+        </Text> */
+}
