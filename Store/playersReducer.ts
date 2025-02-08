@@ -325,6 +325,7 @@ export const playersReducer = createSlice({
       }
     },
     calculateScore: (state, action) => {
+      console.log('REDUX calculateScore');
       const {player, val} = action.payload;
       if (player === 'player1') {
         state.player1.player1Score += val;
@@ -354,7 +355,9 @@ export const playersReducer = createSlice({
         //https://riichi.wiki/Honba
         playersArray.forEach(player => {
           const currentWindIndex = winds.indexOf(player.wind);
-          const newWindIndex = (currentWindIndex + 1) % winds.length;
+          const newWindIndex =
+            (winds.length + currentWindIndex - 1) % winds.length; //fixed ;)
+
           player.wind = winds[newWindIndex];
         });
         //reset honba
@@ -444,6 +447,12 @@ export const playersReducer = createSlice({
     },
     changeWhoTheWinnerIs: (state, action) => {
       const {TypeOfAction, valuePlayerName, valuePlayerWind} = action.payload;
+      console.log(
+        'changeWhoTheWinnerIs',
+        TypeOfAction,
+        valuePlayerName,
+        valuePlayerWind,
+      ); //works as intended
       if (TypeOfAction === 'update') {
         state.whoTheWinnerIs.playerName = valuePlayerName;
         state.whoTheWinnerIs.winnersWind = valuePlayerWind;
@@ -460,7 +469,12 @@ export const playersReducer = createSlice({
     },
     changeWhoTheLoserIs: (state, action) => {
       const {TypeOfAction, valuePlayerName, valuePlayerWind} = action.payload;
-
+      console.log(
+        'changeWhoTheLoserIs',
+        TypeOfAction,
+        valuePlayerName,
+        valuePlayerWind,
+      ); // bugs
       if (TypeOfAction === 'updateRON') {
         const playersArray = [
           state.player1,
@@ -532,13 +546,18 @@ export const playersReducer = createSlice({
       const currentEastPlayer = playersArray.find(
         player => player.wind === 'east',
       );
+      console.log(
+        'changePrevailingWind',
+        currentEastPlayer?.name,
+        currentEastPlayer?.name === state.whoTheWinnerIs.originalEastPlayer,
+      );
       if (
         currentEastPlayer &&
         currentEastPlayer.name === state.whoTheWinnerIs.originalEastPlayer
       ) {
         state.whoTheWinnerIs.eastRoundCounter++;
         if (state.whoTheWinnerIs.eastRoundCounter === 4) {
-          state.whoTheWinnerIs.prevailingWind = 'south';
+          state.whoTheWinnerIs.prevailingWind = 'south'; // i reset after each round to 'east" ... fix it
           state.whoTheWinnerIs.eastRoundCounter = 0; // reset counter for South rounds, but what if game takes long up to north?
         } //TODO there might be error, what if east player was 4 times in a row the same wind?
 
