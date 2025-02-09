@@ -181,6 +181,15 @@ export const gameReducer = createSlice({
       state.winningHand = initialState.winningHand;
       console.log('REDUX RESETED WINNING HAND');
     },
+    addRoundCounter: (state, action) => {
+      let {TypeOfAction} = action.payload;
+      if (TypeOfAction === 'increment') {
+        state.round++;
+      }
+      if (TypeOfAction === 'reset') {
+        state.round = initialState.round;
+      }
+    },
   },
 });
 
@@ -199,6 +208,7 @@ export const {
   setWinningHand,
   resetWinningHand_TOTAL,
   INTERRUPT_COUNTER,
+  addRoundCounter,
 } = gameReducer.actions;
 
 export default gameReducer.reducer;

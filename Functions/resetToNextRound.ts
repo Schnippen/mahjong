@@ -1,6 +1,7 @@
 import {
+  addRoundCounter,
   INTERRUPT_TURN,
-  resetWinningHand,
+  resetWinningHand_TOTAL,
   START_GAME,
 } from '../Store/gameReducer';
 import {
@@ -32,8 +33,10 @@ export const resetToNextRound = ({
   ///change compass i must know who won, change wind in playerReducer, the wind in player reducer sends data to compass, - ok, its done
   //now changing wind
   dispatch(rotateWindOrder());
-  dispatch(resetWinningHand()); //reset the endRound Screen
+  dispatch(resetWinningHand_TOTAL()); //reset the endRound Screen this is total
   dispatch(resetWallReducer_TOTAL_RESET()); //wallreducer to 0
+  //add +1 to round counter:
+  dispatch(addRoundCounter({TypeOfAction: 'increment'}));
   //reset river
   dispatch(resetRiverReducer());
   dispatch(resetPlayersReducerToNextRound()); //resets player reducers beside scores, wind and hand
@@ -43,7 +46,7 @@ export const resetToNextRound = ({
   //change score, it is done in calculatePoints.ts
 
   //change prevailingWind
-  dispatch(changePrevailingWind()); //TODO there might be bugs
+  dispatch(changePrevailingWind()); //TODO there might be bugs TEST IT
   //reset who the winner is
   dispatch(changeWhoTheWinnerIs({TypeOfAction: 'reset'}));
   //reset who the loser is
@@ -52,7 +55,9 @@ export const resetToNextRound = ({
   navigation.navigate('MahjongScreen');
 
   //init new round
-  initializeNewRound(dispatch);
+  setTimeout(() => {
+    initializeNewRound(dispatch);
+  }, 500); //clean up? // if not player initialize turn
 
   console.log('resetToNextRound pressed');
 };
