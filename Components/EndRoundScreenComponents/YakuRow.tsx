@@ -21,7 +21,7 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log('yaku-row', soundName);
+      //console.log('yaku-row', soundName);
       setLoading(false);
       soundFunc({type: soundName}); //TODO fix typescript
       translateX.value = withTiming(0, {
@@ -49,10 +49,16 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
   }
   let name = data?.yakuName ? data.yakuName : null;
   let han = data?.han ? data.han : null;
+  let nameFontExeption = ['Suuankou', 'Sanankou'];
   return (
     <Animated.View style={[styles.yakuRow, animatedStyle]}>
       <View style={{flex: 3, justifyContent: 'center', height: 38}}>
-        <Text style={{fontFamily: 'TheLastShuriken', textAlign: 'center'}}>
+        <Text
+          style={{
+            fontFamily: 'TheLastShuriken',
+            textAlign: 'center',
+            fontSize: name && nameFontExeption.includes(name) ? 12 : 14,
+          }}>
           {name}
         </Text>
       </View>

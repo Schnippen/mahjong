@@ -15,7 +15,6 @@ import {
   YakuType,
 } from '../../Types/types';
 import {handleAIWin} from '../AI-move/handleAIWin';
-import {soundFunc} from '../playSounds/soundFunc';
 import {calculateYakusAndPoints} from './calculateYakusAndPoints';
 import {isChanta} from './Yaku/isChanta';
 import {isChiitoitsu} from './Yaku/isChiitoitsu';
@@ -76,7 +75,6 @@ type isWinningTypes = {
   player4Wind: WindTypes;
   dorasFromDeadWall: TTileObject[];
   uraDorasFromDeadWall: TTileObject[];
-  whoTheWinnerIs: TWhoTheWinnerIs;
   latestTurn: GameWinds;
   navigation: any; //TODO add typescript
 };
@@ -109,7 +107,6 @@ export function isWinning({
   player4Wind,
   dorasFromDeadWall,
   uraDorasFromDeadWall,
-  whoTheWinnerIs,
   latestTurn,
   navigation,
 }: isWinningTypes) {
@@ -438,6 +435,91 @@ export function isWinning({
     let winningHand: TTileObject[] = hand;
     let winningMelds: TstolenTiles[] = currentMelds;
     let winnerWind: WindTypes = playerWind;
+    const windToPlayerMap = {
+      [player1Wind]: 'player1',
+      [player2Wind]: 'player2',
+      [player3Wind]: 'player3',
+      [player4Wind]: 'player4',
+    };
+    let lostToRon = windToPlayerMap[latestTurn];
+    /*  let lostToTsumo = win
+    const loserPlayersArray = playersArray.filter(
+      p => p.name !== valuePlayerName,
+    ); */
+    //player
+    if (ron && playerName === 'player1') {
+      dispatch(
+        changeWhoTheWinnerIs({
+          TypeOfAction: 'update',
+          valuePlayerName: playerName,
+          valuePlayerWind: player1Wind,
+        }),
+      );
+      dispatch(
+        changeWhoTheLoserIs({
+          TypeOfAction: 'updateRON',
+          valuePlayerName: latestTurn,
+          valuePlayerWind: latestTurn, //wind
+        }),
+      );
+    }
+    if (tsumo && playerName === 'player1') {
+      dispatch(
+        changeWhoTheWinnerIs({
+          TypeOfAction: 'update',
+          valuePlayerName: playerName,
+          valuePlayerWind: winnerWind,
+        }),
+      );
+      dispatch(
+        changeWhoTheLoserIs({
+          TypeOfAction: 'updateTSUMO',
+          valuePlayerName: playerName,
+          valuePlayerWind: winnerWind,
+        }),
+      );
+    }
+    //AI -- --
+    if (ron && playerName !== 'player1') {
+      console.info('isWinning(): AI RON changeWhoTheWinnerIs');
+      dispatch(
+        changeWhoTheWinnerIs({
+          TypeOfAction: 'update',
+          valuePlayerName: playerName,
+          valuePlayerWind: winnerWind,
+        }),
+      );
+      dispatch(
+        changeWhoTheLoserIs({
+          TypeOfAction: 'updateRON',
+          valuePlayerName: latestTurn,
+          valuePlayerWind: latestTurn,
+        }),
+      );
+    }
+    if (tsumo && playerName !== 'player1') {
+      console.info('isWinning(): AI TSUMO changeWhoTheWinnerIs');
+      const playerWindMap: Record<string, WindTypes> = {
+        //windtypes has "null"
+        player2: player2Wind,
+        player3: player3Wind,
+        player4: player4Wind,
+      };
+      const AIWinningWind = playerWindMap[playerName];
+      dispatch(
+        changeWhoTheWinnerIs({
+          TypeOfAction: 'update',
+          valuePlayerName: playerName,
+          valuePlayerWind: AIWinningWind,
+        }),
+        changeWhoTheLoserIs({
+          TypeOfAction: 'updateTSUMO',
+          valuePlayerName: playerName,
+          valuePlayerWind: AIWinningWind,
+        }),
+      );
+    }
+    //core function for winning
     calculateYakusAndPoints({
       winningAction,
       winningTile,
@@ -449,7 +531,6 @@ export function isWinning({
       winnerWind,
       dorasFromDeadWall,
       uraDorasFromDeadWall,
-      whoTheWinnerIs,
     });
 
     //AI Win logic, press Ron or Tsumo

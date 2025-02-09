@@ -40,23 +40,25 @@ export const handleAIWin = ({
     //handle ron PLAYER
     handleGameEnd('ron');
 
-    dispatch(
+    /*     dispatch(
       changeWhoTheWinnerIs({
         TypeOfAction: 'update',
         valuePlayerName: playerName,
         valuePlayerWind: winnerWind,
       }),
+    );
+    dispatch(
       changeWhoTheLoserIs({
         TypeOfAction: 'updateRON',
         valuePlayerName: latestTurn,
         valuePlayerWind: latestTurn, //it may not work due to the order of AIAutomatedTurn and runGame().
       }),
-    );
+    ); */
     navigation.navigate('EndRoundScreen');
   }
   if (tsumo && playerName !== 'player1') {
     const playerWindMap: Record<string, WindTypes> = {
-      //wintypes has "null"
+      //windtypes has "null"
       player2: player2Wind,
       player3: player3Wind,
       player4: player4Wind,
@@ -72,7 +74,7 @@ export const handleAIWin = ({
       `handleAIWin(): AI player ${playerName} pressed TSUMO ^^^^^^^^^`,
     );
     handleGameEnd('tsumo');
-    dispatch(
+    /*     dispatch(
       changeWhoTheWinnerIs({
         TypeOfAction: 'update',
         valuePlayerName: playerName,
@@ -83,7 +85,7 @@ export const handleAIWin = ({
         valuePlayerName: playerName,
         valuePlayerWind: AIWinningWind,
       }),
-    );
+    ); */
     navigation.navigate('EndRoundScreen');
   }
 };

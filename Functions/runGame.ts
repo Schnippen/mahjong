@@ -20,7 +20,7 @@ import {tilesData} from '../Data/tilesData';
 import {
   END_TURN,
   INTERRUPT_TURN,
-  resetWinningHand,
+  resetWinningHand_TOTAL,
   setCurrentPlayer,
 } from '../Store/gameReducer';
 import {
@@ -305,12 +305,9 @@ export const runGame = (
   } */
   //winning conditions should be checked after discarding or drawing tile, so the seperate
 
-  //is useEffect needed?
+  //TODO CRITICAL ERROR, must take into account nextTile!!! around 12 tile left crashes?
+  console.info('RUNGAME.ts:', currentPlayersTurn, 'nextTile:', nextTile?.name);
   //RIICHI LOGIC
-  //'nextWind&nextPlayerX:',
-  //nextWind=east etc, nextPlayerX=platerstring;
-  //TODO CRITICAL ERROR, must take into account nextTile!!!
-  console.info('RUNGAME.ts:', currentPlayersTurn, 'nextTile:', nextTile.name);
   playersArray.forEach(player => {
     if (currentPlayersTurn === player.name) {
       let result = canRiichi({
@@ -522,17 +519,16 @@ export const runGame = (
       player4Wind: player4.wind,
       dorasFromDeadWall,
       uraDorasFromDeadWall,
-      whoTheWinnerIs,
       latestTurn,
       navigation,
     });
   });
   //reset setWinningHand if thereis data
 
-  let resetingWinningHand = winningHand.winningTile.length > 0;
+  let resetingWinningHand = winningHand?.winningTile.length > 0;
   if (resetingWinningHand) {
     console.info('runGame(): RESSETTING WINNING HAND');
-    dispatch(resetWinningHand());
+    dispatch(resetWinningHand_TOTAL());
   }
   let noTilesRemaining = thereAreNoTilesLeft({
     tilesAfterHandoutLength,
@@ -544,7 +540,8 @@ export const runGame = (
     soundFunc({type: 'noten'});
     //TODO check tenpai noten
     dispatch(HONBA_REDUCER('increment'));
-    navigation.navigate('EndRoundScreen'); //but there are no winners
+    navigation.navigate('ScoresScreen'); //but there are no winners BUG
+    // so we must go to scores screen, and calculate the score here....
     return;
   }
 

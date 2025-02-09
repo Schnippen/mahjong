@@ -22,10 +22,14 @@ import {isTanyao} from './isTanyao';
 import {isTsuuiisou} from './isTsuuiisou';
 import {tilesData} from '../../../Data/tilesData';
 import {tilesData2} from '../../../Data/tilesData2';
-import {DEBUG_HAND} from '../../../Store/playersReducer';
+import {
+  changePrevailingWind,
+  DEBUG_HAND,
+  rotateWindOrder,
+} from '../../../Store/playersReducer';
 import {checkWinningHand} from '../../isReadyForRiichii/checkingWinningHand';
 import {soundFunc} from '../../playSounds/soundFunc';
-import {START_GAME} from '../../../Store/gameReducer';
+import {addRoundCounter, START_GAME} from '../../../Store/gameReducer';
 type testFunctionTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
@@ -195,7 +199,7 @@ export let discardExample = [
 ];
 
 let debugHand1 = handExample;
-export let debugHand2 = [
+export let debugHand3 = [
   tilesData2[82],
   tilesData2[83],
   tilesData2[84],
@@ -209,6 +213,22 @@ export let debugHand2 = [
   tilesData[15],
   tilesData[7],
   tilesData[8],
+];
+export let debugHand2 = [
+  //toitoi
+  tilesData2[47],
+  tilesData2[38],
+  tilesData2[25],
+  tilesData[16],
+  tilesData[7],
+  tilesData[62],
+  tilesData[71],
+  tilesData[44],
+  tilesData[50],
+  tilesData[41],
+  tilesData[120],
+  tilesData[121],
+  tilesData[122],
 ];
 /* export let debugHand2 = [
   tilesData[7],
@@ -230,14 +250,17 @@ export let debugHand2 = [
     tilesData[6].name,
     checkWinningHand(winningDebugHand), */
 //let winningDebugHand = debugHand2.concat(tilesData[6]);
-
-export const testFunction = (dispatch: any) => {
+//test multiple Chii more than 2
+//test score calculation
+export const testFunction = (dispatch: any, navigation: any) => {
   console.log('TEST_FUNCTION:');
-  console.log(
-    debugHand2.map(t => t.name),
-    debugHand2.length,
-  );
-  dispatch(START_GAME({phase: 'ended'}));
+  /*  console.log(
+    debugHand3.map(t => t.name),
+    debugHand3.length,
+  ); */
+  //dispatch(addRoundCounter({TypeOfAction: 'reset'}));
+  //soundFunc({type: 'noten'});
+  //dispatch(START_GAME({phase: 'ended'}));
 };
 //https://www.npmjs.com/package/react-native-haptic-feedback
 /*  result,

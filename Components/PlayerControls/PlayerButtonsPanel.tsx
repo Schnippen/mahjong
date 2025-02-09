@@ -413,18 +413,20 @@ const PlayerButtonsPanel = ({
                 winnerWind: player1.wind,
                 isRichiiActive: isRichiiActive,
               });
-              dispatch(
+              /*              dispatch(
                 changeWhoTheWinnerIs({
                   TypeOfAction: 'update',
                   valuePlayerName: player1.name,
                   valuePlayerWind: player1.wind,
                 }),
+              );
+              dispatch(
                 changeWhoTheLoserIs({
                   TypeOfAction: 'updateRON',
                   valuePlayerName: latestTurn,
                   valuePlayerWind: latestTurn, //wind
                 }),
-              );
+              ); */
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
                 setDisplayRonButton(false);
@@ -444,18 +446,20 @@ const PlayerButtonsPanel = ({
                 winnerWind: player1.wind,
                 isRichiiActive: isRichiiActive,
               });
-              dispatch(
+              /*               dispatch(
                 changeWhoTheWinnerIs({
                   TypeOfAction: 'update',
                   valuePlayerName: player1.name,
                   valuePlayerWind: player1.wind,
                 }),
+              );
+              dispatch(
                 changeWhoTheLoserIs({
                   TypeOfAction: 'updateTSUMO',
                   valuePlayerName: player1.name,
                   valuePlayerWind: player1.wind,
                 }),
-              );
+              ); */
               setDisplayTsumoButton(false);
               setTimeout(() => {
                 navigation.navigate('EndRoundScreen');
@@ -499,7 +503,7 @@ const PlayerButtonsPanel = ({
           type="outline"
           title={'testFunction()'}
           onPress={() => {
-            testFunction(dispatch);
+            testFunction(dispatch, navigation);
           }}
         />
         <NextTurn />

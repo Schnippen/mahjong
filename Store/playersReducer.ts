@@ -471,9 +471,10 @@ export const playersReducer = createSlice({
       const {TypeOfAction, valuePlayerName, valuePlayerWind} = action.payload;
       console.log(
         'changeWhoTheLoserIs',
+        'REDUX',
         TypeOfAction,
-        valuePlayerName,
-        valuePlayerWind,
+        valuePlayerName, //player1
+        valuePlayerWind, //f.e. south
       ); // bugs
       if (TypeOfAction === 'updateRON') {
         const playersArray = [
@@ -512,7 +513,17 @@ export const playersReducer = createSlice({
         const loserPlayersArray = playersArray.filter(
           p => p.name !== valuePlayerName,
         );
-        state.whoTheWinnerIs.whoTheLoserIs = [];
+        console.log(
+          'changeWhoTheLoserIs TSUMO',
+          'Winner:',
+          winner?.name,
+          'is dealer?',
+          isWinnerDealer,
+          'Losers:',
+          loserPlayersArray.map(player => player.name),
+        );
+        state.whoTheWinnerIs.whoTheLoserIs =
+          initialState.whoTheWinnerIs.whoTheLoserIs; //changed from =[]
         loserPlayersArray.forEach(loser => {
           let paymentMultiplier;
           if (isWinnerDealer) {
@@ -527,6 +538,10 @@ export const playersReducer = createSlice({
             loserWind: loser.wind,
             paymentMultiplier,
           }); //TODO IMPORTANT, count player score
+          console.log(
+            'changeWhoTheLoserIs TSUMO end:',
+            state.whoTheWinnerIs.whoTheLoserIs.map(i => i?.loserName),
+          );
         });
       } else if (TypeOfAction === 'reset') {
         state.whoTheWinnerIs.whoTheLoserIs =

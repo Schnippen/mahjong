@@ -1,5 +1,7 @@
 import {setWinningHand} from '../../Store/gameReducer';
 import {
+  GameWinds,
+  TplayerString,
   TstolenTiles,
   TTileObject,
   TWhoTheWinnerIs,
@@ -51,7 +53,6 @@ type calculateYakusAndPointsTypes = {
   winnerWind: WindTypes;
   dorasFromDeadWall: TTileObject[];
   uraDorasFromDeadWall: TTileObject[];
-  whoTheWinnerIs: TWhoTheWinnerIs;
 };
 const yakuChecks: YakuCheckFunction[] = [
   isPinfu,
@@ -96,7 +97,6 @@ export const calculateYakusAndPoints = ({
   winnerWind,
   dorasFromDeadWall,
   uraDorasFromDeadWall,
-  whoTheWinnerIs,
 }: calculateYakusAndPointsTypes) => {
   const start = performance.now();
   let listOfYakusInHand: YakuType[] = [];
@@ -203,15 +203,8 @@ export const calculateYakusAndPoints = ({
     discard,
     typeOfWin,
     dispatch,
-    whoTheWinnerIs,
   );
 
-  const end = performance.now();
-  console.info(
-    `calculateYakusAndPoints() took  ${((end - start) / 1000).toFixed(
-      3,
-    )} seconds`,
-  );
   //set redux gameReducer . but where to reset it? ;/
   dispatch(
     setWinningHand({
@@ -226,6 +219,12 @@ export const calculateYakusAndPoints = ({
       //type: 'update',
       isRichiiActive: isRichiiActive,
     }),
+  );
+  const end = performance.now();
+  console.info(
+    `calculateYakusAndPoints() took  ${((end - start) / 1000).toFixed(
+      3,
+    )} seconds`,
   );
   //return {totalHan, listOfYakusInHand};
 };
