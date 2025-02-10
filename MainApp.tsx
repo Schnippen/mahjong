@@ -17,14 +17,12 @@ import {ScoresScreen} from './Screens/ScoresScreen';
 SoundManager.initialize();
 function MainApp() {
   const Stack = createNativeStackNavigator();
-  /*   const dispatch = useDispatch(); */
   const updateSettings = useUpdateSettings();
-  //TODO IMPORTANT!!!!!!!!!! when store is refreshed with ctrl+R, all the sounds are "preloaded" with number of channels: -1 :c
   useEffect(() => {
     console.info('first useEffect()');
     updateSettings();
     hasAndroidPermission();
-    //TODO add for iOS
+    //TODO add for iOS - hasAndroidPermission
   }, []);
   const RootStack = createNativeStackNavigator();
 

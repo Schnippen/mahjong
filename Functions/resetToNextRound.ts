@@ -43,7 +43,7 @@ export const resetToNextRound = ({
   //reset player hand
   dispatch(resetPlayersReducerHandsToNextRound());
 
-  //change score, it is done in calculatePoints.ts
+  //changing players score, it is done in calculatePoints.ts
 
   //change prevailingWind
   dispatch(changePrevailingWind()); //TODO there might be bugs TEST IT
@@ -51,8 +51,9 @@ export const resetToNextRound = ({
   dispatch(changeWhoTheWinnerIs({TypeOfAction: 'reset'}));
   //reset who the loser is
   dispatch(changeWhoTheLoserIs({TypeOfAction: 'reset'}));
-  //jesli wygrał east to nie resetuj..... //TODO move to calculate points
-  navigation.navigate('MahjongScreen');
+  //jesli wygrał east to nie resetuj honba sticks ......... //TODO move to calculate points
+
+  navigation.navigate('MahjongScreen'); //TODO IMPORTANT ADD PARAMS??? IMPORTANT
 
   //init new round
   setTimeout(() => {

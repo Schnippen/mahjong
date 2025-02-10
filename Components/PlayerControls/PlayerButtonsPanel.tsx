@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../Store/store';
-import {Button} from '@rneui/themed';
 import {TTileObject} from '../../Types/types';
 import {
   ButtonCHII,
@@ -24,55 +23,7 @@ import {handleTsumo} from '../../Functions/PlayerControlFunctions/handleTsumo';
 import {handleRon} from '../../Functions/PlayerControlFunctions/handleRon';
 import {handleKan} from '../../Functions/PlayerControlFunctions/handleKan';
 import {testFunction} from '../../Functions/isWinning/Yaku/testFuntion';
-import {
-  changeWhoTheLoserIs,
-  changeWhoTheWinnerIs,
-} from '../../Store/playersReducer';
 import AITurnAutomated from '../../Functions/AI-move/AITurnAutomated';
-
-const NextTurn = () => {
-  const gameTurn = useSelector(
-    (state: RootState) => state.gameReducer.currentTurn,
-  );
-  const dispatch = useDispatch();
-  const {
-    playersReducer: {player1, player2, player3, player4},
-  } = useSelector((state: RootState) => state);
-  const {
-    riverReducer: {player1River, player2River, player3River, player4River},
-  } = useSelector((state: RootState) => state);
-  return (
-    <Button
-      title={'AITURN'}
-      onPress={() =>
-        AITurnAutomated(
-          dispatch,
-          gameTurn,
-          player1.wind,
-          player2.wind,
-          player3.wind,
-          player4.wind,
-          player2.playerHand.hand,
-          player3.playerHand.hand,
-          player4.playerHand.hand,
-          player1.playerHand.melds,
-          player2.playerHand.melds,
-          player3.playerHand.melds,
-          player4.playerHand.melds,
-          player1River.riverState,
-          player2River.riverState,
-          player3River.riverState,
-          player4River.riverState,
-          player1River.riichiIndex,
-          player2River.riichiIndex,
-          player3River.riichiIndex,
-          player4River.riichiIndex,
-        )
-      }
-      type="outline"
-    />
-  );
-};
 
 const PlayerButtonsPanel = ({
   navigation,
@@ -297,7 +248,7 @@ const PlayerButtonsPanel = ({
         zIndex: 1,
         justifyContent: 'center',
       }}>
-      {/*  <ChooseSequencePanel/> */}
+      {/* <ChooseSequencePanel/> this is for debugging purposes. However, even with three options available, the logic or panel can display only two.  */}
       {chiiPanelDisplayed ? (
         <ChooseSequencePanel
           setChiiPanelDisplayed={setChiiPanelDisplayed}
@@ -324,7 +275,6 @@ const PlayerButtonsPanel = ({
           alignItems: 'center',
           columnGap: 8,
         }}>
-        <Text>{handData ? handData.length : null}</Text>
         {displayKanButton && !isRichiiActive ? (
           <ButtonKAN
             handlePress={() => {
@@ -499,14 +449,15 @@ const PlayerButtonsPanel = ({
             }}
           />
         ) : null}
-        <Button
+        {/* <Text>{handData ? handData.length : null}</Text> 
+              <Button
           type="outline"
           title={'testFunction()'}
           onPress={() => {
             testFunction(dispatch, navigation);
           }}
-        />
-        <NextTurn />
+        /> 
+         <NextTurn /> */}
       </View>
     </View>
   );

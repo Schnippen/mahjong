@@ -113,9 +113,10 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
       route.params?.gameInitializer === 'start'
     ) {
       hasInitializedGame.current = true;
-      setTimeout(() => {
-        //initializeGame(dispatch)
-      }, 1000);
+      /* const timer = setTimeout(() => {
+        initializeGame(dispatch);
+      }, 1000); */ //TODO check if this work after nextRoundReset.....
+      /*  return () => clearTimeout(timer); */ initializeGame(dispatch);
     }
     console.log(
       'USE EFFECT ROUTE:',
@@ -129,7 +130,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
   return (
     <View style={{flex: 1}}>
       <StatusBar hidden={true} />
-      <View
+      {/*   <View
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
@@ -146,9 +147,8 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
           style={{flex: 1}}
           title="RESET"
           onPress={() => resetToStartScreen(dispatch)}></Button>
-      </View>
+      </View> DEBUG  */}
 
-      {/* <Button title="nextTurn" onPress={() => nextTurn()}></Button> */}
       <View
         style={{
           flex: 1,
