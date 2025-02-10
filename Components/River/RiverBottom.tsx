@@ -7,9 +7,7 @@ import EmptyComponent from '../Wall/EmptyComponent';
 import {TTileObject} from '../../Types/types';
 import {tilesData} from '../../Data/tilesData';
 const RiverBottom = () => {
-  // const data = tilesData.slice(12, 31); //river data
   //TODO add riichi indicator in conditional styling, richii tile will not be in the center ;c //-120
-  //add zIndex to the last tile
   const playersRiver = useSelector(
     (state: RootState) => state.riverReducer.player1River.riverState,
   );

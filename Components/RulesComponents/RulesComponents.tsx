@@ -4,6 +4,7 @@ import {tilesData} from '../../Data/tilesData';
 import {TTileObject} from '../../Types/types';
 import DoraTileComponent from '../DoraPanel/DoraTileComponent';
 import {colorFaceLayer} from '../../Data/colors';
+import {getFontSize} from '../../Functions/utils/getFontSize';
 export const dataExample = tilesData.slice(0, 9);
 export const RulesDataSou = tilesData.slice(0, 9);
 export const RulesDataPinzu = tilesData.slice(36, 45);
@@ -515,16 +516,18 @@ export const SmallStyledText = ({
   dHeight: number;
   center?: boolean;
 }) => {
+  let textSize = getFontSize(22);
   return (
     <Text
       textBreakStrategy="balanced"
       style={{
         width: '100%',
         textAlign: center ? 'center' : 'left',
-        fontSize: Math.min(dWidth, dHeight) * 0.1, // Dynamic text size, but is there a better way to do this?
+        fontSize: textSize, // Dynamic text size, but is there a better way to do this? YES getFontSize function! 10.02.2025,
         color: 'white',
         paddingVertical: 5,
         fontFamily: 'TheLastShuriken',
+
         //backgroundColor: 'pink',
       }}>
       {text}

@@ -7,6 +7,7 @@ import {
   TheHonorTiles,
   TheDragonsTiles,
 } from './RulesScreenFirstTheTiles';
+import {getFontSize} from '../../../Functions/utils/getFontSize';
 
 export const RulesScreenFirstComponentTheTiles = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -17,6 +18,7 @@ export const RulesScreenFirstComponentTheTiles = () => {
       setDimensionsView({width, height});
     }
   };
+  let textSize = getFontSize(14);
   return (
     <View style={{flex: 1, flexDirection: 'row'}}>
       <ButtonGroup
@@ -35,7 +37,12 @@ export const RulesScreenFirstComponentTheTiles = () => {
           //justifyContent: 'center',
           //alignItems: 'center',
         }}
-        textStyle={{fontFamily: 'TheLastShuriken'}}
+        textStyle={{
+          fontFamily: 'TheLastShuriken',
+          textAlign: 'center',
+          fontSize: textSize,
+          color: 'black',
+        }}
         selectedButtonStyle={{backgroundColor: '#56A2C4'}}
       />
       <View

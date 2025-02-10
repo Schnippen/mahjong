@@ -3,12 +3,13 @@ import {Text, View} from 'react-native';
 import Score from './EndRoundScore';
 import {useAppSelector} from '../../Store/hooks';
 import {RootState} from '../../Store/store';
+import {getFontSize} from '../../Functions/utils/getFontSize';
 
 const ScoreContainer = () => {
   const pointsName = useAppSelector(
     (state: RootState) => state.gameReducer.winningHand.pointsName,
   );
-
+  let textSizBig = getFontSize(42);
   return (
     <View style={{flexDirection: 'row', width: 420}}>
       <Score />
@@ -22,9 +23,10 @@ const ScoreContainer = () => {
         <Text
           style={{
             color: '#fbd54e',
-            fontSize: 42,
+            fontSize: textSizBig,
             fontFamily: 'TheLastShuriken',
-          }}>
+          }}
+          adjustsFontSizeToFit={true}>
           {pointsName}
         </Text>
       </View>

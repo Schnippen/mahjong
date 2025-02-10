@@ -25,16 +25,12 @@ export const SliderContainer = ({
           onValueChange={handleVolume}
           maximumValue={10}
           minimumValue={0}
-          //maximumTrackTintColor
-          //minimumTrackTintColor
           step={1}
           allowTouchTrack
           trackStyle={{height: 10, backgroundColor: '  '}}
           thumbStyle={{height: 50, width: 50, backgroundColor: 'transparent'}}
           minimumTrackTintColor="#bdbbc0"
           maximumTrackTintColor="#e9ebe8"
-          //animationType='spring'
-          //animateTransitions= //TODO
           thumbProps={{
             children: (
               <View

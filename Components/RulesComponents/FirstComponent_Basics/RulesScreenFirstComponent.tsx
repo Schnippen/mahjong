@@ -5,6 +5,7 @@ import {ButtonGroup} from '@rneui/themed';
 import {RulesScreenBasics} from './RulesScreenBasics';
 import {RulesScreenFirstComponentTheTiles} from './RulesScreenFirstComponentTheTiles';
 import {RulesScreenTheHandGroup} from './RulesScreenTheHandGroup';
+import {getFontSize} from '../../../Functions/utils/getFontSize';
 
 export const RulesScreenFirstComponent = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -14,7 +15,7 @@ export const RulesScreenFirstComponent = () => {
     const {width, height} = event.nativeEvent.layout;
     setDimensions({width, height});
   };
-
+  let textSize = getFontSize(14);
   return (
     <View
       style={{backgroundColor: boardColor, flexDirection: 'row', flex: 1}}
@@ -35,7 +36,11 @@ export const RulesScreenFirstComponent = () => {
           //justifyContent: 'center',
           //alignItems: 'center',
         }}
-        textStyle={{fontFamily: 'TheLastShuriken'}}
+        textStyle={{
+          fontFamily: 'TheLastShuriken',
+          fontSize: textSize,
+          color: 'black',
+        }}
         selectedButtonStyle={{backgroundColor: '#56A2C4'}}
         //selectedTextStyle
       />

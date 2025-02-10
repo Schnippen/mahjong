@@ -26,7 +26,8 @@ import {
 import {boardColor} from '../Data/colors';
 import {ButtonGoBack} from '../Components/Buttons/ButtonGoBack';
 import {SliderContainer} from '../Components/SettingsComponents/SliderContainer';
-//TODO fix this, boolean is not switching fast enough
+import {getFontSize} from '../Functions/utils/getFontSize';
+
 function Settings({navigation}: {navigation: any}) {
   const panelBackgroundColor = boardColor;
   const [volumeState, setVolumeState] = useState(0);
@@ -48,7 +49,7 @@ function Settings({navigation}: {navigation: any}) {
     console.log('loadSettings:', storedSettings);
     //set all the haptics, volumes etc....
   };
-  //TODO when you change sound from true to false you have to restrt app somehow, it does not update
+
   //let isFocused = useIsFocused()
   useFocusEffect(
     React.useCallback(() => {
@@ -186,6 +187,9 @@ function Settings({navigation}: {navigation: any}) {
     handleImpactHeavy();
     soundFunc({type: 'pop'});
   };
+  let textSizBig = getFontSize(48);
+  let textSizeMedium = getFontSize(28);
+  let textSize = getFontSize(16);
 
   return (
     <ScrollView
@@ -204,7 +208,7 @@ function Settings({navigation}: {navigation: any}) {
           flex: 1,
           paddingTop: 4,
         }}>
-        <Text style={{fontSize: 48, fontFamily: 'TheLastShuriken'}}>
+        <Text style={{fontSize: textSizBig, fontFamily: 'TheLastShuriken'}}>
           Settings
         </Text>
         <View
@@ -238,7 +242,11 @@ function Settings({navigation}: {navigation: any}) {
             backgroundColor: '#e9ebe8',
             width: containerWidth,
           }}
-          textStyle={{color: 'black', fontFamily: 'TheLastShuriken'}}
+          textStyle={{
+            color: 'black',
+            fontFamily: 'TheLastShuriken',
+            fontSize: textSize,
+          }}
           selectedButtonStyle={{backgroundColor: '#56a2c4'}}
         />
       </View>
@@ -255,7 +263,11 @@ function Settings({navigation}: {navigation: any}) {
             backgroundColor: '#e9ebe8',
             width: containerWidth,
           }}
-          textStyle={{color: 'black', fontFamily: 'TheLastShuriken'}}
+          textStyle={{
+            color: 'black',
+            fontFamily: 'TheLastShuriken',
+            fontSize: textSize,
+          }}
           selectedButtonStyle={{backgroundColor: '#56a2c4'}}
         />
       </View>
@@ -272,7 +284,11 @@ function Settings({navigation}: {navigation: any}) {
             backgroundColor: '#e9ebe8',
             width: containerWidth,
           }}
-          textStyle={{color: 'black', fontFamily: 'TheLastShuriken'}}
+          textStyle={{
+            color: 'black',
+            fontFamily: 'TheLastShuriken',
+            fontSize: textSize,
+          }}
           selectedButtonStyle={{backgroundColor: '#56a2c4'}}
         />
       </View>
@@ -284,7 +300,7 @@ function Settings({navigation}: {navigation: any}) {
         orientation="horizontal"
       />
       <View style={{flex: 1, alignItems: 'center'}}>
-        <Text style={{fontSize: 28, fontFamily: 'TheLastShuriken'}}>
+        <Text style={{fontSize: textSizeMedium, fontFamily: 'TheLastShuriken'}}>
           Set Volume
         </Text>
       </View>
@@ -313,7 +329,11 @@ function Settings({navigation}: {navigation: any}) {
             backgroundColor: '#e9ebe8',
             width: containerWidth,
           }}
-          textStyle={{color: 'black', fontFamily: 'TheLastShuriken'}}
+          textStyle={{
+            color: 'black',
+            fontFamily: 'TheLastShuriken',
+            fontSize: textSize,
+          }}
           selectedButtonStyle={{backgroundColor: '#56a2c4'}}
         />
       </View>
@@ -338,7 +358,12 @@ function Settings({navigation}: {navigation: any}) {
           }}
           activeOpacity={0.9}
           onPress={() => handleResetToDefault()}>
-          <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>
+          <Text
+            style={{
+              color: 'black',
+              fontFamily: 'TheLastShuriken',
+              fontSize: textSize,
+            }}>
             Reset to default
           </Text>
         </TouchableOpacity>

@@ -27,7 +27,7 @@ const TileOnHand = ({
   selected,
   handDataLastIndex,
   helperNumber,
-  isHelperNumberActive
+  isHelperNumberActive,
 }: {
   handlePress: (item: TTileObject, tileID: number) => void;
   item: TTileObject;
@@ -35,31 +35,18 @@ const TileOnHand = ({
   selected: number | null;
   handDataLastIndex: number;
   marginLeft: number;
-  helperNumber?:string
-  isHelperNumberActive?:boolean
+  helperNumber?: string;
+  isHelperNumberActive?: boolean;
 }) => {
-  /*  const [tap, setTap] = useState("...");
-
-    useEffect(() => {
-      setTimeout(() => {
-        setTap("...");
-        console.log(tap)
-      }, 2000);
-    }, [tap]);
-  
-    const onSingleTap = () => {
-        setTap("single tap"),
-        };
-
-    const onDoubleTap = () => {setTap("double tap"),console.log(`doubleTAP: discard ${item.name}`)}; */
-  //TODO check this error?
   const onPress = () => {
-    //debounce(onSingleTap, onDoubleTap);
-    if(item&&item?.tileID){
-    handlePress(item, item.tileID);}else {console.error("TILEONHAND.tsx onPress Error")}
+    if (item && item?.tileID) {
+      handlePress(item, item.tileID);
+    } else {
+      console.error('TILEONHAND.tsx onPress Error');
+    }
     //console.log("onPress()")
   };
-
+  //TODO bug with when reseting to next screen. svg={item.image}
   return (
     <TouchableWithoutFeedback
       onPress={() => onPress()}
@@ -68,14 +55,19 @@ const TileOnHand = ({
         style={{
           flex: 1,
           backgroundColor: 'transparent',
-          marginBottom: selected === item?.tileID ? 39 * 1 : 0,//item.tileID ? 39 * 1 : 0
+          marginBottom: selected === item?.tileID ? 39 * 1 : 0, //item.tileID ? 39 * 1 : 0
           position: 'relative',
           height: 39 * 1.3,
           width: 30 * 1.3,
           alignSelf: 'center',
           marginLeft: marginLeft, //isLastItem ? 10 : 0,
         }}>
-        <PlayerTileOnHand svg={item.image} tileRatioProp={1.3} numeralHelper={helperNumber} isHelperNumberActive={isHelperNumberActive}/>
+        <PlayerTileOnHand
+          svg={item?.image}
+          tileRatioProp={1.3}
+          numeralHelper={helperNumber}
+          isHelperNumberActive={isHelperNumberActive}
+        />
       </View>
     </TouchableWithoutFeedback>
   );

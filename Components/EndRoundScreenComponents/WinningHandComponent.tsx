@@ -90,7 +90,8 @@ export const WinningHand = () => {
               fontFamily: 'TheLastShuriken',
               fontSize: 20,
               color: '#fbd54e',
-            }}>
+            }}
+            adjustsFontSizeToFit={true}>
             {winningAction}
           </Text>
         </View>

@@ -25,6 +25,7 @@ export type TplayerString =
   | 'player3'
   | 'player4'
   | 'null';
+export type TactivePlayerString = Exclude<TplayerString, 'null'>;
 
 export type WindTypes = 'east' | 'south' | 'west' | 'north' | 'null';
 

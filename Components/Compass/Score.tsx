@@ -2,8 +2,10 @@ import {Text} from '@rneui/themed';
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
+import {TplayerString} from '../../Types/types';
 
-const Score = ({playerIndicator}: {playerIndicator: string}) => {
+const Score = ({playerIndicator}: {playerIndicator: TplayerString}) => {
+  //A bit of a vulgar and DRY solution, but it works well without much TypeScript boilerplate.
   let playerScoreDifference: number | undefined = 10;
   let playerScore: number | undefined = 24000;
   if (playerIndicator === 'player1') {
@@ -40,11 +42,11 @@ const Score = ({playerIndicator}: {playerIndicator: string}) => {
       (state: RootState) => state.playersReducer.player4.player4ScoreDifference,
     );
   }
-  const scoreSystem  = useSelector(
+  const scoreSystem = useSelector(
     (state: RootState) => state.settingsReducer.showScoreDifference,
   );
 
-  let playerScoreSystem=scoreSystem?playerScoreDifference:playerScore
+  let playerScoreSystem = scoreSystem ? playerScoreDifference : playerScore;
   //console.log("playerScore",playerIndicator,playerScore) //TODO change colors and boldness
   return (
     <Text
@@ -53,7 +55,8 @@ const Score = ({playerIndicator}: {playerIndicator: string}) => {
         color: '#ffdb51',
         textAlignVertical: 'center',
         textAlign: 'center',
-      }}>
+      }}
+      adjustsFontSizeToFit={true}>
       {playerScoreSystem}
     </Text>
   );

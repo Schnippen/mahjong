@@ -3,9 +3,11 @@ import {handleImpactLight} from '../../Functions/utils/hapticFeedback';
 import {soundFunc} from '../../Functions/playSounds/soundFunc';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {getFontSize} from '../../Functions/utils/getFontSize';
 
 function ButtonYakuGoBack() {
   const navigation = useNavigation();
+  let textSize = getFontSize(16);
   return (
     <View
       style={{
@@ -31,7 +33,14 @@ function ButtonYakuGoBack() {
           soundFunc({type: 'pop'});
           handleImpactLight();
         }}>
-        <Text style={{color: 'black'}}>Go back</Text>
+        <Text
+          style={{
+            color: 'black',
+            fontFamily: 'TheLastShuriken',
+            fontSize: textSize,
+          }}>
+          Go back
+        </Text>
       </TouchableOpacity>
     </View>
   );

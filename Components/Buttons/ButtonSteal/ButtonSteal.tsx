@@ -1,6 +1,7 @@
 import {Button} from '@rneui/themed';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import {getFontSize} from '../../../Functions/utils/getFontSize';
 
 const ButtonShape = ({
   text,
@@ -13,6 +14,7 @@ const ButtonShape = ({
   secondColor: string;
   handlePress?: () => void;
 }) => {
+  let textSize = getFontSize(16);
   return (
     <Button
       onPress={handlePress} // Pass handlePress directly
@@ -21,6 +23,7 @@ const ButtonShape = ({
       titleStyle={{
         fontFamily: 'TheLastShuriken',
         textAlignVertical: 'center',
+        fontSize: textSize,
       }}
       activeOpacity={0.8}
       ViewComponent={LinearGradient}

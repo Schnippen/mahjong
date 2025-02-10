@@ -4,11 +4,12 @@ import Score from './Score';
 import TurnIndicator from './TurnIndicator';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
+import {TplayerString} from '../../Types/types';
 const CompassTurnIndicator = ({
   playerIndicator,
   currentWindDisplay,
 }: {
-  playerIndicator: string;
+  playerIndicator: TplayerString;
   currentWindDisplay: string;
 }) => {
   const currentTurn = useSelector(

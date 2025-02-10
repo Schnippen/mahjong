@@ -25,7 +25,7 @@ export const RulesScreenNoYaku = () => {
         text={'Dora'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         A tile is flipped at the start of hand, known as a Dora Indicator, and
         its succeeding tile is known as a Dora. Each Dora adds 1 Han to the
         winning hand, and no Han if a hand doesn't win.
@@ -37,7 +37,7 @@ export const RulesScreenNoYaku = () => {
         text={'Kandora'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         A new Dora Indicator is flipped after a Quad is called, and its
         succeeding tile is know as a Kandora. Each Kandora adds 1 Han to the
         winning hand and no Han if a hand doesn't win
@@ -49,7 +49,7 @@ export const RulesScreenNoYaku = () => {
         text={'Uradora'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         The tiles underneath the Dora and Kandora Indicators are flipped after a
         Riichi hand is won. Their succeeding tiles are Uradora, each of which
         adds 1 Han to the hand won with Riichi only. If no hand is won, there'll
@@ -81,7 +81,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
         </View>
         <RulesScrenClosedHandComponent text={'Closed hand only'} />
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win after declaring Riichi. You may declare Riichi with a closed Tenpai
         hand (no Chii, Pon, or Kan), then discard a tile and place a 1,000-point
         Riichi Stick. After that, you cannot call Chii, Pon, or meld a Quad. You
@@ -95,7 +95,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
         text={'Ippatsu'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Call Ron or Tsumo within an uninterrupted turn (no player calls Chii,
         Pon, or Kan) after declaring Riichi.
       </Text>
@@ -106,7 +106,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
         text={'Seat Wind'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a Triplet or Quad of your allocated Seat Winds in your hand.
       </Text>
       <View style={{marginBottom: 20}} />
@@ -116,7 +116,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
         text={'Prevailing wind'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a Triplet or Quad of Prevailing Winds in your hand.
       </Text>
       <View style={{marginBottom: 20}} />
@@ -126,7 +126,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
         text={'Dragons'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a Triplet or Quad of White, Green or Red Dragons in your hand.
       </Text>
       <ButtonYakuExample
@@ -143,7 +143,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
         text={'Tanyao'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with no Terminal or Honor Tiles in your hand. (Terminals: 1-Man,
         9-Man, 1-Pin, 9-Pin, 1-Sou, 9-Sou; Honors: East, South, West and North
         Winds, White, Green and Red Dragons)
@@ -159,7 +159,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
         text={'Menzen Tsumo'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win on a self-drawn tile (Tsumo) with your closed hand (no Chii, Pon, or
         Kan). A closed hand will still be closed after declaring a Concealed
         Quad.
@@ -176,7 +176,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
         text={'Pinfu'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a closed hand containing four Sequences and a pair (not
         Yakuhai), and the winning tile completes a Sequence with a two-sided
         wait. Sequence: A set of three consecutive tiles of the same suit, such
@@ -197,7 +197,7 @@ export const RulesScreen1Han = ({navigation}: {navigation: any}) => {
         text={'Iipeukou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a closed hand containing two identical Sequences.
       </Text>
       <ButtonYakuExample
@@ -225,7 +225,7 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         text={'Double Riichi'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Declare Riichi with your starting hand in the first uninterrupted turn
         (no player calls Chii, Pon, or Kan).
       </Text>
@@ -241,7 +241,7 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         </View>
         <RulesScrenClosedHandComponent text={'Closed hand only'} />
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a closed hand containing seven different pairs.
       </Text>
       <ButtonYakuExample
@@ -255,7 +255,9 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         text={'Toitoi'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>Win with four Triplets or Quads.</Text>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
+        Win with four Triplets or Quads.
+      </Text>
       <ButtonYakuExample
         screen="RulesScreenYakuExample"
         params={{name: 'ToiToi', data: getYakuDataByName('ToiToi')}}
@@ -272,7 +274,7 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         </View>
         <RulesScrenClosedHandComponent text={'Closed: 2 Han, Open: 1 Han'} />
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with three consecutive Sequences (i.e., 123, 456, 789) in the same
         suit. (Worth one Han less if the hand is open)
       </Text>
@@ -287,7 +289,7 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         text={'Sanshoku Doukou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with three Triplets or Quads of the same number, one in each suit.
       </Text>
       <ButtonYakuExample
@@ -309,7 +311,7 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         </View>
         <RulesScrenClosedHandComponent text={'Closed: 2 Han, Open: 1 Han'} />
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with three Sequences of the same numerical sequence, one in each of
         the three suits. (Worth one Han less if the hand is open)
       </Text>
@@ -326,7 +328,9 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         text={'Sankantsu'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>Win with four Triplets or Quads.</Text>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
+        Win with four Triplets or Quads.
+      </Text>
       <ButtonYakuExample
         screen="RulesScreenYakuExample"
         params={{
@@ -340,7 +344,7 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         text={'Sanankou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with three Concealed Triplets or Quads.
       </Text>
       <ButtonYakuExample
@@ -356,7 +360,7 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         text={'Shousangen'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a hand containing two Triplets or Quads of Dragons (White,
         Green or Red) plus a pair of Dragons.
       </Text>
@@ -374,7 +378,7 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
         text={'Honroutou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with four Triplets or Quads and a pair or Chiitoitsu in your hand
         containing only Terminal and Honor Tiles.
       </Text>
@@ -397,7 +401,7 @@ export const RulesScreen2Han = ({navigation}: {navigation: any}) => {
           <RulesScrenClosedHandComponent text={'Closed: 2 Han, Open: 1 Han'} />
         </View>
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with four Sequences, Triplets or Quads and a pair. All groups and
         the pair must contain Terminal and/or Honor Tiles. (Terminals: 1-Man,
         9-Man, 1-Pin, 9-Pin, 1-Sou, 9-Sou; Honors: East, South, West and North
@@ -436,7 +440,7 @@ export const RulesScreen36Han = ({navigation}: {navigation: any}) => {
           <RulesScrenClosedHandComponent text={'3 Han - Closed hand only'} />
         </View>
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with four Sequences forming two distinct lipeikou (two identical
         Sequences) in your closed hand. This Yaku does not combine with
         Chiitoitsu.
@@ -460,7 +464,7 @@ export const RulesScreen36Han = ({navigation}: {navigation: any}) => {
           <RulesScrenClosedHandComponent text={'Closed: 3 Han, Open: 2 Han'} />
         </View>
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with four Sequences, Triplets or Quads containing Terminals, and a
         pair of Terminals in your hand. (Worth one Han less if the hand is open)
       </Text>
@@ -483,7 +487,7 @@ export const RulesScreen36Han = ({navigation}: {navigation: any}) => {
         </View>
         <RulesScrenClosedHandComponent text={'Closed: 3 Han, Open: 2 Han'} />
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a hand containing Number Tiles in the same suit and Honor
         Tiles. (Worth one Han less if the hand is open)
       </Text>
@@ -506,7 +510,7 @@ export const RulesScreen36Han = ({navigation}: {navigation: any}) => {
         </View>
         <RulesScrenClosedHandComponent text={'Closed: 6 Han, Open: 5 Han'} />
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a hand containing only Number Tiles in the same suit. (Worth
         one Han less if the hand is open)
       </Text>
@@ -537,7 +541,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         text={'Tenhou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win as the dealer East player on your initial self-drawn tile in the
         first turn. *If Tenhou is achieved with Suuankou, Chuuren Poutou, or
         Kokushi Musou, it is always counted as Suuankou Tanki, Chuuren Kyuumen,
@@ -550,7 +554,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         text={'Chiihou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win by Tsumo as a non-dealer not East player on the self-drawn tile in
         the first uninterrupted turn no player calls Chii, Pon, or Kan.
       </Text>
@@ -561,7 +565,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         text={'Daisangen'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with three Triplets or Quads of Dragon Tiles (White, Green and Red
         Dragons).
       </Text>
@@ -579,7 +583,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         text={'Suuankou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with four Concealed Triplets in your closed hand.
       </Text>
       <ButtonYakuExample
@@ -596,7 +600,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         text={'Tsuuiisou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a hand containing only Honor Tiles.
       </Text>
       <ButtonYakuExample
@@ -613,7 +617,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         text={'Ryuuiisou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a hand containing only green tiles, i.e., 2-Sou, 3-Sou, 4-Sou,
         6-Sou, 8-Sou and/or Green Dragons.
       </Text>
@@ -631,7 +635,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         text={'Chinroutou'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a hand containing only green tiles, i.e., 2-Sou, 3-Sou, 4-Sou,
         6-Sou, 8-Sou and/or Green Dragons.
       </Text>
@@ -655,7 +659,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         </View>
         <RulesScrenClosedHandComponent text={'Closed hand only'} />
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a closed hand containing each of the thirteen different
         Terminal and Honor Tiles, plus one extra Terminal or Honor Tile.
       </Text>
@@ -673,7 +677,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         text={'Shousuunshii'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a hand containing three Triplets or Quads of Wind Tiles and a
         pair of the fourth Wind Tiles.
       </Text>
@@ -691,7 +695,9 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         text={'Suukantsu'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>Win with a hand containing four Quads.</Text>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
+        Win with a hand containing four Quads.
+      </Text>
       <ButtonYakuExample
         screen="RulesScreenYakuExample"
         params={{
@@ -711,7 +717,7 @@ export const RulesScreenYakuman = ({navigation}: {navigation: any}) => {
         </View>
         <RulesScrenClosedHandComponent text={'Closed hand only'} />
       </RulesScreenClosedHandBracket>
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with a closed hand consisting of the tiles 1112345678999 in the same
         suit, plus any one extra tile in the same suit.
       </Text>
@@ -752,7 +758,7 @@ export const RulesScreenDoubleYakuman = ({navigation}: {navigation: any}) => {
         text={'Daisuushii'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         Win with four Triplets or Quads of Wind Tiles
       </Text>
       <ButtonYakuExample
@@ -783,7 +789,7 @@ export const RulesScreenRyuukyoku = () => {
         text={'Suukaikan'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         The game will end as an abortive draw when two or more players meld a
         total of four Quads.
       </Text>
@@ -793,7 +799,7 @@ export const RulesScreenRyuukyoku = () => {
         text={'Kyuushu Kyuuhai'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         When you have nine or more different Terminal and/or Honor Tiles, you
         may abort your hand in the first turn before any tiles are called.
       </Text>
@@ -803,7 +809,7 @@ export const RulesScreenRyuukyoku = () => {
         text={'Suucha Riichi'}
         center={false}
       />
-      <Text style={{fontSize: 20}}>
+      <Text style={{fontSize: 20, fontFamily: 'SofadiOne'}}>
         The game will end as an abortive draw when all four players declare
         Riichi.
       </Text>

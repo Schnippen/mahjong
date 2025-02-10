@@ -27,6 +27,7 @@ export const RulesScreenSecondComponent = () => {
         style={{
           width: '100%',
           fontSize: 20,
+          fontFamily: 'SofadiOne',
         }}>
         {'Tiles are shuffled into walls, and players get 13 tiles each.\n'}
         {'The dealer starts by drawing a tile, then discards one.\n'}

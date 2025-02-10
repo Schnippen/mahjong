@@ -22,7 +22,12 @@ const EndRoundScreenUraDoras = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{fontSize: 22, fontFamily: 'TheLastShuriken'}}>Ura</Text>
+        <Text
+          style={{fontSize: 22, fontFamily: 'TheLastShuriken'}}
+          numberOfLines={1}
+          adjustsFontSizeToFit={true}>
+          Ura Dora
+        </Text>
       </View>
       <View
         style={{

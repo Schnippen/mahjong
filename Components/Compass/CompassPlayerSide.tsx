@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import CompassWindIndicator from './CompassWindIndicator';
 import CompassTurnIndicator from './CompassTurnIndicator';
 import CompassRichiiIndicator from './CompassRichiiIndicator';
+import {TplayerString} from '../../Types/types';
 
 const CompassPlayerSide = ({
   isRichiiActive,
@@ -21,7 +22,7 @@ const CompassPlayerSide = ({
   topPosition: number;
   leftPosition: number;
   rightPosition: number;
-  playerIndicator: string;
+  playerIndicator: TplayerString;
   compassBottomPerimeter: number;
   currentWindDisplay: string;
 }) => {

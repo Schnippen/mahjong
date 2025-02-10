@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../Store/store';
 import {soundFunc} from '../../Functions/playSounds/soundFunc';
 import LinearGradient from 'react-native-linear-gradient';
+import {getFontSize} from '../../Functions/utils/getFontSize';
 const AutoSort = () => {
   const dispatch = useAppDispatch();
   const sortTilesOnHand = useSelector(
@@ -21,7 +22,7 @@ const AutoSort = () => {
       soundFunc({type: 'pop'});
     }
   };
-
+  let textSize = getFontSize(16);
   return (
     <TouchableOpacity
       activeOpacity={0.5}
@@ -38,7 +39,7 @@ const AutoSort = () => {
         style={{
           color: sortTilesOnHand ? 'rgb(233, 195, 170)' : 'white',
           textAlign: 'center',
-          fontSize: 16,
+          fontSize: textSize,
           fontFamily: 'TheLastShuriken',
         }}>
         S
@@ -60,6 +61,7 @@ const ShowNumerals = () => {
       soundFunc({type: 'pop'});
     }
   };
+  let textSize = getFontSize(16);
 
   return (
     <TouchableOpacity
@@ -78,7 +80,7 @@ const ShowNumerals = () => {
           color: showNumerals ? 'rgb(233, 195, 170)' : 'white',
           textAlign: 'center',
           fontFamily: 'TheLastShuriken',
-          fontSize: 16,
+          fontSize: textSize,
         }}>
         N
       </Text>
@@ -86,10 +88,9 @@ const ShowNumerals = () => {
   );
 };
 const SidePanel = () => {
-  const topPanelBackgroundColor = '#3c7fc3';
   const panelBackgroundColor = 'rgba(22, 60, 85, 0.9)';
 
-  const screenHeight = Dimensions.get('window').height;
+  //const screenHeight = Dimensions.get('window').height;
   return (
     <LinearGradient
       colors={[panelBackgroundColor, 'transparent']}

@@ -57,7 +57,7 @@ function RulesScreen({navigation, route}: any) {
         lazy={true}
         // lazy={({ route }) => route.name === 'Example'}
         renderTabBar={renderTabBar}
-        style={{backgroundColor: boardColor}} // when scroling horizontally, there is sometimes white background?!
+        style={{backgroundColor: boardColor}} // when scroling horizontally, there is sometimes white background  - fixed!
       />
     </>
   );

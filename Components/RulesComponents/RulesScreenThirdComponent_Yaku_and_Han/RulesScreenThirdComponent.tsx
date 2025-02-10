@@ -13,6 +13,7 @@ import {View} from 'react-native';
 import {boardColor, MahjongTileColor} from '../../../Data/colors';
 import {ScreenList} from '../../../Types/types';
 import {useNavigation} from '@react-navigation/native';
+import {getFontSize} from '../../../Functions/utils/getFontSize';
 //  const navigation = useNavigation();
 
 // let startGameParams={gameInitializer:'start'}
@@ -39,7 +40,7 @@ export const RulesScreenThirdComponent = () => {
     <RulesScreenDoubleYakuman navigation={navigation} />,
     <RulesScreenRyuukyoku />,
   ];
-
+  let textSize = getFontSize(14);
   return (
     <View
       style={{backgroundColor: boardColor, flexDirection: 'row', flex: 1}}
@@ -66,7 +67,12 @@ export const RulesScreenThirdComponent = () => {
           margin: 0,
           padding: 0,
         }}
-        textStyle={{fontFamily: 'TheLastShuriken'}}
+        textStyle={{
+          fontFamily: 'TheLastShuriken',
+          textAlign: 'center',
+          fontSize: textSize,
+          color: 'black',
+        }}
         selectedButtonStyle={{backgroundColor: '#56A2C4'}}
       />
       {componentsArray[selectedIndex]}

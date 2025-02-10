@@ -26,6 +26,7 @@ export const RulesScreenBasics = () => {
           adjustsFontSizeToFit={true}
           style={{
             fontSize: 20,
+            fontFamily: 'SofadiOne',
           }}>
           {
             'Riichi Mahjong is a Japanese variant of the Chinese game of Mahjong.\n'

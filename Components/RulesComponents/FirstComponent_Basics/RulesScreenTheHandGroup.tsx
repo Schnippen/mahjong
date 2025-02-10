@@ -14,6 +14,7 @@ import {
 } from '../RulesComponents';
 import {FlashList} from '@shopify/flash-list';
 import EmptyComponent from '../../Wall/EmptyComponent';
+import {getFontSize} from '../../../Functions/utils/getFontSize';
 
 const RulesScreenTheHand = ({
   dimensionsView,
@@ -27,7 +28,13 @@ const RulesScreenTheHand = ({
         dWidth={dimensionsView.width}
         text={'The Hand'}
       />
-      <Text style={{fontSize: 16, lineHeight: 24, marginBottom: 10}}>
+      <Text
+        style={{
+          fontSize: 16,
+          lineHeight: 24,
+          marginBottom: 10,
+          fontFamily: 'SofadiOne',
+        }}>
         Players start with 13 tiles. On each turn:{'\n'}- Draw 1 tile from the
         wall or claim a discard, making 14 tiles temporarily.{'\n'}- If the hand
         has 4 groups and 1 pair (3+3+3+3+2=14) and includes a valid yaku, the
@@ -57,7 +64,8 @@ const RulesScreenSequence = ({
         dWidth={dimensionsView.width}
         text={'Sequence'}
       />
-      <Text style={{fontSize: 16, textAlign: 'center'}}>
+      <Text
+        style={{fontSize: 16, textAlign: 'center', fontFamily: 'SofadiOne'}}>
         A sequence consists of three consecutive number tiles of the same suit.
         {'\n'}
       </Text>
@@ -76,6 +84,7 @@ const RulesScreenSequence = ({
           fontSize: 16,
           textAlign: 'center',
           marginTop: 10,
+          fontFamily: 'SofadiOne',
         }}>
         Note: Not all linear tile arrangements qualify as sequences.{'\n'}
       </Text>
@@ -104,7 +113,7 @@ const RulesScreenTriplet = ({
         dWidth={dimensionsView.width}
         text={'Triplet'}
       />
-      <Text style={{fontSize: 16, marginBottom: 10}}>
+      <Text style={{fontSize: 16, marginBottom: 10, fontFamily: 'SofadiOne'}}>
         A triplet is three identical tiles:{'\n'}- Melded Triplet: Formed by
         calling "pon" or winning with "ron" on a discard.{'\n'}- Concealed
         Triplet: Formed from tiles drawn from the wall.
@@ -134,7 +143,7 @@ const RulesScreenKan = ({
         dWidth={dimensionsView.width}
         text={'Kan / Quads'}
       />
-      <Text style={{fontSize: 16, marginBottom: 10}}>
+      <Text style={{fontSize: 16, marginBottom: 10, fontFamily: 'SofadiOne'}}>
         A quad is four identical tiles:{'\n'}- Melded Quad: Declared using a
         discard.{'\n'}- Concealed Quad: Created from drawn tiles.
       </Text>
@@ -168,6 +177,7 @@ export const RulesScreenTheHandGroup = () => {
     const {width, height} = event.nativeEvent.layout;
     setDimensionsView({width, height});
   };
+  let textSize = getFontSize(14);
   return (
     <View style={{flex: 1, flexDirection: 'row'}}>
       <ButtonGroup
@@ -186,7 +196,11 @@ export const RulesScreenTheHandGroup = () => {
           //justifyContent: 'center',
           //alignItems: 'center',
         }}
-        textStyle={{fontFamily: 'TheLastShuriken'}}
+        textStyle={{
+          fontFamily: 'TheLastShuriken',
+          fontSize: textSize,
+          color: 'black',
+        }}
         selectedButtonStyle={{backgroundColor: '#56A2C4'}}
       />
       <View

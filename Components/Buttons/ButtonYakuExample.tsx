@@ -4,6 +4,7 @@ import {soundFunc} from '../../Functions/playSounds/soundFunc';
 import {handleImpactLight} from '../../Functions/utils/hapticFeedback';
 import {TTileObject} from '../../Types/types';
 import {useNavigation} from '@react-navigation/native';
+import {getFontSize} from '../../Functions/utils/getFontSize';
 
 const ButtonYakuExample = ({
   screen,
@@ -13,6 +14,7 @@ const ButtonYakuExample = ({
   params: {name: string; data: TTileObject[]}; // Required params for this screen
 }) => {
   const navigation = useNavigation();
+  let textSize = getFontSize(16);
   return (
     <View
       style={{
@@ -38,7 +40,12 @@ const ButtonYakuExample = ({
           soundFunc({type: 'pop'});
           handleImpactLight();
         }}>
-        <Text style={{color: 'black', fontFamily: 'TheLastShuriken'}}>
+        <Text
+          style={{
+            color: 'black',
+            fontFamily: 'TheLastShuriken',
+            fontSize: textSize,
+          }}>
           See {params.name}
         </Text>
       </TouchableOpacity>

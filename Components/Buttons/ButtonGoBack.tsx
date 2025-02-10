@@ -11,7 +11,6 @@ export const ButtonGoBack = () => {
     soundFunc({type: 'pop'});
     handleImpactLight();
   };
-  //TODO add navigation usenavigation
   return (
     <TouchableWithoutFeedback onPress={() => goToHomeScreen()}>
       <View

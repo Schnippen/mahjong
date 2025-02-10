@@ -9,6 +9,7 @@ import Animated, {
 import {soundFunc} from '../../Functions/playSounds/soundFunc';
 import {YakuType} from '../../Types/types';
 import {GoldTextColor} from '../../Data/colors';
+import {getFontSize} from '../../Functions/utils/getFontSize';
 //TODO change typescript - ?
 export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
   const topPanelBackgroundColor = '#3c7fc3';
@@ -50,6 +51,7 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
   let name = data?.yakuName ? data.yakuName : null;
   let han = data?.han ? data.han : null;
   let nameFontExeption = ['Suuankou', 'Sanankou'];
+  let textSize = getFontSize(12);
   return (
     <Animated.View style={[styles.yakuRow, animatedStyle]}>
       <View style={{flex: 3, justifyContent: 'center', height: 38}}>
@@ -57,16 +59,30 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
           style={{
             fontFamily: 'TheLastShuriken',
             textAlign: 'center',
-            fontSize: name && nameFontExeption.includes(name) ? 12 : 14,
-          }}>
+            fontSize: 14,
+          }}
+          adjustsFontSizeToFit={true}
+          numberOfLines={2}>
           {name}
         </Text>
       </View>
       <View style={styles.hanContainer}>
-        <Text style={{color: GoldTextColor, fontFamily: 'TheLastShuriken'}}>
+        <Text
+          style={{
+            color: GoldTextColor,
+            fontFamily: 'TheLastShuriken',
+            fontSize: textSize,
+          }}
+          adjustsFontSizeToFit={true}>
           {han}
         </Text>
-        <Text style={{color: GoldTextColor, fontFamily: 'TheLastShuriken'}}>
+        <Text
+          style={{
+            color: GoldTextColor,
+            fontFamily: 'TheLastShuriken',
+            fontSize: textSize,
+          }}
+          adjustsFontSizeToFit={true}>
           {' '}
           HAN
         </Text>
