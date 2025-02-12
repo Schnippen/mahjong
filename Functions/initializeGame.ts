@@ -14,7 +14,9 @@ export const initializeGame = (dispatch: any) => {
   dispatch(SET_LATEST_TURN());
   dispatch(assignHandsBasedOnWind());
   //TODO REMOVE DEBUG
-  //dispatch(DEBUG_HAND(debugHand2));
+  if (__DEV__) {
+    true ? dispatch(DEBUG_HAND(debugHand2)) : null;
+  }
   //console.info('DEBUGING HAND IS ON');
   dispatch(START_GAME({phase: 'started'}));
   soundFunc({type: 'diceThrow'});
