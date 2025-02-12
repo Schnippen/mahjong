@@ -1,13 +1,6 @@
 import {Button} from '@rneui/themed';
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  ScrollView,
-  View,
-  Dimensions,
-  BackHandler,
-  Alert,
-  StatusBar,
-} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {View, Dimensions, StatusBar} from 'react-native';
 import RiverBottom from '../Components/River/RiverBottom';
 import {RiverRight} from '../Components/River/RiverRight';
 import {RiverLeft} from '../Components/River/RiverLeft';
@@ -30,6 +23,8 @@ import StolenTilesPanelLeft from '../Components/StolenTiles/StolenTilesLeft/Stol
 import {boardColor} from '../Data/colors';
 import {resetToStartScreen} from '../Functions/resetToStartScreen';
 import useBackHandler from '../Functions/utils/useBackHandlerHook';
+import {START_GAME} from '../Store/gameReducer';
+import DebugToolButtonsTop from '../Functions/utils/DebugToolButtonsTop';
 
 //tiles
 //winning conditions
@@ -116,7 +111,14 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
       /* const timer = setTimeout(() => {
         initializeGame(dispatch);
       }, 1000); */ //TODO check if this work after nextRoundReset.....
-      /*  return () => clearTimeout(timer); */ initializeGame(dispatch);
+      /*  return () => clearTimeout(timer); */
+      //initializeGame(dispatch);
+      // dispatch(START_GAME({phase: 'started'}));
+    } else if (
+      hasInitializedGame.current &&
+      route.params?.gameInitializer === 'start_next_round'
+    ) {
+      dispatch(START_GAME({phase: 'started'}));
     }
     console.log(
       'USE EFFECT ROUTE:',
@@ -130,25 +132,7 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
   return (
     <View style={{flex: 1}}>
       <StatusBar hidden={true} />
-      {/*   <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          width: '100%',
-          position: 'absolute',
-          top: 0,
-          zIndex: 99999,
-        }}>
-        <Button
-          style={{flex: 1, backgroundColor: 'red'}}
-          title="initialize"
-          onPress={() => initializeGame(dispatch)}></Button>
-        <Button
-          style={{flex: 1}}
-          title="RESET"
-          onPress={() => resetToStartScreen(dispatch)}></Button>
-      </View> DEBUG  */}
-
+      <DebugToolButtonsTop dispatch={dispatch} />
       <View
         style={{
           flex: 1,

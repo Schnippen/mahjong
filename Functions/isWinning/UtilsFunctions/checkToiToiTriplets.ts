@@ -8,5 +8,6 @@ export function checkToiToiTriplets(tileCounts: tileCountsType) {
       meldsFound++;
     }
   }
+  //console.log('checkToiToiTriplets', meldsFound);
   return meldsFound;
 }

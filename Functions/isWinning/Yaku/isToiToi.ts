@@ -1,12 +1,5 @@
-import {
-  TTileObject,
-  TstolenTiles,
-  TypeOfAction,
-  tileCountsType,
-} from '../../../Types/types';
-import {checkMelds} from '../../isReadyForRiichii/checkMelds';
+import {TTileObject, TstolenTiles, TypeOfAction} from '../../../Types/types';
 import {countTilesByName} from '../../isReadyForRiichii/countTilesByName';
-import {checkToiToiTriplets} from '../UtilsFunctions/checkToiToiTriplets';
 
 type isToiToiTypes = {
   hand: TTileObject[];
@@ -16,70 +9,50 @@ type isToiToiTypes = {
 };
 
 export function isToiToi({hand, discard, playerMelds, Process}: isToiToiTypes) {
-  const start = performance.now();
-
-  let handToCheck: TTileObject[] = [];
   const typeOfAction: TypeOfAction =
     Process === 'ron' ? 'RON' : Process === 'tsumo' ? 'TSUMO' : '';
   let winningTile: TTileObject = discard[0];
-
-  let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
   let yakuName = 'ToiToi';
-  if (meldedTiles.length === 0) {
-    handToCheck = hand.concat(discard);
-  } else {
-    handToCheck = [...hand, ...discard, ...meldedTiles];
-  }
 
-  //this yaku can be done on opened hand
+  // Combine all tiles
+  let meldedTiles = playerMelds.flatMap(meld => meld.tiles);
+  let handToCheck = [...hand, ...discard, ...meldedTiles];
+
+  //console.log(    'isToiToi: full hand:',    handToCheck.map(t => t.name),  );
+
   const tileCounts = countTilesByName(handToCheck);
+  //console.log('isToiToi: tile counts:', tileCounts);
+  let triplets = 0;
+  let pairs = 0;
 
-  /*   for (let tileName in tileCounts) {
-    if (tileCounts[tileName] >= 2) {
-      const newCounts = {...tileCounts};
-      newCounts[tileName] -= 2;
-      if (checkToiToiTriplets(newCounts) === 4) {
-        return true;
-      }
-    }
-  } */
-  if (checkToiToiTriplets(tileCounts)) {
-    for (let tileName in tileCounts) {
-      if (tileCounts[tileName] >= 2) {
-        const newCounts = {...tileCounts};
-        newCounts[tileName] -= 2;
-        if (checkMelds(newCounts) === 4) {
-          return {
-            result: true,
-            typeOfAction: typeOfAction,
-            han: 2,
-            yakuName: yakuName,
-            winningTile,
-          };
-        }
-      }
+  for (let tileName in tileCounts) {
+    const count = tileCounts[tileName];
+    if (count === 4) {
+      triplets++;
+    } else if (count === 3) {
+      triplets++;
+    } else if (count === 2) {
+      pairs++;
     }
   }
 
-  /*   let triplesCount = 0;
-  for (let tileName in tileCounts) {
-    if (tileCounts[tileName] >= 3) {
-      //there is possibility of Kan
-      triplesCount++;
-    }
-  } */
+  //console.log('isToiToi: found triplets:', triplets, 'pairs:', pairs);
 
-  const end = performance.now();
-  //console.log(`isToiToi() took ${end - start} milliseconds.`);
-  /*   if (triplesCount === 4) {
-    return {result: true, typeOfAction: typeOfAction};
-  } else { */
+  if (triplets === 4 && pairs === 1) {
+    return {
+      result: true,
+      typeOfAction,
+      han: 2,
+      yakuName,
+      winningTile,
+    };
+  }
+
   return {
     result: false,
     typeOfAction,
     han: 0,
-    yakuName,
+    yakuName: '',
     winningTile,
   };
-  //}
 }

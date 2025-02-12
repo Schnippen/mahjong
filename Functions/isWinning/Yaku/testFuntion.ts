@@ -30,6 +30,7 @@ import {
 import {checkWinningHand} from '../../isReadyForRiichii/checkingWinningHand';
 import {soundFunc} from '../../playSounds/soundFunc';
 import {addRoundCounter, START_GAME} from '../../../Store/gameReducer';
+import {isToiToi} from './isToiToi';
 type testFunctionTypes = {
   hand: TTileObject[];
   discard: TTileObject[];
@@ -230,21 +231,29 @@ export let debugHand2 = [
   tilesData[121],
   tilesData[122],
 ];
-/* export let debugHand2 = [
-  tilesData[7],
+export let hand = [
+  tilesData2[47],
+  tilesData2[38],
+  tilesData2[25],
   tilesData[16],
-  tilesData[84],
-  tilesData[93],
-  tilesData[102],
-  tilesData[36],
-  tilesData[45],
-  tilesData[54],
-  tilesData[120],
-  tilesData[121],
-  tilesData[122],
-  tilesData[6],
-  tilesData[15],
-]; */ //kan-debug
+  tilesData[7],
+  tilesData[62],
+  tilesData[71],
+  tilesData[44],
+  tilesData[50],
+  tilesData[41],
+];
+let discard = [tilesData[65]];
+let playerMelds: TstolenTiles[] = [
+  {
+    isOpen: true,
+    name: 'kanLeft',
+    tiles: [tilesData[120], tilesData[121], tilesData[122], tilesData[123]],
+    type: 'Kan',
+  },
+];
+
+//[{"isOpen": true, "name": "kanLeft", "tiles": [ tilesData[120],tilesData[121],  tilesData[122], tilesData[123],], "type": "Kan"}]
 //pinfu tenpai //debugHand2.map(i => i.tileID),
 /*   debugHand2.concat(tilesData[6]).map(t => t.name),
     tilesData[6].name,
@@ -252,23 +261,44 @@ export let debugHand2 = [
 //let winningDebugHand = debugHand2.concat(tilesData[6]);
 //test multiple Chii more than 2
 //test score calculation
+let {han, result, typeOfAction, winningTile, yakuName} = isToiToi({
+  hand,
+  discard,
+  playerMelds,
+  Process: 'ron',
+});
 export const testFunction = (dispatch: any, navigation: any) => {
   console.log('TEST_FUNCTION:');
+
+  han;
+  result;
+  typeOfAction;
+  winningTile;
+  yakuName;
   /*  console.log(
-    debugHand3.map(t => t.name),
-    debugHand3.length,
+    debugHand2.map(t => `${t.name} ${t.tileID}`),
+    debugHand2.length,
   ); */
-  //dispatch(addRoundCounter({TypeOfAction: 'reset'}));
-  //soundFunc({type: 'noten'});
-  //dispatch(START_GAME({phase: 'ended'}));
-};
-//https://www.npmjs.com/package/react-native-haptic-feedback
-/*  result,
-    handExample.map(t => t.name),
-    discardExample[0].name,
-    handExample.length + discardExample.length, */
-/*   let result = isPinfu({
-    hand: handExample,
-    discard: discardExample,
-    playerMelds: [],
+  /*   console.log(
+    'Test Hand:',
+    playerMelds[0].tiles.map(t => t.name),
+    hand.map(t => t.name),
+    discard.map(t => t.name),
+  );
+  isToiToi({
+    hand,
+    discard,
+    playerMelds,
+    Process: 'ron',
+  });
+  // Log isToiToi results
+  console.log('ToiToi Check Results:', {
+    han,
+    result,
+    typeOfAction,
+    winningTile: winningTile
+      ? `${winningTile.name} (ID: ${winningTile.tileID})`
+      : null,
+    yakuName,
   }); */
+};
