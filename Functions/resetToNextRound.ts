@@ -52,8 +52,9 @@ export const resetToNextRound = ({
   //reset who the loser is
   dispatch(changeWhoTheLoserIs({TypeOfAction: 'reset'}));
   //jesli wygrał east to nie resetuj honba sticks ......... //TODO move to calculate points
+  let nextRoundGameParams = {gameInitializer: 'start_next_round'};
 
-  navigation.navigate('MahjongScreen'); //TODO IMPORTANT ADD PARAMS??? IMPORTANT
+  navigation.navigate('MahjongScreen', nextRoundGameParams); //TODO IMPORTANT ADD PARAMS??? IMPORTANT
 
   //init new round
   setTimeout(() => {
