@@ -112,7 +112,8 @@ console.info("playerLeftHand:",playerLeftHand.length, playerLeftHand.map(t=>t.na
         initializeGame(dispatch);
       }, 1000); */ //TODO check if this work after nextRoundReset.....
       /*  return () => clearTimeout(timer); */
-      //initializeGame(dispatch);
+      //if (__DEV__) return;
+      initializeGame(dispatch);
       // dispatch(START_GAME({phase: 'started'}));
     } else if (
       hasInitializedGame.current &&
