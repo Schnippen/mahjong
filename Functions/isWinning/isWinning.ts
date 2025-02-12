@@ -304,7 +304,7 @@ export function isWinning({
     typeOfAction: 'TSUMO' | 'RON' | '';
   };
   //jesli obecna tura nie jest player.name to wtedy sprawdzaj ron
-  //nextplayerX!==playerName
+  //nextplayerX!==playerName   || nextPlayerX === playerName
   if (nextPlayerX !== playerName) {
     console.log(
       `|||||||| Current Player: ${currentPlayer} is ${playerName}. Checking for RON.`,
@@ -317,11 +317,17 @@ export function isWinning({
         playerMelds: currentMelds,
         Process: 'ron',
       });
-      //console.log('YakuResult', result);
-      //console.log('RON:', discard[0].name);
+      /*    console.log(
+        'YakuResult',
+        result.result,
+        hand.map(t => t?.name),
+        check,
+        typeof result === 'object' && result.result,
+      );
+      console.log('RON:', discard[0]?.name); */
       if (typeof result === 'object' && result.result) {
         if (result.typeOfAction === 'RON') {
-          ron;
+          ron = true;
         }
       }
     }
@@ -346,7 +352,7 @@ export function isWinning({
       }
     }
   }
-  //RON Process for Riichi Yaku
+  //RON Process for Riichi Yaku //TODO check this,  nextPlayerX !== playerName this might make problems
   if (nextPlayerX !== playerName) {
     if (playerRiichiIndex !== null) {
       //check if this whole function works - DONE
