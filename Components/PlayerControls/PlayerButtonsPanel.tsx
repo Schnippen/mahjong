@@ -24,6 +24,9 @@ import {handleRon} from '../../Functions/PlayerControlFunctions/handleRon';
 import {handleKan} from '../../Functions/PlayerControlFunctions/handleKan';
 import {testFunction} from '../../Functions/isWinning/Yaku/testFuntion';
 import AITurnAutomated from '../../Functions/AI-move/AITurnAutomated';
+import {NextTurn} from '../../Functions/AI-move/AIForcedNextTurn';
+import {Button} from '@rneui/themed';
+import {DebugToolComponent} from '../../Functions/utils/DebugToolComponent';
 
 const PlayerButtonsPanel = ({
   navigation,
@@ -240,7 +243,19 @@ const PlayerButtonsPanel = ({
     displayRonButton,
     displayTsumoButton,
   ]);
-
+  console.log(
+    'PlayerButtonsPanel:',
+    'displayChii:',
+    displayChiiButton,
+    'displayPon:',
+    displayPonButton,
+    'displayKan',
+    displayKanButton,
+    'displayRon:',
+    displayRonButton,
+    'displayTsumo:',
+    displayTsumoButton,
+  );
   return (
     <View
       style={{
@@ -290,6 +305,7 @@ const PlayerButtonsPanel = ({
                   setDisplayRiichiButton,
                   dispatch,
                   playerWind: player1.wind,
+                  nextTile,
                 });
             }}
           />
@@ -449,15 +465,11 @@ const PlayerButtonsPanel = ({
             }}
           />
         ) : null}
-        {/* <Text>{handData ? handData.length : null}</Text> 
-              <Button
-          type="outline"
-          title={'testFunction()'}
-          onPress={() => {
-            testFunction(dispatch, navigation);
-          }}
-        /> 
-         <NextTurn /> */}
+        <DebugToolComponent
+          navigation={navigation}
+          dispatch={dispatch}
+          handData={handData}
+        />
       </View>
     </View>
   );

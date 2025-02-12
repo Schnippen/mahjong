@@ -208,7 +208,7 @@ export const calculateYakusAndPoints = ({
   //set redux gameReducer . but where to reset it? ;/
   dispatch(
     setWinningHand({
-      hand: winningHand,
+      hand: handReadyForRender,
       tile: winningTile,
       yaku: listOfYakusInHand,
       winAction: typeOfWin,

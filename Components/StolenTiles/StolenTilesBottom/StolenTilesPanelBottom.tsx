@@ -24,7 +24,7 @@ const StolenTilesPanelBottom = () => {
     let itemName = item.name;
     console.log(
       'StolenTilesPanelBottom renderItem:',
-      item.tiles.map(t => t.name),
+      item.tiles.map(t => t?.name),
     );
     if (itemName === 'left') {
       return <StolenTilesPlayerLEFT data={item} />;

@@ -484,7 +484,7 @@ export const runGame = (
       'currentDiscard:',
       currentDiscard[0]?.name, //when reseting game there is bug, i have to break the run game function somehow
       'nextTile:',
-      nextTile.name,
+      nextTile?.name,
       'player:',
       player.name,
     );
