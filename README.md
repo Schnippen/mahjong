@@ -107,3 +107,7 @@ A complete list of bugs and pending tasks can be found in:
 ```
 mahjong\Data\list_of_bugs
 ```
+
+## Assets Credits
+
+The mahjong tile front images used in this project are from [riichi-mahjong-tiles](https://github.com/FluffyStuff/riichi-mahjong-tiles) by FluffyStuff. These assets are in the public domain.
