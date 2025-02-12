@@ -285,7 +285,7 @@ export const playersReducer = createSlice({
       const {player, nextTile} = action.payload;
       console.log(
         'REDUX: drawing tile from the wall:',
-        nextTile.name,
+        nextTile?.name,
         'to',
         player,
       );

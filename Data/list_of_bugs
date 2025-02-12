@@ -1,2 +1,27 @@
-//TODO fill list of bugs
-//TODO fill todo list
+// TODO: Complete the list of bugs
+
+/* 
+- When too many tiles are rendered on the screen (around the 36th-42nd tile), the sound system stops functioning properly. Test with testFunction() + soundFunc.
+- After nextRoundReset, sometimes a player's hand has only 12 tiles. Check AI hands as well.
+- Player 3 occasionally fails to display riichiIndex correctly on the board.
+-  ̶A̶ ̶p̶l̶a̶y̶e̶r̶ ̶i̶n̶ ̶R̶i̶i̶c̶h̶i̶ ̶c̶a̶n̶ ̶w̶a̶i̶t̶ ̶f̶o̶r̶ ̶t̶w̶o̶ ̶d̶i̶f̶f̶e̶r̶e̶n̶t̶ ̶w̶i̶n̶n̶i̶n̶g̶ ̶t̶i̶l̶e̶s̶,̶ ̶b̶u̶t̶ ̶o̶n̶l̶y̶ ̶o̶n̶e̶ ̶i̶s̶ ̶a̶c̶c̶e̶p̶t̶e̶d̶ ̶f̶o̶r̶ ̶R̶o̶n̶ ̶o̶r̶ ̶T̶s̶u̶m̶o̶.̶ (This is a confirmed bug.) - kinda FIXED
+- Issues with Kans: Sometimes tiles are not added correctly, affecting hand length.
+- Players can immediately Kan after discarding their own fourth tile.
+- Verify handling of the following tile data:
+  tilesData2[47], tilesData2[38], tilesData2[25], tilesData[16], tilesData[7],
+  tilesData[62], tilesData[71], tilesData[44], tilesData[50], tilesData[41],
+  tilesData[120], tilesData[121], tilesData[122].
+- in scoresScreen RON is ton working, calculatePoints RON is not working
+
+// TODO: Complete the to-do list
+
+- Fix calculatePoints() as it currently returns incorrect values.
+- Ensure useState cleanup in PlayerButtonsPanel after resetToNextRound.
+- Initiate AI turn after resetting the round.
+- After resetToNextRound, verify computer player states.
+- Refactor PassActionFunc() for better efficiency.
+- Align melded tiles properly on the horizontal axis.
+- Investigate if players can Kan immediately after passing in PassActionFunc().
+- Debug handleRiichi(): Player 3's riverIndex is sometimes incorrectly set to 7, and the tile is not flipped.
+- if computer player2 declares riichi, the same riichiIndex goes to computerPlayer3 even if he is not in riichi
+*/
