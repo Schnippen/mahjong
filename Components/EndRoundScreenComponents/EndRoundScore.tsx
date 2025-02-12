@@ -21,16 +21,16 @@ export const Score = () => {
   let timeForExecution = 2400;
   console.log(
     'endroundScore:',
-    timeForExecution * (yakuListLength - 1) + 400,
-    timeForExecution * yakuListLength + 400,
+    timeForExecution * (yakuListLength - 0.6) + 400,
     timeForExecution * (yakuListLength + 1) + 400,
+    timeForExecution * (yakuListLength + 1.5) + 400,
     yakuListLength,
   );
   useEffect(() => {
     const timer = setTimeout(() => {
       soundFunc({type: 'points1'});
       setDisplayWinningFuAnimated(fu || 0);
-    }, timeForExecution * (yakuListLength - 1) + 400);
+    }, timeForExecution * (yakuListLength - 0.5) + 400);
     return () => clearTimeout(timer);
   }, [fu]);
   useEffect(() => {
@@ -71,7 +71,7 @@ export const Score = () => {
               fontSize: textSize,
               fontFamily: 'TheLastShuriken',
             }}
-            animationDuration={timeForExecution}
+            animationDuration={timeForExecution * 0.9}
           />
         </View>
         <Text style={{fontFamily: 'TheLastShuriken'}}>Fu </Text>
