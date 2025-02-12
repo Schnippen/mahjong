@@ -7,7 +7,7 @@
 -  ̶A̶ ̶p̶l̶a̶y̶e̶r̶ ̶i̶n̶ ̶R̶i̶i̶c̶h̶i̶ ̶c̶a̶n̶ ̶w̶a̶i̶t̶ ̶f̶o̶r̶ ̶t̶w̶o̶ ̶d̶i̶f̶f̶e̶r̶e̶n̶t̶ ̶w̶i̶n̶n̶i̶n̶g̶ ̶t̶i̶l̶e̶s̶,̶ ̶b̶u̶t̶ ̶o̶n̶l̶y̶ ̶o̶n̶e̶ ̶i̶s̶ ̶a̶c̶c̶e̶p̶t̶e̶d̶ ̶f̶o̶r̶ ̶R̶o̶n̶ ̶o̶r̶ ̶T̶s̶u̶m̶o̶.̶ (This is a confirmed bug.) - kinda FIXED
 - Issues with Kans: Sometimes tiles are not added correctly, affecting hand length.
 - Players can immediately Kan after discarding their own fourth tile.
-- Verify handling of the following tile data:
+- Verify debugHand:
   tilesData2[47], tilesData2[38], tilesData2[25], tilesData[16], tilesData[7],
   tilesData[62], tilesData[71], tilesData[44], tilesData[50], tilesData[41],
   tilesData[120], tilesData[121], tilesData[122].
