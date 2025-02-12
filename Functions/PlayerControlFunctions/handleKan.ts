@@ -4,6 +4,7 @@ import {
 } from '../../Store/gameReducer';
 import {
   discardTileFromHand,
+  drawTileFromWallToHand,
   setStolenTilesOnBoard,
 } from '../../Store/playersReducer';
 import {popFromTheRiver} from '../../Store/riverReducer';
@@ -23,6 +24,7 @@ type HandleKanParam = {
   setChiiPanelDisplayed: React.Dispatch<React.SetStateAction<boolean>>;
   setDisplayRiichiButton: React.Dispatch<React.SetStateAction<boolean>>;
   playerWind: string;
+  nextTile: TTileObject;
 };
 
 export const handleKan = ({
@@ -36,6 +38,7 @@ export const handleKan = ({
   setDisplayRiichiButton,
   playerWind,
   setChiiPanelDisplayed,
+  nextTile,
 }: HandleKanParam) => {
   const start = performance.now();
   //TODO Shouminkan
@@ -84,6 +87,7 @@ export const handleKan = ({
   dispatch(setUncoverNextDora());
   //27.01.2025 //there was no logic for throwing out tile after declaration
   dispatch(popFromTheRiver({player: playerWhoLeftTheTile}));
+
   dispatch(INTERRUPT_TURN({val: false}));
   dispatch(CHANGE_ORDER_AFTER_ACTION({playerWind: playerWind}));
   //TODO IMPORTANT, https://riichi.wiki/Kan
@@ -94,6 +98,9 @@ export const handleKan = ({
   setDisplayPonButton(false);
   setChiiPanelDisplayed(false);
   setDisplayRiichiButton(false);
+
+  dispatch(drawTileFromWallToHand({player: 'player1', nextTile: nextTile})); //12.02.2025 //when you will write this code for AI, remember to use nextplayerX instead of 'player1'
+
   //AUDIO
   soundFunc({type: 'kan'});
   const end = performance.now();
