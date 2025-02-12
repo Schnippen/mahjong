@@ -5,40 +5,48 @@ import {useAppSelector} from '../../Store/hooks';
 import {RootState} from '../../Store/store';
 import AnimatedNumbers from 'react-native-animated-numbers';
 import {getFontSize} from '../../Functions/utils/getFontSize';
+import {soundFunc} from '../../Functions/playSounds/soundFunc';
 
 export const Score = () => {
-  const winningFu = useAppSelector(
-    (state: RootState) => state.gameReducer.winningHand.fu,
+  const {totalHan, points, fu, yakuList} = useAppSelector(
+    (state: RootState) => state.gameReducer.winningHand,
   );
-  const winningPoints = useAppSelector(
-    (state: RootState) => state.gameReducer.winningHand.points,
-  );
-  const totalHan = useAppSelector(
-    (state: RootState) => state.gameReducer.winningHand.totalHan,
-  );
+
   const [displayWinningFuAnimated, setDisplayWinningFuAnimated] = useState(0);
   const [displayTotalHanAnimated, setDisplayTotalHanAnimated] = useState(0);
   const [displayWinningPointsAnimated, setDisplayWinningPointsAnimated] =
     useState(0);
-  let timeForExecution = 2000;
+  //index*2400
+  let yakuListLength = yakuList.length;
+  let timeForExecution = 2400;
+  console.log(
+    'endroundScore:',
+    timeForExecution * (yakuListLength - 1) + 400,
+    timeForExecution * yakuListLength + 400,
+    timeForExecution * (yakuListLength + 1) + 400,
+    yakuListLength,
+  );
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDisplayWinningFuAnimated(winningFu || 0);
-    }, timeForExecution * 1.1);
+      soundFunc({type: 'points1'});
+      setDisplayWinningFuAnimated(fu || 0);
+    }, timeForExecution * (yakuListLength - 1) + 400);
     return () => clearTimeout(timer);
-  }, [winningFu]);
+  }, [fu]);
   useEffect(() => {
     const timer = setTimeout(() => {
+      soundFunc({type: 'points1'});
       setDisplayTotalHanAnimated(totalHan || 0);
-    }, timeForExecution * 2.1);
+    }, timeForExecution * yakuListLength + 400);
     return () => clearTimeout(timer);
   }, [totalHan]);
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDisplayWinningPointsAnimated(winningPoints || 0);
-    }, timeForExecution * 3.1);
+      soundFunc({type: 'points2'});
+      setDisplayWinningPointsAnimated(points || 0);
+    }, timeForExecution * (yakuListLength + 1) + 400);
     return () => clearTimeout(timer);
-  }, [winningPoints]);
+  }, [points]);
 
   //https://www.npmjs.com/package/react-native-animated-numbers
   let textSizSmall = getFontSize(18);
@@ -97,7 +105,7 @@ export const Score = () => {
               textAlignVertical: 'center',
               fontFamily: 'TheLastShuriken',
             }}
-            animationDuration={timeForExecution * 2.5}
+            animationDuration={timeForExecution * 1.3}
           />
         </View>
         <Text

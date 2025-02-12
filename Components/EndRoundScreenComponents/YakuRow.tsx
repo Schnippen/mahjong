@@ -24,7 +24,7 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
     const timer = setTimeout(() => {
       //console.log('yaku-row', soundName);
       setLoading(false);
-      soundFunc({type: soundName}); //TODO fix typescript
+      soundFunc({type: soundName}); //TODO fix typescript soundName | undefined
       translateX.value = withTiming(0, {
         duration: 500,
         easing: Easing.out(Easing.exp),
@@ -37,7 +37,7 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
 
     return () => clearTimeout(timer);
   }, [time]);
-
+  console.log('time:', time);
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{translateX: translateX.value}],
@@ -62,7 +62,7 @@ export const YakuRow = ({data, time}: {data?: YakuType; time?: number}) => {
             fontSize: 14,
           }}
           adjustsFontSizeToFit={true}
-          numberOfLines={2}>
+          numberOfLines={1}>
           {name}
         </Text>
       </View>

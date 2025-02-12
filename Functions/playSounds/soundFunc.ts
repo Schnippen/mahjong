@@ -53,7 +53,15 @@ export type SoundType =
   | 'toitoi'
   | 'tsuuiisou'
   | 'yakuhai'
-  | 'noten';
+  | 'noten'
+  //Score Sounds
+  | 'mangan'
+  | 'haneman'
+  | 'baiman'
+  | 'sanbaiman'
+  | 'yakuman'
+  | 'points1'
+  | 'points2';
 
 //Experiment
 const soundFiles = {
@@ -104,6 +112,14 @@ const soundFiles = {
   tsuuiisou: 'tsuuiisou.mp3',
   yakuhai: 'yakuhai.mp3',
   noten: 'notenakemi.mp3',
+  //Score Sounds
+  mangan: 'mangan.mp3',
+  haneman: 'haneman.mp3',
+  baiman: 'baiman.mp3',
+  sanbaiman: 'sanbaiman.mp3',
+  yakuman: 'yakuman.mp3',
+  points1: 'points1.mp3',
+  points2: 'points2.mp3',
 };
 
 //this works, but change wave to mp3
