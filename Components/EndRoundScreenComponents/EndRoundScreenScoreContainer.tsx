@@ -19,7 +19,7 @@ const ScoreContainer = () => {
   const {pointsName, yakuList} = useAppSelector(
     (state: RootState) => state.gameReducer.winningHand,
   );
-  let textSizBig = getFontSize(42);
+  let textSizBig = getFontSize(38);
   let yakuListLengthLast = yakuList.length;
   let timeForExecution = 2400 * (yakuListLengthLast + 3);
   let pointsNameSound = pointsName.toLowerCase();
