@@ -43,7 +43,7 @@ Before starting this project in JavaScript, I was well aware that it would be ch
 
 ## Video Showcase
 
-[![Riichi Mahjong App Showcase](https://raw.githubusercontent.com/Schnippen/mahjong/main/Data/github_screenshot.png)](https://youtu.be/GWd0WMf2sn0 'Watch the Riichi Mahjong App in action')
+[![Riichi Mahjong App Showcase](https://raw.githubusercontent.com/Schnippen/mahjong/main/Data/github_screenshot.png)](https://youtu.be/xU6Rur4swco 'Watch the Riichi Mahjong App in action')
 
 ## Performance Considerations
 
