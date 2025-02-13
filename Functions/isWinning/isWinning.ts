@@ -305,7 +305,7 @@ export function isWinning({
   };
   //jesli obecna tura nie jest player.name to wtedy sprawdzaj ron
   //nextplayerX!==playerName   || nextPlayerX === playerName
-  if (nextPlayerX !== playerName) {
+  if (nextPlayerX !== playerName || nextPlayerX === playerName) {
     console.log(
       `|||||||| Current Player: ${currentPlayer} is ${playerName}. Checking for RON.`,
     );

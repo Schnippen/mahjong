@@ -119,7 +119,7 @@ export const determineBestDiscard = (
     'AIMOVE Automated choice:',
     bestDiscard !== null
       ? bestDiscard?.name
-      : `RandomTile:${randomTileToDiscard.name}`,
+      : `RandomTile:${randomTileToDiscard?.name}`,
     `AIMove() took- ${((end - start) / 1000).toFixed(3)} seconds`,
   );
   return bestDiscard || randomTileToDiscard;

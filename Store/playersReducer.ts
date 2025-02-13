@@ -277,7 +277,7 @@ export const playersReducer = createSlice({
         );
       } else if (player === 'player4') {
         state.player4.playerHand.hand = state.player4.playerHand.hand.filter(
-          t => t.tileID !== tile.tileID,
+          t => t.tileID !== tile?.tileID,
         );
       }
     },

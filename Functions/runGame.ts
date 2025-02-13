@@ -451,6 +451,7 @@ export const runGame = (
         } //when ai player is in tenpai, it will relentlessly try to go for next riichi. This riichi button should be disabled, allowing for only one riichi per round, be sure that AI player only discard 14th tile
         if (currentRiver.riichiIndex === null) {
           //currentRiver.riichiIndex===null
+          //TODO if player 2 riichi than player 3 has riichiIndex Set
           handleRiichi({
             dispatch,
             player: player.name,

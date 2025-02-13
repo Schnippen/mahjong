@@ -12,7 +12,7 @@ import {
   resetPlayersReducerToNextRound,
   rotateWindOrder,
 } from '../Store/playersReducer';
-import {resetRiverReducer} from '../Store/riverReducer';
+import {resetRiverReducer_TOTAL} from '../Store/riverReducer';
 import {resetWallReducer_TOTAL_RESET} from '../Store/wallReducer';
 import {initializeNewRound} from './initializeNewRound';
 
@@ -38,7 +38,7 @@ export const resetToNextRound = ({
   //add +1 to round counter:
   dispatch(addRoundCounter({TypeOfAction: 'increment'}));
   //reset river
-  dispatch(resetRiverReducer());
+  dispatch(resetRiverReducer_TOTAL());
   dispatch(resetPlayersReducerToNextRound()); //resets player reducers beside scores, wind and hand
   //reset player hand
   dispatch(resetPlayersReducerHandsToNextRound());

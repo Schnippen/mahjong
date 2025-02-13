@@ -11,8 +11,11 @@
 - [Responsive UI Challenges](#responsive-ui-challenges)
 - [AI Decision-Making and Heuristics](#ai-decision-making-and-heuristics)
 - [AI Logic Implementation](#ai-logic-implementation)
+- [Video Showcase](#video-showcase)
 - [Current State of the App](#current-state-of-the-app)
 - [Bugs & To-Do List](#bugs--to-do-list)
+- [Assets Credits](#assets--credits)
+- [Additional Resources](#additional-resources)
 
 ## General Info
 
@@ -92,6 +95,10 @@ The AI currently determines:
 
 - Use Shanten number and opponents' moves to refine strategy selection (aggressive vs. defensive playstyles)
 
+## Video Showcase
+
+Watch the app in action: [YouTube Video](https://youtu.be/GWd0WMf2sn0)
+
 ## Current State of the App
 
 The app fully supports playing Riichi Mahjong with all essential functionalities.
@@ -99,6 +106,8 @@ The app fully supports playing Riichi Mahjong with all essential functionalities
 However, it still has rough edges and requires further refinement.
 
 It is playable and functional, but there is still a lot of work to be done to enhance performance and UX.
+
+The UI is strictly utilitarian. The primary goal is to ensure smooth gameplay and clear information presentation rather than elaborate visual design.
 
 ## Bugs & To-Do List
 
@@ -111,3 +120,7 @@ mahjong\Data\list_of_bugs
 ## Assets Credits
 
 The mahjong tile front images used in this project are from [riichi-mahjong-tiles](https://github.com/FluffyStuff/riichi-mahjong-tiles) by FluffyStuff. These assets are in the public domain.
+
+## Additional Resources
+
+For more information about Riichi Mahjong rules visit [Riichi Wiki](https://riichi.wiki/Main_Page).
