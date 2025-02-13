@@ -5,13 +5,13 @@
 - [General Info](#general-info)
 - [Setup](#setup)
 - [Project Overview](#project-overview)
+- [Video Showcase](#video-showcase)
 - [Performance Considerations](#performance-considerations)
 - [TypeScript and State Management](#typescript-and-state-management)
 - [Sound Management](#sound-management)
 - [Responsive UI Challenges](#responsive-ui-challenges)
 - [AI Decision-Making and Heuristics](#ai-decision-making-and-heuristics)
 - [AI Logic Implementation](#ai-logic-implementation)
-- [Video Showcase](#video-showcase)
 - [Current State of the App](#current-state-of-the-app)
 - [Bugs & To-Do List](#bugs--to-do-list)
 - [Assets Credits](#assets--credits)
@@ -40,6 +40,10 @@ npm start
 This project is the child of free evenings, determination, and a hobbyist passion for programming—one that might turn into something more.
 
 Before starting this project in JavaScript, I was well aware that it would be challenging due to JavaScript’s core execution model. JavaScript runs code synchronously in a single thread, meaning it executes one operation at a time in sequence. When multiple functions are called, they are processed one after another rather than simultaneously.
+
+## Video Showcase
+
+[![Riichi Mahjong App Showcase](https://raw.githubusercontent.com/Schnippen/mahjong/main/Data/github_screenshot.png)](https://youtu.be/GWd0WMf2sn0 'Watch the Riichi Mahjong App in action')
 
 ## Performance Considerations
 
@@ -94,12 +98,6 @@ The AI currently determines:
 ### To-Do List:
 
 - Use Shanten number and opponents' moves to refine strategy selection (aggressive vs. defensive playstyles)
-
-## Video Showcase
-
-[![Riichi Mahjong App Showcase](https://raw.githubusercontent.com/Schnippen/mahjong/main/Data/github_screenshot.png)](https://youtu.be/GWd0WMf2sn0 'Watch the Riichi Mahjong App in action')
-
-Please note that some features and game mechanics are not fully visible without debug tools enabled.
 
 ## Current State of the App
 

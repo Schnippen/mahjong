@@ -42,6 +42,7 @@ const WallLeft = ({wallWind = ''}: {wallWind?: string}) => {
   });
   const topTiles = wallState.filter((_, index) => index % 2 === 0);
   const bottomTiles = wallState.filter((_, index) => index % 2 === 1);
+  console.log('RENDER');
   /* console.log(
     'wallLeft',
     wallState?.length,
