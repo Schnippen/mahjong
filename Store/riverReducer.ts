@@ -96,7 +96,7 @@ export const riverReducer = createSlice({
           break;
       }
     },
-    resetRiverReducer: state => {
+    resetRiverReducer_TOTAL: state => {
       state.currentDiscard = initialState.currentDiscard;
       state.player1River.riverState = initialState.player1River.riverState;
       state.player2River.riverState = initialState.player2River.riverState;
@@ -116,7 +116,7 @@ export const {
   setCurrentDiscardToDefault,
   popFromTheRiver,
   setRiichiIndexRiver,
-  resetRiverReducer,
+  resetRiverReducer_TOTAL,
 } = riverReducer.actions;
 
 export default riverReducer.reducer;

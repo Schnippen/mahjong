@@ -47,7 +47,7 @@ export function isTenpai({
 
   console.debug(
     `isTenpai(): Starting Tenpai check. Sorted Hand: ${sortedHand
-      .map(t => t.name)
+      .map(t => t?.name)
       .join(', ')}`,
   );
   for (const tileThatNeedsToBeDiscarded of sortedHand) {

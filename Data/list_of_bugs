@@ -24,4 +24,5 @@
 - Investigate if players can Kan immediately after passing in PassActionFunc().
 - Debug handleRiichi(): Player 3's riverIndex is sometimes incorrectly set to 7, and the tile is not flipped.
 - if computer player2 declares riichi, the same riichiIndex goes to computerPlayer3 even if he is not in riichi
+-add memoization to WallX component
 */

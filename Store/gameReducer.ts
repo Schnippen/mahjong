@@ -190,6 +190,9 @@ export const gameReducer = createSlice({
         state.round = initialState.round;
       }
     },
+    resetGameReducer_TOTAL: state => {
+      return {...initialState};
+    },
   },
 });
 
@@ -209,6 +212,7 @@ export const {
   resetWinningHand_TOTAL,
   INTERRUPT_COUNTER,
   addRoundCounter,
+  resetGameReducer_TOTAL,
 } = gameReducer.actions;
 
 export default gameReducer.reducer;
