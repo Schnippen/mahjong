@@ -99,6 +99,8 @@ The AI currently determines:
 
 [![Riichi Mahjong App Showcase](https://raw.githubusercontent.com/Schnippen/mahjong/main/Data/github_screenshot.png)](https://youtu.be/GWd0WMf2sn0 'Watch the Riichi Mahjong App in action')
 
+Please note that some features and game mechanics are not fully visible without debug tools enabled.
+
 ## Current State of the App
 
 The app fully supports playing Riichi Mahjong with all essential functionalities.
