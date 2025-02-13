@@ -97,7 +97,7 @@ The AI currently determines:
 
 ## Video Showcase
 
-[![Riichi Mahjong App Showcase](https://img.youtube.com/vi/GWd0WMf2sn0/maxresdefault.jpg)](https://youtu.be/GWd0WMf2sn0 'Watch the Riichi Mahjong App in action')
+[![Riichi Mahjong App Showcase](https://raw.githubusercontent.com/Schnippen/mahjong/main/Data/github_screenshot.png)](https://youtu.be/GWd0WMf2sn0 'Watch the Riichi Mahjong App in action')
 
 ## Current State of the App
 
