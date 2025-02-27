@@ -101,7 +101,7 @@ const calculatePoints = (
       finalPoints = Math.ceil(basePoints / 3) + honba * 100;
       dispatch(HONBA_REDUCER({TypeOfAction: 'reset'}));
     }
-  } else {
+  } else if (typeOfWin === 'RON') {
     // RON
     if (winnerWind === 'east') {
       finalPoints = basePoints + honba * 300;
@@ -135,7 +135,7 @@ const calculatePoints = (
 
       dispatch(calculateScore({player: name, val: finalPointsCalculated}));
     });
-  } else {
+  } else if (typeOfWin === 'RON') {
     //subtract points from losers
     console.log('calculateScore: ron', playerWhoLostToRon, -finalPoints);
     dispatch(calculateScore({player: playerWhoLostToRon, val: -finalPoints}));

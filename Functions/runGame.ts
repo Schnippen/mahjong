@@ -258,8 +258,9 @@ export const runGame = (
         dispatch(INTERRUPT_TURN({val: false}));
         interruptTurn = false;
       }
-      if (player.name === 'player1') {
-        console.log('Special display for player1');
+      if (player.name === 'player1' && currentPlayersTurn !== 'player1') {
+        console.log('Special display for player1'); //currentPlayersTurn !=='player1' simple fix to prevent kaning own tile in the river...
+        //maybe more refined fix is needed
         setDisplayKanButton(true);
       }
     }
