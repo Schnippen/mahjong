@@ -13,7 +13,7 @@ const RiverTop = () => {
     (state: RootState) => state.riverReducer.player3River.riverState,
   );
   const riichiIndex = useSelector((state: RootState) => {
-    let result = state.riverReducer.player2River.riichiIndex;
+    let result = state.riverReducer.player3River.riichiIndex;
     return result;
   });
 
