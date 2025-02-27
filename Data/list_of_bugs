@@ -1,22 +1,32 @@
 // TODO: Complete the list of bugs
 
-/* 
-- **Rendering Issue:** When too many tiles (36th-42nd) are rendered, the sound system stops functioning properly. 
-  - Test with `testFunction()` + `soundFunc`.
-  
+/\*
+
+- **Rendering Issue:**
+
+1. When too many tiles (36th-42nd) are rendered, the sound system stops functioning properly.
+
+- Test with `testFunction()` + `soundFunc`.
+
+2. Walls experience too many re-renders; it's better to use createSelector()
+
 - **Tile Count Bug:** After `nextRoundReset`, sometimes a player's hand has only 12 tiles.
+
   - Check AI hands as well.
 
 - **Riichi Display Issue:** Player 3 occasionally fails to display `riichiIndex` correctly on the board.
 
-- **(Partially Fixed)** Previously, a player in Riichi could wait for two different winning tiles, but only one was accepted for Ron or Tsumo. 
+- **(Partially Fixed)** Previously, a player in Riichi could wait for two different winning tiles, but only one was accepted for Ron or Tsumo.
+
   - Needs verification.
 
 - **Kans Issues:**
+
   - Sometimes tiles are not added correctly, affecting hand length.
   - Players can Kan immediately after discarding their fourth tile.
 
 - **Debug Hand Verification:**
+
   - Check [tilesData2[47], tilesData2[38], tilesData2[25], tilesData[16], tilesData[7],
     tilesData[62], tilesData[71], tilesData[44], tilesData[50], tilesData[41],
     tilesData[120], tilesData[121], tilesData[122]].
@@ -25,7 +35,7 @@
   - In `scoresScreen`, RON is not working.
   - `calculatePoints()` does not function correctly for RON.
 
---------------------------------------------------------
+---
 
 // TODO: Complete the to-do list
 
@@ -37,13 +47,12 @@
 - **Align Melded Tiles** properly on the horizontal axis.
 - **Investigate Kan Timing:** Ensure players cannot Kan immediately after passing in `PassActionFunc()`.
 - **Fix `handleRiichi()` Bug:** Player 3's `riverIndex` is sometimes incorrectly set to 7, and the tile is not flipped.
-- **Riichi Index Bug:** If computer player 2 declares Riichi, the same `riichiIndex` is applied to computer player 3 even if they are not in Riichi.  
+- **Riichi Index Bug:** If computer player 2 declares Riichi, the same `riichiIndex` is applied to computer player 3 even if they are not in Riichi.
   - 🚨 **High Priority!**
-  
 - **Performance Optimization:**
+
   - Add memoization to `WallX` component.
   - Reference: [Redux Memoization Guide](https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization).
 
 - **Deadwall Crash Fix:** Reset `isDora` in `tilesData- TTileObject[]` when going to the next round (reset causes deadwall positioning crash).
-*/
-
+  \*/
