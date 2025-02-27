@@ -14,8 +14,6 @@
 
   - Check AI hands as well.
 
-- **Riichi Display Issue:** Player 3 occasionally fails to display `riichiIndex` correctly on the board.
-
 - **(Partially Fixed)** Previously, a player in Riichi could wait for two different winning tiles, but only one was accepted for Ron or Tsumo.
 
   - Needs verification.
