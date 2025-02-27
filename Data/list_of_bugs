@@ -45,12 +45,14 @@
 - **Align Melded Tiles** properly on the horizontal axis.
 - **Investigate Kan Timing:** Ensure players cannot Kan immediately after passing in `PassActionFunc()`.
 - **Fix `handleRiichi()` Bug:** Player 3's `riverIndex` is sometimes incorrectly set to 7, and the tile is not flipped.
-- **Riichi Index Bug:** If computer player 2 declares Riichi, the same `riichiIndex` is applied to computer player 3 even if they are not in Riichi.
+
   - 🚨 **High Priority!**
+
 - **Performance Optimization:**
 
   - Add memoization to `WallX` component.
   - Reference: [Redux Memoization Guide](https://redux.js.org/usage/deriving-data-selectors#optimizing-selectors-with-memoization).
+  - Read: [Deriving Data with Selectors](https://redux.js.org/usage/deriving-data-selectors#createselector-overview)
 
 - **Deadwall Crash Fix:** Reset `isDora` in `tilesData- TTileObject[]` when going to the next round (reset causes deadwall positioning crash).
   \*/

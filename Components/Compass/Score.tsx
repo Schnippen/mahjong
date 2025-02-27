@@ -8,6 +8,9 @@ const Score = ({playerIndicator}: {playerIndicator: TplayerString}) => {
   //A bit of a vulgar and DRY solution, but it works well without much TypeScript boilerplate.
   let playerScoreDifference: number | undefined = 10;
   let playerScore: number | undefined = 24000;
+  let player1MainScore = useSelector(
+    (state: RootState) => state.playersReducer.player1.player1Score,
+  );
   if (playerIndicator === 'player1') {
     playerScore = useSelector(
       (state: RootState) => state.playersReducer.player1.player1Score,
@@ -26,33 +29,38 @@ const Score = ({playerIndicator}: {playerIndicator: TplayerString}) => {
     );
   }
   if (playerIndicator === 'player1') {
-    playerScoreDifference = useSelector(
-      (state: RootState) => state.playersReducer.player1.player1ScoreDifference,
-    );
+    playerScoreDifference = player1MainScore;
   } else if (playerIndicator === 'player2') {
-    playerScoreDifference = useSelector(
-      (state: RootState) => state.playersReducer.player2.player2ScoreDifference,
-    );
+    playerScoreDifference = -player1MainScore + playerScore;
   } else if (playerIndicator === 'player3') {
-    playerScoreDifference = useSelector(
-      (state: RootState) => state.playersReducer.player3.player3ScoreDifference,
-    );
+    playerScoreDifference = -player1MainScore + playerScore;
   } else if (playerIndicator === 'player4') {
-    playerScoreDifference = useSelector(
-      (state: RootState) => state.playersReducer.player4.player4ScoreDifference,
-    );
+    playerScoreDifference = -player1MainScore + playerScore;
   }
   const scoreSystem = useSelector(
     (state: RootState) => state.settingsReducer.showScoreDifference,
   );
-
   let playerScoreSystem = scoreSystem ? playerScoreDifference : playerScore;
-  //console.log("playerScore",playerIndicator,playerScore) //TODO change colors and boldness
+  const defaultColor = '#ffdb51';
+  const positiveColor = '#9deca6';
+  const negativeColor = '#ff7256';
+  let scoreColor;
+
+  if (scoreSystem) {
+    if (playerIndicator === 'player1') {
+      scoreColor = defaultColor;
+    } else {
+      scoreColor = playerScoreSystem > 0 ? positiveColor : negativeColor;
+    }
+  } else {
+    scoreColor = defaultColor;
+  }
+
   return (
     <Text
       style={{
         fontSize: 20,
-        color: '#ffdb51',
+        color: scoreColor,
         textAlignVertical: 'center',
         textAlign: 'center',
       }}
