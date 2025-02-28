@@ -45,6 +45,7 @@
 - **Align Melded Tiles** properly on the horizontal axis.
 - **Investigate Kan Timing:** Ensure players cannot Kan immediately after passing in `PassActionFunc()`.
 - **Fix `handleRiichi()` Bug:** Player 3's `riverIndex` is sometimes incorrectly set to 7, and the tile is not flipped.
+  -- **Move button states:** In PlayerButtonsPanel, the button states should be lifted to the parent component to ensure they reset properly in the next turn
 
   - 🚨 **High Priority!**
 
