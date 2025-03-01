@@ -32,7 +32,8 @@ function MainApp() {
   OtherScreen: undefined; // Example for other screens
 }; */
   //TODO add typescript to params and initialParams
-
+  //https://www.youtube.com/watch?v=FXn1vUGCci8   //debug using react-devtools
+  //npx @react-native-community/cli start --client-logs for old way of displaying console logs...
   return (
     <NavigationContainer>
       <Stack.Navigator
